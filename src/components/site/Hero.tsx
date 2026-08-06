@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Clock, CreditCard, Phone, ShieldCheck, Star, Users } from "lucide-react";
+import { ArrowRight, Calculator, Clock, CreditCard, PhoneCall, ShieldCheck, Star, Tag, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroVideo from "@/assets/herovideo.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -52,13 +52,21 @@ export function Hero() {
           </p>
           <div className="mt-7 flex flex-row flex-wrap items-center gap-3 sm:gap-4">
             <Button asChild size="lg" className="bg-[#DC2626] hover:bg-[#B91C1C] text-white rounded-full font-bold shadow-[0_10px_30px_-8px_rgba(220,38,38,0.6)] hover:shadow-[0_14px_40px_-8px_rgba(220,38,38,0.8)] hover:-translate-y-0.5 transition-all">
-              <a href="#get-in-touch">
-                {t("Get Emergency HVAC Service", "Obtener Servicio de Emergencia HVAC")} <ArrowRight className="h-4 w-4" />
+              <a href="#get-in-touch" className="flex items-center gap-2">
+                <PhoneCall className="h-4 w-4 shrink-0" />
+                <span>{t("Get Emergency HVAC Service", "Obtener Servicio de Emergencia HVAC")}</span>
               </a>
             </Button>
             <Button asChild variant="heroOutline" size="lg">
-              <a href="#get-in-touch">
-                <Phone className="h-4 w-4" /> {t("Request Free Estimate", "Solicitar Presupuesto Gratis")}
+              <a href="#get-in-touch" className="flex items-center gap-2">
+                <Calculator className="h-4 w-4 text-cyan-400 shrink-0" />
+                <span>{t("Request Free Estimate", "Solicitar Presupuesto Gratis")}</span>
+              </a>
+            </Button>
+            <Button asChild variant="heroOutline" size="lg">
+              <a href="#get-in-touch" className="flex items-center gap-2">
+                <Tag className="h-4 w-4 text-emerald-400 shrink-0" />
+                <span>{t("Upfront Pricing", "Precios Transparentes")}</span>
               </a>
             </Button>
           </div>

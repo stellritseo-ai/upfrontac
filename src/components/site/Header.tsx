@@ -19,7 +19,7 @@ export function Header() {
     { to: "#services", label: t("Services", "Servicios") },
     { to: "#projects", label: t("Projects", "Proyectos") },
     { to: "#service-area", label: t("Service Areas", "Áreas de Servicio") },
-    { to: "#get-in-touch", label: t("Service Price", "Precios de Servicios") },
+    { to: "#get-in-touch", label: t("Upfront Pricing", "Precios Transparentes") },
     { to: "#get-in-touch", label: t("Finance", "Financiamiento") },
     { to: "#get-in-touch", label: t("Contact Us", "Contáctenos") },
   ];
@@ -441,7 +441,7 @@ export function Header() {
                         </div>
                         <ChevronDown className={cn("h-4 w-4 text-slate-400 transition-transform duration-300", aboutOpen && "rotate-180 text-[#005CE6]")} />
                       </button>
-                      
+
                       {aboutOpen && (
                         <div className="px-3 pb-3 flex flex-col gap-1 border-t border-slate-800/60 pt-2">
                           {aboutLinks.map((ab) => (

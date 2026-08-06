@@ -103,28 +103,40 @@ export function Header() {
               </span>
             </div>
           </div>
-          {/* Right: Language */}
+          {/* Right Side: Mobile Email vs Desktop Language Flags */}
           <div className="flex items-center gap-3 text-[10px] sm:text-xs shrink-0">
-            <button
-              onClick={() => setLanguage("en")}
-              className={cn(
-                "flex items-center gap-1 transition font-bold cursor-pointer select-none",
-                language === "en" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
-              )}
+            {/* Mobile Email Link */}
+            <a
+              href="mailto:allen@upfrontac.com"
+              className="flex sm:hidden items-center gap-1 text-[9px] sm:text-[10px] font-bold text-[#1E293B] hover:text-[#005CE6] transition lowercase"
             >
-              <span className="text-sm leading-none">🇺🇸</span>
-              <span className="hidden sm:inline">English</span>
-            </button>
-            <button
-              onClick={() => setLanguage("es")}
-              className={cn(
-                "flex items-center gap-1 transition font-bold cursor-pointer select-none",
-                language === "es" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
-              )}
-            >
-              <span className="text-sm leading-none">🇪🇸</span>
-              <span className="hidden sm:inline">Spanish</span>
-            </button>
+              <Mail className="h-3 w-3 text-[#005CE6] shrink-0" />
+              <span>allen@upfrontac.com</span>
+            </a>
+
+            {/* Desktop Language Flags */}
+            <div className="hidden sm:flex items-center gap-3">
+              <button
+                onClick={() => setLanguage("en")}
+                className={cn(
+                  "flex items-center gap-1 transition font-bold cursor-pointer select-none",
+                  language === "en" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
+                )}
+              >
+                <span className="text-sm leading-none">🇺🇸</span>
+                <span>English</span>
+              </button>
+              <button
+                onClick={() => setLanguage("es")}
+                className={cn(
+                  "flex items-center gap-1 transition font-bold cursor-pointer select-none",
+                  language === "es" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
+                )}
+              >
+                <span className="text-sm leading-none">🇪🇸</span>
+                <span>Spanish</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

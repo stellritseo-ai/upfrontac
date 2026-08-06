@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
 import heroVideo from "@/assets/herovideo.mp4";
+import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
 export function PageHeader({
   eyebrow,
@@ -10,34 +10,14 @@ export function PageHeader({
   title: string;
   subtitle?: string;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.defaultMuted = true;
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(() => {});
-    }
-  }, []);
-
   return (
     <section className="relative isolate overflow-hidden bg-[#0F172A] pt-28 sm:pt-32 pb-20 sm:pb-24 text-white">
       {/* Background Video */}
       <div className="absolute inset-0 -z-10">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          // @ts-ignore
-          webkit-playsinline="true"
-          preload="auto"
-          aria-hidden="true"
+        <AutoPlayVideo
+          src={heroVideo}
           className="h-full w-full object-cover opacity-30 pointer-events-none"
-        >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0F172A]/60 via-[#0F172A]/80 to-[#0F172A]" />
       </div>
 

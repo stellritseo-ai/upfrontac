@@ -1,21 +1,12 @@
-import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import whyChooseVideo from "@/assets/videowhychooseus.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Zap, CheckCircle2, ShieldCheck, Clock, Award, PhoneCall, Sparkles } from "lucide-react";
+import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
 export function WhyChooseUs() {
   const { t } = useLanguage();
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.defaultMuted = true;
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(() => {});
-    }
-  }, []);
 
   const features = [
     {
@@ -161,20 +152,10 @@ export function WhyChooseUs() {
               className="relative group rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 h-[420px] sm:h-[520px] lg:h-[640px] lg:sticky lg:top-[100px] w-full bg-slate-950"
             >
               {/* Background Video */}
-              <video
-                ref={videoRef}
-                autoPlay
-                loop
-                muted
-                playsInline
-                // @ts-ignore
-                webkit-playsinline="true"
-                preload="auto"
-                aria-hidden="true"
+              <AutoPlayVideo
+                src={whyChooseVideo}
                 className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out pointer-events-none"
-              >
-                <source src={whyChooseVideo} type="video/mp4" />
-              </video>
+              />
 
               {/* Ambient Dark Gradient Vignette Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent pointer-events-none" />

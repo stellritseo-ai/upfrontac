@@ -1,22 +1,13 @@
-import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Clock, CreditCard, Phone, ShieldCheck, Star, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroVideo from "@/assets/herovideo.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { LiquidGlass } from "@liquidglass/react";
+import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
 export function Hero() {
   const { t } = useLanguage();
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.defaultMuted = true;
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(() => {});
-    }
-  }, []);
 
   const badges = [
     { icon: <Star className="h-3.5 w-3.5 text-amber-400 fill-amber-400 shrink-0" />, label: t("5★ Google Reviews", "5★ Reseñas de Google") },
@@ -30,20 +21,10 @@ export function Hero() {
     <section className="relative isolate min-h-screen overflow-hidden pt-16 md:pt-20 flex items-center">
       {/* Background Video */}
       <div className="absolute inset-0 -z-10">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          // @ts-ignore
-          webkit-playsinline="true"
-          preload="auto"
-          aria-hidden="true"
+        <AutoPlayVideo
+          src={heroVideo}
           className="h-full w-full object-cover pointer-events-none"
-        >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
+        />
         {/* Horizontal gradient overlay: dark navy on the left for text readability, blending to transparent on the right */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A]/90 via-[#0F172A]/40 to-transparent" />
       </div>

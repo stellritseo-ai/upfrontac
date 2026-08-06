@@ -1,21 +1,12 @@
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Phone, Users, Star, ShieldCheck, ThermometerSun, MapPin, ArrowRight } from "lucide-react";
 import heroVideo from "@/assets/herovideo.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "@tanstack/react-router";
+import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
 export function EmergencyCTA() {
   const { t } = useLanguage();
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.defaultMuted = true;
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(() => {});
-    }
-  }, []);
 
   const highlights = [
     {
@@ -56,20 +47,10 @@ export function EmergencyCTA() {
     <section className="relative w-full overflow-hidden py-16 lg:py-20 text-white bg-slate-950 border-y border-white/10">
       {/* Background Video with Dark Glass Vignette Overlay */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          // @ts-ignore
-          webkit-playsinline="true"
-          preload="auto"
-          aria-hidden="true"
+        <AutoPlayVideo
+          src={heroVideo}
           className="h-full w-full object-cover [will-change:transform] translate-z-0 opacity-85 scale-105 pointer-events-none"
-        >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
+        />
         {/* Lighter Gradient Vignette Overlay for High Video Visibility */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/50 to-slate-950/70" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-slate-950/40" />

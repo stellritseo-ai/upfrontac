@@ -1,21 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { ArrowRight, CheckCircle2, Sparkles, Award, Target } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import hvacWelcomeVideo from "@/assets/hvacwelcome.mp4";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
+import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
 export function Welcome() {
   const { t } = useLanguage();
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.defaultMuted = true;
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(() => { });
-    }
-  }, []);
 
   const focusPoints = [
     t("Fast-Response HVAC Service", "Servicio HVAC de respuesta rápida"),
@@ -114,20 +106,10 @@ export function Welcome() {
 
               {/* Inner Video Container */}
               <div className="relative w-full aspect-[4/5] sm:aspect-[4/5] min-h-[460px] sm:min-h-[540px] rounded-[24px] overflow-hidden bg-slate-950">
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  // @ts-ignore
-                  webkit-playsinline="true"
-                  preload="auto"
-                  aria-hidden="true"
+                <AutoPlayVideo
+                  src={hvacWelcomeVideo}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 pointer-events-none"
-                >
-                  <source src={hvacWelcomeVideo} type="video/mp4" />
-                </video>
+                />
 
                 {/* Subtle Cinematic Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-950/20 pointer-events-none" />

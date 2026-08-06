@@ -1,40 +1,21 @@
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { PhoneCall, Zap, Clock, ShieldCheck, ArrowRight, MapPin, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import hvacVideo from "@/assets/hvacwelcome.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
+import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
 export function FastHVAC() {
   const { t } = useLanguage();
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.defaultMuted = true;
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(() => {});
-    }
-  }, []);
 
   return (
     <section id="fast-hvac" className="relative w-full overflow-hidden py-[20px] text-white bg-slate-950 border-y border-white/10 select-none">
       {/* Background Video */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          // @ts-ignore
-          webkit-playsinline="true"
-          preload="auto"
-          aria-hidden="true"
+        <AutoPlayVideo
+          src={hvacVideo}
           className="h-full w-full object-cover opacity-90 scale-105 pointer-events-none"
-        >
-          <source src={hvacVideo} type="video/mp4" />
-        </video>
+        />
         {/* Soft Vignette Overlay for Maximum Video Clarity & Contrast */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-950/40 to-slate-950/60" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-slate-950/30" />

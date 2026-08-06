@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import {
-  CalendarCheck,
-  Search,
-  FileText,
+  PhoneCall,
+  Navigation,
   Wrench,
-  BadgeCheck,
-  ArrowRight,
+  ShieldCheck,
+  CheckCircle2,
+  Zap,
+  MapPin,
 } from "lucide-react";
-import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export function Process() {
@@ -15,29 +15,29 @@ export function Process() {
 
   const steps = [
     {
-      icon: CalendarCheck,
-      title: t("Schedule Service", "Programar Servicio"),
-      desc: t("Book online in 60 seconds or call our 24/7 dispatcher for immediate dispatch.", "Reserve en línea en 60 segundos o llame a nuestro despachador 24/7 para un envío inmediato."),
+      icon: PhoneCall,
+      title: t("Request Service", "Solicitar Servicio"),
+      desc: t("Call or book online — 24/7.", "Llamar o reservar en línea — 24/7."),
     },
     {
-      icon: Search,
-      title: t("Detailed Inspection", "Inspección Detallada"),
-      desc: t("Comprehensive diagnostic checks of panels, wiring, loads, and code compliance.", "Controles de diagnóstico integrales de paneles, cableado, cargas y cumplimiento de códigos."),
-    },
-    {
-      icon: FileText,
-      title: t("Transparent Estimate", "Presupuesto Transparente"),
-      desc: t("Upfront, itemized quote signed before any work begins. What we quote is what you pay.", "Cotización detallada por adelantado firmada antes de comenzar cualquier trabajo. Lo que cotizamos es lo que paga."),
+      icon: Navigation,
+      title: t("Fast Dispatch", "Despacho Rápido"),
+      desc: t("Technicians dispatched across the Houston metro.", "Técnicos despachados en todo el metro de Houston."),
     },
     {
       icon: Wrench,
-      title: t("Expert Installation", "Instalación Experta"),
-      desc: t("Licensed master electricians execute clean, code-compliant, and safe work.", "Electricistas maestros autorizados ejecutan trabajos limpios, seguros y que cumplen con los códigos."),
+      title: t("On-Site Diagnosis", "Diagnóstico en Sitio"),
+      desc: t("Full inspection and HVAC system check.", "Inspección completa y revisión del sistema HVAC."),
     },
     {
-      icon: BadgeCheck,
-      title: t("Safety & Sign-Off", "Seguridad y Aprobación"),
-      desc: t("Load testing, safety compliance sign-off, and full workmanship warranty activated.", "Prueba de carga, aprobación de cumplimiento de seguridad y garantía de mano de obra completa activada."),
+      icon: ShieldCheck,
+      title: t("Upfront Pricing", "Precios Transparentes"),
+      desc: t("Transparent quote before work begins.", "Cotización transparente antes de comenzar el trabajo."),
+    },
+    {
+      icon: CheckCircle2,
+      title: t("Same-Day Repair", "Reparación Mismo Día"),
+      desc: t("Most jobs completed the same day.", "La mayoría de los trabajos se completan el mismo día."),
     },
   ];
 
@@ -58,7 +58,7 @@ export function Process() {
         className="pointer-events-none absolute inset-0 opacity-[0.025]"
         style={{
           backgroundImage:
-            "radial-gradient(circle, #FF6B00 1px, transparent 1px)",
+            "radial-gradient(circle, #005CE6 1px, transparent 1px)",
           backgroundSize: "32px 32px",
         }}
       />
@@ -67,33 +67,44 @@ export function Process() {
       <style>{`
         @keyframes electricFlow {
           0%   { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: -30; }
+          100% { stroke-dashoffset: 30; }
         }
         @keyframes sparkFlow {
           0%   { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: 45; }
+          100% { stroke-dashoffset: -45; }
         }
         @keyframes verticalElectricFlow {
           0%   { background-position: 0 0; }
-          100% { background-position: 0 -40px; }
+          100% { background-position: 0 40px; }
         }
         @keyframes pulseGlow {
-          0%,100% { transform: scale(0.96); opacity: 0.15; }
-          50%     { transform: scale(1.04); opacity: 0.35; }
+          0%,100% { transform: scale(0.96); opacity: 0.2; }
+          50%     { transform: scale(1.08); opacity: 0.45; }
         }
         @keyframes pulseGlowLarge {
-          0%,100% { transform: scale(0.98); opacity: 0.05; }
-          50%     { transform: scale(1.02); opacity: 0.15; }
+          0%,100% { transform: scale(0.98); opacity: 0.08; }
+          50%     { transform: scale(1.03); opacity: 0.22; }
         }
-        .pulse-glow      { animation: pulseGlow 2s infinite ease-in-out; transform-origin: 17px 15px; }
-        .pulse-glow-large{ animation: pulseGlowLarge 3s infinite ease-in-out; transform-origin: 17px 15px; }
+        @keyframes spinFanSlow {
+          0%   { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes breezeFlow {
+          0%   { stroke-dashoffset: -24; opacity: 0.4; }
+          50%  { opacity: 1; }
+          100% { stroke-dashoffset: 24; opacity: 0.4; }
+        }
+        .pulse-glow      { animation: pulseGlow 2s infinite ease-in-out; transform-origin: center; }
+        .pulse-glow-large{ animation: pulseGlowLarge 3s infinite ease-in-out; transform-origin: center; }
         .electric-flow   { stroke-dasharray: 6 6; animation: electricFlow 0.5s infinite linear; }
         .spark-flow      { stroke-dasharray: 12 24; animation: sparkFlow 1.8s infinite linear; }
         .mobile-electric-flow {
-          background: linear-gradient(to bottom,#ff6b00 0%,#ff6b00 30%,#ffe2cc 50%,#ff6b00 70%,#ff6b00 100%);
+          background: linear-gradient(to bottom,#005CE6 0%,#005CE6 30%,#38bdf8 50%,#005CE6 70%,#005CE6 100%);
           background-size: 100% 40px;
           animation: verticalElectricFlow 1.2s infinite linear;
         }
+        .fan-spin { animation: spinFanSlow 2.5s linear infinite; transform-origin: 30px 30px; }
+        .breeze-wave { stroke-dasharray: 8 8; animation: breezeFlow 1.2s linear infinite; }
       `}</style>
 
       <div className="mx-auto w-[90%] max-w-7xl relative z-10">
@@ -106,19 +117,26 @@ export function Process() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          {/* Eyebrow */}
-          <span className="inline-flex items-center gap-2 bg-[#FF6B00]/10 border border-[#FF6B00]/20 text-[#FF6B00] rounded-full px-5 py-1.5 text-[11px] font-black uppercase tracking-widest mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00] animate-pulse" />
-            {t("Step by Step Process", "Proceso Paso a Paso")}
-          </span>
+          {/* Eyebrows */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
+            <span className="inline-flex items-center gap-2 bg-[#005CE6]/10 border border-[#005CE6]/20 text-[#005CE6] rounded-full px-4 py-1.5 text-[11px] font-black uppercase tracking-widest shadow-sm">
+              <Zap className="w-3.5 h-3.5 text-[#005CE6] fill-[#005CE6]" />
+              {t("How Upfront AC Works", "Cómo Funciona Upfront AC")}
+            </span>
+
+            <span className="inline-flex items-center gap-1.5 bg-red-500/10 border border-red-500/20 text-red-600 rounded-full px-3.5 py-1.5 text-[11px] font-extrabold uppercase tracking-widest">
+              <MapPin className="w-3.5 h-3.5 text-red-500" />
+              {t("Emergency HVAC Service in Texas", "Servicio HVAC de Emergencia en Texas")}
+            </span>
+          </div>
 
           <h2 
             className="text-[#0F172A] tracking-tight leading-[1.15]"
-            style={{ fontSize: "36px", marginTop: "-15px", marginBottom: "10px", fontWeight: 700 }}
+            style={{ fontSize: "36px", marginTop: "0px", marginBottom: "10px", fontWeight: 700 }}
           >
-            {t("We Complete Every ", "Completamos Cada ")}
-            <span className="bg-gradient-to-r from-[#FF6B00] to-[#FF8C33] bg-clip-text text-transparent">
-              {t("Step Carefully.", "Paso con Cuidado.")}
+            {t("Fast, transparent ", "Servicio rápido y transparente en ")}
+            <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-[#005CE6] bg-clip-text text-transparent">
+              {t("service in 5 simple steps", "5 sencillos pasos")}
             </span>
           </h2>
 
@@ -126,7 +144,10 @@ export function Process() {
             className="text-sm sm:text-base text-slate-500 max-w-xl mx-auto font-medium leading-relaxed"
             style={{ marginBottom: "-50px" }}
           >
-            {t("Our proven methodology guarantees precision, safety, and clean, code-compliant results — from your first call to final sign-off.", "Nuestra metodología comprobada garantiza precisión, seguridad y resultados limpios que cumplen con los códigos, desde su primera llamada hasta la firma final.")}
+            {t(
+              "From your initial call to same-day cooling restoration, we deliver reliable, upfront HVAC service with zero hidden surprises across Houston, Tomball, and Cypress, TX.",
+              "Desde su llamada inicial hasta la restauración del enfriamiento el mismo día, ofrecemos un servicio HVAC confiable sin sorpresas ocultas."
+            )}
           </p>
         </motion.div>
 
@@ -145,6 +166,35 @@ export function Process() {
                 <stop offset="60%"  stopColor="#334155" />
                 <stop offset="100%" stopColor="#0F172A" />
               </linearGradient>
+
+              {/* Ultra-Premium HVAC & AC Gradients */}
+              <radialGradient id="hvacGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#005CE6" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#005CE6" stopOpacity="0" />
+              </radialGradient>
+
+              <radialGradient id="acGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#005CE6" stopOpacity="0" />
+              </radialGradient>
+
+              <linearGradient id="hvacBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#1E293B" />
+                <stop offset="50%" stopColor="#0F172A" />
+                <stop offset="100%" stopColor="#020617" />
+              </linearGradient>
+
+              <linearGradient id="acBody" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="70%" stopColor="#F1F5F9" />
+                <stop offset="100%" stopColor="#E2E8F0" />
+              </linearGradient>
+
+              <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#005CE6" />
+                <stop offset="50%" stopColor="#38BDF8" />
+                <stop offset="100%" stopColor="#005CE6" />
+              </linearGradient>
             </defs>
 
             {/* Drop shadow */}
@@ -153,18 +203,18 @@ export function Process() {
             {/* Outer conduit */}
             <path d="M 120 50 L 1025 50 A 70 70 0 0 1 1025 190 L 175 190 A 60 60 0 0 0 175 310 L 920 310"
               stroke="#334155" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
-            {/* Animated orange core */}
+            {/* Animated blue core */}
             <motion.path
               d="M 120 50 L 1025 50 A 70 70 0 0 1 1025 190 L 175 190 A 60 60 0 0 0 175 310 L 920 310"
-              stroke="#FF6B00" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"
+              stroke="#005CE6" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"
               initial={{ pathLength: 0 }}
               whileInView={{ pathLength: 1 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 2.2, ease: "easeInOut" }}
             />
-            {/* Yellow spark flow */}
+            {/* Cyan breeze spark flow */}
             <path d="M 120 50 L 1025 50 A 70 70 0 0 1 1025 190 L 175 190 A 60 60 0 0 0 175 310 L 920 310"
-              stroke="#FFE600" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"
+              stroke="#38BDF8" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"
               opacity="0.8" className="spark-flow" />
             {/* Glossy highlight */}
             <motion.path
@@ -177,33 +227,72 @@ export function Process() {
               transition={{ duration: 2.2, ease: "easeInOut" }}
             />
 
-            {/* Meter box at start */}
-            <g transform="translate(45, 20)">
-              <rect x="0" y="0" width="55" height="60" rx="8" fill="#334155" stroke="#1E293B" strokeWidth="2.5" />
-              <rect x="4" y="4" width="47" height="20" rx="3" fill="#1E293B" />
-              <rect x="8" y="7" width="39" height="14" rx="1.5" fill="#090D16" />
-              <line x1="12" y1="14" x2="32" y2="14" stroke="#10B981" strokeWidth="2" strokeLinecap="round" />
-              <circle cx="39" cy="14" r="1.5" fill="#10B981" className="animate-pulse" />
-              <rect x="14" y="32" width="10" height="18" rx="1.5" fill="#0F172A" />
-              <rect x="16" y="29" width="6" height="10" rx="0.5" fill="#FF6B00" />
-              <path d="M 36 34 L 42 34 L 39 41 L 44 38 L 40 47" stroke="#FFE600" strokeWidth="1.8" strokeLinecap="round" fill="none" />
+            {/* LEFT SIDE: Ultra-Premium Smart HVAC System Hub (Node 1) */}
+            <g transform="translate(25, 0)">
+              {/* Multi-Layer Radial Glow Aura */}
+              <circle cx="45" cy="45" r="42" fill="url(#hvacGlow)" opacity="0.3" className="pulse-glow-large" />
+              <circle cx="45" cy="45" r="32" fill="#005CE6" opacity="0.18" className="pulse-glow" />
+
+              {/* Outer Metallic Bevel Frame */}
+              <rect x="12" y="8" width="66" height="74" rx="14" fill="url(#hvacBody)" stroke="#005CE6" strokeWidth="2.5" />
+              <rect x="15" y="11" width="60" height="68" rx="11" fill="none" stroke="#64748B" strokeWidth="1" opacity="0.5" />
+
+              {/* Fan Grille Top Section with Spinning Blades */}
+              <rect x="19" y="16" width="52" height="24" rx="6" fill="#090D16" stroke="#1E293B" strokeWidth="1.5" />
+              <g transform="translate(45, 28)">
+                <g className="fan-spin">
+                  <circle cx="0" cy="0" r="3" fill="#38BDF8" />
+                  <path d="M 0 -8 C 4 -8, 4 -2, 0 0 C -4 -2, -4 -8, 0 -8 Z" fill="#005CE6" />
+                  <path d="M 8 0 C 8 4, 2 4, 0 0 C 2 -4, 8 -4, 8 0 Z" fill="#005CE6" />
+                  <path d="M 0 8 C -4 8, -4 2, 0 0 C 4 2, 4 8, 0 8 Z" fill="#005CE6" />
+                  <path d="M -8 0 C -8 -4, -2 -4, 0 0 C -2 4, -8 4, -8 0 Z" fill="#005CE6" />
+                </g>
+              </g>
+
+              {/* OLED Smart Thermostat Touch Panel */}
+              <rect x="19" y="44" width="52" height="30" rx="6" fill="#090D16" stroke="#005CE6" strokeWidth="1.5" />
+              <text x="24" y="60" fill="#FFFFFF" fontSize="11" fontWeight="900" fontFamily="sans-serif">68°</text>
+              <text x="47" y="54" fill="#38BDF8" fontSize="7" fontWeight="800" fontFamily="sans-serif">COOL</text>
+              
+              {/* Live Animated Equalizer Bars */}
+              <rect x="47" y="58" width="3" height="10" rx="1" fill="#38BDF8" className="animate-pulse" />
+              <rect x="52" y="61" width="3" height="7" rx="1" fill="#005CE6" className="animate-pulse" />
+              <rect x="57" y="56" width="3" height="12" rx="1" fill="#10B981" className="animate-pulse" />
+
+              {/* Status Light */}
+              <circle cx="65" cy="49" r="2" fill="#10B981" className="animate-ping" />
             </g>
+
             <rect x="100" y="40" width="8" height="20" rx="1" fill="#1E293B" />
             <rect x="108" y="46" width="12" height="8" fill="#475569" />
 
-            {/* Glowing bulb at end */}
-            <g transform="translate(915, 260)">
-              <rect x="0" y="44" width="8" height="14" rx="1" fill="#1E293B" />
-              <rect x="8" y="40" width="18" height="22" rx="2" fill="#64748B" stroke="#475569" strokeWidth="1.5" />
-              <line x1="8"  y1="46" x2="26" y2="46" stroke="#334155" strokeWidth="1.5" />
-              <line x1="8"  y1="52" x2="26" y2="52" stroke="#334155" strokeWidth="1.5" />
-              <line x1="8"  y1="58" x2="26" y2="58" stroke="#334155" strokeWidth="1.5" />
-              <path d="M 13 40 L 15 28 M 21 40 L 19 28" stroke="#94A3B8" strokeWidth="1" />
-              <path d="M 15 28 Q 17 22 19 28" stroke="#FF6B00" strokeWidth="2" strokeLinecap="round" fill="none" className="pulse-glow" />
-              <path d="M 5 32 C -5 32, -8 18, -3 8 C 2 -2, 32 -2, 37 8 C 42 18, 39 32, 29 32 Z"
-                fill="none" stroke="#E2E8F0" strokeWidth="2.5" />
-              <circle cx="17" cy="15" r="28" fill="#FF6B00" opacity="0.12" className="pulse-glow" />
-              <circle cx="17" cy="15" r="45" fill="#FF8C33" opacity="0.05" className="pulse-glow-large" />
+            {/* RIGHT SIDE: Ultra-Premium Smart Split AC Unit (Node 2) */}
+            <g transform="translate(895, 245)">
+              {/* Multi-Layer Cool Frost Glow */}
+              <circle cx="50" cy="38" r="45" fill="url(#acGlow)" opacity="0.25" className="pulse-glow-large" />
+              <circle cx="50" cy="38" r="32" fill="#38BDF8" opacity="0.2" className="pulse-glow" />
+
+              {/* Main White Metallic AC Split Body */}
+              <rect x="5" y="10" width="90" height="48" rx="12" fill="url(#acBody)" stroke="#005CE6" strokeWidth="2.5" />
+              <rect x="8" y="13" width="84" height="42" rx="9" fill="none" stroke="#E2E8F0" strokeWidth="1" opacity="0.8" />
+
+              {/* Chrome Finish Brand Accent Strip */}
+              <path d="M 5 22 L 95 22" stroke="url(#chromeGrad)" strokeWidth="2.5" />
+              
+              {/* OLED Status Indicator & Temp */}
+              <rect x="68" y="14" width="22" height="6" rx="2" fill="#0F172A" />
+              <circle cx="73" cy="17" r="1.5" fill="#10B981" className="animate-pulse" />
+              <circle cx="78" cy="17" r="1.5" fill="#38BDF8" />
+              <circle cx="83" cy="17" r="1.5" fill="#005CE6" />
+
+              {/* Motorized Louver Air Vent */}
+              <rect x="12" y="42" width="76" height="10" rx="4" fill="#0F172A" stroke="#334155" strokeWidth="1" />
+              <line x1="16" y1="47" x2="84" y2="47" stroke="#38BDF8" strokeWidth="1.5" strokeLinecap="round" opacity="0.9" />
+
+              {/* Animated Flowing Breeze Waves (Cyan & Electric Blue) */}
+              <path d="M 20 58 C 32 66, 44 54, 56 62" stroke="#38BDF8" strokeWidth="3" strokeLinecap="round" fill="none" className="breeze-wave" />
+              <path d="M 40 62 C 52 70, 64 58, 76 66" stroke="#005CE6" strokeWidth="2.5" strokeLinecap="round" fill="none" className="breeze-wave" />
+              <path d="M 60 56 C 70 63, 80 55, 90 61" stroke="#60A5FA" strokeWidth="2" strokeLinecap="round" fill="none" className="breeze-wave" />
             </g>
           </svg>
 
@@ -222,22 +311,22 @@ export function Process() {
                 style={{ left: pos.left, top: pos.top }}
               >
                 {/* Circle node */}
-                <div className="absolute -translate-x-1/2 -translate-y-1/2 w-[78px] h-[78px] rounded-full bg-white shadow-[0_10px_32px_rgba(15,23,42,0.08)] border border-slate-100 flex items-center justify-center z-10 transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_20px_40px_-6px_rgba(255,107,0,0.25)] group-hover:border-[#FF6B00]/30">
+                <div className="absolute -translate-x-1/2 -translate-y-1/2 w-[78px] h-[78px] rounded-full bg-white shadow-[0_10px_32px_rgba(15,23,42,0.08)] border border-slate-100 flex items-center justify-center z-10 transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_20px_40px_-6px_rgba(255,107,0,0.25)] group-hover:border-[#005CE6]/30">
                   {/* Step number badge */}
-                  <div className="absolute -top-2.5 -right-1 w-5 h-5 rounded-full bg-[#FF6B00] flex items-center justify-center shadow-md border-2 border-white">
+                  <div className="absolute -top-2.5 -right-1 w-5 h-5 rounded-full bg-[#005CE6] flex items-center justify-center shadow-md border-2 border-white">
                     <span className="text-white text-[9px] font-black leading-none">{i + 1}</span>
                   </div>
                   {/* Outer halo */}
-                  <div className="absolute -inset-3 rounded-full border border-[#FF6B00]/15 scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-400" />
+                  <div className="absolute -inset-3 rounded-full border border-[#005CE6]/15 scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-400" />
                   {/* Inner ring */}
-                  <div className="absolute inset-1 rounded-full border border-transparent group-hover:border-[#FF6B00]/30 transition-all duration-300" />
+                  <div className="absolute inset-1 rounded-full border border-transparent group-hover:border-[#005CE6]/30 transition-all duration-300" />
                   {/* Icon */}
-                  <Icon className="h-7 w-7 text-slate-400 group-hover:text-[#FF6B00] transition-colors duration-300" />
+                  <Icon className="h-7 w-7 text-slate-400 group-hover:text-[#005CE6] transition-colors duration-300" />
                 </div>
 
                 {/* Text block below node */}
                 <div className="absolute top-[48px] -translate-x-1/2 text-center w-[220px] flex flex-col items-center pt-1">
-                  <h3 className="font-extrabold text-[15px] text-[#0F172A] leading-tight mt-1 mb-1.5 group-hover:text-[#FF6B00] transition-colors duration-300">
+                  <h3 className="font-extrabold text-[15px] text-[#0F172A] leading-tight mt-1 mb-1.5 group-hover:text-[#005CE6] transition-colors duration-300">
                     {s.title}
                   </h3>
                   <p className="text-[11px] text-slate-500 leading-relaxed font-medium px-1">
@@ -249,61 +338,114 @@ export function Process() {
           })}
         </div>
 
-        {/* ── 2. MOBILE: Vertical Timeline ────────────────── */}
-        <div className="relative grid gap-8 pl-14 lg:hidden">
+        {/* ── 2. MOBILE: Vertical Timeline (Pixel-Perfect Alignment) ────────────────── */}
+        <div className="relative pt-20 pb-20 pl-16 lg:hidden">
+          {/* Top Animated HVAC System Hub (Exact Desktop Icon) */}
+          <div className="absolute left-[24px] top-0 -translate-x-1/2 pointer-events-auto z-10 w-[64px] h-[68px] flex flex-col items-center justify-center">
+            <svg viewBox="0 0 90 90" className="w-full h-full drop-shadow-lg" fill="none">
+              {/* Outer Metallic Bevel Frame */}
+              <rect x="12" y="8" width="66" height="74" rx="14" fill="#1E293B" stroke="#005CE6" strokeWidth="2.5" />
+              <rect x="15" y="11" width="60" height="68" rx="11" fill="none" stroke="#64748B" strokeWidth="1" opacity="0.5" />
+
+              {/* Fan Grille Top Section with Spinning Blades */}
+              <rect x="19" y="16" width="52" height="24" rx="6" fill="#090D16" stroke="#1E293B" strokeWidth="1.5" />
+              <g transform="translate(45, 28)">
+                <g className="fan-spin">
+                  <circle cx="0" cy="0" r="3" fill="#38BDF8" />
+                  <path d="M 0 -8 C 4 -8, 4 -2, 0 0 C -4 -2, -4 -8, 0 -8 Z" fill="#005CE6" />
+                  <path d="M 8 0 C 8 4, 2 4, 0 0 C 2 -4, 8 -4, 8 0 Z" fill="#005CE6" />
+                  <path d="M 0 8 C -4 8, -4 2, 0 0 C 4 2, 4 8, 0 8 Z" fill="#005CE6" />
+                  <path d="M -8 0 C -8 -4, -2 -4, 0 0 C -2 4, -8 4, -8 0 Z" fill="#005CE6" />
+                </g>
+              </g>
+
+              {/* OLED Smart Thermostat Touch Panel */}
+              <rect x="19" y="44" width="52" height="30" rx="6" fill="#090D16" stroke="#005CE6" strokeWidth="1.5" />
+              <text x="24" y="60" fill="#FFFFFF" fontSize="11" fontWeight="900" fontFamily="sans-serif">68°</text>
+              <text x="47" y="54" fill="#38BDF8" fontSize="7" fontWeight="800" fontFamily="sans-serif">COOL</text>
+              
+              {/* Live Animated Equalizer Bars */}
+              <rect x="47" y="58" width="3" height="10" rx="1" fill="#38BDF8" className="animate-pulse" />
+              <rect x="52" y="61" width="3" height="7" rx="1" fill="#005CE6" className="animate-pulse" />
+              <rect x="57" y="56" width="3" height="12" rx="1" fill="#10B981" className="animate-pulse" />
+
+              {/* Status Light */}
+              <circle cx="65" cy="49" r="2" fill="#10B981" className="animate-ping" />
+            </svg>
+          </div>
+
           {/* Animated vertical conduit */}
-          <div className="absolute left-[39px] top-6 bottom-6 w-2.5 pointer-events-none z-0">
+          <div className="absolute left-[24px] -translate-x-1/2 top-[58px] bottom-[58px] w-2.5 pointer-events-none z-0">
             <div className="absolute inset-0 bg-slate-900/10 rounded-full blur-[2px]" />
             <div className="absolute inset-0 bg-[#334155] rounded-full" />
             <div className="absolute inset-[2px] rounded-full mobile-electric-flow" />
             <div className="absolute left-[3px] top-[2px] bottom-[2px] w-[1.5px] bg-white/75 rounded-full" />
           </div>
 
-          {/* Meter box at top */}
-          <div className="absolute left-[18px] -top-6 pointer-events-none z-10 w-[50px] h-[54px]">
-            <svg viewBox="0 0 60 65" className="w-full h-full" fill="none">
-              <rect x="5" y="5" width="50" height="55" rx="6" fill="#334155" stroke="#1E293B" strokeWidth="2" />
-              <rect x="10" y="10" width="40" height="15" rx="2" fill="#090D16" />
-              <line x1="15" y1="17" x2="35" y2="17" stroke="#10B981" strokeWidth="1.5" />
-              <rect x="25" y="35" width="10" height="18" rx="1" fill="#0F172A" />
-              <rect x="27" y="32" width="6" height="10" rx="0.5" fill="#FF6B00" />
-            </svg>
+          {/* Steps */}
+          <div className="flex flex-col gap-10">
+            {steps.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <motion.div
+                  key={s.title}
+                  initial={{ opacity: 0, x: -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="relative flex flex-col group text-left"
+                >
+                  {/* Circle node centered on conduit line */}
+                  <div className="absolute left-[-40px] top-0 -translate-x-1/2 w-12 h-12 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-slate-100 flex items-center justify-center z-10 transition-all duration-300 group-hover:scale-105 group-hover:border-[#005CE6]/30">
+                    {/* Step badge */}
+                    <div className="absolute -top-1.5 -right-0.5 w-4 h-4 rounded-full bg-[#005CE6] flex items-center justify-center border border-white shadow-sm">
+                      <span className="text-white text-[8px] font-black">{i + 1}</span>
+                    </div>
+                    <div className="absolute inset-0.5 rounded-full border border-transparent group-hover:border-[#005CE6]/40 transition-colors duration-300" />
+                    <div className="absolute -inset-2 rounded-full border border-[#005CE6]/20 scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300" />
+                    <Icon className="h-5 w-5 text-slate-400 group-hover:text-[#005CE6] transition-colors duration-300" />
+                  </div>
+
+                  {/* Content */}
+                  <div className="pl-2 py-0.5">
+                    <h3 className="font-extrabold text-base text-[#0F172A] leading-tight mt-0 mb-1 group-hover:text-[#005CE6] transition-colors duration-300">
+                      {s.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 leading-relaxed font-medium max-w-sm">
+                      {s.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
-          {steps.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <motion.div
-                key={s.title}
-                initial={{ opacity: 0, x: -16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="relative flex flex-col group text-left"
-              >
-                {/* Circle node */}
-                <div className="absolute -left-[54px] top-0 w-12 h-12 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.07)] border border-slate-100 flex items-center justify-center z-10 transition-all duration-300 group-hover:scale-105 group-hover:border-[#FF6B00]/30">
-                  {/* Step badge */}
-                  <div className="absolute -top-1.5 -right-0.5 w-4 h-4 rounded-full bg-[#FF6B00] flex items-center justify-center border border-white">
-                    <span className="text-white text-[8px] font-black">{i + 1}</span>
-                  </div>
-                  <div className="absolute inset-0.5 rounded-full border border-transparent group-hover:border-[#FF6B00]/40 transition-colors duration-300" />
-                  <div className="absolute -inset-2 rounded-full border border-[#FF6B00]/20 scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300" />
-                  <Icon className="h-5 w-5 text-slate-400 group-hover:text-[#FF6B00] transition-colors duration-300" />
-                </div>
+          {/* Bottom Animated Smart Split AC Unit (Exact Desktop Icon) */}
+          <div className="absolute left-[24px] bottom-0 -translate-x-1/2 pointer-events-auto z-10 w-[72px] h-[54px] flex flex-col items-center justify-center">
+            <svg viewBox="0 0 100 70" className="w-full h-full drop-shadow-lg overflow-visible" fill="none">
+              {/* Main White Metallic AC Split Body */}
+              <rect x="5" y="10" width="90" height="48" rx="12" fill="#FFFFFF" stroke="#005CE6" strokeWidth="2.5" />
+              <rect x="8" y="13" width="84" height="42" rx="9" fill="none" stroke="#E2E8F0" strokeWidth="1" opacity="0.8" />
 
-                {/* Content */}
-                <div className="pl-4 py-0.5">
-                  <h3 className="font-extrabold text-base text-[#0F172A] leading-tight mt-0 mb-1.5 group-hover:text-[#FF6B00] transition-colors duration-300">
-                    {s.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed font-medium max-w-sm">
-                    {s.desc}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
+              {/* Chrome Finish Brand Accent Strip */}
+              <path d="M 5 22 L 95 22" stroke="#005CE6" strokeWidth="2.5" />
+              
+              {/* OLED Status Indicator & Temp */}
+              <rect x="68" y="14" width="22" height="6" rx="2" fill="#0F172A" />
+              <circle cx="73" cy="17" r="1.5" fill="#10B981" className="animate-pulse" />
+              <circle cx="78" cy="17" r="1.5" fill="#38BDF8" />
+              <circle cx="83" cy="17" r="1.5" fill="#005CE6" />
+
+              {/* Motorized Louver Air Vent */}
+              <rect x="12" y="42" width="76" height="10" rx="4" fill="#0F172A" stroke="#334155" strokeWidth="1" />
+              <line x1="16" y1="47" x2="84" y2="47" stroke="#38BDF8" strokeWidth="1.5" strokeLinecap="round" opacity="0.9" />
+
+              {/* Animated Flowing Breeze Waves (Cyan & Electric Blue) */}
+              <path d="M 20 58 C 32 66, 44 54, 56 62" stroke="#38BDF8" strokeWidth="3" strokeLinecap="round" fill="none" className="breeze-wave" />
+              <path d="M 40 62 C 52 70, 64 58, 76 66" stroke="#005CE6" strokeWidth="2.5" strokeLinecap="round" fill="none" className="breeze-wave" />
+              <path d="M 60 56 C 70 63, 80 55, 90 61" stroke="#60A5FA" strokeWidth="2" strokeLinecap="round" fill="none" className="breeze-wave" />
+            </svg>
+          </div>
         </div>
 
       </div>

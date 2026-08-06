@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { addWebEmail } from "@/lib/leads-store";
 
 const TinyLightningIcon = () => (
-  <svg className="w-3.5 h-3.5 text-[#FF6B00] fill-[#FF6B00] shrink-0" viewBox="0 0 24 24">
+  <svg className="w-3.5 h-3.5 text-[#005CE6] fill-[#005CE6] shrink-0" viewBox="0 0 24 24">
     <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
   </svg>
 );
@@ -70,7 +70,7 @@ export function CTASection() {
         <div className="w-full rounded-[8px] bg-white border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.02)] relative z-10 p-5 sm:p-8 md:p-10 lg:p-[40px_50px]">
           
           {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 bg-[#FF6B00]/10 border border-[#FF6B00]/20 text-[#FF6B00] rounded-full px-5 py-2 text-[10px] font-black uppercase tracking-widest mb-6 select-none shadow-sm">
+          <div className="inline-flex items-center gap-1.5 bg-[#005CE6]/10 border border-[#005CE6]/20 text-[#005CE6] rounded-full px-5 py-2 text-[10px] font-black uppercase tracking-widest mb-6 select-none shadow-sm">
             <TinyLightningIcon /> GET A FREE ESTIMATE <TinyLightningIcon />
           </div>
 
@@ -98,7 +98,7 @@ export function CTASection() {
 
           {isSubmitted ? (
             <div className="flex flex-col justify-center items-center text-center w-full py-12 space-y-4">
-              <div className="bg-[#FF6B00]/10 text-[#FF6B00] p-4 rounded-full animate-bounce">
+              <div className="bg-[#005CE6]/10 text-[#005CE6] p-4 rounded-full animate-bounce">
                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
@@ -122,14 +122,14 @@ export function CTASection() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Full Name"
-                  className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 px-4 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/20 transition-all font-medium"
+                  className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 px-4 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#005CE6]/20 transition-all font-medium"
                 />
                 <input
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Phone Number"
-                  className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 px-4 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/20 transition-all font-medium"
+                  className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 px-4 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#005CE6]/20 transition-all font-medium"
                 />
               </div>
 
@@ -142,9 +142,9 @@ export function CTASection() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email Address"
-                    className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 pl-4 pr-10 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/20 transition-all font-medium"
+                    className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 pl-4 pr-10 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#005CE6]/20 transition-all font-medium"
                   />
-                  <Mail className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#FF6B00]" />
+                  <Mail className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#005CE6]" />
                 </div>
                 <div className="relative w-full">
                   <input
@@ -152,9 +152,9 @@ export function CTASection() {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="Project Address"
-                    className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 pl-4 pr-10 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/20 transition-all font-medium"
+                    className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 pl-4 pr-10 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#005CE6]/20 transition-all font-medium"
                   />
-                  <MapPin className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#FF6B00]" />
+                  <MapPin className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#005CE6]" />
                 </div>
               </div>
 
@@ -163,7 +163,7 @@ export function CTASection() {
                 <select
                   value={service}
                   onChange={(e) => setService(e.target.value)}
-                  className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 pl-4 pr-10 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/20 transition-all appearance-none cursor-pointer font-medium"
+                  className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 pl-4 pr-10 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#005CE6]/20 transition-all appearance-none cursor-pointer font-medium"
                 >
                   <option value="" disabled hidden>
                     Select Required Service
@@ -179,7 +179,7 @@ export function CTASection() {
                   <option value="emergency">24/7 Emergency Service</option>
                 </select>
                 <div className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center">
-                  <ChevronDown className="h-4.5 w-4.5 text-[#FF6B00]" />
+                  <ChevronDown className="h-4.5 w-4.5 text-[#005CE6]" />
                 </div>
               </div>
 
@@ -189,14 +189,14 @@ export function CTASection() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Briefly describe your project details"
-                className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 px-4 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/20 transition-all resize-none font-medium"
+                className="w-full bg-white rounded-[5px] shadow-[0_4px_15px_rgba(0,0,0,0.01)] border border-slate-200 py-3 px-4 text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#005CE6]/20 transition-all resize-none font-medium"
               />
 
               {/* Row 5: Submit Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-[#FF6B00] to-[#E05E00] hover:from-[#E05E00] hover:to-[#C24F00] text-white text-xs md:text-sm font-black uppercase tracking-[0.2em] rounded-[5px] py-4 transition-all duration-300 shadow-[0_4px_14px_rgba(255,107,0,0.3)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] select-none cursor-pointer text-center disabled:opacity-75 disabled:pointer-events-none"
+                className="w-full bg-gradient-to-r from-[#005CE6] to-[#0047B3] hover:from-[#0047B3] hover:to-[#C24F00] text-white text-xs md:text-sm font-black uppercase tracking-[0.2em] rounded-[5px] py-4 transition-all duration-300 shadow-[0_4px_14px_rgba(255,107,0,0.3)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] select-none cursor-pointer text-center disabled:opacity-75 disabled:pointer-events-none"
               >
                 {isSubmitting ? "Submitting..." : "Get Free Estimate"}
               </button>

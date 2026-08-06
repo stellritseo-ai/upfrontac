@@ -1,7 +1,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { hashPassword } from "./crypto.server.js";
 
-const DB_NAME = "electrical";
+const DB_NAME = process.env.MONGODB_DB_NAME || "upfrontac";
 
 let client: MongoClient | null = null;
 

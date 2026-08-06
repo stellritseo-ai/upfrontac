@@ -1,139 +1,145 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle2, Sparkles, Award, Target } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import welcomeImg from "@/assets/welcome-img.png";
-import topIcon from "@/assets/topicon.png";
-import bottomIcon from "@/assets/buttomicon.png";
-import { Counter } from "./Counter";
+import hvacWelcomeVideo from "@/assets/hvacwelcome.mp4";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
-
-const TinyLightningIcon = () => (
-  <svg className="w-3.5 h-3.5 text-[#FF6B00] fill-[#FF6B00] shrink-0" viewBox="0 0 24 24">
-    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-  </svg>
-);
-
-const PointingHandIcon = () => (
-  <svg className="w-5 h-5 text-[#FF6B00] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M3 10h4v8H3z" />
-    <path d="M7 10c0-1.5 1.5-2 2.5-2s1.5 1.5 1.5 2.5V12" />
-    <path d="M11 10h10a1.5 1.5 0 0 1 0 3H11" />
-    <path d="M11 13h8a1.5 1.5 0 0 1 0 3H11" />
-    <path d="M11 16h6a1.5 1.5 0 0 1 0 3H11" />
-  </svg>
-);
 
 export function Welcome() {
   const { t } = useLanguage();
 
-  const checklistPoints = [
-    t("New construction and residential remodeling", "Construcción nueva y remodelación residencial"),
-    t("New construction and commercial remodeling such as buildings", "Construcción nueva y remodelación comercial como edificios"),
-    t("Restaurants, offices, shopping centers, hotels, clinics (with electrical permits)", "Restaurantes, oficinas, centros comerciales, hoteles, clínicas (con permisos eléctricos)"),
-    t("Service Area: Entire state of Florida", "Área de Servicio: Todo el estado de Florida"),
+  const focusPoints = [
+    t("Fast-response HVAC service", "Servicio HVAC de respuesta rápida"),
+    t("Accurate diagnostics", "Diagnósticos precisos"),
+    t("Long-term HVAC solutions", "Soluciones HVAC a largo plazo"),
+    t("Honest pricing", "Precios honestos"),
+    t("Professional workmanship", "Mano de obra profesional"),
   ];
 
   return (
-    <section id="welcome" className="bg-white overflow-hidden py-[60px] border-b border-gray-100">
+    <section id="welcome" className="relative bg-gradient-to-b from-white via-slate-50/40 to-white overflow-hidden py-16 sm:py-20 border-b border-slate-100">
+      {/* Background Decorative Blur Blobs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-1/2 left-0 h-96 w-96 -translate-y-1/2 rounded-full bg-[#005CE6]/5 blur-3xl" />
+        <div className="absolute top-1/3 right-0 h-80 w-80 rounded-full bg-cyan-500/5 blur-3xl" />
+      </div>
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
+        {/* Main layout: 2-column responsive grid */}
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-14 items-center">
 
-        {/* Main layout: stack on mobile, 3-col on desktop */}
-        <div className="grid gap-10 lg:grid-cols-[1.5fr_0.7fr_0.7fr] lg:gap-5 items-center">
-
-          {/* Left Column: Copy & Checklist */}
-          <div className="animate-fade-up flex flex-col items-start text-left">
-            <div className="flex items-center gap-1 text-[11px] font-black uppercase tracking-widest text-[#0F172A]">
-              <TinyLightningIcon /> {t("About Us", "Sobre Nosotros")} <TinyLightningIcon />
+          {/* Left Column: Copy & Focus Points (7 cols on desktop) */}
+          <div className="lg:col-span-7 flex flex-col items-start text-left">
+            
+            {/* Top Pill Tagline */}
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
+              <Sparkles className="h-3.5 w-3.5 text-[#005CE6] shrink-0" />
+              <span>{t("About Upfront AC", "Acerca de Upfront AC")}</span>
             </div>
-            <h2 className="mt-4 font-display text-[26px] sm:text-[30px] lg:text-[33px] leading-[1.35] font-extrabold text-[#0F172A]">
-              {t("Best Electrical Company In", "La Mejor Compañía Eléctrica en")}<br className="hidden md:inline" /> {t("Miami. Residential & Commercial ", "Miami. Servicio Residencial y Comercial ")}
-              <span className="text-[#FF6B00]">{t("Electrical", "Eléctrico")}</span> {t("Service", " ")}
+
+            {/* Heading */}
+            <h2 className="mt-4 font-display text-3xl sm:text-4xl lg:text-[42px] leading-[1.2] font-extrabold text-slate-900 tracking-tight">
+              {t("Built to solve one problem in Houston: ", "Creado para resolver un problema en Houston: ")}
+              <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-500 bg-clip-text text-transparent">
+                {t("unreliable HVAC service.", "el servicio de HVAC poco confiable.")}
+              </span>
             </h2>
-            <p className="font-medium text-black mt-[13px] mb-[-15px] text-[14px] sm:text-[15px] leading-relaxed sm:leading-[32px]">
-              {t("We have been offering a wide range of electrical services to residential, commercial and industrial customers across Miami, FL and its surrounding areas since 2009. We provide a high quality service no matter the size of the project.", "Hemos estado ofreciendo una amplia gama de servicios eléctricos a clientes residenciales, comerciales e industriales en Miami, FL y sus áreas circundantes desde 2009. Brindamos un servicio de alta calidad sin importar el tamaño del proyecto.")}
-            </p>
 
-            <ul className="mt-6 space-y-4">
-              {checklistPoints.map((point) => (
-                <li key={point} className="flex items-start gap-3.5 text-slate-800 font-bold text-sm leading-snug">
-                  <PointingHandIcon />
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
+            {/* History & Mission Copy */}
+            <div className="mt-5 space-y-4 font-medium text-slate-600 text-sm sm:text-base leading-relaxed sm:leading-[28px]">
+              <p>
+                {t(
+                  "Upfront AC operates as a local HVAC service provider with trained in-house technicians, fast dispatch systems, and deep expertise in central air conditioning, ductwork, thermostat calibration and modern HVAC efficiency technologies.",
+                  "Upfront AC opera como un proveedor de servicios HVAC local con técnicos internos capacitados, sistemas de despacho rápido y amplia experiencia en aire acondicionado central, conductos, calibración de termostatos y tecnologías modernas de eficiencia HVAC."
+                )}
+              </p>
+              <p>
+                {t(
+                  "We follow industry-standard repair protocols and manufacturer-approved diagnostic procedures to ensure safe and efficient system performance. Homeowners and businesses across Houston trust our team for fast, honest, and reliable HVAC service — every time.",
+                  "Seguimos protocolos de reparación estándar de la industria y procedimientos de diagnóstico aprobados por el fabricante para garantizar un rendimiento seguro y eficiente del sistema. Los propietarios y empresas de todo Houston confían en nuestro equipo para un servicio HVAC rápido, honesto y confiable — siempre."
+                )}
+              </p>
+            </div>
 
-            <Button asChild variant="hero" size="lg" className="mt-8 font-extrabold rounded-full px-8 bg-[#FF6B00] hover:bg-[#E05E00] shadow-[0_10px_25px_-5px_rgba(255,107,0,0.4)]">
-              <Link to="/about">
-                {t("Read More", "Leer Más")} <span className="ml-1 text-sm font-black">≫</span>
-              </Link>
-            </Button>
+            {/* Focus Points Section */}
+            <div className="mt-7 w-full">
+              <div className="flex items-center gap-2 mb-3">
+                <Target className="w-4 h-4 text-[#005CE6]" />
+                <h3 className="text-xs font-black uppercase tracking-widest text-slate-900">
+                  {t("What we focus on", "En lo que nos enfocamos")}
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                {focusPoints.map((point) => (
+                  <div key={point} className="flex items-center gap-3 rounded-xl bg-white border border-slate-200/80 p-3 shadow-sm hover:border-[#005CE6]/40 hover:shadow-md transition-all duration-300">
+                    <div className="w-7 h-7 rounded-lg bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center shrink-0">
+                      <CheckCircle2 className="w-4 h-4 text-[#005CE6]" />
+                    </div>
+                    <span className="text-xs sm:text-sm font-bold text-slate-800 leading-tight">{point}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Button asChild variant="hero" size="lg" className="font-extrabold rounded-full px-8 py-3.5 bg-[#005CE6] hover:bg-[#0047B3] shadow-[0_10px_30px_-5px_rgba(0,92,230,0.45)] transition-all duration-300 hover:scale-[1.02]">
+                <a href="#get-in-touch" className="flex items-center gap-2">
+                  <span>{t("Get Free Estimate", "Obtener Presupuesto Gratis")}</span>
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+
           </div>
 
-          {/* Middle Column: Lightning Bolt Image – hidden on mobile/tablet */}
-          <div
-            className="group relative hidden lg:flex justify-center items-center h-[560px] w-full shrink-0 lg:translate-x-[80px] transition-all duration-700 ease-out hover:scale-105 filter drop-shadow-[0_20px_30px_rgba(15,23,42,0.18)] hover:drop-shadow-[0_30px_50px_rgba(255,107,0,0.25)]"
-          >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-[#FF6B00]/10 blur-3xl -z-10 animate-pulse transition-all duration-1000 ease-out group-hover:scale-125 group-hover:bg-[#FF6B00]/20" />
-            <img
-              src={welcomeImg}
-              alt="Professional electrician working on breaker panel board"
-              className="w-full h-full object-contain object-center animate-welcome-float transition-all duration-700 ease-out group-hover:brightness-105"
-            />
-          </div>
+          {/* Right Column: Ultra-Premium Video Showcase Frame (5 cols on desktop) */}
+          <div className="lg:col-span-5 relative group w-full flex justify-center items-center">
+            
+            {/* Ambient Background Radial Glow */}
+            <div className="absolute -inset-2 rounded-[40px] bg-gradient-to-tr from-[#005CE6] via-cyan-400 to-indigo-600 opacity-20 blur-3xl group-hover:opacity-35 transition-opacity duration-700 pointer-events-none" />
 
-          {/* Right Column: Statistics – horizontal row on mobile, vertical column on desktop */}
-          <div className="animate-fade-up grid grid-cols-3 gap-4 lg:flex lg:flex-col lg:gap-12 text-left lg:justify-self-end w-full lg:w-fit">
-            {/* Stat 1 */}
-            <div className="flex flex-col lg:flex-row items-start gap-2 lg:gap-4">
-              <div className="w-10 h-10 lg:w-14 lg:h-14 shrink-0 flex items-center justify-center">
-                <img src={topIcon} alt="Successful Projects Icon" className="w-10 h-10 lg:w-14 lg:h-14 object-contain" />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="font-display text-3xl lg:text-5xl font-black text-[#0F172A] leading-none">
-                  <Counter end={600} suffix="+" />
-                </span>
-                <span className="text-xs lg:text-sm font-extrabold text-[#0F172A] tracking-tight leading-tight mt-1.5 lg:mt-2.5">
-                  {t("Successful Projects", "Proyectos Exitosos")}
-                </span>
-                <span className="text-[10px] lg:text-[11px] font-semibold text-gray-400 mt-0.5 lg:mt-1">
-                  {t("Amazing Project Done", "Proyectos Realizados")}
-                </span>
+            {/* Outer Glass Border Frame */}
+            <div className="relative w-full rounded-[32px] bg-slate-900/90 p-2 sm:p-3 border border-slate-200/80 shadow-[0_30px_70px_-15px_rgba(15,23,42,0.25)]">
+              
+              {/* Inner Video Container */}
+              <div className="relative w-full aspect-[4/5] sm:aspect-[4/5] min-h-[460px] sm:min-h-[540px] rounded-[24px] overflow-hidden bg-slate-950">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                >
+                  <source src={hvacWelcomeVideo} type="video/mp4" />
+                </video>
+
+                {/* Subtle Cinematic Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-950/20 pointer-events-none" />
+
+                {/* Top Floating Glassmorphism Badge */}
+                <div className="absolute top-4 left-4 z-10 flex items-center gap-2 rounded-full bg-slate-950/80 backdrop-blur-md px-3.5 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-white border border-white/20 shadow-lg">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#005CE6] opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#005CE6]" />
+                  </span>
+                  {t("Upfront HVAC Operations", "Operaciones Upfront HVAC")}
+                </div>
+
+                {/* Bottom Right Floating Badge: EPA Certified Rating */}
+                <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2.5 rounded-2xl bg-white/90 backdrop-blur-md px-4 py-2.5 shadow-xl border border-white/50 text-slate-900">
+                  <div className="w-8 h-8 rounded-xl bg-[#005CE6] text-white flex items-center justify-center shrink-0 shadow-md">
+                    <Award className="h-4.5 w-4.5" />
+                  </div>
+                  <div className="flex flex-col text-left leading-none">
+                    <span className="text-[11px] font-black uppercase text-[#005CE6] tracking-wider">{t("EPA Certified", "Certificado por EPA")}</span>
+                    <span className="text-xs font-extrabold text-slate-800 mt-0.5">{t("In-House Specialists", "Especialistas Internos")}</span>
+                  </div>
+                </div>
+
               </div>
             </div>
 
-            {/* Stat 2 */}
-            <div className="flex flex-col lg:flex-row items-start gap-2 lg:gap-4">
-              <div className="w-10 h-10 lg:w-14 lg:h-14 shrink-0" />
-              <div className="flex flex-col text-left">
-                <span className="font-display text-3xl lg:text-5xl font-black text-[#0F172A] leading-none">
-                  <Counter end={17} suffix="+" />
-                </span>
-                <span className="text-xs lg:text-sm font-extrabold text-[#0F172A] tracking-tight leading-tight mt-1.5 lg:mt-2.5">
-                  {t("Years Of Experience", "Años de Experiencia")}
-                </span>
-                <span className="text-[10px] lg:text-[11px] font-semibold text-gray-400 mt-0.5 lg:mt-1">
-                  {t("Quality Electrical Services", "Servicios de Calidad")}
-                </span>
-              </div>
-            </div>
-
-            {/* Stat 3 */}
-            <div className="flex flex-col lg:flex-row items-start gap-2 lg:gap-4">
-              <div className="w-10 h-10 lg:w-14 lg:h-14 shrink-0 flex items-center justify-center">
-                <img src={bottomIcon} alt="Experienced Staff Icon" className="w-10 h-10 lg:w-14 lg:h-14 object-contain" />
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="font-display text-3xl lg:text-5xl font-black text-[#0F172A] leading-none">
-                  <Counter end={50} suffix="+" />
-                </span>
-                <span className="text-xs lg:text-sm font-extrabold text-[#0F172A] tracking-tight leading-tight mt-1.5 lg:mt-2.5">
-                  {t("Experienced Staff", "Personal Experto")}
-                </span>
-                <span className="text-[10px] lg:text-[11px] font-semibold text-gray-400 mt-0.5 lg:mt-1">
-                  {t("Expert Electrician", "Electricistas Expertos")}
-                </span>
-              </div>
-            </div>
           </div>
 
         </div>

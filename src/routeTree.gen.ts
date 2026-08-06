@@ -21,14 +21,24 @@ import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as ServicesWiringRewiringRouteImport } from './routes/services/wiring-rewiring'
 import { Route as ServicesSecuritySystemsRouteImport } from './routes/services/security-systems'
+import { Route as ServicesResidentialHvacRouteImport } from './routes/services/residential-hvac'
 import { Route as ServicesResidentialRouteImport } from './routes/services/residential'
 import { Route as ServicesPanelUpgradesRouteImport } from './routes/services/panel-upgrades'
 import { Route as ServicesIndustrialRouteImport } from './routes/services/industrial'
+import { Route as ServicesIndoorAirQualityRouteImport } from './routes/services/indoor-air-quality'
+import { Route as ServicesHvacRepairsRouteImport } from './routes/services/hvac-repairs'
+import { Route as ServicesHvacMaintenanceRouteImport } from './routes/services/hvac-maintenance'
+import { Route as ServicesHvacInstallRouteImport } from './routes/services/hvac-install'
+import { Route as ServicesHeatingRouteImport } from './routes/services/heating'
 import { Route as ServicesGeneratorRouteImport } from './routes/services/generator'
 import { Route as ServicesEvChargerRouteImport } from './routes/services/ev-charger'
 import { Route as ServicesEmergencyRouteImport } from './routes/services/emergency'
+import { Route as ServicesCommercialHvacRouteImport } from './routes/services/commercial-hvac'
 import { Route as ServicesCommercialRouteImport } from './routes/services/commercial'
 import { Route as ServicesCctvCameraRouteImport } from './routes/services/cctv-camera'
+import { Route as ServicesAirConditioningRouteImport } from './routes/services/air-conditioning'
+import { Route as ServicesAcRepairTomballRouteImport } from './routes/services/ac-repair-tomball'
+import { Route as ServicesAcRepairCypressRouteImport } from './routes/services/ac-repair-cypress'
 import { Route as DashboardLoginRouteImport } from './routes/dashboard/login'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -91,6 +101,11 @@ const ServicesSecuritySystemsRoute = ServicesSecuritySystemsRouteImport.update({
   path: '/security-systems',
   getParentRoute: () => ServicesRoute,
 } as any)
+const ServicesResidentialHvacRoute = ServicesResidentialHvacRouteImport.update({
+  id: '/residential-hvac',
+  path: '/residential-hvac',
+  getParentRoute: () => ServicesRoute,
+} as any)
 const ServicesResidentialRoute = ServicesResidentialRouteImport.update({
   id: '/residential',
   path: '/residential',
@@ -104,6 +119,32 @@ const ServicesPanelUpgradesRoute = ServicesPanelUpgradesRouteImport.update({
 const ServicesIndustrialRoute = ServicesIndustrialRouteImport.update({
   id: '/industrial',
   path: '/industrial',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesIndoorAirQualityRoute =
+  ServicesIndoorAirQualityRouteImport.update({
+    id: '/indoor-air-quality',
+    path: '/indoor-air-quality',
+    getParentRoute: () => ServicesRoute,
+  } as any)
+const ServicesHvacRepairsRoute = ServicesHvacRepairsRouteImport.update({
+  id: '/hvac-repairs',
+  path: '/hvac-repairs',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesHvacMaintenanceRoute = ServicesHvacMaintenanceRouteImport.update({
+  id: '/hvac-maintenance',
+  path: '/hvac-maintenance',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesHvacInstallRoute = ServicesHvacInstallRouteImport.update({
+  id: '/hvac-install',
+  path: '/hvac-install',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesHeatingRoute = ServicesHeatingRouteImport.update({
+  id: '/heating',
+  path: '/heating',
   getParentRoute: () => ServicesRoute,
 } as any)
 const ServicesGeneratorRoute = ServicesGeneratorRouteImport.update({
@@ -121,6 +162,11 @@ const ServicesEmergencyRoute = ServicesEmergencyRouteImport.update({
   path: '/emergency',
   getParentRoute: () => ServicesRoute,
 } as any)
+const ServicesCommercialHvacRoute = ServicesCommercialHvacRouteImport.update({
+  id: '/commercial-hvac',
+  path: '/commercial-hvac',
+  getParentRoute: () => ServicesRoute,
+} as any)
 const ServicesCommercialRoute = ServicesCommercialRouteImport.update({
   id: '/commercial',
   path: '/commercial',
@@ -129,6 +175,21 @@ const ServicesCommercialRoute = ServicesCommercialRouteImport.update({
 const ServicesCctvCameraRoute = ServicesCctvCameraRouteImport.update({
   id: '/cctv-camera',
   path: '/cctv-camera',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesAirConditioningRoute = ServicesAirConditioningRouteImport.update({
+  id: '/air-conditioning',
+  path: '/air-conditioning',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesAcRepairTomballRoute = ServicesAcRepairTomballRouteImport.update({
+  id: '/ac-repair-tomball',
+  path: '/ac-repair-tomball',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesAcRepairCypressRoute = ServicesAcRepairCypressRouteImport.update({
+  id: '/ac-repair-cypress',
+  path: '/ac-repair-cypress',
   getParentRoute: () => ServicesRoute,
 } as any)
 const DashboardLoginRoute = DashboardLoginRouteImport.update({
@@ -147,14 +208,24 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/dashboard/login': typeof DashboardLoginRoute
+  '/services/ac-repair-cypress': typeof ServicesAcRepairCypressRoute
+  '/services/ac-repair-tomball': typeof ServicesAcRepairTomballRoute
+  '/services/air-conditioning': typeof ServicesAirConditioningRoute
   '/services/cctv-camera': typeof ServicesCctvCameraRoute
   '/services/commercial': typeof ServicesCommercialRoute
+  '/services/commercial-hvac': typeof ServicesCommercialHvacRoute
   '/services/emergency': typeof ServicesEmergencyRoute
   '/services/ev-charger': typeof ServicesEvChargerRoute
   '/services/generator': typeof ServicesGeneratorRoute
+  '/services/heating': typeof ServicesHeatingRoute
+  '/services/hvac-install': typeof ServicesHvacInstallRoute
+  '/services/hvac-maintenance': typeof ServicesHvacMaintenanceRoute
+  '/services/hvac-repairs': typeof ServicesHvacRepairsRoute
+  '/services/indoor-air-quality': typeof ServicesIndoorAirQualityRoute
   '/services/industrial': typeof ServicesIndustrialRoute
   '/services/panel-upgrades': typeof ServicesPanelUpgradesRoute
   '/services/residential': typeof ServicesResidentialRoute
+  '/services/residential-hvac': typeof ServicesResidentialHvacRoute
   '/services/security-systems': typeof ServicesSecuritySystemsRoute
   '/services/wiring-rewiring': typeof ServicesWiringRewiringRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -169,14 +240,24 @@ export interface FileRoutesByTo {
   '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/dashboard/login': typeof DashboardLoginRoute
+  '/services/ac-repair-cypress': typeof ServicesAcRepairCypressRoute
+  '/services/ac-repair-tomball': typeof ServicesAcRepairTomballRoute
+  '/services/air-conditioning': typeof ServicesAirConditioningRoute
   '/services/cctv-camera': typeof ServicesCctvCameraRoute
   '/services/commercial': typeof ServicesCommercialRoute
+  '/services/commercial-hvac': typeof ServicesCommercialHvacRoute
   '/services/emergency': typeof ServicesEmergencyRoute
   '/services/ev-charger': typeof ServicesEvChargerRoute
   '/services/generator': typeof ServicesGeneratorRoute
+  '/services/heating': typeof ServicesHeatingRoute
+  '/services/hvac-install': typeof ServicesHvacInstallRoute
+  '/services/hvac-maintenance': typeof ServicesHvacMaintenanceRoute
+  '/services/hvac-repairs': typeof ServicesHvacRepairsRoute
+  '/services/indoor-air-quality': typeof ServicesIndoorAirQualityRoute
   '/services/industrial': typeof ServicesIndustrialRoute
   '/services/panel-upgrades': typeof ServicesPanelUpgradesRoute
   '/services/residential': typeof ServicesResidentialRoute
+  '/services/residential-hvac': typeof ServicesResidentialHvacRoute
   '/services/security-systems': typeof ServicesSecuritySystemsRoute
   '/services/wiring-rewiring': typeof ServicesWiringRewiringRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -193,14 +274,24 @@ export interface FileRoutesById {
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/dashboard/login': typeof DashboardLoginRoute
+  '/services/ac-repair-cypress': typeof ServicesAcRepairCypressRoute
+  '/services/ac-repair-tomball': typeof ServicesAcRepairTomballRoute
+  '/services/air-conditioning': typeof ServicesAirConditioningRoute
   '/services/cctv-camera': typeof ServicesCctvCameraRoute
   '/services/commercial': typeof ServicesCommercialRoute
+  '/services/commercial-hvac': typeof ServicesCommercialHvacRoute
   '/services/emergency': typeof ServicesEmergencyRoute
   '/services/ev-charger': typeof ServicesEvChargerRoute
   '/services/generator': typeof ServicesGeneratorRoute
+  '/services/heating': typeof ServicesHeatingRoute
+  '/services/hvac-install': typeof ServicesHvacInstallRoute
+  '/services/hvac-maintenance': typeof ServicesHvacMaintenanceRoute
+  '/services/hvac-repairs': typeof ServicesHvacRepairsRoute
+  '/services/indoor-air-quality': typeof ServicesIndoorAirQualityRoute
   '/services/industrial': typeof ServicesIndustrialRoute
   '/services/panel-upgrades': typeof ServicesPanelUpgradesRoute
   '/services/residential': typeof ServicesResidentialRoute
+  '/services/residential-hvac': typeof ServicesResidentialHvacRoute
   '/services/security-systems': typeof ServicesSecuritySystemsRoute
   '/services/wiring-rewiring': typeof ServicesWiringRewiringRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -218,14 +309,24 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/dashboard/login'
+    | '/services/ac-repair-cypress'
+    | '/services/ac-repair-tomball'
+    | '/services/air-conditioning'
     | '/services/cctv-camera'
     | '/services/commercial'
+    | '/services/commercial-hvac'
     | '/services/emergency'
     | '/services/ev-charger'
     | '/services/generator'
+    | '/services/heating'
+    | '/services/hvac-install'
+    | '/services/hvac-maintenance'
+    | '/services/hvac-repairs'
+    | '/services/indoor-air-quality'
     | '/services/industrial'
     | '/services/panel-upgrades'
     | '/services/residential'
+    | '/services/residential-hvac'
     | '/services/security-systems'
     | '/services/wiring-rewiring'
     | '/dashboard/'
@@ -240,14 +341,24 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/sitemap.xml'
     | '/dashboard/login'
+    | '/services/ac-repair-cypress'
+    | '/services/ac-repair-tomball'
+    | '/services/air-conditioning'
     | '/services/cctv-camera'
     | '/services/commercial'
+    | '/services/commercial-hvac'
     | '/services/emergency'
     | '/services/ev-charger'
     | '/services/generator'
+    | '/services/heating'
+    | '/services/hvac-install'
+    | '/services/hvac-maintenance'
+    | '/services/hvac-repairs'
+    | '/services/indoor-air-quality'
     | '/services/industrial'
     | '/services/panel-upgrades'
     | '/services/residential'
+    | '/services/residential-hvac'
     | '/services/security-systems'
     | '/services/wiring-rewiring'
     | '/dashboard'
@@ -263,14 +374,24 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/dashboard/login'
+    | '/services/ac-repair-cypress'
+    | '/services/ac-repair-tomball'
+    | '/services/air-conditioning'
     | '/services/cctv-camera'
     | '/services/commercial'
+    | '/services/commercial-hvac'
     | '/services/emergency'
     | '/services/ev-charger'
     | '/services/generator'
+    | '/services/heating'
+    | '/services/hvac-install'
+    | '/services/hvac-maintenance'
+    | '/services/hvac-repairs'
+    | '/services/indoor-air-quality'
     | '/services/industrial'
     | '/services/panel-upgrades'
     | '/services/residential'
+    | '/services/residential-hvac'
     | '/services/security-systems'
     | '/services/wiring-rewiring'
     | '/dashboard/'
@@ -376,6 +497,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSecuritySystemsRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/services/residential-hvac': {
+      id: '/services/residential-hvac'
+      path: '/residential-hvac'
+      fullPath: '/services/residential-hvac'
+      preLoaderRoute: typeof ServicesResidentialHvacRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/services/residential': {
       id: '/services/residential'
       path: '/residential'
@@ -395,6 +523,41 @@ declare module '@tanstack/react-router' {
       path: '/industrial'
       fullPath: '/services/industrial'
       preLoaderRoute: typeof ServicesIndustrialRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/indoor-air-quality': {
+      id: '/services/indoor-air-quality'
+      path: '/indoor-air-quality'
+      fullPath: '/services/indoor-air-quality'
+      preLoaderRoute: typeof ServicesIndoorAirQualityRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/hvac-repairs': {
+      id: '/services/hvac-repairs'
+      path: '/hvac-repairs'
+      fullPath: '/services/hvac-repairs'
+      preLoaderRoute: typeof ServicesHvacRepairsRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/hvac-maintenance': {
+      id: '/services/hvac-maintenance'
+      path: '/hvac-maintenance'
+      fullPath: '/services/hvac-maintenance'
+      preLoaderRoute: typeof ServicesHvacMaintenanceRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/hvac-install': {
+      id: '/services/hvac-install'
+      path: '/hvac-install'
+      fullPath: '/services/hvac-install'
+      preLoaderRoute: typeof ServicesHvacInstallRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/heating': {
+      id: '/services/heating'
+      path: '/heating'
+      fullPath: '/services/heating'
+      preLoaderRoute: typeof ServicesHeatingRouteImport
       parentRoute: typeof ServicesRoute
     }
     '/services/generator': {
@@ -418,6 +581,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesEmergencyRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/services/commercial-hvac': {
+      id: '/services/commercial-hvac'
+      path: '/commercial-hvac'
+      fullPath: '/services/commercial-hvac'
+      preLoaderRoute: typeof ServicesCommercialHvacRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/services/commercial': {
       id: '/services/commercial'
       path: '/commercial'
@@ -432,6 +602,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesCctvCameraRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/services/air-conditioning': {
+      id: '/services/air-conditioning'
+      path: '/air-conditioning'
+      fullPath: '/services/air-conditioning'
+      preLoaderRoute: typeof ServicesAirConditioningRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/ac-repair-tomball': {
+      id: '/services/ac-repair-tomball'
+      path: '/ac-repair-tomball'
+      fullPath: '/services/ac-repair-tomball'
+      preLoaderRoute: typeof ServicesAcRepairTomballRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/ac-repair-cypress': {
+      id: '/services/ac-repair-cypress'
+      path: '/ac-repair-cypress'
+      fullPath: '/services/ac-repair-cypress'
+      preLoaderRoute: typeof ServicesAcRepairCypressRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/dashboard/login': {
       id: '/dashboard/login'
       path: '/dashboard/login'
@@ -443,28 +634,48 @@ declare module '@tanstack/react-router' {
 }
 
 interface ServicesRouteChildren {
+  ServicesAcRepairCypressRoute: typeof ServicesAcRepairCypressRoute
+  ServicesAcRepairTomballRoute: typeof ServicesAcRepairTomballRoute
+  ServicesAirConditioningRoute: typeof ServicesAirConditioningRoute
   ServicesCctvCameraRoute: typeof ServicesCctvCameraRoute
   ServicesCommercialRoute: typeof ServicesCommercialRoute
+  ServicesCommercialHvacRoute: typeof ServicesCommercialHvacRoute
   ServicesEmergencyRoute: typeof ServicesEmergencyRoute
   ServicesEvChargerRoute: typeof ServicesEvChargerRoute
   ServicesGeneratorRoute: typeof ServicesGeneratorRoute
+  ServicesHeatingRoute: typeof ServicesHeatingRoute
+  ServicesHvacInstallRoute: typeof ServicesHvacInstallRoute
+  ServicesHvacMaintenanceRoute: typeof ServicesHvacMaintenanceRoute
+  ServicesHvacRepairsRoute: typeof ServicesHvacRepairsRoute
+  ServicesIndoorAirQualityRoute: typeof ServicesIndoorAirQualityRoute
   ServicesIndustrialRoute: typeof ServicesIndustrialRoute
   ServicesPanelUpgradesRoute: typeof ServicesPanelUpgradesRoute
   ServicesResidentialRoute: typeof ServicesResidentialRoute
+  ServicesResidentialHvacRoute: typeof ServicesResidentialHvacRoute
   ServicesSecuritySystemsRoute: typeof ServicesSecuritySystemsRoute
   ServicesWiringRewiringRoute: typeof ServicesWiringRewiringRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesAcRepairCypressRoute: ServicesAcRepairCypressRoute,
+  ServicesAcRepairTomballRoute: ServicesAcRepairTomballRoute,
+  ServicesAirConditioningRoute: ServicesAirConditioningRoute,
   ServicesCctvCameraRoute: ServicesCctvCameraRoute,
   ServicesCommercialRoute: ServicesCommercialRoute,
+  ServicesCommercialHvacRoute: ServicesCommercialHvacRoute,
   ServicesEmergencyRoute: ServicesEmergencyRoute,
   ServicesEvChargerRoute: ServicesEvChargerRoute,
   ServicesGeneratorRoute: ServicesGeneratorRoute,
+  ServicesHeatingRoute: ServicesHeatingRoute,
+  ServicesHvacInstallRoute: ServicesHvacInstallRoute,
+  ServicesHvacMaintenanceRoute: ServicesHvacMaintenanceRoute,
+  ServicesHvacRepairsRoute: ServicesHvacRepairsRoute,
+  ServicesIndoorAirQualityRoute: ServicesIndoorAirQualityRoute,
   ServicesIndustrialRoute: ServicesIndustrialRoute,
   ServicesPanelUpgradesRoute: ServicesPanelUpgradesRoute,
   ServicesResidentialRoute: ServicesResidentialRoute,
+  ServicesResidentialHvacRoute: ServicesResidentialHvacRoute,
   ServicesSecuritySystemsRoute: ServicesSecuritySystemsRoute,
   ServicesWiringRewiringRoute: ServicesWiringRewiringRoute,
   ServicesIndexRoute: ServicesIndexRoute,

@@ -1303,7 +1303,7 @@ function DashboardPage() {
                         <RechartsTooltip content={<CustomChartTooltip />} />
                         <Bar dataKey="revenue" fill="#e2e8f0" radius={[4, 4, 0, 0]} name="Lead volume">
                           {analytics.timelineChart.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={index === 5 ? "#FF6B00" : "#e2e8f0"} />
+                            <Cell key={`cell-${index}`} fill={index === 5 ? "#005CE6" : "#e2e8f0"} />
                           ))}
                         </Bar>
                       </BarChart>
@@ -1333,15 +1333,15 @@ function DashboardPage() {
                       ]}>
                         <defs>
                           <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#FF6B00" stopOpacity={0.25} />
-                            <stop offset="95%" stopColor="#FF6B00" stopOpacity={0} />
+                            <stop offset="5%" stopColor="#005CE6" stopOpacity={0.25} />
+                            <stop offset="95%" stopColor="#005CE6" stopOpacity={0} />
                           </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                         <XAxis dataKey="name" stroke="#a0aec0" fontSize={10} tickLine={false} />
                         <YAxis stroke="#a0aec0" fontSize={10} tickLine={false} />
                         <RechartsTooltip content={<CustomChartTooltip />} />
-                        <Area type="monotone" dataKey="value" stroke="#FF6B00" strokeWidth={2} fillOpacity={1} fill="url(#colorValue)" name="Progress rate (%)" />
+                        <Area type="monotone" dataKey="value" stroke="#005CE6" strokeWidth={2} fillOpacity={1} fill="url(#colorValue)" name="Progress rate (%)" />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
@@ -1369,7 +1369,7 @@ function DashboardPage() {
                         <XAxis dataKey="name" stroke="#a0aec0" fontSize={10} tickLine={false} />
                         <YAxis stroke="#a0aec0" fontSize={10} tickLine={false} />
                         <RechartsTooltip content={<CustomChartTooltip />} />
-                        <Line type="monotone" dataKey="revenue" stroke="#FF6B00" strokeWidth={2} dot={{ r: 4 }} name="Contract Value" />
+                        <Line type="monotone" dataKey="revenue" stroke="#005CE6" strokeWidth={2} dot={{ r: 4 }} name="Contract Value" />
                         <Line type="monotone" dataKey="cost" stroke="#4f566b" strokeWidth={2} dot={{ r: 4 }} name="Operational Cost" />
                       </LineChart>
                     </ResponsiveContainer>

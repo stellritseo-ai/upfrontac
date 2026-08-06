@@ -3,7 +3,8 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Menu, Phone, X, Mail, MapPin, Facebook, Instagram, Clock,
   ChevronDown, Home, Building2, Factory, Zap, BatteryCharging,
-  ShieldAlert, Cable, Shield, AlertTriangle, Video,
+  ShieldAlert, Cable, Shield, AlertTriangle, Video, Wrench,
+  Snowflake, Flame, Wind, Sparkles, Activity, CheckCircle2, User, Info,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logoImg from "@/assets/logo.png";
@@ -13,31 +14,38 @@ export function Header() {
   const { language, setLanguage, t } = useLanguage();
 
   const navItems = [
-    { to: "/", label: t("Home", "Inicio") },
-    { to: "/about", label: t("About Us", "Sobre Nosotros") },
-    { to: "/services", label: t("Services", "Servicios") },
-    { to: "/projects", label: t("Projects", "Proyectos") },
-    { to: "/reviews", label: t("Reviews", "Opiniones") },
-    { to: "/contact", label: t("Free Estimate", "Presupuesto Gratis") },
-    { to: "/careers", label: t("Apply For a Job", "Postularse para un Trabajo") },
-    { to: "/contact", label: t("Contact Us", "Contáctenos") },
+    { to: "#welcome", label: t("Home", "Inicio") },
+    { to: "#welcome", label: t("About Us", "Sobre Nosotros") },
+    { to: "#services", label: t("Services", "Servicios") },
+    { to: "#projects", label: t("Projects", "Proyectos") },
+    { to: "#service-area", label: t("Service Areas", "Áreas de Servicio") },
+    { to: "#get-in-touch", label: t("Service Price", "Precios de Servicios") },
+    { to: "#get-in-touch", label: t("Finance", "Financiamiento") },
+    { to: "#get-in-touch", label: t("Contact Us", "Contáctenos") },
   ];
 
   const serviceLinks = [
-    { to: "/services/commercial", l: t("New Construction Electrical", "Electricidad de Nuevas Construcciones"), desc: t("Commercial & residential system design & installations", "Diseño e instalaciones de sistemas comerciales y residenciales"), icon: Building2 },
-    { to: "/services/wiring-rewiring", l: t("Fire Alarm Systems", "Sistemas de Alarma contra Incendios"), desc: t("Safety-certified design & low-voltage wiring", "Diseño con certificación de seguridad y cableado de bajo voltaje"), icon: ShieldAlert },
-    { to: "/services/security-systems", l: t("Internet & Security Cameras", "Internet y Cámaras de Seguridad"), desc: t("Structured ethernet cabling & surveillance setups", "Cableado estructurado de ethernet y configuraciones de vigilancia"), icon: Cable },
-    { to: "/services/cctv-camera", l: t("CCTV Camera Install & Repair", "Instalación y Reparación de Cámaras CCTV"), desc: t("Premium HD surveillance, DVR setups & security diagnostics", "Vigilancia HD premium, configuraciones de DVR y diagnóstico de seguridad"), icon: Video },
-    { to: "/services/residential", l: t("Residential Electrical", "Electricidad Residencial"), desc: t("Expert home wiring, panels & custom lighting", "Cableado de casa experto, paneles y iluminación personalizada"), icon: Home },
-    { to: "/services/panel-upgrades", l: t("Panel Upgrades", "Actualizaciones de Panel"), desc: t("Modernize breaker boxes & electrical capacity", "Modernice cajas de disyuntores y capacidad eléctrica"), icon: Zap },
-    { to: "/services/ev-charger", l: t("EV Charger Installation", "Instalación de Cargador EV"), desc: t("Level 2 home & commercial charging ports", "Puertos de carga de nivel 2 para hogares y comercios"), icon: BatteryCharging },
-    { to: "/services/generator", l: t("Generator Installation", "Instalación de Generadores"), desc: t("Backup power & automatic transfer switches", "Energía de respaldo e interruptores de transferencia automática"), icon: AlertTriangle },
-    { to: "/services/industrial", l: t("Industrial Electrical", "Electricidad Industrial"), desc: t("Heavy machinery, phase power & controls", "Maquinaria pesada, potencia de fase y controles"), icon: Factory },
+    { to: "#services", l: t("HVAC Install", "Instalación HVAC"), desc: t("Professional heating & cooling system installation", "Instalación profesional de calefacción y aire acondicionado"), icon: Wrench },
+    { to: "#services", l: t("Air Conditioning", "Aire Acondicionado"), desc: t("Complete AC solutions, cooling design & installation", "Soluciones completas de AC, diseño y instalación"), icon: Snowflake },
+    { to: "#services", l: t("HVAC Repairs", "Reparaciones HVAC"), desc: t("Fast & reliable emergency HVAC repair services", "Servicios de reparación rápida de HVAC"), icon: Activity },
+    { to: "#services", l: t("AC Repair Services Cypress", "Reparación de AC Cypress"), desc: t("Local AC repair & maintenance in Cypress, TX", "Reparación local de AC en Cypress, TX"), icon: MapPin },
+    { to: "#services", l: t("AC Repair Tomball", "Reparación de AC Tomball"), desc: t("Trusted AC repair technicians in Tomball, TX", "Técnicos de reparación de AC en Tomball, TX"), icon: MapPin },
+    { to: "#services", l: t("Heating", "Calefacción"), desc: t("Furnace & heating system repairs & installation", "Reparación e instalación de sistemas de calefacción"), icon: Flame },
+    { to: "#services", l: t("HVAC Maintenance", "Mantenimiento HVAC"), desc: t("Preventative tune-ups & system maintenance", "Puesta a punto y mantenimiento preventivo"), icon: CheckCircle2 },
+    { to: "#services", l: t("Indoor Air Quality", "Calidad del Aire Interior"), desc: t("Air filtration, purifiers & humidity control", "Filtración de aire, purificadores y control de humedad"), icon: Sparkles },
+    { to: "#services", l: t("Commercial HVAC Services", "Servicios HVAC Comerciales"), desc: t("Commercial heating, cooling & rooftop units", "Calefacción, refrigeración y unidades comerciales"), icon: Building2 },
+    { to: "#services", l: t("Residential HVAC Services", "Servicios HVAC Residenciales"), desc: t("Home heating & cooling solutions", "Soluciones de calefacción y refrigeración para el hogar"), icon: Home },
+  ];
+
+  const aboutLinks = [
+    { to: "#welcome", l: t("About Us", "Sobre Nosotros"), desc: t("Learn about our company & mission", "Conozca nuestra empresa y misión"), icon: Info },
+    { to: "#welcome", l: t("About The Owner", "Sobre El Propietario"), desc: t("Meet the leadership & expert behind Upfront AC", "Conozca al líder y experto detrás de Upfront AC"), icon: User },
   ];
 
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
@@ -51,6 +59,7 @@ export function Header() {
   useEffect(() => {
     setOpen(false);
     setServicesOpen(false);
+    setAboutOpen(false);
   }, [pathname]);
 
   // Lock body scroll when drawer is open
@@ -70,13 +79,29 @@ export function Header() {
         )}
       >
         <div className="mx-auto max-w-7xl flex flex-row justify-between items-center w-full gap-2">
-          {/* Left: Hours */}
-          <div className="flex items-center gap-1.5 text-[#1E293B] min-w-0">
-            <Clock className="h-3.5 w-3.5 text-[#FF6B00] shrink-0" />
-            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider leading-tight truncate">
-              <span className="hidden sm:inline">{t("AVAILABLE 24/7 EMERGENCY SERVICES | MON–FRI, 8HRS/DAY", "SERVICIOS DE EMERGENCIA DISPONIBLES 24/7 | LUN–VIE, 8HRS/DÍA")}</span>
-              <span className="inline sm:hidden">{t("24/7 EMERGENCY SERVICE", "SERVICIO DE EMERGENCIA 24/7")}</span>
-            </span>
+          {/* Left: Info */}
+          <div className="flex items-center gap-3 sm:gap-5 text-[#1E293B] min-w-0">
+            {/* License */}
+            <div className="flex items-center gap-1.5 shrink-0">
+              <Shield className="h-3.5 w-3.5 text-[#005CE6] shrink-0" />
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider leading-tight truncate">
+                {t("Licensed# TACLA133609C", "Licencia# TACLA133609C")}
+              </span>
+            </div>
+            {/* Email */}
+            <div className="hidden sm:flex items-center gap-1.5 shrink-0">
+              <Mail className="h-3.5 w-3.5 text-[#005CE6] shrink-0" />
+              <a href="mailto:allen@upfrontac.com" className="text-[9px] sm:text-[10px] font-bold tracking-wider leading-tight hover:text-[#005CE6] transition lowercase">
+                allen@upfrontac.com
+              </a>
+            </div>
+            {/* Address */}
+            <div className="hidden lg:flex items-center gap-1.5 shrink-0 truncate">
+              <MapPin className="h-3.5 w-3.5 text-[#005CE6] shrink-0" />
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider leading-tight truncate">
+                Northpointe, Tomball, Tx. 77377
+              </span>
+            </div>
           </div>
           {/* Right: Language */}
           <div className="flex items-center gap-3 text-[10px] sm:text-xs shrink-0">
@@ -84,7 +109,7 @@ export function Header() {
               onClick={() => setLanguage("en")}
               className={cn(
                 "flex items-center gap-1 transition font-bold cursor-pointer select-none",
-                language === "en" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#FF6B00]"
+                language === "en" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
               )}
             >
               <span className="text-sm leading-none">🇬🇧</span>
@@ -94,7 +119,7 @@ export function Header() {
               onClick={() => setLanguage("es")}
               className={cn(
                 "flex items-center gap-1 transition font-bold cursor-pointer select-none",
-                language === "es" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#FF6B00]"
+                language === "es" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
               )}
             >
               <span className="text-sm leading-none">🇪🇸</span>
@@ -119,31 +144,28 @@ export function Header() {
 
           {/* Contact cards */}
           <div className="flex items-center gap-4 lg:gap-8 ml-auto">
-            {/* Email */}
+            {/* Certified */}
             <div className="hidden lg:flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#FF6B00] flex items-center justify-center text-white shrink-0 shadow-md">
-                <Mail className="h-4 w-4" />
+              <div className="w-10 h-10 rounded-full bg-[#005CE6] flex items-center justify-center text-white shrink-0 shadow-md">
+                <Shield className="h-4 w-4" />
               </div>
               <div className="flex flex-col text-left leading-tight">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Email</span>
-                <a
-                  href="mailto:Williams@electricalcontractorcorp.com"
-                  className="text-[13px] font-bold text-[#1E293B] hover:text-[#FF6B00] transition truncate max-w-[220px]"
-                >
-                  Williams@electricalcontractorcorp.com
-                </a>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("Certified", "Certificados")}</span>
+                <span className="text-[13px] font-bold text-[#1E293B] leading-tight">
+                  {t("We Are Certified Technicians!", "¡Somos Técnicos Certificados!")}
+                </span>
               </div>
             </div>
 
-            {/* Address */}
+            {/* Emergency */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#FF6B00] flex items-center justify-center text-white shrink-0 shadow-md">
-                <MapPin className="h-4 w-4" />
+              <div className="w-10 h-10 rounded-full bg-[#005CE6] flex items-center justify-center text-white shrink-0 shadow-md">
+                <Clock className="h-4 w-4" />
               </div>
               <div className="flex flex-col text-left leading-tight">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Address</span>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("Emergency", "Emergencia")}</span>
                 <span className="text-[13px] font-bold text-[#1E293B] leading-tight">
-                  18730 NW 77 TH CT, Hialeah FL
+                  {t("24/7 Emergency HVAC Service", "Servicio HVAC de Emergencia 24/7")}
                 </span>
               </div>
             </div>
@@ -151,10 +173,10 @@ export function Header() {
 
           {/* Social icons */}
           <div className="flex items-center gap-2 shrink-0">
-            <a href="https://www.facebook.com/electricalcontractorcrop" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#FF6B00] hover:border-[#FF6B00] transition">
+            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition">
               <Facebook className="h-3.5 w-3.5" />
             </a>
-            <a href="https://www.instagram.com/randeelectricalcontractorcrop/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#FF6B00] hover:border-[#FF6B00] transition">
+            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition">
               <Instagram className="h-3.5 w-3.5" />
             </a>
           </div>
@@ -164,35 +186,36 @@ export function Header() {
       {/* ── MAIN NAV BAR ─────────────────────────────────────── */}
       <div
         className={cn(
-          "w-full transition-all duration-300 px-3 sm:px-4 lg:px-8 pointer-events-auto",
+          "w-full transition-all duration-300 px-0 md:px-4 lg:px-8 pointer-events-auto",
           scrolled
-            ? "py-2 bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100"
-            : "py-3 bg-transparent md:bg-[linear-gradient(to_bottom,#ffffff_50%,transparent_50%)] md:absolute md:top-full md:left-0 md:z-40"
+            ? "py-0 md:py-2 bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100"
+            : "py-0 md:py-3 bg-transparent md:bg-[linear-gradient(to_bottom,#ffffff_50%,transparent_50%)] md:absolute md:top-full md:left-0 md:z-40"
         )}
       >
         <div className="mx-auto max-w-7xl flex items-center justify-between w-full gap-3">
 
-          {/* ── MOBILE: Logo + Hamburger ─────────────────────── */}
-          <div className="flex items-center justify-between w-full md:hidden bg-white/90 backdrop-blur-md rounded-2xl px-3 py-2 shadow-sm border border-gray-100">
+          {/* ── MOBILE: Full-Width Clean Header (Logo + Call + Menu) ──────── */}
+          <div className="flex items-center justify-between w-full md:hidden bg-white px-3.5 sm:px-4 py-2 border-b border-gray-100/80 shadow-sm select-none">
             <Link to="/" className="flex items-center shrink-0">
-              <img src={logoImg} alt="R&E Electrical Contractor Corp Logo" className="h-9 w-auto object-contain" />
+              <img src={logoImg} alt="Upfront AC Logo" className="h-10 sm:h-11 w-auto object-contain scale-110 origin-left my-[-2px]" />
             </Link>
-            {/* Right: Phone shortcut + hamburger */}
-            <div className="flex items-center gap-2">
+
+            {/* Right: Phone Call Pill + Hamburger */}
+            <div className="flex items-center gap-2.5">
               <a
-                href="tel:+17863075933"
-                className="flex items-center gap-1.5 bg-[#FF6B00] text-white text-[11px] font-black rounded-full px-3 py-1.5 shadow-sm"
+                href="tel:+17138197908"
+                className="flex items-center gap-1.5 bg-[#005CE6] hover:bg-[#004bb8] text-white text-xs font-black rounded-full px-4 py-2 shadow-md shadow-[#005CE6]/25 transition-all active:scale-95"
               >
-                <Phone className="h-3.5 w-3.5" />
-                <span className="hidden xs:inline">(786) 307-5933</span>
-                <span className="inline xs:hidden">Call</span>
+                <Phone className="h-3.5 w-3.5 fill-white text-white" />
+                <span>Call</span>
               </a>
+
               <button
                 aria-label="Toggle menu"
                 onClick={() => setOpen((v) => !v)}
-                className="grid h-9 w-9 place-items-center rounded-xl border border-gray-200 bg-white text-[#1E293B] transition hover:border-[#FF6B00]"
+                className="grid h-10 w-10 place-items-center rounded-xl border border-gray-200 bg-white text-slate-800 shadow-sm transition hover:border-[#005CE6] hover:text-[#005CE6] active:scale-95"
               >
-                {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5 stroke-[2.2]" />}
               </button>
             </div>
           </div>
@@ -209,48 +232,75 @@ export function Header() {
               )}
             >
               {navItems.map((item) => {
-                const active = pathname === item.to;
-
-                if (item.to === "/services") {
+                if (item.label === t("About Us", "Sobre Nosotros")) {
                   return (
                     <div key={item.label} className="relative group/nav">
-                      <Link
-                        to="/services"
-                        className={cn(
-                          "flex items-center gap-1 rounded-full px-2.5 lg:px-3.5 py-2 text-[10px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap",
-                          active ? "text-[#FF6B00]" : "text-[#1E293B] hover:text-[#FF6B00]"
-                        )}
+                      <a
+                        href="#welcome"
+                        className="flex items-center gap-1 rounded-full px-2.5 lg:px-3.5 py-2 text-[10px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap text-[#1E293B] hover:text-[#005CE6]"
+                      >
+                        {t("About Us", "Sobre Nosotros")} <ChevronDown className="h-3 w-3" />
+                      </a>
+                      <div className="absolute left-0 top-full z-50 pt-2 opacity-0 invisible pointer-events-none group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:pointer-events-auto transition-all duration-200">
+                        <div className="w-[280px] bg-white border border-gray-100 rounded-2xl shadow-[0_20px_50px_-12px_rgba(15,23,42,0.14)] p-3 flex flex-col gap-1">
+                          {aboutLinks.map((ab) => (
+                            <a
+                              key={ab.l}
+                              href={ab.to}
+                              className="group/item flex items-center gap-2.5 rounded-xl p-2.5 hover:bg-gray-50 transition-colors duration-200"
+                            >
+                              <div className="w-8 h-8 rounded-lg bg-gray-50 group-hover/item:bg-[#005CE6]/10 flex items-center justify-center text-gray-500 group-hover/item:text-[#005CE6] transition-colors shrink-0">
+                                <ab.icon className="h-4 w-4" />
+                              </div>
+                              <div className="flex flex-col text-left">
+                                <span className="text-[12px] font-bold text-gray-900 group-hover/item:text-[#005CE6] transition-colors leading-tight">{ab.l}</span>
+                                <span className="text-[10px] text-gray-500 leading-tight mt-0.5 line-clamp-1">{ab.desc}</span>
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                if (item.label === t("Services", "Servicios")) {
+                  return (
+                    <div key={item.label} className="relative group/nav">
+                      <a
+                        href="#services"
+                        className="flex items-center gap-1 rounded-full px-2.5 lg:px-3.5 py-2 text-[10px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap text-[#1E293B] hover:text-[#005CE6]"
                       >
                         {t("Services", "Servicios")} <ChevronDown className="h-3 w-3" />
-                      </Link>
+                      </a>
                       {/* Dropdown — pt-2 creates a transparent bridge so hover stays active */}
                       <div className="absolute left-0 top-full z-50 pt-2 opacity-0 invisible pointer-events-none group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:pointer-events-auto transition-all duration-200">
                         <div className="w-[580px] max-w-[90vw] bg-white border border-gray-100 rounded-3xl shadow-[0_20px_50px_-12px_rgba(15,23,42,0.14)] p-5 flex flex-col gap-3">
                           <div className="flex justify-between items-center border-b border-gray-100 pb-2">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("Our Electrical Services", "Nuestros Servicios Eléctricos")}</span>
-                            <Link to="/services" className="text-[10px] font-black uppercase text-[#FF6B00] tracking-wider hover:underline">{t("View All →", "Ver Todos →")}</Link>
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("Our HVAC Services", "Nuestros Servicios de HVAC")}</span>
+                            <a href="#services" className="text-[10px] font-black uppercase text-[#005CE6] tracking-wider hover:underline">{t("View All →", "Ver Todos →")}</a>
                           </div>
                           <div className="grid grid-cols-2 gap-1.5">
                             {serviceLinks.map((srv) => (
-                              <Link
-                                key={srv.to}
-                                to={srv.to}
+                              <a
+                                key={srv.l}
+                                href={srv.to}
                                 className="group/item flex items-start gap-2.5 rounded-xl p-2 hover:bg-gray-50 transition-colors duration-200"
                               >
-                                <div className="w-8 h-8 rounded-lg bg-gray-50 group-hover/item:bg-[#FF6B00]/10 flex items-center justify-center text-gray-500 group-hover/item:text-[#FF6B00] transition-colors shrink-0">
+                                <div className="w-8 h-8 rounded-lg bg-gray-50 group-hover/item:bg-[#005CE6]/10 flex items-center justify-center text-gray-500 group-hover/item:text-[#005CE6] transition-colors shrink-0">
                                   <srv.icon className="h-4 w-4" />
                                 </div>
                                 <div className="flex flex-col text-left">
-                                  <span className="text-[11px] font-bold text-gray-900 group-hover/item:text-[#FF6B00] transition-colors leading-tight">{srv.l}</span>
+                                  <span className="text-[11px] font-bold text-gray-900 group-hover/item:text-[#005CE6] transition-colors leading-tight">{srv.l}</span>
                                   <span className="text-[10px] text-gray-500 leading-tight mt-0.5 line-clamp-1">{srv.desc}</span>
                                 </div>
-                              </Link>
+                              </a>
                             ))}
                           </div>
                           {/* Emergency CTA */}
-                          <div className="bg-[#FF6B00]/5 border border-[#FF6B00]/10 rounded-xl p-2.5 flex justify-between items-center gap-3">
+                          <div className="bg-[#005CE6]/5 border border-[#005CE6]/10 rounded-xl p-2.5 flex justify-between items-center gap-3">
                             <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 rounded-lg bg-[#FF6B00] flex items-center justify-center text-white shrink-0">
+                              <div className="w-7 h-7 rounded-lg bg-[#005CE6] flex items-center justify-center text-white shrink-0">
                                 <AlertTriangle className="h-4 w-4 animate-pulse" />
                               </div>
                               <div className="flex flex-col text-left">
@@ -258,12 +308,12 @@ export function Header() {
                                 <span className="text-[10px] text-gray-500">{t("24/7 Rapid Response", "Respuesta Rápida 24/7")}</span>
                               </div>
                             </div>
-                            <Link
-                              to="/services/emergency"
-                              className="bg-white border border-gray-200 hover:border-[#FF6B00] hover:text-[#FF6B00] text-gray-800 text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-lg transition whitespace-nowrap"
+                            <a
+                              href="#get-in-touch"
+                              className="bg-white border border-gray-200 hover:border-[#005CE6] hover:text-[#005CE6] text-gray-800 text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-lg transition whitespace-nowrap"
                             >
                               {t("Emergency", "Emergencia")}
-                            </Link>
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -271,26 +321,22 @@ export function Header() {
                   );
                 }
 
-                const isEstimateActive = active && item.to !== "/contact";
                 return (
-                  <Link
+                  <a
                     key={item.label}
-                    to={item.to}
-                    className={cn(
-                      "rounded-full px-2.5 lg:px-3.5 py-2 text-[10px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap",
-                      isEstimateActive ? "text-[#FF6B00]" : "text-[#1E293B] hover:text-[#FF6B00]"
-                    )}
+                    href={item.to}
+                    className="rounded-full px-2.5 lg:px-3.5 py-2 text-[10px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap text-[#1E293B] hover:text-[#005CE6]"
                   >
                     {item.label}
-                  </Link>
+                  </a>
                 );
               })}
             </nav>
 
             {/* Call Now button */}
             <a
-              href="tel:+17863075933"
-              className="bg-[#FF6B00] hover:bg-[#E05E00] text-white flex items-center gap-2 lg:gap-3 shadow-[0_8px_20px_-6px_rgba(255,107,0,0.6)] transition duration-300 shrink-0 px-3 lg:px-5 py-2 lg:py-2.5"
+              href="tel:+17138197908"
+              className="bg-[#005CE6] hover:bg-[#0047B3] text-white flex items-center gap-2 lg:gap-3 shadow-[0_8px_20px_-6px_rgba(255,107,0,0.6)] transition duration-300 shrink-0 px-3 lg:px-5 py-2 lg:py-2.5"
               style={{ borderRadius: "50px 0px 50px 50px" }}
             >
               <div className="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-white/20 flex items-center justify-center border border-white/20 shrink-0">
@@ -298,7 +344,7 @@ export function Header() {
               </div>
               <div className="flex flex-col text-left leading-none">
                 <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-wider text-white/90">{t("Call Us Now", "Llámenos Ahora")}</span>
-                <span className="text-xs lg:text-sm xl:text-base font-extrabold text-white mt-0.5">(786) 307-5933</span>
+                <span className="text-xs lg:text-sm xl:text-base font-extrabold text-white mt-0.5">(713) 819-7908</span>
               </div>
             </a>
           </div>
@@ -316,9 +362,36 @@ export function Header() {
           {/* Nav links */}
           <nav className="flex flex-col gap-0.5">
             {navItems.map((item) => {
-              const active = pathname === item.to;
+              if (item.label === t("About Us", "Sobre Nosotros")) {
+                return (
+                  <div key="about-mobile">
+                    <button
+                      onClick={() => setAboutOpen((v) => !v)}
+                      className="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider text-[#1E293B] hover:bg-gray-50 transition"
+                    >
+                      {t("About Us", "Sobre Nosotros")}
+                      <ChevronDown className={cn("h-4 w-4 transition-transform", aboutOpen && "rotate-180")} />
+                    </button>
+                    {aboutOpen && (
+                      <div className="ml-4 mt-1 mb-1 flex flex-col gap-0.5 border-l-2 border-[#005CE6]/20 pl-3">
+                        {aboutLinks.map((ab) => (
+                          <a
+                            key={ab.l}
+                            href={ab.to}
+                            onClick={() => setOpen(false)}
+                            className="flex items-center gap-2 py-2 text-sm font-semibold text-slate-700 hover:text-[#005CE6] transition"
+                          >
+                            <ab.icon className="h-3.5 w-3.5 text-[#005CE6] shrink-0" />
+                            {ab.l}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
 
-              if (item.to === "/services") {
+              if (item.label === t("Services", "Servicios")) {
                 return (
                   <div key="services-mobile">
                     <button
@@ -329,24 +402,26 @@ export function Header() {
                       <ChevronDown className={cn("h-4 w-4 transition-transform", servicesOpen && "rotate-180")} />
                     </button>
                     {servicesOpen && (
-                      <div className="ml-4 mt-1 mb-1 flex flex-col gap-0.5 border-l-2 border-[#FF6B00]/20 pl-3">
+                      <div className="ml-4 mt-1 mb-1 flex flex-col gap-0.5 border-l-2 border-[#005CE6]/20 pl-3">
                         {serviceLinks.map((srv) => (
-                          <Link
-                            key={srv.to}
-                            to={srv.to}
-                            className="flex items-center gap-2 py-2 text-sm font-semibold text-slate-700 hover:text-[#FF6B00] transition"
+                          <a
+                            key={srv.l}
+                            href={srv.to}
+                            onClick={() => setOpen(false)}
+                            className="flex items-center gap-2 py-2 text-sm font-semibold text-slate-700 hover:text-[#005CE6] transition"
                           >
-                            <srv.icon className="h-3.5 w-3.5 text-[#FF6B00] shrink-0" />
+                            <srv.icon className="h-3.5 w-3.5 text-[#005CE6] shrink-0" />
                             {srv.l}
-                          </Link>
+                          </a>
                         ))}
-                        <Link
-                          to="/services/emergency"
+                        <a
+                          href="#get-in-touch"
+                          onClick={() => setOpen(false)}
                           className="flex items-center gap-2 py-2 text-sm font-bold text-red-600"
                         >
                           <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
                           {t("Emergency Service", "Servicio de Emergencia")}
-                        </Link>
+                        </a>
                       </div>
                     )}
                   </div>
@@ -354,18 +429,14 @@ export function Header() {
               }
 
               return (
-                <Link
+                <a
                   key={item.label}
-                  to={item.to}
-                  className={cn(
-                    "rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition-colors",
-                    active && item.to !== "/contact"
-                      ? "bg-[#FF6B00]/10 text-[#FF6B00]"
-                      : "text-[#1E293B] hover:bg-gray-50"
-                  )}
+                  href={item.to}
+                  onClick={() => setOpen(false)}
+                  className="rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition-colors text-[#1E293B] hover:bg-gray-50"
                 >
                   {item.label}
-                </Link>
+                </a>
               );
             })}
           </nav>
@@ -373,19 +444,19 @@ export function Header() {
           {/* Contact info */}
           <div className="border-t border-gray-100 pt-4 flex flex-col gap-3">
             <a
-              href="tel:+17863075933"
-              className="flex items-center justify-center gap-2.5 rounded-full bg-[#FF6B00] hover:bg-[#E05E00] text-white py-3 text-sm font-black shadow-md transition"
+              href="tel:+17138197908"
+              className="flex items-center justify-center gap-2.5 rounded-full bg-[#005CE6] hover:bg-[#0047B3] text-white py-3 text-sm font-black shadow-md transition"
             >
-              <Phone className="h-4 w-4" /> (786) 307-5933
+              <Phone className="h-4 w-4" /> (713) 819-7908
             </a>
             <div className="flex flex-col gap-2 text-xs text-gray-500 font-semibold px-1">
-              <a href="mailto:Williams@electricalcontractorcorp.com" className="flex items-start gap-2 hover:text-[#FF6B00] transition">
-                <Mail className="h-4 w-4 text-[#FF6B00] shrink-0 mt-0.5" />
-                <span className="break-all">Williams@electricalcontractorcorp.com</span>
-              </a>
               <span className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-[#FF6B00] shrink-0" />
-                18730 NW 77 TH CT, Hialeah FL 33015
+                <Shield className="h-4 w-4 text-[#005CE6] shrink-0 mt-0.5" />
+                <span className="break-all">{t("We Are Certified Technicians!", "¡Somos Técnicos Certificados!")}</span>
+              </span>
+              <span className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-[#005CE6] shrink-0" />
+                {t("24/7 Emergency HVAC Service", "Servicio HVAC de Emergencia 24/7")}
               </span>
             </div>
           </div>

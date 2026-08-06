@@ -1,222 +1,423 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Battery, Bolt, Building2, Cable, Home, Plug, ShieldAlert, Video, Wrench, Zap } from "lucide-react";
-import resImg from "@/assets/service-residential.jpg";
-import comImg from "@/assets/service-commercial.jpg";
-import indImg from "@/assets/service-industrial.jpg";
-import panImg from "@/assets/service-panel.jpg";
-import evImg from "@/assets/service-ev.jpg";
-import genImg from "@/assets/service-generator.jpg";
-import cctvImg from "@/assets/service-cctv.png";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
-import AutoScroll from "embla-carousel-auto-scroll";
-import { motion } from "framer-motion";
+  Activity,
+  ArrowRight,
+  Building2,
+  CheckCircle2,
+  Flame,
+  Home,
+  MapPin,
+  ShieldCheck,
+  Snowflake,
+  Sparkles,
+  Wrench,
+  Zap,
+  PhoneCall,
+  ChevronRight,
+  Clock,
+  Award,
+} from "lucide-react";
+import hvacInstallImg from "@/assets/service-hvac-install.png";
+import acImg from "@/assets/service-air-conditioning.png";
+import hvacRepairsImg from "@/assets/service-hvac-repairs.png";
+import acCypressImg from "@/assets/service-ac-cypress.png";
+import acTomballImg from "@/assets/service-ac-tomball.png";
+import heatingImg from "@/assets/service-heating.png";
+import hvacMaintenanceImg from "@/assets/service-hvac-maintenance.png";
+import iaqImg from "@/assets/service-indoor-air-quality.png";
+import commercialHvacImg from "@/assets/service-commercial-hvac.png";
+import residentialHvacImg from "@/assets/service-residential-hvac.png";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/hooks/useLanguage";
+import { Button } from "@/components/ui/button";
 
-/* ── Shared card inner content ─────────────────────────────── */
-function CardContent({ s }: { s: { icon: any; title: string; desc: string; image: string; to: string } }) {
-  const Icon = s.icon;
-  const { t } = useLanguage();
-
-  return (
-    <>
-      {/* Image */}
-      <img
-        src={s.image}
-        alt={s.title}
-        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-        loading="lazy"
-      />
-
-      {/* Gradient — stronger on hover */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent group-hover:from-black/95 group-hover:via-black/80 group-hover:to-black/20 transition-all duration-500" />
-
-      {/* Orange accent line at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#FF6B00] via-[#FF8533] to-[#FF6B00] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-      {/* Icon badge — top-left */}
-      <div className="absolute top-4 left-4 w-9 h-9 rounded-xl bg-[#FF6B00]/90 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-y-1 group-hover:translate-y-0">
-        <Icon className="h-4 w-4" />
-      </div>
-
-      {/* Content */}
-      <div className="absolute inset-0 p-5 flex flex-col justify-end z-10">
-        <div className="transition-all duration-500 group-hover:-translate-y-2">
-          <h3 className="text-sm sm:text-[15px] font-extrabold text-white leading-tight uppercase tracking-wide">
-            {s.title}
-          </h3>
-
-          {/* Hover reveal */}
-          <div className="grid grid-rows-[0fr] opacity-0 group-hover:grid-rows-[1fr] group-hover:opacity-100 transition-all duration-500 ease-out">
-            <div className="overflow-hidden">
-              <p className="text-[12px] text-white/80 leading-snug mt-2 line-clamp-3">
-                {s.desc}
-              </p>
-              <Link
-                to={s.to}
-                className="mt-3 inline-flex items-center gap-1.5 text-[#FF8533] font-black text-[10px] uppercase tracking-widest group/link"
-              >
-                <span className="border-b border-[#FF8533]/50 group-hover/link:border-[#FF8533] transition-colors">
-                  {t("Explore Service", "Explorar Servicio")}
-                </span>
-                <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform duration-300" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+interface ServiceItem {
+  id: string;
+  num: string;
+  icon: any;
+  title: string;
+  subtitle: string;
+  badge: string;
+  desc: string;
+  image: string;
+  to: string;
+  specs: string[];
 }
 
 export function Services() {
   const { t } = useLanguage();
 
-  const services = [
-    { icon: Building2,   title: t("New Construction Electrical", "Electricidad de Nuevas Construcciones"), desc: t("Commercial & residential wiring, structural installations, and full system layouts.", "Cableado comercial y residencial, instalaciones estructurales y diseños completos de sistemas."), image: comImg, to: "/services/commercial" },
-    { icon: ShieldAlert, title: t("Fire Alarm Systems", "Sistemas de Alarma contra Incendios"),          desc: t("Safety-certified design, low-voltage wiring, code compliance, and testing.", "Diseño con certificación de seguridad, cableado de bajo voltaje, cumplimiento de códigos y pruebas."),   image: panImg, to: "/services/wiring-rewiring" },
-    { icon: Cable,       title: t("Internet & Security Cameras", "Internet y Cámaras de Seguridad"), desc: t("Structured Cat6 network cabling, IP surveillance setups, and smart locks.", "Cableado estructurado de red Cat6, configuraciones de vigilancia IP y cerraduras inteligentes."),   image: resImg, to: "/services/security-systems" },
-    { icon: Video,       title: t("CCTV Camera Install & Repair", "Instalación y Reparación de Cámaras CCTV"), desc: t("Premium HD surveillance, DVR configurations, IP setups, and diagnostics.", "Vigilancia HD premium, configuraciones de DVR, configuraciones IP y diagnósticos."), image: cctvImg, to: "/services/cctv-camera" },
-    { icon: Home,        title: t("Residential Electrical", "Electricidad Residencial"),      desc: t("Whole-home wiring, lighting setups, smart controls, and safety diagnostics.", "Cableado para todo el hogar, configuraciones de iluminación, controles inteligentes y diagnósticos de seguridad."), image: resImg, to: "/services/residential" },
-    { icon: Zap,         title: t("Panel Upgrades", "Actualizaciones de Panel"),              desc: t("Modernize circuit breaker panels to 200A or 400A service.", "Modernice los paneles de disyuntores a un servicio de 200A o 400A."),             image: panImg, to: "/services/panel-upgrades" },
-    { icon: Plug,        title: t("EV Charger Installation", "Instalación de Cargador EV"),     desc: t("Level 2 home chargers and commercial EV station installations.", "Cargadores domésticos de nivel 2 e instalaciones de estaciones de EV comerciales."),        image: evImg,  to: "/services/ev-charger" },
-    { icon: Battery,     title: t("Generator Installation", "Instalación de Generadores"),      desc: t("Whole-home emergency standby power setups with automatic transfer.", "Configuraciones de energía de reserva de emergencia para todo el hogar con transferencia automática."),    image: genImg, to: "/services/generator" },
-    { icon: Bolt,        title: t("Industrial Electrical", "Electricidad Industrial"),       desc: t("Heavy-duty power distribution, equipment hookups, and phase controls.", "Distribución de energía de servicio pesado, conexiones de equipos y controles de fase."), image: indImg, to: "/services/industrial" },
-    { icon: Wrench,      title: t("24/7 Emergency Service", "Servicio de Emergencia 24/7"),      desc: t("Rapid dispatch for power outages, sparking outlets, and hazards.", "Despacho rápido para cortes de energía, tomacorrientes con chispas y peligros."),      image: indImg, to: "/services/emergency" },
+  const services: ServiceItem[] = [
+    {
+      id: "hvac-install",
+      num: "01",
+      icon: Wrench,
+      title: t("HVAC INSTALLATION", "INSTALACIÓN HVAC"),
+      subtitle: t("Custom Heating & Cooling Systems", "Sistemas de Calefacción y AC Personalizados"),
+      badge: t("Most Requested", "Más Solicitado"),
+      desc: t(
+        "Complete custom design and professional installation of high-efficiency heating and air conditioning systems for residential replacements and new construction projects.",
+        "Diseño personalizado completo e instalación profesional de sistemas de aire acondicionado y calefacción de alta eficiencia para reemplazos residenciales y nuevas construcciones."
+      ),
+      image: hvacInstallImg,
+      to: "/services/hvac-install",
+      specs: [t("Energy Star Qualified", "Calificación Energy Star"), t("Custom Duct Design", "Diseño de Ductos a Medida"), t("Free In-Home Quote", "Cotización Gratis en Casa")],
+    },
+    {
+      id: "air-conditioning",
+      num: "02",
+      icon: Snowflake,
+      title: t("AIR CONDITIONING", "AIRE ACONDICIONADO"),
+      subtitle: t("High-Efficiency Cooling Solutions", "Soluciones de Enfriamiento Eficientes"),
+      badge: t("Cooling", "Enfriamiento"),
+      desc: t(
+        "Energy-efficient central air conditioner installation, SEER2 upgrades, compressor replacements, and smart climate control integration.",
+        "Instalación de aire acondicionado central de alta eficiencia, actualizaciones SEER2, reemplazo de compresores e integración de control climático inteligente."
+      ),
+      image: acImg,
+      to: "/services/air-conditioning",
+      specs: [t("SEER2 High Efficiency", "Alta Eficiencia SEER2"), t("24/7 Emergency Cooling", "Enfriamiento de Emergencia 24/7"), t("Quiet Operation", "Operación Silenciosa")],
+    },
+    {
+      id: "hvac-repairs",
+      num: "03",
+      icon: Activity,
+      title: t("HVAC REPAIRS", "REPARACIONES HVAC"),
+      subtitle: t("24/7 Rapid Emergency Dispatch", "Despacho de Emergencia Rápido 24/7"),
+      badge: t("Emergency 24/7", "Emergencia 24/7"),
+      desc: t(
+        "Fast diagnostic and repair services for frozen coils, refrigerant leaks, electrical failures, faulty capacitors, and complete system breakdowns.",
+        "Servicio rápido de diagnóstico y reparación para serpentines congelados, fugas de freón, fallas eléctricas, capacitores y averías completas."
+      ),
+      image: hvacRepairsImg,
+      to: "/services/hvac-repairs",
+      specs: [t("Same-Day Dispatch", "Despacho el Mismo Día"), t("All Brands Serviced", "Todas las Marcas Atendidas"), t("Transparent Pricing", "Precios Transparentes")],
+    },
+    {
+      id: "ac-cypress",
+      num: "04",
+      icon: MapPin,
+      title: t("AC REPAIR CYPRESS", "REPARACIÓN AC CYPRESS"),
+      subtitle: t("Local Cypress, TX AC Specialists", "Especialistas Locales de AC en Cypress, TX"),
+      badge: "Cypress, TX",
+      desc: t(
+        "Dedicated local HVAC service technicians providing fast, reliable AC repair, tune-ups, and emergency cooling response throughout Cypress, TX.",
+        "Técnicos de servicio HVAC locales dedicados que brindan reparación rápida de AC, puestas a punto y respuesta de emergencia en Cypress, TX."
+      ),
+      image: acCypressImg,
+      to: "/services/ac-repair-cypress",
+      specs: [t("Fast Cypress Arrival", "Llegada Rápida en Cypress"), t("Local Technicians", "Técnicos Locales"), t("No Travel Charges", "Sin Cargos de Viaje")],
+    },
+    {
+      id: "ac-tomball",
+      num: "05",
+      icon: MapPin,
+      title: t("AC REPAIR TOMBALL", "REPARACIÓN AC TOMBALL"),
+      subtitle: t("Tomball's Trusted HVAC Experts", "Expertos HVAC de Confianza en Tomball"),
+      badge: "Tomball, TX",
+      desc: t(
+        "Top-rated air conditioning repair, freon recharges, fan motor replacements, and system maintenance for homeowners in Tomball, TX.",
+        "Reparación de aire acondicionado altamente calificada, recarga de freón, reemplazo de motores y mantenimiento para propietarios en Tomball, TX."
+      ),
+      image: acTomballImg,
+      to: "/services/ac-repair-tomball",
+      specs: [t("Tomball Headquarters", "Sede en Tomball"), t("Freon Leak Check", "Revisión Fugas de Freón"), t("Satisfaction Guaranteed", "Garantía de Satisfacción")],
+    },
+    {
+      id: "heating",
+      num: "06",
+      icon: Flame,
+      title: t("HEATING SERVICES", "SERVICIOS CALEFACCIÓN"),
+      subtitle: t("Gas Furnaces & Heat Pumps", "Hornos de Gas y Bombas de Calor"),
+      badge: t("Heating", "Calefacción"),
+      desc: t(
+        "Comprehensive heating services including gas furnace repair, heat pump maintenance, heat exchanger inspections, and emergency heating fixes.",
+        "Servicios integrales de calefacción que incluyen reparación de hornos de gas, mantenimiento de bombas de calor e inspección de intercambiadores."
+      ),
+      image: heatingImg,
+      to: "/services/heating",
+      specs: [t("Gas & Electric Furnaces", "Hornos Eléctricos y de Gas"), t("Heat Pump Tuning", "Ajuste de Bombas de Calor"), t("Carbon Monoxide Safety", "Seguridad Monóxido")],
+    },
+    {
+      id: "hvac-maintenance",
+      num: "07",
+      icon: CheckCircle2,
+      title: t("HVAC MAINTENANCE", "MANTENIMIENTO HVAC"),
+      subtitle: t("Preventative Care & Tune-Ups", "Cuidado Preventivo y Puestas a Punto"),
+      badge: t("Preventative", "Preventivo"),
+      desc: t(
+        "Preventative maintenance plans featuring 21-point system tune-ups, coil cleaning, filter replacements, and seasonal efficiency checks.",
+        "Planes de mantenimiento preventivo con puestas a punto de 21 puntos, limpieza de serpentín, cambio de filtros y controles de eficiencia."
+      ),
+      image: hvacMaintenanceImg,
+      to: "/services/hvac-maintenance",
+      specs: [t("21-Point System Inspection", "Inspección de 21 Puntos"), t("Extends System Lifespan", "Extiende Vida Útil"), t("Lowers Monthly Utility Bills", "Reduce Facturas de Luz")],
+    },
+    {
+      id: "indoor-air-quality",
+      num: "08",
+      icon: Sparkles,
+      title: t("INDOOR AIR QUALITY", "CALIDAD DE AIRE INTERIOR"),
+      subtitle: t("Clean Air & Purification", "Aire Limpio y Purificación"),
+      badge: t("Clean Air", "Aire Limpio"),
+      desc: t(
+        "Breathe clean air with whole-home UV germicidal light purifiers, high-MERV HEPA air filters, dehumidifiers, and air duct sanitation.",
+        "Respire aire limpio con purificadores germicidas UV para todo el hogar, filtros HEPA de alto MERV, deshumidificadores y desinfección de ductos."
+      ),
+      image: iaqImg,
+      to: "/services/indoor-air-quality",
+      specs: [t("Whole-Home UV Purifiers", "Purificadores UV Todo el Hogar"), t("HEPA Filtration Systems", "Sistemas Filtración HEPA"), t("Humidity Control", "Control de Humedad")],
+    },
+    {
+      id: "commercial-hvac",
+      num: "09",
+      icon: Building2,
+      title: t("COMMERCIAL HVAC", "HVAC COMERCIAL"),
+      subtitle: t("Building Climate Solutions", "Soluciones de Clima para Edificios"),
+      badge: t("Commercial", "Comercial"),
+      desc: t(
+        "Heavy-duty commercial HVAC solutions for office buildings, retail centers, and industrial facilities. Rooftop units, chillers, and VRF systems.",
+        "Soluciones HVAC comerciales de servicio pesado para edificios de oficinas, centros comerciales e instalaciones industriales. Unidades de techo y enfriadores."
+      ),
+      image: commercialHvacImg,
+      to: "/services/commercial-hvac",
+      specs: [t("Rooftop Package Units", "Unidades Paquete Techo"), t("Commercial Maintenance Plans", "Planes Mantenimiento Comercial"), t("VRF & Chiller Support", "Soporte VRF y Enfriadores")],
+    },
+    {
+      id: "residential-hvac",
+      num: "10",
+      icon: Home,
+      title: t("RESIDENTIAL HVAC", "HVAC RESIDENCIAL"),
+      subtitle: t("Complete Home Climate Care", "Cuidado del Clima del Hogar"),
+      badge: t("Residential", "Residencial"),
+      desc: t(
+        "Tailored residential heating & cooling systems designed for Texas heat. Smart Nest/Honeywell thermostat installation and zoning optimization.",
+        "Sistemas de calefacción y aire acondicionado residenciales diseñados para el calor de Texas. Termostatos inteligentes y optimización por zonas."
+      ),
+      image: residentialHvacImg,
+      to: "/services/residential-hvac",
+      specs: [t("Smart Thermostat Setup", "Configuración Termostato Smart"), t("Custom Home Zoning", "Zonificación Personalizada"), t("Quiet Efficient Comfort", "Confort Silencioso y Eficiente")],
+    },
   ];
 
-  const topItems   = services.slice(0, 3);
-  const slideItems = [...services.slice(3), ...services.slice(3)];
+  const [activeServiceId, setActiveServiceId] = useState<string>("hvac-install");
+  const activeService = services.find((s) => s.id === activeServiceId) || services[0];
 
   return (
-    <section id="services" className="bg-[#F8FAFC] py-[60px] overflow-hidden border-y border-slate-100">
+    <section id="services" className="bg-[#F8FAFC] py-20 overflow-hidden border-y border-slate-200/80 text-slate-900">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
 
-        {/* ── Top Row: Text + 3 Hero Cards ──────────────────── */}
-        <div className="grid gap-10 lg:grid-cols-[38%_1fr] lg:gap-14 items-center">
+        {/* ── Top Header ────────────────────────────────────── */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+          <div className="flex flex-col items-start text-left max-w-2xl">
+            
+            {/* Tagline Pill */}
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm mb-4">
+              <Zap className="h-3.5 w-3.5 text-[#005CE6] fill-[#005CE6]" />
+              <span>{t("Our Specialized HVAC Services", "Nuestros Servicios HVAC Especializados")}</span>
+            </div>
 
-          {/* Left Text */}
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.75, ease: "easeOut" }}
-            className="flex flex-col justify-center text-left"
-          >
-            {/* Eyebrow badge */}
-            <span className="inline-flex items-center gap-2 bg-[#FF6B00]/10 border border-[#FF6B00]/20 text-[#FF6B00] rounded-full px-5 py-1.5 text-[11px] font-black uppercase tracking-widest mb-5 w-fit">
-              <svg className="w-3 h-3 fill-[#FF6B00]" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              {t("Our Services", "Nuestros Servicios")}
-              <svg className="w-3 h-3 fill-[#FF6B00]" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            </span>
-
-            {/* Heading */}
-            <h2
-              className="text-neutral-900 tracking-tight leading-[1.2] font-extrabold"
-              style={{ fontSize: "clamp(28px, 4vw, 42px)" }}
-            >
-              {t("Full-Spectrum ", "Soluciones ")}
-              <span className="text-[#FF6B00]">{t("Electrical", "Eléctricas")}</span>{" "}
-              {t("Solutions", "Completas")}
+            {/* Title */}
+            <h2 className="font-display text-2xl sm:text-3xl lg:text-[37px] font-extrabold text-slate-900 leading-[1.2] tracking-tight">
+              {t("Explore Our ", "Explore Nuestros ")}
+              <span className="text-[#005CE6]">
+                {t("HVAC Capabilities", "Capacidades de HVAC")}
+              </span>
             </h2>
 
-            {/* Divider accent */}
-            <div className="flex items-center gap-3 mt-5 mb-5">
-              <div className="h-[2px] w-10 bg-[#FF6B00] rounded-full" />
-              <div className="h-[2px] w-4 bg-[#FF6B00]/40 rounded-full" />
-            </div>
-
-            <p className="text-slate-500 text-sm md:text-[15px] leading-[28px] font-medium max-w-[95%]">
-              {t("One licensed team. Every job — from a single outlet to a 50,000 sqft facility. High-quality electrical work with guaranteed safety and performance across Miami & South Florida.", "Un equipo autorizado. Cada trabajo, desde un solo tomacorriente hasta una instalación de 50,000 pies cuadrados. Trabajo eléctrico de alta calidad con seguridad y rendimiento garantizados en todo Miami y el sur de Florida.")}
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-3">
+              {t(
+                "Click on any service category on the left to inspect detailed specifications, features, and immediate dispatch availability.",
+                "Haga clic en cualquier categoría de servicio a la izquierda para inspeccionar especificaciones detalladas, características y disponibilidad de despacho inmediato."
+              )}
             </p>
+          </div>
 
-            {/* Trust row */}
-            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[12px] font-bold text-slate-600">
-              {[t("Licensed & Insured", "Con Licencia y Seguro"), t("24/7 Emergency", "Emergencia 24/7"), t("Free Estimates", "Presupuestos Gratis")].map((itemText) => (
-                <span key={itemText} className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
-                  {itemText}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-7">
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 bg-[#FF6B00] hover:bg-[#E05E00] text-white rounded-full px-7 py-3.5 text-[13px] font-black uppercase tracking-wider shadow-[0_10px_25px_-5px_rgba(255,107,0,0.35)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                {t("View All Services", "Ver Todos los Servicios")} <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Top 3 Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {topItems.map((s, idx) => (
-              <motion.div
-                key={s.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.65, delay: idx * 0.12, ease: "easeOut" }}
-                className="group relative rounded-2xl overflow-hidden bg-neutral-950 h-[210px] sm:h-[290px] lg:h-[360px] xl:h-[400px] cursor-pointer shadow-[0_4px_24px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.22)] transition-shadow duration-500"
-              >
-                <CardContent s={s} />
-              </motion.div>
-            ))}
+          <div className="shrink-0 flex items-center gap-3">
+            <span className="text-xs font-black text-slate-400 uppercase tracking-widest bg-white border border-slate-200 px-3.5 py-1.5 rounded-full shadow-sm">
+              TACLA133609C
+            </span>
           </div>
         </div>
 
-        {/* ── Auto-scroll Carousel ────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.75, delay: 0.15, ease: "easeOut" }}
-          className="mt-6 relative"
-        >
-          {/* Section divider with label */}
-          <div className="flex items-center gap-4 mb-5">
-            <div className="h-px flex-1 bg-slate-200" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 whitespace-nowrap">
-              {t("More Services", "Más Servicios")}
-            </span>
-            <div className="h-px flex-1 bg-slate-200" />
+        {/* ── Interactive Split Stage ────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+          {/* Left Column: Interactive List Menu (5 cols on desktop) */}
+          <div className="lg:col-span-5 flex flex-col gap-2.5 max-h-[580px] overflow-y-auto pr-2 custom-scrollbar">
+            {services.map((s) => {
+              const Icon = s.icon;
+              const isActive = activeService.id === s.id;
+
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => setActiveServiceId(s.id)}
+                  className={`group relative w-full text-left p-4 rounded-2xl border transition-all duration-300 flex items-center justify-between ${
+                    isActive
+                      ? "bg-gradient-to-r from-[#005CE6] to-[#0047B3] border-[#005CE6] text-white shadow-lg shadow-[#005CE6]/25 translate-x-1"
+                      : "bg-white hover:bg-slate-100/80 border-slate-200/90 text-slate-800 hover:text-[#005CE6] shadow-sm"
+                  }`}
+                >
+                  <div className="flex items-center gap-3.5">
+                    {/* Index Number */}
+                    <span className={`text-xs font-black tracking-widest ${isActive ? "text-cyan-200" : "text-slate-400"}`}>
+                      {s.num}
+                    </span>
+
+                    {/* Icon Box */}
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
+                      isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600 group-hover:text-[#005CE6] group-hover:bg-[#005CE6]/10"
+                    }`}>
+                      <Icon className="w-4.5 h-4.5" />
+                    </div>
+
+                    {/* Title & Subtitle */}
+                    <div className="flex flex-col text-left">
+                      <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wide leading-tight">
+                        {s.title}
+                      </span>
+                      <span className={`text-[11px] font-medium mt-0.5 ${isActive ? "text-slate-100" : "text-slate-500"}`}>
+                        {s.subtitle}
+                      </span>
+                    </div>
+                  </div>
+
+                  <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? "text-white translate-x-1" : "text-slate-400 group-hover:text-[#005CE6]"}`} />
+                </button>
+              );
+            })}
           </div>
 
-          {/* Fade edges */}
-          <div className="absolute top-0 bottom-0 left-0 w-20 bg-gradient-to-r from-[#F8FAFC] to-transparent z-10 pointer-events-none hidden sm:block" />
-          <div className="absolute top-0 bottom-0 right-0 w-20 bg-gradient-to-l from-[#F8FAFC] to-transparent z-10 pointer-events-none hidden sm:block" />
+          {/* Right Column: Dynamic Spotlight Stage (7 cols on desktop) */}
+          <div className="lg:col-span-7 relative w-full rounded-3xl bg-slate-900 border border-slate-200/80 shadow-[0_20px_50px_rgba(15,23,42,0.12)] overflow-hidden min-h-[580px] flex flex-col justify-end">
+            
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeService.id}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.4 }}
+                className="absolute inset-0 w-full h-full flex flex-col justify-end"
+              >
+                {/* Full Stage Image */}
+                <img
+                  src={activeService.image}
+                  alt={activeService.title}
+                  className="absolute inset-0 w-full h-full object-cover object-center"
+                />
 
-          <Carousel
-            plugins={[
-              AutoScroll({
-                speed: 1.2,
-                stopOnInteraction: false,
-                stopOnMouseEnter: true,
-                stopOnFocusIn: true,
-              }),
-            ]}
-            opts={{ align: "start", loop: true }}
-            className="w-full"
-          >
-            <CarouselContent className="-ml-4">
-              {slideItems.map((s, idx) => (
-                <CarouselItem
-                  key={`${s.title}-${idx}`}
-                  className="pl-4 basis-4/5 sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
-                >
-                  <div className="group relative rounded-xl overflow-hidden bg-neutral-950 h-[180px] sm:h-[220px] lg:h-[260px] cursor-pointer shadow-md hover:shadow-[0_12px_32px_rgba(0,0,0,0.2)] transition-shadow duration-500">
-                    <CardContent s={s} />
+                {/* Gradient Vignette Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-slate-950/20" />
+
+                {/* Top Badge Overlay */}
+                <div className="absolute top-5 left-5 z-20 flex items-center gap-2">
+                  <span className="rounded-full bg-[#005CE6] px-3.5 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-md border border-white/20">
+                    {activeService.badge}
+                  </span>
+                  <span className="rounded-full bg-white/90 backdrop-blur-md px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-800 border border-white/60 shadow-sm">
+                    Licensed TACLA133609C
+                  </span>
+                </div>
+
+                {/* Stage Content */}
+                <div className="relative z-20 p-6 sm:p-8 text-left">
+                  
+                  {/* Category Subtitle */}
+                  <span className="text-xs font-black uppercase tracking-widest text-cyan-400">
+                    {activeService.subtitle}
+                  </span>
+
+                  {/* Service Title */}
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-tight mt-1">
+                    {activeService.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-xs sm:text-sm text-slate-200 leading-relaxed mt-3 max-w-xl">
+                    {activeService.desc}
+                  </p>
+
+                  {/* Specification Bullets */}
+                  <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    {activeService.specs.map((spec, i) => (
+                      <div key={i} className="flex items-center gap-2 rounded-xl bg-white/15 backdrop-blur-md px-3 py-2 border border-white/20 text-[11px] font-bold text-white shadow-sm">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                        <span>{spec}</span>
+                      </div>
+                    ))}
                   </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
-        </motion.div>
+
+                  {/* Dual Action CTA Buttons */}
+                  <div className="mt-7 flex flex-wrap items-center gap-4">
+                    <Button asChild size="lg" className="rounded-full font-extrabold px-7 bg-[#005CE6] hover:bg-[#0047B3] text-white shadow-lg shadow-[#005CE6]/40">
+                      <a href="#get-in-touch" className="flex items-center gap-2">
+                        <span>{t("Schedule Service Now", "Programar Servicio Ahora")}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    </Button>
+
+                    <a
+                      href="tel:7138197908"
+                      className="inline-flex items-center gap-2 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-md px-6 py-3 text-xs font-extrabold text-white border border-white/30 transition-all shadow-sm"
+                    >
+                      <PhoneCall className="w-4 h-4 text-cyan-400" />
+                      <span>{t("Call (713) 819-7908", "Llamar (713) 819-7908")}</span>
+                    </a>
+                  </div>
+
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+          </div>
+
+        </div>
+
+        {/* ── Bottom Guarantee Highlights ───────────────────── */}
+        <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 rounded-2xl bg-white border border-slate-200/90 p-6 text-left shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center shrink-0">
+              <Clock className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="block text-xs font-extrabold text-slate-900">{t("24/7 Response", "Respuesta 24/7")}</span>
+              <span className="text-[11px] text-slate-500 font-medium">{t("Same-Day Dispatch", "Despacho Mismo Día")}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="block text-xs font-extrabold text-slate-900">{t("Licensed & Insured", "Con Licencia y Seguro")}</span>
+              <span className="text-[11px] text-slate-500 font-medium">TACLA133609C</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#005CE6]/20 text-[#005CE6] flex items-center justify-center shrink-0">
+              <Award className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="block text-xs font-extrabold text-slate-900">{t("BBB Accredited", "Acreditado por BBB")}</span>
+              <span className="text-[11px] text-slate-500 font-medium">{t("A+ Rated Contractor", "Calificación A+")}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="block text-xs font-extrabold text-slate-900">{t("Free Estimates", "Presupuestos Gratis")}</span>
+              <span className="text-[11px] text-slate-500 font-medium">{t("No Upfront Costs", "Sin Costos Ocultos")}</span>
+            </div>
+          </div>
+        </div>
 
       </div>
     </section>

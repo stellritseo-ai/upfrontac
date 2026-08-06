@@ -3,6 +3,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { Hero } from "@/components/site/Hero";
 import { TrustBar } from "@/components/site/TrustBar";
 import { Welcome } from "@/components/site/Welcome";
+import { FastHVAC } from "@/components/site/FastHVAC";
 import { Services } from "@/components/site/Services";
 import { WhyChooseUs } from "@/components/site/WhyChooseUs";
 import { Projects } from "@/components/site/Projects";
@@ -78,6 +79,7 @@ function Index() {
       <Hero />
       <TrustBar />
       <Welcome />
+      <FastHVAC />
       <Services />
       <EmergencyCTA />
       <Process />

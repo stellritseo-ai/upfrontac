@@ -54,7 +54,6 @@ function EmergencyPage() {
   return (
     <>
       <PageHeader
-        eyrow="emergency"
         eyebrow={t("Emergency Support", "Soporte de Emergencia")}
         title={t("24/7 Rapid Emergency Response", "Respuesta de Emergencia Rápida 24/7")}
         subtitle={t("Sparks? Smoke? Complete power loss? Call our emergency line immediately at (786) 307-5933. On-call master electricians are ready for immediate dispatch.", "¿Chispas? ¿Humo? ¿Pérdida completa de energía? Llame a nuestra línea de emergencia de inmediato al (786) 307-5933. Los electricistas maestros de guardia están listos para el despacho inmediato.")}

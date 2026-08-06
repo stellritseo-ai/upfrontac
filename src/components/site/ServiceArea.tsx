@@ -1,161 +1,194 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin } from "lucide-react";
+import { MapPin, Sparkles, Navigation, ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { useLanguage } from "@/hooks/useLanguage";
 
-const areasData = [
-  { name: "Miami", x: "55%", y: "50%", primary: true },
-  { name: "Coral Gables", x: "42%", y: "58%" },
-  { name: "Brickell", x: "58%", y: "48%" },
-  { name: "Doral", x: "32%", y: "42%" },
-  { name: "Wynwood", x: "56%", y: "40%" },
-  { name: "Aventura", x: "72%", y: "22%" },
-  { name: "Pinecrest", x: "38%", y: "72%" },
-  { name: "Miami Beach", x: "68%", y: "38%" },
-  { name: "Hialeah", x: "42%", y: "32%" },
+const serviceAreas = [
+  {
+    name: "Tomball, TX",
+    zip: "(77375, 77377)",
+    desc: "Residential neighborhoods along FM 2920, SH 249 and surrounding subdivisions.",
+    x: "48%",
+    y: "32%",
+    primary: true,
+  },
+  {
+    name: "Cypress, TX",
+    zip: "(77433, 77429)",
+    desc: "Bridgeland, Towne Lake, Fairfield, Copper Lakes and Cy-Fair communities.",
+    x: "36%",
+    y: "42%",
+  },
+  {
+    name: "Houston, TX",
+    zip: "Central & Metro",
+    desc: "North Houston, West Houston, Energy Corridor and surrounding metro areas.",
+    x: "56%",
+    y: "58%",
+    primary: true,
+  },
+  {
+    name: "Katy, TX",
+    zip: "Western Suburbs",
+    desc: "Rapidly growing western suburbs with high residential and commercial HVAC demand.",
+    x: "30%",
+    y: "60%",
+  },
+  {
+    name: "The Woodlands, TX",
+    zip: "North Metro",
+    desc: "Master-planned communities with diverse residential and commercial system types.",
+    x: "58%",
+    y: "24%",
+  },
+  {
+    name: "Spring, TX",
+    zip: "(77373, 77379, 77386)",
+    desc: "Established neighborhoods with varied system ages and maintenance needs.",
+    x: "62%",
+    y: "30%",
+  },
+  {
+    name: "Magnolia, TX",
+    zip: "Northwest Metro",
+    desc: "Rural residential, custom homes and acreage properties.",
+    x: "40%",
+    y: "22%",
+  },
+  {
+    name: "Sugar Land, TX",
+    zip: "Southwest Suburbs",
+    desc: "Southwest Houston suburbs — residential and commercial.",
+    x: "42%",
+    y: "76%",
+  },
+  {
+    name: "Greater Houston Metro",
+    zip: "Harris & Montgomery",
+    desc: "Same-day commercial HVAC service across the metro.",
+    x: "52%",
+    y: "46%",
+  },
 ];
 
-const TinyLightningIcon = () => (
-  <svg className="w-3.5 h-3.5 text-[#FF6B00] fill-[#FF6B00] shrink-0" viewBox="0 0 24 24">
-    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-  </svg>
-);
-
 export function ServiceArea() {
+  const { t } = useLanguage();
   const [hoveredArea, setHoveredArea] = useState<string | null>(null);
 
   return (
-    <section id="service-area" className="relative py-[60px] bg-white border-b border-slate-100 overflow-hidden">
-      <div className="mx-auto w-[90%] max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          
-          {/* Left Column: Heading & Chips (50% width) */}
-          <div className="z-10 text-left">
-            <span className="inline-flex items-center gap-2 bg-[#FF6B00]/10 border border-[#FF6B00]/20 text-[#FF6B00] rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-5">
-              <TinyLightningIcon /> Service Area <TinyLightningIcon />
-            </span>
-            <h2 
-              className="text-[#0F172A] leading-tight tracking-tight"
-              style={{ fontSize: "40px", fontWeight: 800, marginBottom: "10px" }}
-            >
-              Proudly Serving The Entire State Of <span className="text-[#FF6B00]">Florida</span>.
-            </h2>
-            <p className="text-sm sm:text-base text-slate-500 font-medium leading-relaxed max-w-lg mb-8">
-              We provide prompt, dependable electrical solutions across the entire state of Florida — typically dispatched from our local Miami operations center.
-            </p>
-            
-            {/* Premium Capsule Chips */}
-            <div className="flex flex-wrap gap-2.5">
-              {areasData.map((a) => {
-                const isActive = hoveredArea === a.name;
-                return (
-                  <motion.div
-                    key={a.name}
-                    onMouseEnter={() => setHoveredArea(a.name)}
-                    onMouseLeave={() => setHoveredArea(null)}
-                    whileHover={{ scale: 1.03, y: -1 }}
-                    className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider rounded-xl py-2.5 px-4 transition-all duration-300 shadow-sm cursor-pointer border ${
-                      isActive
-                        ? "bg-[#FF6B00]/10 border-[#FF6B00]/45 text-[#FF6B00] scale-[1.03] -translate-y-0.5 shadow-md shadow-[#FF6B00]/5"
-                        : "text-slate-600 bg-slate-50 border-slate-100 hover:bg-[#FF6B00]/5 hover:border-[#FF6B00]/25 hover:text-[#FF6B00]"
-                    }`}
-                  >
-                    <MapPin className={`h-3.5 w-3.5 shrink-0 transition-colors duration-300 ${
-                      isActive ? "text-[#FF6B00]" : "text-[#FF6B00]/75"
-                    }`} />
-                    {a.name}
-                  </motion.div>
-                );
-              })}
-            </div>
+    <section id="service-area" className="relative py-16 lg:py-20 bg-white border-b border-slate-100 overflow-hidden select-none">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        {/* Header Title */}
+        <div className="text-left max-w-3xl mb-12">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-[#005CE6]" />
+            <span>{t("Local Coverage", "Cobertura Local")}</span>
           </div>
 
-          {/* Right Column: Sleek Dispatch Telemetry Map (50% width) */}
+          <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-slate-900 tracking-tight leading-tight mb-3">
+            {t("HVAC maintenance across ", "Mantenimiento HVAC en ")}
+            <span className="text-[#005CE6]">
+              {t("Tomball, Cypress & Greater Houston", "Tomball, Cypress y Greater Houston")}
+            </span>
+          </h2>
+
+          <p className="text-slate-600 font-medium text-sm sm:text-base leading-relaxed">
+            {t(
+              "Daily service across Northwest Houston with Harris and Montgomery County coverage — Fort Bend on request.",
+              "Servicio diario en el noroeste de Houston con cobertura en los condados de Harris y Montgomery — Fort Bend a pedido."
+            )}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+          {/* Left Column: Interactive Cards Grid (7 cols) */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {serviceAreas.map((area) => {
+              const isActive = hoveredArea === area.name;
+              return (
+                <motion.div
+                  key={area.name}
+                  onMouseEnter={() => setHoveredArea(area.name)}
+                  onMouseLeave={() => setHoveredArea(null)}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  className={`rounded-2xl p-5 border text-left transition-all duration-300 cursor-pointer ${isActive
+                      ? "bg-[#005CE6]/5 border-[#005CE6] shadow-md shadow-[#005CE6]/10"
+                      : "bg-slate-50/80 border-slate-200/80 hover:bg-white hover:border-[#005CE6]/40 hover:shadow-sm"
+                    }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div className="flex items-center gap-2">
+                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${isActive ? "bg-[#005CE6] text-white" : "bg-[#005CE6]/10 text-[#005CE6]"}`}>
+                        <MapPin className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-base font-extrabold text-slate-900 leading-tight">
+                        {area.name}
+                      </h3>
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-[#005CE6] bg-[#005CE6]/10 px-2.5 py-0.5 rounded-full">
+                      {area.zip}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium mt-1">
+                    {area.desc}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Right Column: Sleek Interactive Dispatch Map (5 cols) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-gradient-to-br from-[#0c1324] to-[#040814] border border-slate-800 shadow-glow"
+            className="lg:col-span-5 relative w-full max-w-full aspect-[4/3] sm:aspect-[4/3] min-h-[420px] rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl sticky top-24 box-border"
           >
-            {/* Embedded Google Map Background (Centered on Miami, FL) */}
+            {/* Embedded Google Map Background (Centered on Houston & Tomball, TX) */}
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114964.38556488344!2d-80.31343714240751!3d25.782390691515715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b0a587445113%3A0x56f105b54d8ab115!2sMiami%2C%20FL%2C%20USA!5e0!3m2!1sen!2s!4v1782259191322!5m2!1sen!2s"
-              className="absolute inset-0 w-full h-full opacity-80 grayscale invert contrast-[1.2] brightness-[0.85] pointer-events-none"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d443088.0518776822!2d-95.66699313271798!3d29.98061482811463!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640b8b4488d8501%3A0xca0d02def365053b!2sHouston%2C%20TX!5e0!3m2!1sen!2s!4v1782259191322!5m2!1sen!2s"
+              className="absolute inset-0 w-full h-full opacity-75 grayscale invert contrast-[1.25] brightness-[0.8] pointer-events-none"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
 
-            <div className="absolute inset-0 bg-grid opacity-[0.05] pointer-events-none" />
-            
-            {/* Stylized map grid and contour boundary */}
+            {/* Radar Sweep Line SVG */}
             <svg
               viewBox="0 0 600 450"
-              className="absolute inset-0 h-full w-full"
+              className="absolute inset-0 h-full w-full pointer-events-none"
               aria-hidden
             >
               <defs>
-                <radialGradient id="mapGlow" cx="55%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#FF6B00" stopOpacity="0.25" />
-                  <stop offset="60%" stopColor="#FF6B00" stopOpacity="0.05" />
-                  <stop offset="100%" stopColor="#FF6B00" stopOpacity="0" />
+                <radialGradient id="houstonGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#005CE6" stopOpacity="0.3" />
+                  <stop offset="70%" stopColor="#005CE6" stopOpacity="0.05" />
+                  <stop offset="100%" stopColor="#005CE6" stopOpacity="0" />
                 </radialGradient>
               </defs>
-              
-              {/* Coverage radial glow under Miami */}
-              <circle cx="330" cy="225" r="200" fill="url(#mapGlow)" />
+
+              <circle cx="300" cy="225" r="210" fill="url(#houstonGlow)" />
 
               {/* Radar Sweep Line */}
               <line
-                x1="330"
+                x1="300"
                 y1="225"
-                x2="330"
-                y2="45"
-                stroke="rgba(255, 107, 0, 0.4)"
-                strokeWidth="1.5"
+                x2="300"
+                y2="15"
+                stroke="rgba(0, 92, 230, 0.5)"
+                strokeWidth="2"
                 className="radar-sweep-line"
               />
-
-              {/* Styled coverage contour boundary */}
-              <path
-                d="M 120 280 C 150 160, 230 110, 350 140 S 530 200, 520 310 C 470 380, 350 400, 230 370 S 100 340, 120 280 Z"
-                fill="rgba(255, 107, 0, 0.01)"
-                stroke="#FF6B00"
-                strokeWidth="2"
-                className="animated-boundary"
-                opacity="0.6"
-              />
-
-              {/* Grid coordinates overlay */}
-              {Array.from({ length: 6 }).map((_, i) => (
-                <line
-                  key={i}
-                  x1={60 + i * 90}
-                  y1="0"
-                  x2={60 + i * 90 - 30}
-                  y2="450"
-                  stroke="#1e293b"
-                  strokeWidth="1"
-                  opacity="0.4"
-                />
-              ))}
-              {Array.from({ length: 5 }).map((_, i) => (
-                <line
-                  key={`h${i}`}
-                  x1="0"
-                  y1={60 + i * 80}
-                  x2="600"
-                  y2={40 + i * 80}
-                  stroke="#1e293b"
-                  strokeWidth="1"
-                  opacity="0.4"
-                />
-              ))}
             </svg>
 
-            {/* Pins with glowing radar rings */}
-            {areasData.map((pin) => (
+            {/* Pins on Map */}
+            {serviceAreas.map((pin) => (
               <Pin
                 key={pin.name}
                 x={pin.x}
@@ -168,17 +201,33 @@ export function ServiceArea() {
               />
             ))}
 
-            {/* Coverage badge */}
-            <div className="absolute bottom-5 left-5 bg-slate-950/75 border border-slate-800/80 backdrop-blur-md text-white rounded-2xl px-4 py-3 select-none z-20">
-              <div className="text-[9px] uppercase tracking-widest text-slate-400 font-bold">
-                Service Area
+            {/* Bottom Floating Telemetry Badge */}
+            <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-slate-950/90 border border-slate-700/80 backdrop-blur-md text-white rounded-2xl p-3 sm:p-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 select-none z-20 shadow-xl box-border">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-[#005CE6] text-white flex items-center justify-center shrink-0 shadow-md">
+                  <Navigation className="w-4 h-4" />
+                </div>
+                <div className="text-left leading-tight min-w-0">
+                  <span className="block text-[10px] uppercase tracking-widest text-cyan-300 font-black truncate">
+                    {t("Daily Dispatch Active", "Despacho Diario Activo")}
+                  </span>
+                  <span className="block text-xs font-extrabold text-white mt-0.5 truncate">
+                    Tomball, Cypress & Greater Houston
+                  </span>
+                </div>
               </div>
-              <div className="font-display font-bold text-sm text-[#FF6B00] mt-0.5">
-                Entire State of Florida
-              </div>
+
+              <a
+                href="#get-in-touch"
+                className="w-full sm:w-auto flex justify-center items-center gap-1.5 text-xs font-extrabold text-[#005CE6] bg-white hover:bg-cyan-50 px-3.5 py-2.5 sm:py-2 rounded-xl shadow-md transition-all shrink-0 box-border"
+              >
+                <span>{t("Check Coverage", "Ver Cobertura")}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
             </div>
 
           </motion.div>
+
         </div>
       </div>
 
@@ -187,18 +236,9 @@ export function ServiceArea() {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
-        @keyframes boundary-dash {
-          to {
-            stroke-dashoffset: -20;
-          }
-        }
         .radar-sweep-line {
-          transform-origin: 330px 225px;
-          animation: radar-sweep 10s linear infinite;
-        }
-        .animated-boundary {
-          stroke-dasharray: 6 4;
-          animation: boundary-dash 15s linear infinite;
+          transform-origin: 300px 225px;
+          animation: radar-sweep 12s linear infinite;
         }
       `}</style>
     </section>
@@ -229,37 +269,31 @@ function Pin({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div className="flex flex-col items-center gap-1.5">
+      <div className="flex flex-col items-center gap-1">
         {/* Glowing hotspot */}
-        <div className="relative flex h-8 w-8 items-center justify-center">
-          {/* Pulsing ring */}
-          <span className={`animate-ping absolute inline-flex h-6 w-6 rounded-full opacity-75 transition-all duration-300 ${
-            active 
-              ? "bg-[#FF6B00] scale-125" 
-              : primary 
-                ? "bg-[#FF8C33]" 
-                : "bg-orange-400"
-          }`}></span>
-          {/* Inner solid ring */}
-          <span className={`relative inline-flex rounded-full h-4.5 w-4.5 items-center justify-center text-white shadow-md transition-all duration-300 ${
-            active 
-              ? "bg-[#FF6B00] scale-110 shadow-[0_0_12px_rgba(255,107,0,0.5)]" 
-              : primary 
-                ? "bg-[#FF8C33]" 
-                : "bg-gradient-to-r from-[#FF6B00] to-orange-400"
-          }`}>
+        <div className="relative flex h-7 w-7 items-center justify-center">
+          <span className={`animate-ping absolute inline-flex h-5 w-5 rounded-full opacity-75 transition-all duration-300 ${active
+              ? "bg-cyan-400 scale-125"
+              : primary
+                ? "bg-[#005CE6]"
+                : "bg-blue-400"
+            }`}></span>
+          <span className={`relative inline-flex rounded-full h-4 w-4 items-center justify-center text-white shadow-md transition-all duration-300 ${active
+              ? "bg-cyan-400 scale-110 shadow-[0_0_12px_rgba(34,211,238,0.8)]"
+              : primary
+                ? "bg-[#005CE6]"
+                : "bg-[#005CE6]"
+            }`}>
             <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
           </span>
         </div>
-        
+
         {/* Label frame */}
-        <span className={`px-2.5 py-0.5 rounded-lg backdrop-blur-sm border transition-all duration-300 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap shadow-sm ${
-          primary || active ? "inline-block" : "hidden sm:inline-block"
-        } ${
-          active
-            ? "bg-[#FF6B00] border-[#FF6B00] text-white scale-105 shadow-[0_4px_12px_rgba(255,107,0,0.3)]"
-            : "bg-[#0c1324]/85 border-slate-800/80 text-white group-hover:bg-[#FF6B00] group-hover:border-[#FF6B00]/50 group-hover:text-white"
-        }`}>
+        <span className={`px-2 py-0.5 rounded-md backdrop-blur-sm border transition-all duration-300 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap shadow-sm ${primary || active ? "inline-block" : "hidden sm:inline-block"
+          } ${active
+            ? "bg-[#005CE6] border-cyan-400 text-white scale-105 shadow-md"
+            : "bg-slate-950/85 border-slate-800 text-white group-hover:bg-[#005CE6] group-hover:text-white"
+          }`}>
           {label}
         </span>
       </div>

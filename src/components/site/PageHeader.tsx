@@ -29,14 +29,14 @@ export function PageHeader({
 
       {/* Glow blobs */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-1/4 h-64 w-64 rounded-full bg-[#FF6B00]/15 blur-3xl animate-blob" />
+        <div className="absolute top-1/4 left-1/4 h-64 w-64 rounded-full bg-[#005CE6]/15 blur-3xl animate-blob" />
         <div className="absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl animate-blob" style={{ animationDelay: "2s" }} />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         {eyebrow && (
-          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 backdrop-blur-sm rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#FF6B00] mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00] animate-pulse" />
+          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 backdrop-blur-sm rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#005CE6] mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#005CE6] animate-pulse" />
             {eyebrow}
           </div>
         )}

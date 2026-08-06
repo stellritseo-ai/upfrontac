@@ -112,7 +112,7 @@ export function Header() {
                 language === "en" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
               )}
             >
-              <span className="text-sm leading-none">🇬🇧</span>
+              <span className="text-sm leading-none">🇺🇸</span>
               <span className="hidden sm:inline">English</span>
             </button>
             <button
@@ -385,7 +385,7 @@ export function Header() {
                       : "text-slate-400 hover:text-white"
                   )}
                 >
-                  <span className="text-xs leading-none">🇬🇧</span>
+                  <span className="text-xs leading-none">🇺🇸</span>
                   <span>EN</span>
                 </button>
                 <button
@@ -463,7 +463,7 @@ export function Header() {
                       </button>
 
                       {servicesOpen && (
-                        <div className="px-3 pb-3 flex flex-col gap-1 border-t border-slate-800/60 pt-2 max-h-[320px] overflow-y-auto custom-scrollbar">
+                        <div className="px-3 pb-3 flex flex-col gap-1 border-t border-slate-800/60 pt-2">
                           {serviceLinks.map((srv) => (
                             <a
                               key={srv.l}

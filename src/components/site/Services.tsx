@@ -244,8 +244,8 @@ export function Services() {
         {/* ── Interactive Split Stage ────────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-          {/* Left Column: Interactive List Menu (5 cols on desktop, full list on mobile) */}
-          <div className="lg:col-span-5 flex flex-col gap-2.5 lg:max-h-[580px] lg:overflow-y-auto pr-0 lg:pr-2 custom-scrollbar">
+          {/* Left Column: Interactive List Menu (5 cols on desktop, full list without scrolling) */}
+          <div className="lg:col-span-5 flex flex-col gap-2.5 w-full">
             {services.map((s) => {
               const Icon = s.icon;
               const isActive = activeService.id === s.id;

@@ -1,5 +1,4 @@
 import heroVideo from "@/assets/herovideo.mp4";
-import heroImg from "@/assets/hero-electrician.jpg";
 
 export function PageHeader({
   eyebrow,
@@ -20,7 +19,6 @@ export function PageHeader({
           muted
           playsInline
           className="h-full w-full object-cover opacity-30"
-          poster={heroImg}
         >
           <source src={heroVideo} type="video/mp4" />
         </video>

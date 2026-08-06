@@ -209,7 +209,7 @@ export function Header() {
           {/* ── MOBILE: Full-Width Clean Header (Logo + Call + Menu) ──────── */}
           <div className="flex items-center justify-between w-full md:hidden bg-white px-3.5 sm:px-4 py-2.5 border-none shadow-none select-none">
             <Link to="/" className="flex items-center shrink-0">
-              <img src={logoImg} alt="Upfront AC Logo" className="h-10 sm:h-11 w-auto object-contain scale-110 origin-left my-[-2px]" />
+              <img src={logoImg} alt="Upfront AC Logo" className="h-12 sm:h-14 w-auto object-contain scale-115 origin-left my-[-2px]" />
             </Link>
 
             {/* Right: Free Estimate + Phone Call Pill + Hamburger */}

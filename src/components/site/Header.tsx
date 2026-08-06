@@ -354,111 +354,170 @@ export function Header() {
       {/* ── MOBILE DRAWER ────────────────────────────────────── */}
       <div
         className={cn(
-          "md:hidden overflow-y-auto transition-[max-height,opacity] duration-300 bg-white pointer-events-auto shadow-xl",
-          open ? "max-h-[calc(100vh-80px)] opacity-100 border-t border-gray-100" : "max-h-0 opacity-0"
+          "md:hidden fixed inset-x-0 top-full z-50 transition-all duration-300 ease-in-out pointer-events-auto overflow-hidden",
+          open
+            ? "max-h-[calc(100vh-60px)] opacity-100 visible"
+            : "max-h-0 opacity-0 invisible"
         )}
       >
-        <div className="px-4 py-4 flex flex-col gap-4">
-          {/* Nav links */}
-          <nav className="flex flex-col gap-0.5">
-            {navItems.map((item) => {
-              if (item.label === t("About Us", "Sobre Nosotros")) {
-                return (
-                  <div key="about-mobile">
-                    <button
-                      onClick={() => setAboutOpen((v) => !v)}
-                      className="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider text-[#1E293B] hover:bg-gray-50 transition"
-                    >
-                      {t("About Us", "Sobre Nosotros")}
-                      <ChevronDown className={cn("h-4 w-4 transition-transform", aboutOpen && "rotate-180")} />
-                    </button>
-                    {aboutOpen && (
-                      <div className="ml-4 mt-1 mb-1 flex flex-col gap-0.5 border-l-2 border-[#005CE6]/20 pl-3">
-                        {aboutLinks.map((ab) => (
-                          <a
-                            key={ab.l}
-                            href={ab.to}
-                            onClick={() => setOpen(false)}
-                            className="flex items-center gap-2 py-2 text-sm font-semibold text-slate-700 hover:text-[#005CE6] transition"
-                          >
-                            <ab.icon className="h-3.5 w-3.5 text-[#005CE6] shrink-0" />
-                            {ab.l}
-                          </a>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              }
+        {/* Semi-transparent Dark Glass Canvas */}
+        <div className="w-full bg-[#0F172A]/98 backdrop-blur-2xl border-b border-slate-700/60 text-white shadow-[0_30px_90px_rgba(0,0,0,0.6)] max-h-[calc(100vh-70px)] overflow-y-auto custom-scrollbar">
+          <div className="px-4 py-5 flex flex-col gap-5">
 
-              if (item.label === t("Services", "Servicios")) {
-                return (
-                  <div key="services-mobile">
-                    <button
-                      onClick={() => setServicesOpen((v) => !v)}
-                      className="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider text-[#1E293B] hover:bg-gray-50 transition"
-                    >
-                      {t("Services", "Servicios")}
-                      <ChevronDown className={cn("h-4 w-4 transition-transform", servicesOpen && "rotate-180")} />
-                    </button>
-                    {servicesOpen && (
-                      <div className="ml-4 mt-1 mb-1 flex flex-col gap-0.5 border-l-2 border-[#005CE6]/20 pl-3">
-                        {serviceLinks.map((srv) => (
-                          <a
-                            key={srv.l}
-                            href={srv.to}
-                            onClick={() => setOpen(false)}
-                            className="flex items-center gap-2 py-2 text-sm font-semibold text-slate-700 hover:text-[#005CE6] transition"
-                          >
-                            <srv.icon className="h-3.5 w-3.5 text-[#005CE6] shrink-0" />
-                            {srv.l}
-                          </a>
-                        ))}
-                        <a
-                          href="#get-in-touch"
-                          onClick={() => setOpen(false)}
-                          className="flex items-center gap-2 py-2 text-sm font-bold text-red-600"
-                        >
-                          <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
-                          {t("Emergency Service", "Servicio de Emergencia")}
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                );
-              }
+            {/* Top Quick Actions Bar: Direct Call + Language Toggle */}
+            <div className="grid grid-cols-2 gap-3 p-2 rounded-2xl bg-slate-900/80 border border-slate-800">
+              <a
+                href="tel:+17138197908"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#005CE6] to-[#0047B3] py-2.5 px-3 text-xs font-black text-white shadow-md shadow-[#005CE6]/30 active:scale-95 transition-transform"
+              >
+                <Phone className="h-3.5 w-3.5 fill-white" />
+                <span>(713) 819-7908</span>
+              </a>
 
-              return (
-                <a
-                  key={item.label}
-                  href={item.to}
-                  onClick={() => setOpen(false)}
-                  className="rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition-colors text-[#1E293B] hover:bg-gray-50"
+              <div className="flex items-center justify-center gap-1.5 rounded-xl bg-slate-800/80 p-1 border border-slate-700/60">
+                <button
+                  onClick={() => setLanguage("en")}
+                  className={cn(
+                    "flex-1 py-1.5 rounded-lg text-[11px] font-extrabold uppercase transition-all",
+                    language === "en"
+                      ? "bg-[#005CE6] text-white shadow-sm"
+                      : "text-slate-400 hover:text-white"
+                  )}
                 >
-                  {item.label}
-                </a>
-              );
-            })}
-          </nav>
+                  🇬BH EN
+                </button>
+                <button
+                  onClick={() => setLanguage("es")}
+                  className={cn(
+                    "flex-1 py-1.5 rounded-lg text-[11px] font-extrabold uppercase transition-all",
+                    language === "es"
+                      ? "bg-[#005CE6] text-white shadow-sm"
+                      : "text-slate-400 hover:text-white"
+                  )}
+                >
+                  🇪🇸 ES
+                </button>
+              </div>
+            </div>
 
-          {/* Contact info */}
-          <div className="border-t border-gray-100 pt-4 flex flex-col gap-3">
-            <a
-              href="tel:+17138197908"
-              className="flex items-center justify-center gap-2.5 rounded-full bg-[#005CE6] hover:bg-[#0047B3] text-white py-3 text-sm font-black shadow-md transition"
-            >
-              <Phone className="h-4 w-4" /> (713) 819-7908
-            </a>
-            <div className="flex flex-col gap-2 text-xs text-gray-500 font-semibold px-1">
-              <span className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-[#005CE6] shrink-0 mt-0.5" />
-                <span className="break-all">{t("We Are Certified Technicians!", "¡Somos Técnicos Certificados!")}</span>
-              </span>
-              <span className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-[#005CE6] shrink-0" />
-                {t("24/7 Emergency HVAC Service", "Servicio HVAC de Emergencia 24/7")}
+            {/* Navigation Category Items */}
+            <nav className="flex flex-col gap-1.5">
+              {navItems.map((item) => {
+                if (item.label === t("About Us", "Sobre Nosotros")) {
+                  return (
+                    <div key="about-mobile" className="rounded-2xl bg-slate-900/60 border border-slate-800/80 overflow-hidden">
+                      <button
+                        onClick={() => setAboutOpen((v) => !v)}
+                        className="w-full flex items-center justify-between px-4 py-3.5 text-xs font-black uppercase tracking-wider text-slate-100 hover:text-[#005CE6] transition-colors"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-7 h-7 rounded-lg bg-[#005CE6]/15 text-[#005CE6] flex items-center justify-center">
+                            <Info className="h-3.5 w-3.5" />
+                          </div>
+                          <span>{t("About Us", "Sobre Nosotros")}</span>
+                        </div>
+                        <ChevronDown className={cn("h-4 w-4 text-slate-400 transition-transform duration-300", aboutOpen && "rotate-180 text-[#005CE6]")} />
+                      </button>
+                      
+                      {aboutOpen && (
+                        <div className="px-3 pb-3 flex flex-col gap-1 border-t border-slate-800/60 pt-2">
+                          {aboutLinks.map((ab) => (
+                            <a
+                              key={ab.l}
+                              href={ab.to}
+                              onClick={() => setOpen(false)}
+                              className="flex items-center gap-3 rounded-xl p-2.5 hover:bg-slate-800/80 transition-colors"
+                            >
+                              <div className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-[#005CE6] shrink-0">
+                                <ab.icon className="h-3.5 w-3.5" />
+                              </div>
+                              <div className="flex flex-col text-left">
+                                <span className="text-xs font-bold text-slate-200">{ab.l}</span>
+                                <span className="text-[10px] text-slate-400 leading-tight">{ab.desc}</span>
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                if (item.label === t("Services", "Servicios")) {
+                  return (
+                    <div key="services-mobile" className="rounded-2xl bg-slate-900/60 border border-slate-800/80 overflow-hidden">
+                      <button
+                        onClick={() => setServicesOpen((v) => !v)}
+                        className="w-full flex items-center justify-between px-4 py-3.5 text-xs font-black uppercase tracking-wider text-slate-100 hover:text-[#005CE6] transition-colors"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-7 h-7 rounded-lg bg-[#005CE6]/15 text-[#005CE6] flex items-center justify-center">
+                            <Wrench className="h-3.5 w-3.5" />
+                          </div>
+                          <span>{t("Services", "Servicios")}</span>
+                        </div>
+                        <ChevronDown className={cn("h-4 w-4 text-slate-400 transition-transform duration-300", servicesOpen && "rotate-180 text-[#005CE6]")} />
+                      </button>
+
+                      {servicesOpen && (
+                        <div className="px-3 pb-3 flex flex-col gap-1 border-t border-slate-800/60 pt-2 max-h-[320px] overflow-y-auto custom-scrollbar">
+                          {serviceLinks.map((srv) => (
+                            <a
+                              key={srv.l}
+                              href={srv.to}
+                              onClick={() => setOpen(false)}
+                              className="flex items-center gap-3 rounded-xl p-2.5 hover:bg-slate-800/80 transition-colors"
+                            >
+                              <div className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-[#005CE6] shrink-0">
+                                <srv.icon className="h-3.5 w-3.5" />
+                              </div>
+                              <div className="flex flex-col text-left">
+                                <span className="text-xs font-bold text-slate-200">{srv.l}</span>
+                                <span className="text-[10px] text-slate-400 leading-tight line-clamp-1">{srv.desc}</span>
+                              </div>
+                            </a>
+                          ))}
+                          <a
+                            href="#get-in-touch"
+                            onClick={() => setOpen(false)}
+                            className="flex items-center gap-2.5 rounded-xl bg-red-500/10 border border-red-500/20 p-2.5 text-xs font-extrabold text-red-400 hover:bg-red-500/20 transition-colors mt-1"
+                          >
+                            <AlertTriangle className="h-4 w-4 text-red-400 shrink-0" />
+                            <span>{t("Emergency Service 24/7", "Servicio de Emergencia 24/7")}</span>
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                return (
+                  <a
+                    key={item.label}
+                    href={item.to}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-between rounded-xl px-4 py-3 text-xs font-black uppercase tracking-wider text-slate-200 hover:text-[#005CE6] hover:bg-slate-900/80 transition-all border border-transparent hover:border-slate-800"
+                  >
+                    <span>{item.label}</span>
+                    <span className="text-[#005CE6] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                  </a>
+                );
+              })}
+            </nav>
+
+            {/* Bottom Certification Badge */}
+            <div className="rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-900 border border-slate-800 p-3.5 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2.5 text-slate-300 font-bold text-[11px]">
+                <Shield className="h-4 w-4 text-[#005CE6] shrink-0" />
+                <span>TACLA133609C</span>
+              </div>
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-1 rounded-full">
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                24/7 Active
               </span>
             </div>
+
           </div>
         </div>
       </div>

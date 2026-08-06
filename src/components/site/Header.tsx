@@ -379,24 +379,26 @@ export function Header() {
                 <button
                   onClick={() => setLanguage("en")}
                   className={cn(
-                    "flex-1 py-1.5 rounded-lg text-[11px] font-extrabold uppercase transition-all",
+                    "flex-1 py-1.5 rounded-lg text-[11px] font-extrabold uppercase transition-all flex items-center justify-center gap-1.5",
                     language === "en"
                       ? "bg-[#005CE6] text-white shadow-sm"
                       : "text-slate-400 hover:text-white"
                   )}
                 >
-                  🇬BH EN
+                  <span className="text-xs leading-none">🇬🇧</span>
+                  <span>EN</span>
                 </button>
                 <button
                   onClick={() => setLanguage("es")}
                   className={cn(
-                    "flex-1 py-1.5 rounded-lg text-[11px] font-extrabold uppercase transition-all",
+                    "flex-1 py-1.5 rounded-lg text-[11px] font-extrabold uppercase transition-all flex items-center justify-center gap-1.5",
                     language === "es"
                       ? "bg-[#005CE6] text-white shadow-sm"
                       : "text-slate-400 hover:text-white"
                   )}
                 >
-                  🇪🇸 ES
+                  <span className="text-xs leading-none">🇪🇸</span>
+                  <span>ES</span>
                 </button>
               </div>
             </div>

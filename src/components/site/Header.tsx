@@ -188,14 +188,14 @@ export function Header() {
         className={cn(
           "w-full transition-all duration-300 px-0 md:px-4 lg:px-8 pointer-events-auto",
           scrolled
-            ? "py-0 md:py-2 bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100"
+            ? "py-0 md:py-2 bg-white/95 backdrop-blur-md shadow-none md:shadow-md md:border-b md:border-gray-100"
             : "py-0 md:py-3 bg-transparent md:bg-[linear-gradient(to_bottom,#ffffff_50%,transparent_50%)] md:absolute md:top-full md:left-0 md:z-40"
         )}
       >
         <div className="mx-auto max-w-7xl flex items-center justify-between w-full gap-3">
 
           {/* ── MOBILE: Full-Width Clean Header (Logo + Call + Menu) ──────── */}
-          <div className="flex items-center justify-between w-full md:hidden bg-white px-3.5 sm:px-4 py-2 border-b border-gray-100/80 shadow-sm select-none">
+          <div className="flex items-center justify-between w-full md:hidden bg-white px-3.5 sm:px-4 py-2.5 border-none shadow-none select-none">
             <Link to="/" className="flex items-center shrink-0">
               <img src={logoImg} alt="Upfront AC Logo" className="h-10 sm:h-11 w-auto object-contain scale-110 origin-left my-[-2px]" />
             </Link>

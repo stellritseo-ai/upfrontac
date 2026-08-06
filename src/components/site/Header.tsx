@@ -354,14 +354,14 @@ export function Header() {
       {/* ── MOBILE DRAWER ────────────────────────────────────── */}
       <div
         className={cn(
-          "md:hidden fixed inset-x-0 top-full z-50 transition-all duration-300 ease-in-out pointer-events-auto overflow-hidden",
+          "md:hidden w-full transition-all duration-300 ease-in-out pointer-events-auto overflow-hidden bg-[#0F172A]",
           open
-            ? "max-h-[calc(100vh-60px)] opacity-100 visible"
-            : "max-h-0 opacity-0 invisible"
+            ? "max-h-[calc(100vh-60px)] opacity-100 border-t border-slate-800 shadow-2xl"
+            : "max-h-0 opacity-0"
         )}
       >
         {/* Semi-transparent Dark Glass Canvas */}
-        <div className="w-full bg-[#0F172A]/98 backdrop-blur-2xl border-b border-slate-700/60 text-white shadow-[0_30px_90px_rgba(0,0,0,0.6)] max-h-[calc(100vh-70px)] overflow-y-auto custom-scrollbar">
+        <div className="w-full bg-[#0F172A] text-white max-h-[calc(100vh-70px)] overflow-y-auto custom-scrollbar">
           <div className="px-4 py-5 flex flex-col gap-5">
 
             {/* Top Quick Actions Bar: Direct Call + Language Toggle */}

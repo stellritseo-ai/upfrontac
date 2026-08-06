@@ -11,43 +11,59 @@ export function AutoPlayVideo({ src, className, ...props }: AutoPlayVideoProps) 
     const video = videoRef.current;
     if (!video) return;
 
-    // Force native DOM properties for iOS Safari & Android Chrome policy compliance
+    // 1. Force native DOM properties for iOS Safari & Android/iOS Chrome policy compliance
     video.muted = true;
     video.defaultMuted = true;
+    video.volume = 0;
     video.setAttribute("muted", "");
     video.setAttribute("playsinline", "");
-    video.setAttribute("webkit-playsinline", "");
+    video.setAttribute("webkit-playsinline", "true");
+    video.setAttribute("x5-playsinline", "true");
+    video.setAttribute("x5-video-player-type", "h5");
+    video.setAttribute("x5-video-player-fullscreen", "false");
 
-    const attemptPlay = () => {
+    const forcePlay = () => {
+      if (!video) return;
       video.muted = true;
       video.defaultMuted = true;
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Fallback: Retry playback on first user touch if low-power mode blocked initial attempt
-          const handleInteraction = () => {
-            video.muted = true;
-            video.play().catch(() => {});
-            window.removeEventListener("touchstart", handleInteraction);
-            window.removeEventListener("click", handleInteraction);
-            window.removeEventListener("scroll", handleInteraction);
-          };
-          window.addEventListener("touchstart", handleInteraction, { once: true, passive: true });
-          window.addEventListener("click", handleInteraction, { once: true, passive: true });
-          window.addEventListener("scroll", handleInteraction, { once: true, passive: true });
+      video.volume = 0;
+      const promise = video.play();
+      if (promise !== undefined) {
+        promise.catch(() => {
+          // Chrome battery saver or strict policy blocked immediate autoplay.
+          // Will be picked up instantly by touch/scroll event listeners below.
         });
       }
     };
 
-    if (video.readyState >= 2) {
-      attemptPlay();
-    } else {
-      video.addEventListener("loadeddata", attemptPlay, { once: true });
-      video.addEventListener("canplay", attemptPlay, { once: true });
-      video.load();
-    }
+    // 2. Immediate playback attempt
+    forcePlay();
 
-    attemptPlay();
+    // 3. Media Event Listeners for deferred loading on Chrome Mobile
+    const events = ["loadedmetadata", "loadeddata", "canplay", "canplaythrough", "playing"];
+    events.forEach((evt) => video.addEventListener(evt, forcePlay, { passive: true }));
+
+    // 4. Aggressive Interaction Fallbacks for Android/iOS Chrome Data/Battery Saver
+    const handleGlobalInteraction = () => {
+      forcePlay();
+    };
+
+    const interactionEvents = ["touchstart", "touchend", "touchmove", "pointerdown", "scroll", "pageshow", "visibilitychange"];
+    interactionEvents.forEach((evt) => {
+      window.addEventListener(evt, handleGlobalInteraction, { passive: true });
+      document.addEventListener(evt, handleGlobalInteraction, { passive: true });
+    });
+
+    // 5. Retry on load
+    video.load();
+
+    return () => {
+      events.forEach((evt) => video.removeEventListener(evt, forcePlay));
+      interactionEvents.forEach((evt) => {
+        window.removeEventListener(evt, handleGlobalInteraction);
+        document.removeEventListener(evt, handleGlobalInteraction);
+      });
+    };
   }, [src]);
 
   return (
@@ -59,6 +75,8 @@ export function AutoPlayVideo({ src, className, ...props }: AutoPlayVideoProps) 
       playsInline
       // @ts-ignore
       webkit-playsinline="true"
+      // @ts-ignore
+      x5-playsinline="true"
       preload="auto"
       aria-hidden="true"
       className={className}

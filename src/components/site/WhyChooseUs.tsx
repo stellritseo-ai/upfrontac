@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import whyChooseVideo from "@/assets/videowhychooseus.mp4";
@@ -6,6 +7,15 @@ import { Zap, CheckCircle2, ShieldCheck, Clock, Award, PhoneCall, Sparkles } fro
 
 export function WhyChooseUs() {
   const { t } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   const features = [
     {
@@ -152,12 +162,16 @@ export function WhyChooseUs() {
             >
               {/* Background Video */}
               <video
+                ref={videoRef}
                 autoPlay
                 loop
                 muted
                 playsInline
-                preload="metadata"
-                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                // @ts-ignore
+                webkit-playsinline="true"
+                preload="auto"
+                aria-hidden="true"
+                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out pointer-events-none"
               >
                 <source src={whyChooseVideo} type="video/mp4" />
               </video>

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Clock, CreditCard, Phone, ShieldCheck, Star, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,15 @@ import { LiquidGlass } from "@liquidglass/react";
 
 export function Hero() {
   const { t } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   const badges = [
     { icon: <Star className="h-3.5 w-3.5 text-amber-400 fill-amber-400 shrink-0" />, label: t("5★ Google Reviews", "5★ Reseñas de Google") },
@@ -21,11 +31,16 @@ export function Hero() {
       {/* Background Video */}
       <div className="absolute inset-0 -z-10">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          className="h-full w-full object-cover"
+          // @ts-ignore
+          webkit-playsinline="true"
+          preload="auto"
+          aria-hidden="true"
+          className="h-full w-full object-cover pointer-events-none"
         >
           <source src={heroVideo} type="video/mp4" />
         </video>

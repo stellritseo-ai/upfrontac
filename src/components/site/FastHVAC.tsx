@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { PhoneCall, Zap, Clock, ShieldCheck, ArrowRight, MapPin, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
@@ -6,18 +7,31 @@ import { useLanguage } from "@/hooks/useLanguage";
 
 export function FastHVAC() {
   const { t } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   return (
     <section id="fast-hvac" className="relative w-full overflow-hidden py-[20px] text-white bg-slate-950 border-y border-white/10 select-none">
       {/* Background Video */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
-          className="h-full w-full object-cover opacity-90 scale-105"
+          // @ts-ignore
+          webkit-playsinline="true"
+          preload="auto"
+          aria-hidden="true"
+          className="h-full w-full object-cover opacity-90 scale-105 pointer-events-none"
         >
           <source src={hvacVideo} type="video/mp4" />
         </video>

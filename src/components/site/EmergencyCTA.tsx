@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Phone, Users, Star, ShieldCheck, ThermometerSun, MapPin, ArrowRight } from "lucide-react";
 import heroVideo from "@/assets/herovideo.mp4";
@@ -6,6 +7,15 @@ import { Link } from "@tanstack/react-router";
 
 export function EmergencyCTA() {
   const { t } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   const highlights = [
     {
@@ -47,12 +57,16 @@ export function EmergencyCTA() {
       {/* Background Video with Dark Glass Vignette Overlay */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
-          className="h-full w-full object-cover [will-change:transform] translate-z-0 opacity-85 scale-105"
+          // @ts-ignore
+          webkit-playsinline="true"
+          preload="auto"
+          aria-hidden="true"
+          className="h-full w-full object-cover [will-change:transform] translate-z-0 opacity-85 scale-105 pointer-events-none"
         >
           <source src={heroVideo} type="video/mp4" />
         </video>

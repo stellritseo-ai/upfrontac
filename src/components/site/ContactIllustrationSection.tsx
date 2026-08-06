@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ThermometerSun, Wind, Volume2, TrendingUp, AlertTriangle, ShieldAlert, PhoneCall, ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
@@ -7,6 +8,15 @@ import { useLanguage } from "@/hooks/useLanguage";
 
 export function ContactIllustrationSection() {
   const { t } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   const warningSigns = [
     {
@@ -76,12 +86,16 @@ export function ContactIllustrationSection() {
       {/* Background Video */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
-          className="h-full w-full object-cover opacity-85 scale-105"
+          // @ts-ignore
+          webkit-playsinline="true"
+          preload="auto"
+          aria-hidden="true"
+          className="h-full w-full object-cover opacity-85 scale-105 pointer-events-none"
         >
           <source src={heroVideo} type="video/mp4" />
         </video>

@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { ArrowRight, CheckCircle2, Sparkles, Award, Target } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import hvacWelcomeVideo from "@/assets/hvacwelcome.mp4";
@@ -6,13 +7,22 @@ import { useLanguage } from "@/hooks/useLanguage";
 
 export function Welcome() {
   const { t } = useLanguage();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => { });
+    }
+  }, []);
 
   const focusPoints = [
-    t("Fast-response HVAC service", "Servicio HVAC de respuesta rápida"),
-    t("Accurate diagnostics", "Diagnósticos precisos"),
-    t("Long-term HVAC solutions", "Soluciones HVAC a largo plazo"),
-    t("Honest pricing", "Precios honestos"),
-    t("Professional workmanship", "Mano de obra profesional"),
+    t("Fast-Response HVAC Service", "Servicio HVAC de respuesta rápida"),
+    t("Accurate Diagnostics", "Diagnósticos precisos"),
+    t("Long-term HVAC Solutions", "Soluciones HVAC a largo plazo"),
+    t("Honest Pricing", "Precios honestos"),
+    t("Professional Workmanship", "Mano de obra profesional"),
   ];
 
   return (
@@ -29,7 +39,7 @@ export function Welcome() {
 
           {/* Left Column: Copy & Focus Points (7 cols on desktop) */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
-            
+
             {/* Top Pill Tagline */}
             <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Sparkles className="h-3.5 w-3.5 text-[#005CE6] shrink-0" />
@@ -38,9 +48,9 @@ export function Welcome() {
 
             {/* Heading */}
             <h2 className="mt-4 font-display text-3xl sm:text-4xl lg:text-[42px] leading-[1.2] font-extrabold text-slate-900 tracking-tight">
-              {t("Built to solve one problem in Houston: ", "Creado para resolver un problema en Houston: ")}
+              {t("Built to Solve One Problem in Houston: ", "Creado para resolver un problema en Houston: ")}
               <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-500 bg-clip-text text-transparent">
-                {t("unreliable HVAC service.", "el servicio de HVAC poco confiable.")}
+                {t("Reliable HVAC Service.", "el servicio de HVAC poco confiable.")}
               </span>
             </h2>
 
@@ -95,21 +105,26 @@ export function Welcome() {
 
           {/* Right Column: Ultra-Premium Video Showcase Frame (5 cols on desktop) */}
           <div className="lg:col-span-5 relative group w-full flex justify-center items-center">
-            
+
             {/* Ambient Background Radial Glow */}
             <div className="absolute -inset-2 rounded-[40px] bg-gradient-to-tr from-[#005CE6] via-cyan-400 to-indigo-600 opacity-20 blur-3xl group-hover:opacity-35 transition-opacity duration-700 pointer-events-none" />
 
             {/* Outer Glass Border Frame */}
             <div className="relative w-full rounded-[32px] bg-slate-900/90 p-2 sm:p-3 border border-slate-200/80 shadow-[0_30px_70px_-15px_rgba(15,23,42,0.25)]">
-              
+
               {/* Inner Video Container */}
               <div className="relative w-full aspect-[4/5] sm:aspect-[4/5] min-h-[460px] sm:min-h-[540px] rounded-[24px] overflow-hidden bg-slate-950">
                 <video
+                  ref={videoRef}
                   autoPlay
                   loop
                   muted
                   playsInline
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  // @ts-ignore
+                  webkit-playsinline="true"
+                  preload="auto"
+                  aria-hidden="true"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 pointer-events-none"
                 >
                   <source src={hvacWelcomeVideo} type="video/mp4" />
                 </video>

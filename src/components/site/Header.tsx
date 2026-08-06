@@ -200,22 +200,30 @@ export function Header() {
               <img src={logoImg} alt="Upfront AC Logo" className="h-10 sm:h-11 w-auto object-contain scale-110 origin-left my-[-2px]" />
             </Link>
 
-            {/* Right: Phone Call Pill + Hamburger */}
-            <div className="flex items-center gap-2.5">
+            {/* Right: Free Estimate + Phone Call Pill + Hamburger */}
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <a
+                href="#get-in-touch"
+                className="flex items-center gap-1 bg-[#005CE6]/10 hover:bg-[#005CE6]/20 border border-[#005CE6]/30 text-[#005CE6] text-[11px] font-black rounded-full px-2.5 sm:px-3 py-1.5 transition-all active:scale-95 whitespace-nowrap"
+              >
+                <Sparkles className="h-3 w-3 text-[#005CE6] shrink-0" />
+                <span>{t("Free Estimate", "Presupuesto")}</span>
+              </a>
+
               <a
                 href="tel:+17138197908"
-                className="flex items-center gap-1.5 bg-[#005CE6] hover:bg-[#004bb8] text-white text-xs font-black rounded-full px-4 py-2 shadow-md shadow-[#005CE6]/25 transition-all active:scale-95"
+                className="flex items-center gap-1 bg-[#005CE6] hover:bg-[#004bb8] text-white text-[11px] font-black rounded-full px-3 py-1.5 shadow-sm shadow-[#005CE6]/25 transition-all active:scale-95 shrink-0"
               >
-                <Phone className="h-3.5 w-3.5 fill-white text-white" />
-                <span>Call</span>
+                <Phone className="h-3 w-3 fill-white text-white shrink-0" />
+                <span>{t("Call", "Llamar")}</span>
               </a>
 
               <button
                 aria-label="Toggle menu"
                 onClick={() => setOpen((v) => !v)}
-                className="grid h-10 w-10 place-items-center rounded-xl border border-gray-200 bg-white text-slate-800 shadow-sm transition hover:border-[#005CE6] hover:text-[#005CE6] active:scale-95"
+                className="grid h-9 w-9 place-items-center rounded-xl border border-gray-200 bg-white text-slate-800 shadow-sm transition hover:border-[#005CE6] hover:text-[#005CE6] active:scale-95 shrink-0"
               >
-                {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5 stroke-[2.2]" />}
+                {open ? <X className="h-4.5 w-4.5" /> : <Menu className="h-4.5 w-4.5 stroke-[2.2]" />}
               </button>
             </div>
           </div>

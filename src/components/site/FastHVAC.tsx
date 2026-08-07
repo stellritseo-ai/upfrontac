@@ -129,7 +129,7 @@ export function FastHVAC() {
 
               {/* Secondary Request Quote Button */}
               <Link
-                to="/contact"
+                to="/request-free-estimate"
                 className="inline-flex items-center justify-center gap-2 rounded-2xl font-extrabold py-4 px-6 bg-white/15 hover:bg-white/25 border border-white/30 backdrop-blur-md text-white shadow-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full text-center text-xs uppercase tracking-widest"
               >
                 <Sparkles className="w-4 h-4 text-cyan-300" />

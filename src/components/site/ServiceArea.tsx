@@ -217,13 +217,13 @@ export function ServiceArea() {
                 </div>
               </div>
 
-              <a
-                href="#get-in-touch"
+              <Link
+                to="/service-areas"
                 className="w-full sm:w-auto flex justify-center items-center gap-1.5 text-xs font-extrabold text-[#005CE6] bg-white hover:bg-cyan-50 px-3.5 py-2.5 sm:py-2 rounded-xl shadow-md transition-all shrink-0 box-border"
               >
                 <span>{t("Check Coverage", "Ver Cobertura")}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </a>
+              </Link>
             </div>
 
           </motion.div>

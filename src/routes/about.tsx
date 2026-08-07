@@ -2,8 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHeader } from "@/components/site/PageHeader";
 import { About } from "@/components/site/About";
-import { WhyChooseUs } from "@/components/site/WhyChooseUs";
-import { Process } from "@/components/site/Process";
 import { EmergencyCTA } from "@/components/site/EmergencyCTA";
 import { useLanguage } from "@/hooks/useLanguage";
 
@@ -17,13 +15,13 @@ function AboutPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://www.randeelectrical.com/"
+        "item": "https://www.upfrontac.com/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "About Us",
-        "item": "https://www.randeelectrical.com/about"
+        "item": "https://www.upfrontac.com/about"
       }
     ]
   };
@@ -35,13 +33,11 @@ function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <PageHeader
-        eyebrow={t("About Us", "Sobre Nosotros")}
-        title={t("Built on craft. Powered by trust.", "Construido sobre mano de obra. Impulsado por la confianza.")}
-        subtitle={t("A family-owned team of master electricians serving Florida since 2009.", "Un equipo familiar de maestros electricistas que sirve a Florida desde 2009.")}
+        eyebrow={t("Excellence Since 2010", "Excelencia Desde 2010")}
+        title={t("About Upfront Air Conditioning", "Acerca de Upfront Air Conditioning")}
+        subtitle={t("Family-owned residential & commercial HVAC experts dedicated to quality over quantity in Tomball, Cypress, and Greater Houston, TX.", "Expertos en HVAC residencial y comercial dedicados a la calidad sobre la cantidad en Tomball, Cypress y Greater Houston, TX.")}
       />
       <About />
-      <WhyChooseUs />
-      <Process />
       <EmergencyCTA />
     </SiteLayout>
   );
@@ -50,13 +46,13 @@ function AboutPage() {
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About R&E Electrical Contractor Corp | Florida Master Electricians" },
-      { name: "description", content: "Family-owned electrical contractors with 17+ years powering Florida homes and businesses safely and beautifully." },
-      { property: "og:title", content: "About R&E Electrical Contractor Corp" },
-      { property: "og:description", content: "Florida's trusted licensed electrical contractors." },
+      { title: "About Us | Upfront Air Conditioning & Heating" },
+      { name: "description", content: "Family-owned BBB accredited residential and commercial HVAC contractor serving Tomball, Cypress, and Greater Houston, TX since 2005." },
+      { property: "og:title", content: "About Upfront Air Conditioning & Heating" },
+      { property: "og:description", content: "Your comfort matters. BBB accredited licensed HVAC experts in Texas." },
     ],
     links: [
-      { rel: "canonical", href: "https://www.randeelectrical.com/about" }
+      { rel: "canonical", href: "https://www.upfrontac.com/about" }
     ],
   }),
   component: AboutPage,

@@ -43,21 +43,23 @@ export function Footer() {
   const quickLinks = [
     { label: t("Home", "Inicio"), href: "/" },
     { label: t("About Upfront AC", "Sobre Upfront AC"), href: "/about" },
-    { label: t("AC Repair Tomball", "Reparación AC Tomball"), href: "/services/ac-repair-tomball" },
-    { label: t("AC Repair Cypress", "Reparación AC Cypress"), href: "/services/ac-repair-cypress" },
-    { label: t("Emergency HVAC Dispatch", "Despacho HVAC Emergencia"), href: "/services/hvac-repairs" },
-    { label: t("Verified Google Reviews", "Reseñas Verificadas de Google"), href: "/reviews" },
-    { label: t("Get Free Estimate", "Obtener Presupuesto Gratis"), href: "/contact" },
+    { label: t("Our Services", "Nuestros Servicios"), href: "/services" },
+    { label: t("Service Areas", "Áreas de Servicio"), href: "/service-areas" },
+    { label: t("Upfront Pricing", "Precios Transparentes"), href: "/upfront-pricing" },
+    { label: t("Finance", "Financiamiento"), href: "/finance" },
+    { label: t("Get Free Estimate", "Obtener Presupuesto Gratis"), href: "/request-free-estimate" },
+    { label: t("Contact Us", "Contáctenos"), href: "/contact" },
   ];
 
   const servicesLinks = [
-    { label: t("AC Repair", "Reparación de Aire Acondicionado"), href: "/services/air-conditioning" },
+    { label: t("AC Repair & Maintenance", "Reparación y Mantenimiento AC"), href: "/services/air-conditioning" },
     { label: t("HVAC Installation", "Instalación de HVAC"), href: "/services/hvac-install" },
     { label: t("Heating Service", "Servicio de Calefacción"), href: "/services/heating" },
     { label: t("Commercial HVAC", "HVAC Comercial"), href: "/services/commercial-hvac" },
     { label: t("Indoor Air Quality", "Calidad del Aire Interior"), href: "/services/indoor-air-quality" },
-    { label: t("HVAC Maintenance", "Mantenimiento HVAC"), href: "/services/hvac-maintenance" },
     { label: t("Residential HVAC", "HVAC Residencial"), href: "/services/residential-hvac" },
+    { label: t("HVAC Repairs", "Reparaciones HVAC"), href: "/services/hvac-repairs" },
+    { label: t("HVAC Maintenance", "Mantenimiento HVAC"), href: "/services/hvac-maintenance" },
   ];
 
   return (

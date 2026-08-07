@@ -16,9 +16,9 @@ export function PageHeader({
       <div className="absolute inset-0 -z-10">
         <AutoPlayVideo
           src={heroVideo}
-          className="h-full w-full object-cover opacity-30 pointer-events-none"
+          className="h-full w-full object-cover opacity-85 pointer-events-none transition-opacity duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0F172A]/60 via-[#0F172A]/80 to-[#0F172A]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0F172A]/70 via-[#0F172A]/45 to-[#0F172A]/85" />
       </div>
 
       {/* Glow blobs */}
@@ -29,8 +29,8 @@ export function PageHeader({
 
       <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         {eyebrow && (
-          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 backdrop-blur-sm rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#005CE6] mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#005CE6] animate-pulse" />
+          <div className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/40 backdrop-blur-md rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-widest text-red-400 mb-6 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
             {eyebrow}
           </div>
         )}
@@ -38,7 +38,7 @@ export function PageHeader({
           {title}
         </h1>
         {subtitle && (
-          <p className="mx-auto max-w-2xl text-base sm:text-lg text-white/65 leading-relaxed font-medium">
+          <p className="mx-auto max-w-2xl text-base sm:text-lg text-white leading-relaxed font-semibold">
             {subtitle}
           </p>
         )}

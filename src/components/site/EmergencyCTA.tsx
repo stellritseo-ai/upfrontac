@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Phone, Users, Star, ShieldCheck, ThermometerSun, MapPin, ArrowRight } from "lucide-react";
-import heroVideo from "@/assets/herovideo.mp4";
+import heroVideo from "@/assets/hvacwelcome.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "@tanstack/react-router";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
@@ -189,12 +189,12 @@ export function EmergencyCTA() {
             </div>
 
             {/* Online Booking Button */}
-            <a
-              href="#get-in-touch"
+            <Link
+              to="/contact"
               className="w-full text-center rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs font-black uppercase tracking-widest py-4 px-6 shadow-xl shadow-[#005CE6]/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
               {t("Book Service Online", "Reservar Servicio en Línea")}
-            </a>
+            </Link>
           </motion.div>
 
         </div>

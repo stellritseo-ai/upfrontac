@@ -86,10 +86,10 @@ export function Welcome() {
             {/* CTA Button */}
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Button asChild variant="hero" size="lg" className="font-extrabold rounded-full px-8 py-3.5 bg-[#005CE6] hover:bg-[#0047B3] shadow-[0_10px_30px_-5px_rgba(0,92,230,0.45)] transition-all duration-300 hover:scale-[1.02]">
-                <a href="#get-in-touch" className="flex items-center gap-2">
+                <Link to="/request-free-estimate" className="flex items-center gap-2">
                   <span>{t("Get Free Estimate", "Obtener Presupuesto Gratis")}</span>
                   <ArrowRight className="h-4 w-4" />
-                </a>
+                </Link>
               </Button>
             </div>
 

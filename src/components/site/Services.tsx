@@ -353,10 +353,10 @@ export function Services() {
                   {/* Dual Action CTA Buttons */}
                   <div className="mt-7 flex flex-wrap items-center gap-4">
                     <Button asChild size="lg" className="rounded-full font-extrabold px-7 bg-[#005CE6] hover:bg-[#0047B3] text-white shadow-lg shadow-[#005CE6]/40">
-                      <a href="#get-in-touch" className="flex items-center gap-2">
+                      <Link to={activeService.to} className="flex items-center gap-2">
                         <span>{t("Schedule Service Now", "Programar Servicio Ahora")}</span>
                         <ArrowRight className="w-4 h-4" />
-                      </a>
+                      </Link>
                     </Button>
 
                     <a

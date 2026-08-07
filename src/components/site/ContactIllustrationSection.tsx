@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ThermometerSun, Wind, Volume2, TrendingUp, AlertTriangle, ShieldAlert, PhoneCall, ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import heroVideo from "@/assets/herovideo.mp4";
+import heroVideo from "@/assets/hvacwelcome.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
@@ -199,10 +199,10 @@ export function ContactIllustrationSection() {
           </div>
 
           <Button asChild size="lg" className="w-full sm:w-auto rounded-full font-black px-8 py-6 bg-white hover:bg-slate-100 text-[#005CE6] shadow-xl hover:scale-[1.03] transition-all duration-300 shrink-0 text-sm uppercase tracking-wider">
-            <a href="#get-in-touch" className="flex items-center justify-center gap-2">
+            <Link to="/request-free-estimate" className="flex items-center justify-center gap-2">
               <span>{t("Schedule Diagnostics", "Programar Diagnóstico")}</span>
               <ArrowRight className="w-4 h-4 ml-1" />
-            </a>
+            </Link>
           </Button>
         </motion.div>
 

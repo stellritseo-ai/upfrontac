@@ -95,13 +95,13 @@ export function Projects({ isLanding = false }: { isLanding?: boolean }) {
           </div>
 
           {/* CTA */}
-          <a
-            href="#get-in-touch"
+          <Link
+            to="/request-free-estimate"
             className="inline-flex items-center justify-center gap-2 bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs font-bold uppercase tracking-wider rounded-xl px-6 py-3.5 transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] shrink-0 self-start lg:self-auto"
           >
             <span>{t("Get Free Estimate", "Obtener Presupuesto Gratis")}</span>
             <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
 
         {/* Clean Image Grid (No Text Overlays on Images) */}

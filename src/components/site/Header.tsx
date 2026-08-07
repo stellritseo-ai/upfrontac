@@ -14,32 +14,32 @@ export function Header() {
   const { language, setLanguage, t } = useLanguage();
 
   const navItems = [
-    { to: "#welcome", label: t("Home", "Inicio") },
-    { to: "#welcome", label: t("About Us", "Sobre Nosotros") },
+    { to: "/", label: t("Home", "Inicio") },
+    { to: "/about", label: t("About Us", "Sobre Nosotros") },
     { to: "#services", label: t("Services", "Servicios") },
-    { to: "#projects", label: t("Projects", "Proyectos") },
-    { to: "#service-area", label: t("Service Areas", "Áreas de Servicio") },
-    { to: "#get-in-touch", label: t("Upfront Pricing", "Precios Transparentes") },
-    { to: "#get-in-touch", label: t("Finance", "Financiamiento") },
-    { to: "#get-in-touch", label: t("Contact Us", "Contáctenos") },
+    { to: "/projects", label: t("Projects", "Proyectos") },
+    { to: "/service-areas", label: t("Service Areas", "Áreas de Servicio") },
+    { to: "/upfront-pricing", label: t("Upfront Pricing", "Precios Transparentes") },
+    { to: "/finance", label: t("Finance", "Financiamiento") },
+    { to: "/contact", label: t("Contact Us", "Contáctenos") },
   ];
 
   const serviceLinks = [
-    { to: "#services", l: t("HVAC Install", "Instalación HVAC"), desc: t("Professional heating & cooling system installation", "Instalación profesional de calefacción y aire acondicionado"), icon: Wrench },
-    { to: "#services", l: t("Air Conditioning", "Aire Acondicionado"), desc: t("Complete AC solutions, cooling design & installation", "Soluciones completas de AC, diseño y instalación"), icon: Snowflake },
-    { to: "#services", l: t("HVAC Repairs", "Reparaciones HVAC"), desc: t("Fast & reliable emergency HVAC repair services", "Servicios de reparación rápida de HVAC"), icon: Activity },
-    { to: "#services", l: t("AC Repair Services Cypress", "Reparación de AC Cypress"), desc: t("Local AC repair & maintenance in Cypress, TX", "Reparación local de AC en Cypress, TX"), icon: MapPin },
-    { to: "#services", l: t("AC Repair Tomball", "Reparación de AC Tomball"), desc: t("Trusted AC repair technicians in Tomball, TX", "Técnicos de reparación de AC en Tomball, TX"), icon: MapPin },
-    { to: "#services", l: t("Heating", "Calefacción"), desc: t("Furnace & heating system repairs & installation", "Reparación e instalación de sistemas de calefacción"), icon: Flame },
-    { to: "#services", l: t("HVAC Maintenance", "Mantenimiento HVAC"), desc: t("Preventative tune-ups & system maintenance", "Puesta a punto y mantenimiento preventivo"), icon: CheckCircle2 },
-    { to: "#services", l: t("Indoor Air Quality", "Calidad del Aire Interior"), desc: t("Air filtration, purifiers & humidity control", "Filtración de aire, purificadores y control de humedad"), icon: Sparkles },
-    { to: "#services", l: t("Commercial HVAC Services", "Servicios HVAC Comerciales"), desc: t("Commercial heating, cooling & rooftop units", "Calefacción, refrigeración y unidades comerciales"), icon: Building2 },
-    { to: "#services", l: t("Residential HVAC Services", "Servicios HVAC Residenciales"), desc: t("Home heating & cooling solutions", "Soluciones de calefacción y refrigeración para el hogar"), icon: Home },
+    { to: "/services/hvac-install", l: t("HVAC Install Service in Houston, TX", "Servicio de Instalación HVAC en Houston, TX"), desc: t("Professional heating & cooling system installation", "Instalación profesional de calefacción y aire acondicionado"), icon: Wrench },
+    { to: "/services/air-conditioning", l: t("Air Conditioning", "Aire Acondicionado"), desc: t("Complete AC solutions, cooling design & installation", "Soluciones completas de AC, diseño y instalación"), icon: Snowflake },
+    { to: "/services/hvac-repairs", l: t("HVAC Repairs", "Reparaciones HVAC"), desc: t("Fast & reliable emergency HVAC repair services", "Servicios de reparación rápida de HVAC"), icon: Activity },
+    { to: "/services/ac-repair-cypress", l: t("AC Repair Services Cypress", "Reparación de AC Cypress"), desc: t("Local AC repair & maintenance in Cypress, TX", "Reparación local de AC en Cypress, TX"), icon: MapPin },
+    { to: "/services/ac-repair-tomball", l: t("AC Repair Tomball", "Reparación de AC Tomball"), desc: t("Trusted AC repair technicians in Tomball, TX", "Técnicos de reparación de AC en Tomball, TX"), icon: MapPin },
+    { to: "/services/heating", l: t("Heating", "Calefacción"), desc: t("Furnace & heating system repairs & installation", "Reparación e instalación de sistemas de calefacción"), icon: Flame },
+    { to: "/services/hvac-maintenance", l: t("HVAC Maintenance", "Mantenimiento HVAC"), desc: t("Preventative tune-ups & system maintenance", "Puesta a punto y mantenimiento preventivo"), icon: CheckCircle2 },
+    { to: "/services/indoor-air-quality", l: t("Indoor Air Quality", "Calidad del Aire Interior"), desc: t("Air filtration, purifiers & humidity control", "Filtración de aire, purificadores y control de humedad"), icon: Sparkles },
+    { to: "/services/commercial-hvac", l: t("Commercial HVAC Services", "Servicios HVAC Comerciales"), desc: t("Commercial heating, cooling & rooftop units", "Calefacción, refrigeración y unidades comerciales"), icon: Building2 },
+    { to: "/services/residential-hvac", l: t("Residential HVAC Services", "Servicios HVAC Residenciales"), desc: t("Home heating & cooling solutions", "Soluciones de calefacción y refrigeración para el hogar"), icon: Home },
   ];
 
   const aboutLinks = [
-    { to: "#welcome", l: t("About Us", "Sobre Nosotros"), desc: t("Learn about our company & mission", "Conozca nuestra empresa y misión"), icon: Info },
-    { to: "#welcome", l: t("About The Owner", "Sobre El Propietario"), desc: t("Meet the leadership & expert behind Upfront AC", "Conozca al líder y experto detrás de Upfront AC"), icon: User },
+    { to: "/about", l: t("About Us", "Sobre Nosotros"), desc: t("History, advantages, values & services", "Historia, ventajas, valores y servicios"), icon: Info },
+    { to: "/about-owner", l: t("About The Owner", "Sobre El Propietario"), desc: t("Meet the leadership & expert behind Upfront AC", "Conozca al líder y experto detrás de Upfront AC"), icon: User },
   ];
 
   const [scrolled, setScrolled] = useState(false);
@@ -255,18 +255,18 @@ export function Header() {
                 if (item.label === t("About Us", "Sobre Nosotros")) {
                   return (
                     <div key={item.label} className="relative group/nav">
-                      <a
-                        href="#welcome"
+                      <Link
+                        to="/about"
                         className="flex items-center gap-1 rounded-full px-2.5 lg:px-3.5 py-2 text-[10px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap text-[#1E293B] hover:text-[#005CE6]"
                       >
                         {t("About Us", "Sobre Nosotros")} <ChevronDown className="h-3 w-3" />
-                      </a>
+                      </Link>
                       <div className="absolute left-0 top-full z-50 pt-2 opacity-0 invisible pointer-events-none group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:pointer-events-auto transition-all duration-200">
                         <div className="w-[280px] bg-white border border-gray-100 rounded-2xl shadow-[0_20px_50px_-12px_rgba(15,23,42,0.14)] p-3 flex flex-col gap-1">
                           {aboutLinks.map((ab) => (
-                            <a
+                            <Link
                               key={ab.l}
-                              href={ab.to}
+                              to={ab.to}
                               className="group/item flex items-center gap-2.5 rounded-xl p-2.5 hover:bg-gray-50 transition-colors duration-200"
                             >
                               <div className="w-8 h-8 rounded-lg bg-gray-50 group-hover/item:bg-[#005CE6]/10 flex items-center justify-center text-gray-500 group-hover/item:text-[#005CE6] transition-colors shrink-0">
@@ -276,7 +276,7 @@ export function Header() {
                                 <span className="text-[12px] font-bold text-gray-900 group-hover/item:text-[#005CE6] transition-colors leading-tight">{ab.l}</span>
                                 <span className="text-[10px] text-gray-500 leading-tight mt-0.5 line-clamp-1">{ab.desc}</span>
                               </div>
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </div>
@@ -302,9 +302,9 @@ export function Header() {
                           </div>
                           <div className="grid grid-cols-2 gap-1.5">
                             {serviceLinks.map((srv) => (
-                              <a
+                              <Link
                                 key={srv.l}
-                                href={srv.to}
+                                to={srv.to}
                                 className="group/item flex items-start gap-2.5 rounded-xl p-2 hover:bg-gray-50 transition-colors duration-200"
                               >
                                 <div className="w-8 h-8 rounded-lg bg-gray-50 group-hover/item:bg-[#005CE6]/10 flex items-center justify-center text-gray-500 group-hover/item:text-[#005CE6] transition-colors shrink-0">
@@ -314,7 +314,7 @@ export function Header() {
                                   <span className="text-[11px] font-bold text-gray-900 group-hover/item:text-[#005CE6] transition-colors leading-tight">{srv.l}</span>
                                   <span className="text-[10px] text-gray-500 leading-tight mt-0.5 line-clamp-1">{srv.desc}</span>
                                 </div>
-                              </a>
+                              </Link>
                             ))}
                           </div>
                           {/* Emergency CTA */}
@@ -445,9 +445,9 @@ export function Header() {
                       {aboutOpen && (
                         <div className="px-3 pb-3 flex flex-col gap-1 border-t border-slate-800/60 pt-2">
                           {aboutLinks.map((ab) => (
-                            <a
+                            <Link
                               key={ab.l}
-                              href={ab.to}
+                              to={ab.to}
                               onClick={() => setOpen(false)}
                               className="flex items-center gap-3 rounded-xl p-2.5 hover:bg-slate-800/80 transition-colors"
                             >
@@ -458,7 +458,7 @@ export function Header() {
                                 <span className="text-xs font-bold text-slate-200">{ab.l}</span>
                                 <span className="text-[10px] text-slate-400 leading-tight">{ab.desc}</span>
                               </div>
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       )}
@@ -485,9 +485,9 @@ export function Header() {
                       {servicesOpen && (
                         <div className="px-3 pb-3 flex flex-col gap-1 border-t border-slate-800/60 pt-2">
                           {serviceLinks.map((srv) => (
-                            <a
+                            <Link
                               key={srv.l}
-                              href={srv.to}
+                              to={srv.to}
                               onClick={() => setOpen(false)}
                               className="flex items-center gap-3 rounded-xl p-2.5 hover:bg-slate-800/80 transition-colors"
                             >
@@ -498,7 +498,7 @@ export function Header() {
                                 <span className="text-xs font-bold text-slate-200">{srv.l}</span>
                                 <span className="text-[10px] text-slate-400 leading-tight line-clamp-1">{srv.desc}</span>
                               </div>
-                            </a>
+                            </Link>
                           ))}
                           <a
                             href="#get-in-touch"

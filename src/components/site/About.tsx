@@ -486,7 +486,7 @@ export function About() {
               </a>
 
               <a
-                href="#get-in-touch"
+                href="/contact"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 font-bold px-7 py-4 text-sm transition-all"
               >
                 <span>{t("Contact Us Online", "Contáctenos en Línea")}</span>

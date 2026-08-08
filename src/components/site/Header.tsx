@@ -215,7 +215,7 @@ export function Header() {
             {/* Right: Free Estimate + Phone Call Pill + Hamburger */}
             <div className="flex items-center gap-1.5 sm:gap-2">
               <a
-                href="#get-in-touch"
+                href="/request-free-estimate"
                 className="flex items-center gap-1 bg-[#005CE6]/10 hover:bg-[#005CE6]/20 border border-[#005CE6]/30 text-[#005CE6] text-[11px] font-black rounded-full px-2.5 sm:px-3 py-1.5 transition-all active:scale-95 whitespace-nowrap"
               >
                 <Sparkles className="h-3 w-3 text-[#005CE6] shrink-0" />
@@ -287,18 +287,18 @@ export function Header() {
                 if (item.label === t("Services", "Servicios")) {
                   return (
                     <div key={item.label} className="relative group/nav">
-                      <a
-                        href="#services"
+                      <Link
+                        to="/services"
                         className="flex items-center gap-1 rounded-full px-2.5 lg:px-3.5 py-2 text-[10px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap text-[#1E293B] hover:text-[#005CE6]"
                       >
                         {t("Services", "Servicios")} <ChevronDown className="h-3 w-3" />
-                      </a>
+                      </Link>
                       {/* Dropdown — pt-2 creates a transparent bridge so hover stays active */}
                       <div className="absolute left-0 top-full z-50 pt-2 opacity-0 invisible pointer-events-none group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:pointer-events-auto transition-all duration-200">
                         <div className="w-[580px] max-w-[90vw] bg-white border border-gray-100 rounded-3xl shadow-[0_20px_50px_-12px_rgba(15,23,42,0.14)] p-5 flex flex-col gap-3">
                           <div className="flex justify-between items-center border-b border-gray-100 pb-2">
                             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("Our HVAC Services", "Nuestros Servicios de HVAC")}</span>
-                            <a href="#services" className="text-[10px] font-black uppercase text-[#005CE6] tracking-wider hover:underline">{t("View All →", "Ver Todos →")}</a>
+                            <Link to="/services" className="text-[10px] font-black uppercase text-[#005CE6] tracking-wider hover:underline">{t("View All →", "Ver Todos →")}</Link>
                           </div>
                           <div className="grid grid-cols-2 gap-1.5">
                             {serviceLinks.map((srv) => (
@@ -329,7 +329,7 @@ export function Header() {
                               </div>
                             </div>
                             <a
-                              href="#get-in-touch"
+                              href="/request-free-estimate"
                               className="bg-white border border-gray-200 hover:border-[#005CE6] hover:text-[#005CE6] text-gray-800 text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-lg transition whitespace-nowrap"
                             >
                               {t("Emergency", "Emergencia")}
@@ -501,7 +501,7 @@ export function Header() {
                             </Link>
                           ))}
                           <a
-                            href="#get-in-touch"
+                            href="/request-free-estimate"
                             onClick={() => setOpen(false)}
                             className="flex items-center gap-2.5 rounded-xl bg-red-500/10 border border-red-500/20 p-2.5 text-xs font-extrabold text-red-400 hover:bg-red-500/20 transition-colors mt-1"
                           >

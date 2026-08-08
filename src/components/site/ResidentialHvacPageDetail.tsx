@@ -242,7 +242,7 @@ export function ResidentialHvacPageDetail() {
                 </a>
 
                 <a
-                  href="#get-in-touch"
+                  href="/request-free-estimate"
                   className="inline-flex items-center gap-2 rounded-full bg-slate-100 hover:bg-slate-200/80 text-slate-800 border border-slate-200 font-bold px-7 py-4 text-sm transition-all"
                 >
                   <span>Request Free Estimate</span>
@@ -660,7 +660,7 @@ export function ResidentialHvacPageDetail() {
               </a>
 
               <a
-                href="#get-in-touch"
+                href="/request-free-estimate"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 font-bold px-7 py-4 text-sm transition-all"
               >
                 <span>Request Free Quote</span>

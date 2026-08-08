@@ -234,7 +234,7 @@ export function FloatingChat() {
                       <Phone className="h-3.5 w-3.5 text-[#005CE6] shrink-0" /> Call 24/7 Support
                     </a>
                     <a
-                      href="#get-in-touch"
+                      href="/request-free-estimate"
                       onClick={() => setIsOpen(false)}
                       className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-[#005CE6]/30 rounded-xl py-2 px-1 text-[10px] sm:text-xs font-bold text-slate-700 transition"
                     >

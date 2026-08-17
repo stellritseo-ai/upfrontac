@@ -123,8 +123,8 @@ const formatChatTime = (timestamp: string) => {
 export const Route = createFileRoute("/dashboard/")({
   head: () => ({
     meta: [
-      { title: "R&E Electrical Office — Dashboard" },
-      { name: "description", content: "Business operations management portal." }
+      { title: "Upfront A/C & Heating — Business Command Portal" },
+      { name: "description", content: "Business operations and HVAC dispatch management portal." }
     ],
   }),
   component: DashboardPage,
@@ -222,7 +222,7 @@ function DashboardPage() {
   // Portal & Site Config States
   const [alertEmail, setAlertEmail] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("electrical_settings_alertEmail") : null) || "Williams@electricalcontractorcorp.com");
   const [officePhone, setOfficePhone] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("electrical_settings_officePhone") : null) || "(786) 307-5933");
-  const [smsTemplate, setSmsTemplate] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("electrical_settings_smsTemplate") : null) || "Hi {Name}, thank you for contacting R&E Electrical Contractor Corp! An electrician will contact you during the {Time} to discuss your {Type} project.");
+  const [smsTemplate, setSmsTemplate] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("electrical_settings_smsTemplate") : null) || "Hi {Name}, thank you for contacting Upfront Air Conditioning & Heating! A certified HVAC technician will contact you during the {Time} to discuss your {Type} service request.");
   const [emailAlert, setEmailAlert] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("electrical_settings_emailAlert") !== "false" : true));
   const [smsAlert, setSmsAlert] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("electrical_settings_smsAlert") !== "false" : true));
   const [maintenanceMode, setMaintenanceMode] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("electrical_settings_maintenanceMode") === "true" : false));
@@ -915,7 +915,7 @@ function DashboardPage() {
           {/* Header branding */}
           <div className="flex items-center justify-between pb-2">
             <div className="flex items-center gap-2">
-              <img src={logo} alt="R&E Electrical Office" className="h-12 w-auto object-contain" />
+              <img src={logo} alt="Upfront A/C & Heating" className="h-12 w-auto object-contain" />
             </div>
             <button className="text-[#a0aec0] hover:text-[#4f566b]">
               <ChevronDown className="w-3.5 h-3.5" />
@@ -1412,7 +1412,7 @@ function DashboardPage() {
               <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden text-left">
                 <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row gap-4 items-center justify-between">
                   <div>
-                    <h3 className="text-sm font-extrabold text-slate-800 uppercase tracking-wide">Electrical Leads & Jobs Status</h3>
+                    <h3 className="text-sm font-extrabold text-slate-800 uppercase tracking-wide">HVAC Leads & Service Dispatch</h3>
                   </div>
 
                   <div className="flex gap-2 w-full sm:w-auto">
@@ -1651,7 +1651,7 @@ function DashboardPage() {
 
                       {rev.replyText && (
                         <div className="mt-3 bg-slate-50 border border-slate-100 rounded-xl p-3.5 text-sm leading-relaxed text-slate-700">
-                          <span className="font-black text-xs uppercase tracking-wider text-copper block mb-0.5">R&E Electrical Response</span>
+                          <span className="font-black text-xs uppercase tracking-wider text-[#005CE6] block mb-0.5">Upfront A/C Response</span>
                           "{rev.replyText}"
                         </div>
                       )}

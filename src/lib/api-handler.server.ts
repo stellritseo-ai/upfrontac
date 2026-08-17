@@ -519,8 +519,13 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     // ── /api/gallery ──
     if (pathname === "/api/gallery") {
       if (method === "GET") {
-        const photos = await dbGetGalleryPhotos([]);
-        return jsonResponse(photos);
+        try {
+          const photos = await dbGetGalleryPhotos([]);
+          return jsonResponse(photos);
+        } catch (dbErr) {
+          console.warn("MongoDB gallery read error, using fallback:", dbErr);
+          return jsonResponse((globalThis as any).__serverGallery || []);
+        }
       }
       if (method === "POST") {
         const body = await request.json();
@@ -538,8 +543,16 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           title: body.title || "HVAC Project",
           uploadedAt: new Date().toISOString()
         };
-        const updated = await dbAddGalleryPhoto(newPhoto);
-        return jsonResponse(updated);
+
+        try {
+          const updated = await dbAddGalleryPhoto(newPhoto);
+          return jsonResponse(updated);
+        } catch (dbErr) {
+          console.warn("MongoDB gallery insert error, using in-memory store:", dbErr);
+          if (!(globalThis as any).__serverGallery) (globalThis as any).__serverGallery = [];
+          (globalThis as any).__serverGallery.unshift(newPhoto);
+          return jsonResponse((globalThis as any).__serverGallery);
+        }
       }
       if (method === "DELETE") {
         let id = url.searchParams.get("id");
@@ -552,17 +565,25 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
         if (!id) {
           return jsonResponse({ error: "Missing image ID" }, 400);
         }
-        const db = await getDb();
-        const photo = await db.collection("gallery_photos").findOne({ id });
-        if (photo && photo.url && photo.url.includes("cloudinary.com")) {
-          try {
-            await deleteFromCloudinary(photo.url);
-          } catch (cloudinaryErr) {
-            console.error("Failed to delete from Cloudinary, proceeding with database removal:", cloudinaryErr);
+
+        try {
+          const db = await getDb();
+          const photo = await db.collection("gallery_photos").findOne({ id });
+          if (photo && photo.url && photo.url.includes("cloudinary.com")) {
+            try {
+              await deleteFromCloudinary(photo.url);
+            } catch (cloudinaryErr) {
+              console.error("Failed to delete from Cloudinary:", cloudinaryErr);
+            }
           }
+          const updated = await dbRemoveGalleryPhoto(id);
+          return jsonResponse(updated);
+        } catch (dbErr) {
+          console.warn("MongoDB gallery delete error, using in-memory store:", dbErr);
+          if (!(globalThis as any).__serverGallery) (globalThis as any).__serverGallery = [];
+          (globalThis as any).__serverGallery = (globalThis as any).__serverGallery.filter((p: any) => p.id !== id);
+          return jsonResponse((globalThis as any).__serverGallery);
         }
-        const updated = await dbRemoveGalleryPhoto(id);
-        return jsonResponse(updated);
       }
     }
 

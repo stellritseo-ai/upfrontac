@@ -1196,18 +1196,18 @@ export const deleteWebEmail = async (id: string): Promise<WebEmail[]> => {
 export const getGalleryPhotos = async (): Promise<GalleryPhoto[]> => {
   try {
     const photos = await apiCall<GalleryPhoto[]>("/api/gallery", "GET");
-    if (Array.isArray(photos)) {
+    if (Array.isArray(photos) && photos.length > 0) {
       setStorageItem("upfront-gallery-photos-v2", photos);
       return photos;
     }
-    return [];
   } catch (err) {
-    console.warn("MongoDB offline, falling back to local storage gallery:", err);
-    return getStorageItem<GalleryPhoto[]>("upfront-gallery-photos-v2", []);
+    console.warn("API/DB gallery read warning, checking local storage:", err);
   }
+  return getStorageItem<GalleryPhoto[]>("upfront-gallery-photos-v2", []);
 };
 
 export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?: string, title?: string): Promise<GalleryPhoto[]> => {
+  let secureUrl = "";
   try {
     const folder = `upfrontac/${category && category !== "all" ? category : "gallery"}`;
 
@@ -1240,40 +1240,58 @@ export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?:
       throw new Error(`Cloudinary upload failed: ${err}`);
     }
     const uploadData = await uploadRes.json();
-    const secureUrl: string = uploadData.secure_url;
+    secureUrl = uploadData.secure_url;
 
     // Step 4: Save the URL & metadata to our database
     const updated = await apiCall<GalleryPhoto[]>("/api/gallery", "POST", { url: secureUrl, category, title });
-    setStorageItem("upfront-gallery-photos-v2", updated);
-    return updated;
+    if (Array.isArray(updated)) {
+      setStorageItem("upfront-gallery-photos-v2", updated);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("upfront-gallery-updated", { detail: updated }));
+      }
+      return updated;
+    }
   } catch (err) {
-    console.warn("Gallery upload fallback to local storage:", err);
-    const photos = await getGalleryPhotos();
-    const newPhoto: GalleryPhoto = {
-      id: "photo-" + Math.random().toString(36).substr(2, 9),
-      url: typeof fileOrBase64 === "string" ? fileOrBase64 : URL.createObjectURL(fileOrBase64),
-      category: category || "residential",
-      title: title || "HVAC Project",
-      uploadedAt: new Date().toISOString()
-    };
-    photos.unshift(newPhoto);
-    setStorageItem("upfront-gallery-photos-v2", photos);
-    return photos;
+    console.warn("Gallery upload server sync fallback:", err);
   }
+
+  // Ensure Cloudinary secureUrl is always saved
+  const photos = await getGalleryPhotos();
+  const newPhoto: GalleryPhoto = {
+    id: "photo-" + Math.random().toString(36).substr(2, 9),
+    url: secureUrl || (typeof fileOrBase64 === "string" ? fileOrBase64 : ""),
+    category: category || "residential",
+    title: title || "HVAC Project",
+    uploadedAt: new Date().toISOString()
+  };
+  photos.unshift(newPhoto);
+  setStorageItem("upfront-gallery-photos-v2", photos);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("upfront-gallery-updated", { detail: photos }));
+  }
+  return photos;
 };
 
 export const removeGalleryPhoto = async (id: string): Promise<GalleryPhoto[]> => {
   try {
     const updated = await apiCall<GalleryPhoto[]>(`/api/gallery?id=${id}`, "DELETE");
-    setStorageItem("upfront-gallery-photos-v2", updated);
-    return updated;
+    if (Array.isArray(updated)) {
+      setStorageItem("upfront-gallery-photos-v2", updated);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("upfront-gallery-updated", { detail: updated }));
+      }
+      return updated;
+    }
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage:", err);
-    const photos = await getGalleryPhotos();
-    const filtered = photos.filter(p => p.id !== id);
-    setStorageItem("upfront-gallery-photos-v2", filtered);
-    return filtered;
   }
+  const photos = await getGalleryPhotos();
+  const filtered = photos.filter(p => p.id !== id);
+  setStorageItem("upfront-gallery-photos-v2", filtered);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("upfront-gallery-updated", { detail: filtered }));
+  }
+  return filtered;
 };
 
 // ── PORTAL SECURITY & AUTH ──

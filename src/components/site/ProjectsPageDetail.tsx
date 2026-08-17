@@ -33,7 +33,7 @@ export function ProjectsPageDetail() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
-  useEffect(() => {
+  const loadPhotos = useCallback(() => {
     getGalleryPhotos()
       .then((photos) => {
         if (Array.isArray(photos)) {
@@ -47,6 +47,19 @@ export function ProjectsPageDetail() {
       });
   }, []);
 
+  useEffect(() => {
+    loadPhotos();
+
+    const handleUpdate = () => loadPhotos();
+    window.addEventListener("upfront-gallery-updated", handleUpdate);
+    window.addEventListener("storage", handleUpdate);
+
+    return () => {
+      window.removeEventListener("upfront-gallery-updated", handleUpdate);
+      window.removeEventListener("storage", handleUpdate);
+    };
+  }, [loadPhotos]);
+
   const categories = [
     { id: "all", label: "All Projects" },
     { id: "residential", label: "Residential AC" },
@@ -57,12 +70,14 @@ export function ProjectsPageDetail() {
 
   // Filter dynamic photos by category
   const filteredPhotos = useMemo(() => {
-    const valid = dbPhotos.filter(
-      (photo) => photo.url && !photo.url.includes("localhost")
-    );
+    const valid = dbPhotos.filter((photo) => {
+      const url = typeof photo === "string" ? photo : photo?.url;
+      return url && typeof url === "string" && url.trim().length > 0;
+    });
+
     if (activeFilter === "all") return valid;
     return valid.filter((p) => {
-      const cat = (p.category || "").toLowerCase();
+      const cat = (typeof p === "string" ? "residential" : (p.category || "")).toLowerCase();
       if (activeFilter === "residential") return cat.includes("res") || cat.includes("ac");
       if (activeFilter === "commercial") return cat.includes("com");
       if (activeFilter === "install") return cat.includes("inst");
@@ -196,29 +211,35 @@ export function ProjectsPageDetail() {
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {filteredPhotos.map((photo, idx) => (
-                <motion.div
-                  key={photo.id || idx}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: (idx % 10) * 0.04 }}
-                  onClick={() => openLightbox(photo.url)}
-                  className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
-                >
-                  <img
-                    src={photo.url}
-                    alt={photo.title || `Upfront AC Project Installation ${idx + 1}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                    loading={idx < 10 ? "eager" : "lazy"}
-                  />
+              {filteredPhotos.map((photo, idx) => {
+                const photoUrl = typeof photo === "string" ? photo : photo?.url || "";
+                const photoTitle = typeof photo === "string" ? `HVAC Project ${idx + 1}` : (photo?.title || `Upfront AC Project Installation ${idx + 1}`);
+                const photoId = typeof photo === "string" ? `photo-${idx}` : (photo?.id || `photo-${idx}`);
 
-                  <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md text-[#005CE6] flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                      <ZoomIn className="w-5 h-5" />
+                return (
+                  <motion.div
+                    key={photoId}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: (idx % 10) * 0.04 }}
+                    onClick={() => openLightbox(photoUrl)}
+                    className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
+                  >
+                    <img
+                      src={photoUrl}
+                      alt={photoTitle}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      loading={idx < 10 ? "eager" : "lazy"}
+                    />
+
+                    <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md text-[#005CE6] flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                        <ZoomIn className="w-5 h-5" />
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
           )}
 

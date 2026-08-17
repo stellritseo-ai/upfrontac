@@ -10,7 +10,7 @@ export function Projects({ isLanding = false }: { isLanding?: boolean }) {
   const [dbPhotos, setDbPhotos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const loadPhotos = useCallback(() => {
     getGalleryPhotos()
       .then((photos) => {
         if (Array.isArray(photos)) {
@@ -24,11 +24,24 @@ export function Projects({ isLanding = false }: { isLanding?: boolean }) {
       });
   }, []);
 
+  useEffect(() => {
+    loadPhotos();
+
+    const handleUpdate = () => loadPhotos();
+    window.addEventListener("upfront-gallery-updated", handleUpdate);
+    window.addEventListener("storage", handleUpdate);
+
+    return () => {
+      window.removeEventListener("upfront-gallery-updated", handleUpdate);
+      window.removeEventListener("storage", handleUpdate);
+    };
+  }, [loadPhotos]);
+
   // ONLY dynamic photos uploaded through the dashboard
   const allImages = useMemo(() => {
     return dbPhotos
-      .map((photo) => photo.url)
-      .filter((url) => url && !url.includes("localhost"));
+      .map((photo) => (typeof photo === "string" ? photo : photo?.url || ""))
+      .filter((url) => url && typeof url === "string" && url.trim().length > 0);
   }, [dbPhotos]);
 
   const [showAll, setShowAll] = useState(false);

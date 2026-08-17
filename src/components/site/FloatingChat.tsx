@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { MessageCircle, X, Send, Phone, Calendar, CheckCircle2, Lock, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { io } from "socket.io-client";
 import { createChatSession, sendChatMessage, getChatSessionById, dedupeChatMessages, ChatMessage } from "@/lib/leads-store";
+import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 import { toast } from "sonner";
 import logoImg from "@/assets/logo.png";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
@@ -67,61 +67,74 @@ export function FloatingChat() {
     }
   }, []);
 
-  // 2. Establish Socket.io connection when session is active
-  useEffect(() => {
-    const socket = io({
-      transports: ["websocket", "polling"],
-      autoConnect: true
-    });
-    socketRef.current = socket;
-
-    if (sessionId) {
-      socket.emit("join-session", sessionId);
-    }
-
-    const handleIncomingMessage = (msg: any) => {
-      if (sessionId && msg.sessionId === sessionId) {
-        setMessages((prev) => {
-          const updated = dedupeChatMessages([...prev, msg]);
-          if (updated.length > prev.length && msg.sender === "admin") {
-            playChime();
+  // 2. Real-time sync: Socket.IO on local dev, polling on Vercel
+  useRealtimeSync({
+    enabled: true,
+    joinRoom: sessionId || undefined,
+    pollInterval: 4000,
+    onPoll: async () => {
+      if (!sessionId) return;
+      try {
+        const session = await getChatSessionById(sessionId);
+        if (session) {
+          if (session.isClosed || session.status === "closed") {
+            setIsClosed(true);
           }
-          return updated;
-        });
-      }
-    };
-
-    const handleStatusChange = (data: any) => {
-      if (sessionId && data.sessionId === sessionId) {
-        setIsClosed(Boolean(data.isClosed));
-        if (data.isClosed) {
-          toast.info("This chat session has been marked resolved and closed by support.");
+          if (Array.isArray(session.messages)) {
+            setMessages((prev) => {
+              const merged = dedupeChatMessages([...prev, ...session.messages]);
+              return merged;
+            });
+          }
         }
+      } catch {
+        // silent
       }
-    };
+    },
+    socketHandlers: {
+      message: (msg: any) => {
+        if (sessionId && msg.sessionId === sessionId) {
+          setMessages((prev) => {
+            const updated = dedupeChatMessages([...prev, msg]);
+            if (updated.length > prev.length && msg.sender === "admin") playChime();
+            return updated;
+          });
+        }
+      },
+      "new-chat-message": (msg: any) => {
+        if (sessionId && msg.sessionId === sessionId) {
+          setMessages((prev) => {
+            const updated = dedupeChatMessages([...prev, msg]);
+            if (updated.length > prev.length && msg.sender === "admin") playChime();
+            return updated;
+          });
+        }
+      },
+      "session-status": (data: any) => {
+        if (sessionId && data.sessionId === sessionId) {
+          setIsClosed(Boolean(data.isClosed));
+          if (data.isClosed) toast.info("This chat session has been marked resolved and closed by support.");
+        }
+      },
+      "session-status-changed": (data: any) => {
+        if (sessionId && data.sessionId === sessionId) {
+          setIsClosed(Boolean(data.isClosed));
+        }
+      },
+    },
+  });
 
-    socket.on("message", handleIncomingMessage);
-    socket.on("new-chat-message", handleIncomingMessage);
-    socket.on("session-status", handleStatusChange);
-    socket.on("session-status-changed", handleStatusChange);
-
+  // Custom DOM events (cross-tab)
+  useEffect(() => {
     const handleCustomEvent = (e: any) => {
       if (e.detail && sessionId && e.detail.id === sessionId) {
-        if (e.detail.isClosed !== undefined) {
-          setIsClosed(Boolean(e.detail.isClosed));
-        }
-        if (Array.isArray(e.detail.messages)) {
-          setMessages(dedupeChatMessages(e.detail.messages));
-        }
+        if (e.detail.isClosed !== undefined) setIsClosed(Boolean(e.detail.isClosed));
+        if (Array.isArray(e.detail.messages)) setMessages(dedupeChatMessages(e.detail.messages));
       }
     };
     window.addEventListener("upfront-chats-updated", handleCustomEvent);
-
-    return () => {
-      socket.disconnect();
-      window.removeEventListener("upfront-chats-updated", handleCustomEvent);
-    };
-  }, [sessionId, playChime]);
+    return () => window.removeEventListener("upfront-chats-updated", handleCustomEvent);
+  }, [sessionId]);
 
   // 3. Scroll to the bottom of the chat dynamically
   const prevMsgCountRef = useRef<number>(0);

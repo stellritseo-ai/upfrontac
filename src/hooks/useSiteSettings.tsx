@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { getSiteSettings, saveSiteSettings, SiteSettings, DEFAULT_SITE_SETTINGS } from "@/lib/leads-store";
-import { io } from "socket.io-client";
 
 interface SiteSettingsContextType {
   settings: SiteSettings;
@@ -48,23 +47,39 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     };
     window.addEventListener("upfront-settings-updated", handleLocalUpdate);
 
-    // 2. Real-time Socket.IO synchronization across all visitors & admin
+    // 2. Real-time sync: dynamic socket.io (dev) or polling fallback (Vercel)
     let socket: any = null;
-    try {
-      socket = io({ transports: ["websocket", "polling"], autoConnect: true });
-      socket.on("settings-updated", (updated: SiteSettings) => {
-        if (updated) {
-          setSettings(updated);
-          localStorage.setItem("upfront_site_settings_v2", JSON.stringify(updated));
+    let pollInterval: ReturnType<typeof setInterval> | null = null;
+
+    const isVercel = typeof window !== "undefined" && window.location.hostname.includes(".vercel.app");
+
+    if (!isVercel) {
+      // Try socket.io only on non-Vercel environments
+      (async () => {
+        try {
+          const { io: ioConnect } = await import("socket.io-client");
+          socket = ioConnect({ transports: ["polling", "websocket"], autoConnect: true, reconnectionAttempts: 2, timeout: 4000 });
+          socket.on("settings-updated", (updated: SiteSettings) => {
+            if (updated) {
+              setSettings(updated);
+              localStorage.setItem("upfront_site_settings_v2", JSON.stringify(updated));
+            }
+          });
+        } catch (err) {
+          console.warn("Socket.io settings sync unavailable:", err);
         }
-      });
-    } catch (err) {
-      console.warn("Socket.io settings sync error:", err);
+      })();
     }
+
+    // Always run a slow background poll to catch settings changes
+    pollInterval = setInterval(() => {
+      fetchSettings();
+    }, 30000); // every 30s
 
     return () => {
       window.removeEventListener("upfront-settings-updated", handleLocalUpdate);
       if (socket) socket.disconnect();
+      if (pollInterval) clearInterval(pollInterval);
     };
   }, [fetchSettings]);
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { io } from "socket.io-client";
+import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   TrendingUp,
@@ -370,125 +370,124 @@ function DashboardPage() {
 
   const socketRef = useRef<any>(null);
 
-  // WebSocket Live Sync for Chats & Real-Time Alerts
-  useEffect(() => {
-    if (!isAuthenticated) return;
-
-    const socket = io({
-      transports: ["websocket", "polling"],
-      autoConnect: true
-    });
-    socketRef.current = socket;
-
-    socket.on("connect", () => {
-      console.log("⚡ [Socket.io] Upfront Admin Console Connected");
-      if (activeSessionId) {
-        socket.emit("join-session", activeSessionId);
-      }
-    });
-
-    socket.on("session-created", (data: { sessionId: string; clientName: string }) => {
-      getChatSessions().then(setChatSessions);
-      getNotifications().then(setNotifications);
-      toast.info(`New live chat from ${data.clientName}`);
-    });
-
-    socket.on("new-chat-message", (msg: { sessionId: string; id: string; sender: "client" | "admin"; text: string; timestamp: string }) => {
-      setChatSessions((prev) => {
-        const updated = prev.map((session) => {
-          if (session.id === msg.sessionId) {
-            const messages = dedupeChatMessages([...(session.messages || []), msg]);
-            return {
-              ...session,
-              messages,
-              lastMessage: msg.text,
-              lastMessageTime: msg.timestamp,
-              unread: msg.sessionId === activeSessionId ? false : (msg.sender === "client" ? true : session.unread)
-            };
-          }
-          return session;
-        });
-        return [...updated].sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime());
-      });
-
-      if (msg.sender === "client" && (msg.sessionId !== activeSessionId || activeTab !== "chat")) {
-        toast.message("Client Message Received", {
-          description: `"${msg.text}"`,
-        });
-      }
-    });
-
-    socket.on("new-lead", (newLead: Lead) => {
-      setLeads((prev) => {
-        if (prev.some((l) => l.id === newLead.id)) return prev;
-        return [newLead, ...prev];
-      });
-      toast.success(`⚡ New HVAC Dispatch Lead: ${newLead.name}!`, {
-        description: `${newLead.projectType?.toUpperCase()} · $${newLead.estimatedValue?.toLocaleString()} (${newLead.address || "Houston"})`,
-        action: {
-          label: "View Leads",
-          onClick: () => setActiveTab("leads")
+  // Real-time sync: Socket.IO on local dev, polling on Vercel
+  useRealtimeSync({
+    enabled: isAuthenticated,
+    joinRoom: activeSessionId || undefined,
+    pollInterval: 5000,
+    onPoll: async () => {
+      try {
+        const [notifs, latestLeads, latestEmails, latestSessions] = await Promise.allSettled([
+          getNotifications(),
+          getLeads(),
+          getWebEmails(),
+          getChatSessions(),
+        ]);
+        if (notifs.status === "fulfilled" && Array.isArray(notifs.value)) setNotifications(notifs.value);
+        if (latestLeads.status === "fulfilled" && Array.isArray(latestLeads.value)) {
+          setLeads((prev) => {
+            // Only update if data actually changed
+            const prevIds = prev.map((l) => l.id).join(",");
+            const newIds = latestLeads.value.map((l: Lead) => l.id).join(",");
+            return prevIds === newIds ? prev : latestLeads.value;
+          });
         }
-      });
-    });
-
-    socket.on("lead-updated", (data: { id: string; updates: any }) => {
-      setLeads((prev) =>
-        prev.map((lead) => (lead.id === data.id ? { ...lead, ...data.updates } : lead))
-      );
-    });
-
-    socket.on("lead-deleted", (data: { id: string }) => {
-      setLeads((prev) => prev.filter((lead) => lead.id !== data.id));
-    });
-
-    socket.on("new-inquiry", (newInquiry: WebEmail) => {
-      setWebEmails((prev) => {
-        if (prev.some((e) => e.id === newInquiry.id)) return prev;
-        return [newInquiry, ...prev];
-      });
-      toast.success(`📬 New Web Inquiry from ${newInquiry.name}!`, {
-        description: `${newInquiry.service || "General Request"} (${newInquiry.source || "Website"})`,
-        action: {
-          label: "View Inquiries",
-          onClick: () => setActiveTab("emails")
+        if (latestEmails.status === "fulfilled" && Array.isArray(latestEmails.value)) {
+          setWebEmails((prev) => {
+            const prevIds = prev.map((e) => e.id).join(",");
+            const newIds = latestEmails.value.map((e: WebEmail) => e.id).join(",");
+            return prevIds === newIds ? prev : latestEmails.value;
+          });
         }
-      });
-    });
-
-    socket.on("new-notification", (notification: DashboardNotification) => {
-      setNotifications((prev) => {
-        if (prev.some((n) => n.id === notification.id)) return prev;
-        return [notification, ...prev];
-      });
-
-      if (notification.type === "form_submission" || notification.type === "lead") {
-        toast.message(notification.title, {
-          description: notification.message,
-          action: {
-            label: "View Inquiries",
-            onClick: () => setActiveTab("emails")
-          }
+        if (latestSessions.status === "fulfilled" && Array.isArray(latestSessions.value)) {
+          setChatSessions((prev) => {
+            const prevIds = prev.map((s) => s.id).join(",");
+            const newIds = latestSessions.value.map((s: ChatSession) => s.id).join(",");
+            return prevIds === newIds ? prev : latestSessions.value;
+          });
+        }
+      } catch {
+        // silent
+      }
+    },
+    socketHandlers: {
+      "session-created": (data: { sessionId: string; clientName: string }) => {
+        getChatSessions().then(setChatSessions);
+        getNotifications().then(setNotifications);
+        toast.info(`New live chat from ${data.clientName}`);
+      },
+      "new-chat-message": (msg: { sessionId: string; id: string; sender: "client" | "admin"; text: string; timestamp: string }) => {
+        setChatSessions((prev) => {
+          const updated = prev.map((session) => {
+            if (session.id === msg.sessionId) {
+              const messages = dedupeChatMessages([...(session.messages || []), msg]);
+              return {
+                ...session,
+                messages,
+                lastMessage: msg.text,
+                lastMessageTime: msg.timestamp,
+                unread: msg.sessionId === activeSessionId ? false : (msg.sender === "client" ? true : session.unread)
+              };
+            }
+            return session;
+          });
+          return [...updated].sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime());
         });
-      }
-    });
-
-    socket.on("settings-updated", (updated: any) => {
-      if (updated) {
-        setAlertEmail(updated.alertEmail || "allen@upfrontac.com");
-        setOfficePhone(updated.officePhone || "(713) 819-7908");
-        setEmailAlert(updated.emailAlert !== undefined ? Boolean(updated.emailAlert) : true);
-        setMaintenanceMode(updated.maintenanceMode !== undefined ? Boolean(updated.maintenanceMode) : false);
-        setWeekdays(updated.weekdays || "9:00 AM - 6:30 PM");
-        setSaturdays(updated.saturdays || "9:00 AM - 6:30 PM");
-        setSundays(updated.sundays || "24/7 Emergency Dispatch");
-      }
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [isAuthenticated, activeSessionId, activeTab]);
+        if (msg.sender === "client" && (msg.sessionId !== activeSessionId || activeTab !== "chat")) {
+          toast.message("Client Message Received", { description: `"${msg.text}"` });
+        }
+      },
+      "new-lead": (newLead: Lead) => {
+        setLeads((prev) => {
+          if (prev.some((l) => l.id === newLead.id)) return prev;
+          return [newLead, ...prev];
+        });
+        toast.success(`⚡ New HVAC Dispatch Lead: ${newLead.name}!`, {
+          description: `${newLead.projectType?.toUpperCase()} · $${newLead.estimatedValue?.toLocaleString()} (${newLead.address || "Houston"})`,
+          action: { label: "View Leads", onClick: () => setActiveTab("leads") }
+        });
+      },
+      "lead-updated": (data: { id: string; updates: any }) => {
+        setLeads((prev) => prev.map((lead) => (lead.id === data.id ? { ...lead, ...data.updates } : lead)));
+      },
+      "lead-deleted": (data: { id: string }) => {
+        setLeads((prev) => prev.filter((lead) => lead.id !== data.id));
+      },
+      "new-inquiry": (newInquiry: WebEmail) => {
+        setWebEmails((prev) => {
+          if (prev.some((e) => e.id === newInquiry.id)) return prev;
+          return [newInquiry, ...prev];
+        });
+        toast.success(`📬 New Web Inquiry from ${newInquiry.name}!`, {
+          description: `${newInquiry.service || "General Request"} (${newInquiry.source || "Website"})`,
+          action: { label: "View Inquiries", onClick: () => setActiveTab("emails") }
+        });
+      },
+      "new-notification": (notification: DashboardNotification) => {
+        setNotifications((prev) => {
+          if (prev.some((n) => n.id === notification.id)) return prev;
+          return [notification, ...prev];
+        });
+        if (notification.type === "form_submission" || notification.type === "lead") {
+          toast.message(notification.title, {
+            description: notification.message,
+            action: { label: "View Inquiries", onClick: () => setActiveTab("emails") }
+          });
+        }
+      },
+      "settings-updated": (updated: any) => {
+        if (updated) {
+          setAlertEmail(updated.alertEmail || "allen@upfrontac.com");
+          setOfficePhone(updated.officePhone || "(713) 819-7908");
+          setEmailAlert(updated.emailAlert !== undefined ? Boolean(updated.emailAlert) : true);
+          setMaintenanceMode(updated.maintenanceMode !== undefined ? Boolean(updated.maintenanceMode) : false);
+          setWeekdays(updated.weekdays || "9:00 AM - 6:30 PM");
+          setSaturdays(updated.saturdays || "9:00 AM - 6:30 PM");
+          setSundays(updated.sundays || "24/7 Emergency Dispatch");
+        }
+      },
+    },
+  });
 
   // Window event listener for cross-tab leads & inquiries updates
   useEffect(() => {
@@ -510,26 +509,7 @@ function DashboardPage() {
     };
   }, []);
 
-  // Polling fallback for chat, inquiries, and notifications
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    const interval = setInterval(() => {
-      getNotifications().then((notifs) => {
-        if (Array.isArray(notifs)) setNotifications(notifs);
-      });
-      if (activeTab === "chat") {
-        getChatSessions().then((sessions) => {
-          if (Array.isArray(sessions)) setChatSessions(sessions);
-        });
-      }
-      if (activeTab === "emails" || activeTab === "overview") {
-        getWebEmails().then((emails) => {
-          if (Array.isArray(emails)) setWebEmails(emails);
-        });
-      }
-    }, 10000);
-    return () => clearInterval(interval);
-  }, [isAuthenticated, activeTab]);
+
 
   const activeChatSession = useMemo(() => {
     return chatSessions.find((s) => s.id === activeSessionId) || null;

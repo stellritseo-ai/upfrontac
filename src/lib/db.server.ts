@@ -223,7 +223,7 @@ export async function dbGetGalleryPhotos(initialSeeds: any[]): Promise<any[]> {
     await galleryCol.insertMany(initialSeeds);
     return initialSeeds;
   }
-  const docs = await galleryCol.find({}).toArray();
+  const docs = await galleryCol.find({}).sort({ uploadedAt: -1, _id: -1 }).toArray();
   return docs.map(mapDoc);
 }
 
@@ -231,7 +231,7 @@ export async function dbAddGalleryPhoto(photo: any): Promise<any[]> {
   const db = await getDb();
   const galleryCol = db.collection("gallery_photos");
   await galleryCol.insertOne(photo);
-  const docs = await galleryCol.find({}).toArray();
+  const docs = await galleryCol.find({}).sort({ uploadedAt: -1, _id: -1 }).toArray();
   return docs.map(mapDoc);
 }
 

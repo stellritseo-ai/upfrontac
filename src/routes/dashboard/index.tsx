@@ -1139,29 +1139,41 @@ function DashboardPage() {
 
     const filesCount = selectedGalleryFiles.length;
     let currentPhotosList = [...galleryPhotos];
+    let successCount = 0;
+    let failCount = 0;
 
-    try {
-      for (let i = 0; i < filesCount; i++) {
-        const file = selectedGalleryFiles[i];
-        const segmentStart = (i / filesCount) * 100;
-        const segmentEnd = ((i + 1) / filesCount) * 100;
-        setGalleryUploadProgress(Math.floor(segmentStart));
+    for (let i = 0; i < filesCount; i++) {
+      const file = selectedGalleryFiles[i];
+      const segmentStart = Math.floor((i / filesCount) * 100);
+      setGalleryUploadProgress(segmentStart);
 
+      try {
         const updated = await uploadGalleryPhoto(file, uploadCategory);
-        currentPhotosList = updated;
-
-        setGalleryUploadProgress(Math.floor(segmentEnd));
+        if (Array.isArray(updated)) {
+          currentPhotosList = updated;
+          setGalleryPhotos(updated);
+        }
+        successCount++;
+      } catch (uploadErr) {
+        console.error(`Error uploading photo ${i + 1} (${file.name}):`, uploadErr);
+        failCount++;
       }
 
-      setGalleryPhotos(currentPhotosList);
-      setIsUploadingGallery(false);
-      setGalleryUploadProgress(0);
-      setSelectedGalleryFiles([]);
-      toast.success(`Successfully uploaded ${filesCount} photos to Cloudinary CDN.`);
-    } catch {
-      setIsUploadingGallery(false);
-      setGalleryUploadProgress(0);
-      toast.error("Failed to complete upload. Please check Cloudinary connection.");
+      const segmentEnd = Math.floor(((i + 1) / filesCount) * 100);
+      setGalleryUploadProgress(segmentEnd);
+    }
+
+    setGalleryPhotos(currentPhotosList);
+    setIsUploadingGallery(false);
+    setGalleryUploadProgress(0);
+    setSelectedGalleryFiles([]);
+
+    if (successCount > 0 && failCount === 0) {
+      toast.success(`Successfully uploaded all ${successCount} photos to Cloudinary CDN & live gallery!`);
+    } else if (successCount > 0 && failCount > 0) {
+      toast.warning(`Uploaded ${successCount} photos (${failCount} failed to process).`);
+    } else {
+      toast.error("Failed to upload photos. Please check your internet connection and Cloudinary settings.");
     }
   };
 

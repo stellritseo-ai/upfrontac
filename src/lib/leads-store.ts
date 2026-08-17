@@ -647,7 +647,7 @@ export const INITIAL_CHATS: ChatSession[] = [];
 export const INITIAL_EMAILS: WebEmail[] = [];
 
 // ── LOCAL STORAGE FALLBACK HELPERS ──
-const getStorageItem = <T>(key: string, defaultValue: T): T => {
+export const getStorageItem = <T>(key: string, defaultValue: T): T => {
   if (typeof window === "undefined") return defaultValue;
   const stored = localStorage.getItem(key);
   if (!stored) {
@@ -661,7 +661,7 @@ const getStorageItem = <T>(key: string, defaultValue: T): T => {
   }
 };
 
-const setStorageItem = <T>(key: string, value: T): void => {
+export const setStorageItem = <T>(key: string, value: T): void => {
   if (typeof window !== "undefined") {
     localStorage.setItem(key, JSON.stringify(value));
   }

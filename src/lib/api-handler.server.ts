@@ -208,8 +208,14 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     // ── /api/reviews ──
     if (pathname === "/api/reviews") {
       if (method === "GET") {
-        const reviews = await dbGetReviews(INITIAL_REVIEWS);
-        return jsonResponse(reviews);
+        try {
+          const reviews = await dbGetReviews(INITIAL_REVIEWS);
+          return jsonResponse(reviews);
+        } catch (dbErr) {
+          console.warn("MongoDB reviews read error, using fallback:", dbErr);
+          if (!(globalThis as any).__serverReviews) (globalThis as any).__serverReviews = INITIAL_REVIEWS;
+          return jsonResponse((globalThis as any).__serverReviews);
+        }
       }
       if (method === "POST") {
         const body = await request.json();
@@ -352,26 +358,58 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           createdAt: new Date().toISOString(),
           photos
         };
-        const saved = await dbAddReview(newReview);
+        let saved = newReview;
+        try {
+          saved = await dbAddReview(newReview);
+        } catch (dbErr) {
+          console.warn("MongoDB add review error, using fallback:", dbErr);
+        }
+        if (!(globalThis as any).__serverReviews) (globalThis as any).__serverReviews = [...INITIAL_REVIEWS];
+        (globalThis as any).__serverReviews.unshift(saved);
         return jsonResponse(saved);
       }
       if (method === "PUT") {
         const body = await request.json();
         if (body.action === "reply") {
-          const updated = await dbUpdateReview(body.id, { replyText: body.replyText });
-          return jsonResponse(updated);
+          try {
+            const updated = await dbUpdateReview(body.id, { replyText: body.replyText });
+            return jsonResponse(updated);
+          } catch (dbErr) {
+            console.warn("MongoDB reply review error, using fallback:", dbErr);
+            if (!(globalThis as any).__serverReviews) (globalThis as any).__serverReviews = [...INITIAL_REVIEWS];
+            (globalThis as any).__serverReviews = (globalThis as any).__serverReviews.map((r: any) =>
+              r.id === body.id ? { ...r, replyText: body.replyText } : r
+            );
+            return jsonResponse((globalThis as any).__serverReviews);
+          }
         } else if (body.action === "featured") {
-          const db = await getDb();
-          const review = await db.collection("reviews").findOne({ id: body.id });
-          const featured = review ? !review.featured : false;
-          const updated = await dbUpdateReview(body.id, { featured });
-          return jsonResponse(updated);
+          try {
+            const db = await getDb();
+            const review = await db.collection("reviews").findOne({ id: body.id });
+            const featured = review ? !review.featured : false;
+            const updated = await dbUpdateReview(body.id, { featured });
+            return jsonResponse(updated);
+          } catch (dbErr) {
+            console.warn("MongoDB feature review error, using fallback:", dbErr);
+            if (!(globalThis as any).__serverReviews) (globalThis as any).__serverReviews = [...INITIAL_REVIEWS];
+            (globalThis as any).__serverReviews = (globalThis as any).__serverReviews.map((r: any) =>
+              r.id === body.id ? { ...r, featured: !r.featured } : r
+            );
+            return jsonResponse((globalThis as any).__serverReviews);
+          }
         }
       }
       if (method === "DELETE") {
         const body = await request.json();
-        const updated = await dbDeleteReview(body.id);
-        return jsonResponse(updated);
+        try {
+          const updated = await dbDeleteReview(body.id);
+          return jsonResponse(updated);
+        } catch (dbErr) {
+          console.warn("MongoDB delete review error, using fallback:", dbErr);
+          if (!(globalThis as any).__serverReviews) (globalThis as any).__serverReviews = [...INITIAL_REVIEWS];
+          (globalThis as any).__serverReviews = (globalThis as any).__serverReviews.filter((r: any) => r.id !== body.id);
+          return jsonResponse((globalThis as any).__serverReviews);
+        }
       }
     }
 
@@ -522,22 +560,46 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     // ── /api/notifications ──
     if (pathname === "/api/notifications") {
       if (method === "GET") {
-        const notifications = await dbGetNotifications();
-        return jsonResponse(notifications);
+        try {
+          const notifications = await dbGetNotifications();
+          return jsonResponse(notifications);
+        } catch (dbErr) {
+          console.warn("MongoDB notifications read error, using fallback:", dbErr);
+          if (!(globalThis as any).__serverNotifications) (globalThis as any).__serverNotifications = [];
+          return jsonResponse((globalThis as any).__serverNotifications);
+        }
       }
       if (method === "POST") {
         const body = await request.json();
-        if (body.action === "read") {
-          const updated = await dbMarkNotificationRead(body.id);
-          return jsonResponse(updated);
-        }
-        if (body.action === "read-all") {
-          const updated = await dbMarkAllNotificationsRead();
-          return jsonResponse(updated);
-        }
-        if (body.action === "clear-all") {
-          const updated = await dbClearAllNotifications();
-          return jsonResponse(updated);
+        try {
+          if (body.action === "read") {
+            const updated = await dbMarkNotificationRead(body.id);
+            return jsonResponse(updated);
+          }
+          if (body.action === "read-all") {
+            const updated = await dbMarkAllNotificationsRead();
+            return jsonResponse(updated);
+          }
+          if (body.action === "clear-all") {
+            const updated = await dbClearAllNotifications();
+            return jsonResponse(updated);
+          }
+        } catch (dbErr) {
+          console.warn("MongoDB notification update error, using fallback:", dbErr);
+          if (!(globalThis as any).__serverNotifications) (globalThis as any).__serverNotifications = [];
+          if (body.action === "read") {
+            (globalThis as any).__serverNotifications = (globalThis as any).__serverNotifications.map((n: any) =>
+              n.id === body.id ? { ...n, read: true } : n
+            );
+          } else if (body.action === "read-all") {
+            (globalThis as any).__serverNotifications = (globalThis as any).__serverNotifications.map((n: any) => ({
+              ...n,
+              read: true
+            }));
+          } else if (body.action === "clear-all") {
+            (globalThis as any).__serverNotifications = [];
+          }
+          return jsonResponse((globalThis as any).__serverNotifications);
         }
       }
     }

@@ -128,7 +128,9 @@ import {
   dedupeChatMessages,
   GalleryPhoto,
   PortalUser,
-  DashboardNotification
+  DashboardNotification,
+  getStorageItem,
+  setStorageItem
 } from "@/lib/leads-store";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";

@@ -5,37 +5,30 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "@tanstack/react-router";
 import { getGalleryPhotos } from "@/lib/leads-store";
 
-// Dynamically import all images from assets/gallery
-const galleryModules = import.meta.glob<{ default: string }>("@/assets/gallery/*.webp", {
-  eager: true,
-  import: "default",
-});
-const localGalleryImages = Object.values(galleryModules) as string[];
-
 export function Projects({ isLanding = false }: { isLanding?: boolean }) {
   const { t } = useLanguage();
   const [dbPhotos, setDbPhotos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getGalleryPhotos()
       .then((photos) => {
-        if (Array.isArray(photos) && photos.length > 0) {
+        if (Array.isArray(photos)) {
           setDbPhotos(photos);
         }
+        setLoading(false);
       })
       .catch((err) => {
-        console.warn("Failed to load database gallery photos, using local assets:", err);
+        console.warn("Failed to load database gallery photos:", err);
+        setLoading(false);
       });
   }, []);
 
-  // Prioritize newly uploaded Cloudinary photos from database, followed by local gallery assets
+  // ONLY dynamic photos uploaded through the dashboard
   const allImages = useMemo(() => {
-    const validDbUrls = dbPhotos
+    return dbPhotos
       .map((photo) => photo.url)
-      .filter((url) => url && !url.includes("unsplash.com") && !url.includes("localhost"));
-
-    // Deduplicate and place newest Cloudinary uploads first
-    return Array.from(new Set([...[...validDbUrls].reverse(), ...localGalleryImages]));
+      .filter((url) => url && !url.includes("localhost"));
   }, [dbPhotos]);
 
   const [showAll, setShowAll] = useState(false);
@@ -104,31 +97,54 @@ export function Projects({ isLanding = false }: { isLanding?: boolean }) {
           </Link>
         </div>
 
-        {/* Clean Image Grid (No Text Overlays on Images) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-5">
-          {displayImages.map((imgUrl, idx) => (
-            <div
-              key={idx}
-              onClick={() => openLightbox(imgUrl)}
-              className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-slate-100 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
-            >
-              {/* Clean Image without Text */}
-              <img
-                src={imgUrl}
-                alt={`HVAC Project ${idx + 1}`}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                loading={idx < 10 ? "eager" : "lazy"}
-              />
+        {/* Clean Image Grid (Dynamic Cloudinary / Database Images Only) */}
+        {loading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="aspect-[4/3] w-full rounded-2xl bg-slate-200/60 animate-pulse" />
+            ))}
+          </div>
+        ) : displayImages.length === 0 ? (
+          <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 shadow-xs max-w-xl mx-auto">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center mx-auto mb-3">
+              <ImageIcon className="w-6 h-6" />
+            </div>
+            <h4 className="text-base font-extrabold text-slate-900 mb-1">
+              {t("Project Photos Coming Soon", "Fotos del Proyecto Próximamente")}
+            </h4>
+            <p className="text-xs text-slate-500 font-medium">
+              {t(
+                "Upload field photos in the admin dashboard to instantly showcase live HVAC projects here.",
+                "Suba fotos de campo en el panel de administración para mostrar proyectos de HVAC en vivo aquí."
+              )}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-5">
+            {displayImages.map((imgUrl, idx) => (
+              <div
+                key={idx}
+                onClick={() => openLightbox(imgUrl)}
+                className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-slate-100 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
+              >
+                {/* Clean Image without Text */}
+                <img
+                  src={imgUrl}
+                  alt={`HVAC Project ${idx + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                  loading={idx < 10 ? "eager" : "lazy"}
+                />
 
-              {/* Hover Overlay with subtle Zoom Icon only */}
-              <div className="absolute inset-0 bg-slate-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div className="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md text-[#005CE6] flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                  <ZoomIn className="w-5 h-5" />
+                {/* Hover Overlay with subtle Zoom Icon only */}
+                <div className="absolute inset-0 bg-slate-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md text-[#005CE6] flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                    <ZoomIn className="w-5 h-5" />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Show More / Show Less Toggle Button */}
         {allImages.length > 15 && (

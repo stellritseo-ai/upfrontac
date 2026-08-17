@@ -26,55 +26,50 @@ import { getGalleryPhotos } from "@/lib/leads-store";
 import acCypressImg from "@/assets/service-ac-cypress.png";
 import acTomballImg from "@/assets/service-ac-tomball.png";
 
-// Dynamically import all images from assets/gallery
-const galleryModules = import.meta.glob<{ default: string }>("@/assets/gallery/*.webp", {
-  eager: true,
-  import: "default",
-});
-const localGalleryImages = Object.values(galleryModules) as string[];
-
 export function ProjectsPageDetail() {
   const { t } = useLanguage();
   const [dbPhotos, setDbPhotos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("all");
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   useEffect(() => {
     getGalleryPhotos()
       .then((photos) => {
-        if (Array.isArray(photos) && photos.length > 0) {
+        if (Array.isArray(photos)) {
           setDbPhotos(photos);
         }
+        setLoading(false);
       })
       .catch((err) => {
         console.warn("Failed to load database gallery photos:", err);
+        setLoading(false);
       });
   }, []);
 
-  const allImages = useMemo(() => {
-    const validDbUrls = dbPhotos
-      .map((photo) => photo.url)
-      .filter((url) => url && !url.includes("unsplash.com") && !url.includes("localhost"));
-
-    return Array.from(new Set([...[...validDbUrls].reverse(), ...localGalleryImages]));
-  }, [dbPhotos]);
-
   const categories = [
     { id: "all", label: "All Projects" },
-    { id: "ac", label: "AC Installations" },
+    { id: "residential", label: "Residential AC" },
     { id: "commercial", label: "Commercial HVAC" },
-    { id: "repairs", label: "Emergency Repairs" },
-    { id: "iaq", label: "Ductwork & Air Quality" },
+    { id: "install", label: "New Installations" },
+    { id: "heating", label: "Heating & Repairs" },
   ];
 
-  // Distribute gallery images into category tags deterministically for demo filtering
-  const filteredImages = useMemo(() => {
-    if (activeFilter === "all") return allImages;
-    if (activeFilter === "ac") return allImages.filter((_, i) => i % 2 === 0);
-    if (activeFilter === "commercial") return allImages.filter((_, i) => i % 3 === 0);
-    if (activeFilter === "repairs") return allImages.filter((_, i) => i % 2 === 1);
-    return allImages.filter((_, i) => i % 4 === 0);
-  }, [allImages, activeFilter]);
+  // Filter dynamic photos by category
+  const filteredPhotos = useMemo(() => {
+    const valid = dbPhotos.filter(
+      (photo) => photo.url && !photo.url.includes("localhost")
+    );
+    if (activeFilter === "all") return valid;
+    return valid.filter((p) => {
+      const cat = (p.category || "").toLowerCase();
+      if (activeFilter === "residential") return cat.includes("res") || cat.includes("ac");
+      if (activeFilter === "commercial") return cat.includes("com");
+      if (activeFilter === "install") return cat.includes("inst");
+      if (activeFilter === "heating") return cat.includes("heat") || cat.includes("repair");
+      return cat === activeFilter;
+    });
+  }, [dbPhotos, activeFilter]);
 
   const openLightbox = useCallback((imgUrl: string) => {
     setLightboxImg(imgUrl);
@@ -152,7 +147,7 @@ export function ProjectsPageDetail() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div className="max-w-2xl">
               <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
-                PROJECT SHOWCASE
+                PROJECT SHOWCASE ({dbPhotos.length} TOTAL)
               </span>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight mt-2">
                 Real Installations & Field Work
@@ -180,32 +175,52 @@ export function ProjectsPageDetail() {
             </div>
           </div>
 
-          {/* Image Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {filteredImages.map((imgUrl, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: (idx % 10) * 0.04 }}
-                onClick={() => openLightbox(imgUrl)}
-                className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
-              >
-                <img
-                  src={imgUrl}
-                  alt={`Upfront AC Project Installation ${idx + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                  loading={idx < 10 ? "eager" : "lazy"}
-                />
+          {/* Dynamic Image Grid */}
+          {loading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="aspect-[4/3] w-full rounded-2xl bg-slate-200/60 animate-pulse" />
+              ))}
+            </div>
+          ) : filteredPhotos.length === 0 ? (
+            <div className="bg-white rounded-3xl p-16 text-center border border-slate-200 shadow-xs max-w-xl mx-auto">
+              <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center mx-auto mb-4">
+                <Snowflake className="w-7 h-7" />
+              </div>
+              <h4 className="text-lg font-extrabold text-slate-900 mb-2">
+                No Photos in this Category Yet
+              </h4>
+              <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                Photos uploaded via the admin dashboard will automatically appear here in high definition.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {filteredPhotos.map((photo, idx) => (
+                <motion.div
+                  key={photo.id || idx}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: (idx % 10) * 0.04 }}
+                  onClick={() => openLightbox(photo.url)}
+                  className="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
+                >
+                  <img
+                    src={photo.url}
+                    alt={photo.title || `Upfront AC Project Installation ${idx + 1}`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    loading={idx < 10 ? "eager" : "lazy"}
+                  />
 
-                <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md text-[#005CE6] flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                    <ZoomIn className="w-5 h-5" />
+                  <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-white/90 backdrop-blur-md text-[#005CE6] flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                      <ZoomIn className="w-5 h-5" />
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
 
         </div>
       </section>

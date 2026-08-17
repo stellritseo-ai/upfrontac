@@ -157,6 +157,18 @@ const CustomChartTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
+// Format chat timestamp safely
+const formatChatTime = (timestamp?: string) => {
+  if (!timestamp) return "Just now";
+  try {
+    const d = new Date(timestamp);
+    if (isNaN(d.getTime())) return "Just now";
+    return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  } catch {
+    return "Just now";
+  }
+};
+
 function DashboardPage() {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);

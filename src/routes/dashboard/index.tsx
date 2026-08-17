@@ -1189,7 +1189,16 @@ function DashboardPage() {
 
     // 3. Persist in background
     try {
-      sendChatMessage(activeSessionId, "admin", textToSend, msgId, time);
+      sendChatMessage(
+        activeSessionId,
+        "admin",
+        textToSend,
+        msgId,
+        time,
+        activeChatSession?.clientName,
+        activeChatSession?.clientEmail,
+        activeChatSession?.clientPhone
+      );
     } catch (err) {
       console.warn("Background chat persist error:", err);
     }

@@ -746,12 +746,27 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             timestamp: body.timestamp || new Date().toISOString()
           };
 
+          const clientProvidedMsgs = Array.isArray(body.allMessages) ? body.allMessages : [];
           const currentMsgs = Array.isArray(session.messages) ? session.messages : [];
-          const alreadyExists = currentMsgs.some((m: any) =>
-            m.id === newMsg.id ||
-            (m.sender === newMsg.sender && m.text?.trim() === newMsg.text?.trim() && Math.abs(new Date(m.timestamp).getTime() - new Date(newMsg.timestamp).getTime()) < 3000)
-          );
-          const messages = (alreadyExists ? currentMsgs : [...currentMsgs, newMsg]).sort(
+          const combined = [...currentMsgs, ...clientProvidedMsgs, newMsg];
+
+          const seenMsgIds = new Set<string>();
+          const deduped: any[] = [];
+          for (const m of combined) {
+            if (!m || !m.text) continue;
+            if (m.id && seenMsgIds.has(m.id)) continue;
+            const isDuplicate = deduped.some(
+              (existing: any) =>
+                existing.sender === m.sender &&
+                existing.text?.trim() === m.text?.trim() &&
+                Math.abs(new Date(existing.timestamp).getTime() - new Date(m.timestamp).getTime()) < 3000
+            );
+            if (isDuplicate) continue;
+            if (m.id) seenMsgIds.add(m.id);
+            deduped.push(m);
+          }
+
+          const messages = deduped.sort(
             (a: any, b: any) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
           );
 

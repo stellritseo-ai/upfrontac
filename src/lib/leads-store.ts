@@ -1186,43 +1186,19 @@ export const sendChatMessage = async (
   const msgId = messageId || "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
   const time = timestamp || new Date().toISOString();
 
-  try {
-    const updated = await apiCall<ChatSession | null>("/api/chats", "POST", {
-      action: "message",
-      sessionId,
-      sender,
-      text,
-      messageId: msgId,
-      timestamp: time,
-      clientName,
-      clientEmail,
-      clientPhone
-    });
-    if (updated) {
-      updated.messages = dedupeChatMessages(updated.messages || []);
-      const chats = await getChatSessions();
-      const updatedChats = chats.map((c) => (c.id === sessionId ? updated : c));
-      setStorageItem("upfront-chats-v2", updatedChats);
-      if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updated }));
-      }
-      return updated;
-    }
-  } catch (err) {
-    console.warn("MongoDB offline, sending message via local storage:", err);
-  }
+  const newMsg: ChatMessage = {
+    id: msgId,
+    sender,
+    text,
+    timestamp: time
+  };
 
-  const chats = await getChatSessions();
+  // 1. Immediately update local storage non-destructively so zero messages are lost
+  const currentChats = getStorageItem<ChatSession[]>("upfront-chats-v2", []);
   let updatedSession: ChatSession | null = null;
-  const updatedChats = chats.map((c) => {
+  const localUpdatedChats = currentChats.map((c) => {
     if (c.id === sessionId) {
-      const newMsg: ChatMessage = {
-        id: msgId,
-        sender,
-        text,
-        timestamp: time
-      };
-      const messages = dedupeChatMessages([...c.messages, newMsg]);
+      const messages = dedupeChatMessages([...(c.messages || []), newMsg]);
       updatedSession = {
         ...c,
         clientName: clientName && clientName !== "Website Visitor" ? clientName : c.clientName,
@@ -1237,10 +1213,53 @@ export const sendChatMessage = async (
     }
     return c;
   });
-  setStorageItem("upfront-chats-v2", updatedChats);
-  if (typeof window !== "undefined" && updatedSession) {
+
+  if (!updatedSession) {
+    updatedSession = {
+      id: sessionId,
+      clientName: clientName || "Website Visitor",
+      clientEmail: clientEmail || "",
+      clientPhone: clientPhone || "",
+      clientCity: "Tomball, TX",
+      messages: [newMsg],
+      lastMessage: text,
+      lastMessageTime: time,
+      unread: sender === "client"
+    };
+    localUpdatedChats.unshift(updatedSession);
+  }
+
+  setStorageItem("upfront-chats-v2", localUpdatedChats);
+  if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updatedSession }));
   }
+
+  // 2. Persist to API with cumulative message history so stateless lambdas never truncate chat
+  try {
+    const updated = await apiCall<ChatSession | null>("/api/chats", "POST", {
+      action: "message",
+      sessionId,
+      sender,
+      text,
+      messageId: msgId,
+      timestamp: time,
+      clientName: updatedSession.clientName,
+      clientEmail: updatedSession.clientEmail,
+      clientPhone: updatedSession.clientPhone,
+      allMessages: updatedSession.messages
+    });
+    if (updated) {
+      const mergedMsgs = dedupeChatMessages([...(updatedSession.messages || []), ...(updated.messages || [])]);
+      updated.messages = mergedMsgs;
+      const latestChats = getStorageItem<ChatSession[]>("upfront-chats-v2", []);
+      const finalChats = latestChats.map((c) => (c.id === sessionId ? { ...c, ...updated, messages: mergedMsgs } : c));
+      setStorageItem("upfront-chats-v2", finalChats);
+      return { ...updatedSession, ...updated, messages: mergedMsgs };
+    }
+  } catch (err) {
+    console.warn("MongoDB offline, sending message via local storage:", err);
+  }
+
   return updatedSession;
 };
 

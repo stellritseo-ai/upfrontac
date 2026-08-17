@@ -123,9 +123,9 @@ function LoginPage() {
         <div className="absolute -top-40 -left-40 w-[650px] h-[650px] bg-[#005CE6]/20 rounded-full blur-[150px]" />
         <div className="absolute top-1/2 -right-40 w-[600px] h-[600px] bg-cyan-500/15 rounded-full blur-[150px]" />
         <div className="absolute -bottom-40 left-1/4 w-[700px] h-[700px] bg-indigo-600/15 rounded-full blur-[170px]" />
-        
+
         {/* Subtle HVAC Grid Matrix */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.035]"
           style={{
             backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px)`,
@@ -156,7 +156,7 @@ function LoginPage() {
       {/* Main Two-Column Layout */}
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex-1 flex items-center relative z-10">
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
+
           {/* ── LEFT SIDE: BRANDING, VALUE PROPOSITION & SYSTEM METRICS ── */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -270,7 +270,7 @@ function LoginPage() {
           >
             {/* Main Glassmorphic Portal Card */}
             <div className="relative rounded-3xl bg-[#0B1528]/90 backdrop-blur-2xl border border-white/10 shadow-[0_25px_80px_-15px_rgba(0,92,230,0.35)] p-7 sm:p-9 overflow-hidden">
-              
+
               {/* Top Accent Gradient Border */}
               <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#005CE6] via-cyan-400 to-[#005CE6]" />
 
@@ -415,7 +415,7 @@ function LoginPage() {
           <span className="hidden sm:inline text-slate-700">•</span>
           <span>TACLA #121344E Regulated by TDLR</span>
           <span className="hidden sm:inline text-slate-700">•</span>
-          <span className="text-slate-400 font-semibold">Strict Confidentiality Enforced</span>
+          <span className="text-slate-400 font-semibold">Design and Developed By StellR IT LLC</span>
         </div>
       </footer>
     </div>

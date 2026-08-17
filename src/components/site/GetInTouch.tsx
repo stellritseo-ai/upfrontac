@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { addWebEmail } from "@/lib/leads-store";
+import { toast } from "sonner";
 import {
   Phone,
   Mail,
@@ -10,6 +11,8 @@ import {
   CheckCircle2,
   HelpCircle,
   Sparkles,
+  Zap,
+  PhoneCall
 } from "lucide-react";
 import {
   Accordion,
@@ -18,6 +21,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 const TinyLightningIcon = () => (
   <svg className="w-3.5 h-3.5 text-[#005CE6] fill-[#005CE6] shrink-0" viewBox="0 0 24 24">
@@ -27,6 +31,7 @@ const TinyLightningIcon = () => (
 
 export function GetInTouch() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -77,6 +82,7 @@ export function GetInTouch() {
     const msg = (form.querySelector("textarea[name='message']") as HTMLTextAreaElement)?.value || "";
 
     try {
+      // Immediate dual-sync to MongoDB Atlas & local cache
       await addWebEmail({
         name,
         phone,
@@ -86,7 +92,8 @@ export function GetInTouch() {
         source: "Landing Get-In-Touch Form"
       });
 
-      const response = await fetch("https://formsubmit.co/ajax/allen@upfrontac.com", {
+      // Background notification without blocking UI
+      fetch("https://formsubmit.co/ajax/allen@upfrontac.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -99,13 +106,15 @@ export function GetInTouch() {
           "Service Needed": service || "General HVAC Inquiry",
           Message: msg
         })
-      });
+      }).catch((err) => console.log("Background email alert:", err));
 
-      if (response.ok) {
-        setSubmitted(true);
-      }
+      setSubmitted(true);
+      toast.success(t("Estimate Request Received!", "¡Solicitud Recibida!"), {
+        description: t("Our dispatch team has been notified.", "Nuestro equipo de despacho ha sido notificado.")
+      });
     } catch (err) {
       setSubmitted(true);
+      toast.success(t("Estimate Request Received!", "¡Solicitud Recibida!"));
     } finally {
       setSubmitting(false);
     }
@@ -197,15 +206,15 @@ export function GetInTouch() {
                   {t("Have an urgent question?", "¿Tiene una pregunta urgente?")}
                 </span>
                 <a
-                  href="tel:7138197908"
+                  href={`tel:${phoneTel}`}
                   className="text-sm font-extrabold text-cyan-300 hover:text-white transition-colors"
                 >
-                  (713) 819-7908
+                  {settings.officePhone || "(713) 819-7908"}
                 </a>
               </div>
 
               <a
-                href="tel:7138197908"
+                href={`tel:${phoneTel}`}
                 className="w-8 h-8 rounded-lg bg-[#005CE6] hover:bg-cyan-500 text-white flex items-center justify-center shrink-0 transition-colors shadow-md"
               >
                 <Phone className="w-3.5 h-3.5" />
@@ -224,23 +233,59 @@ export function GetInTouch() {
             <AnimatePresence mode="wait">
               {submitted ? (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  className="grid place-items-center text-center py-16"
+                  initial={{ opacity: 0, scale: 0.92, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.92, y: 15 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="py-10 px-4 text-center flex flex-col items-center justify-center space-y-4"
                 >
-                  <div className="grid place-items-center h-16 w-16 rounded-full bg-emerald-100 text-emerald-600 mb-5 shadow-sm">
-                    <CheckCircle2 className="h-8 w-8" />
+                  <div className="relative">
+                    <div className="w-20 h-20 rounded-full bg-emerald-100 border-2 border-emerald-300 flex items-center justify-center text-emerald-600 shadow-xl shadow-emerald-500/20">
+                      <CheckCircle2 className="h-10 w-10 text-emerald-600 animate-pulse" />
+                    </div>
+                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-[#005CE6] rounded-full flex items-center justify-center text-white text-[10px] font-black animate-bounce shadow-md">
+                      ✓
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-display font-black text-[#0F172A] uppercase tracking-wider">
-                    {t("Request Received", "Solicitud Recibida")}
-                  </h3>
-                  <p className="mt-3 text-sm text-slate-500 font-semibold max-w-sm">
-                    {t(
-                      "Thank you! An Upfront AC dispatch specialist will contact you shortly.",
-                      "¡Gracias! Un especialista de despacho de Upfront AC se comunicará con usted en breve."
-                    )}
-                  </p>
+
+                  <div className="space-y-2">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-black uppercase tracking-wider">
+                      <Zap className="w-3.5 h-3.5 text-emerald-600" />
+                      {t("Priority Dispatch Assigned", "Despacho Prioritario Asignado")}
+                    </span>
+                    <h3 className="text-2xl sm:text-3xl font-display font-black text-[#0F172A]">
+                      {t("Request Received!", "¡Solicitud Recibida!")}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 font-semibold max-w-md mx-auto leading-relaxed">
+                      {t(
+                        "Thank you! Your inquiry is logged in our dispatch database. Our EPA-certified HVAC technician will call or text you within 15–30 minutes.",
+                        "¡Gracias! Su consulta está registrada en nuestra base de datos de despacho. Nuestro técnico certificado le llamará o enviará un mensaje en 15–30 minutos."
+                      )}
+                    </p>
+                  </div>
+
+                  {/* Dispatch Details Card */}
+                  <div className="w-full max-w-md bg-slate-50 rounded-2xl p-4 border border-slate-200/90 space-y-2.5 text-left">
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                      <span className="text-slate-400 uppercase text-[10px] tracking-wider">Response Window:</span>
+                      <span className="text-emerald-700 font-extrabold flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-emerald-600" /> Same-Day / 15-30 Mins
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700 pt-2 border-t border-slate-200">
+                      <span className="text-slate-400 uppercase text-[10px] tracking-wider">Direct Hotline:</span>
+                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] font-extrabold hover:underline flex items-center gap-1">
+                        <Phone className="w-3.5 h-3.5" /> {settings.officePhone || "(713) 819-7908"}
+                      </a>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setSubmitted(false)}
+                    className="mt-3 text-xs font-extrabold text-[#005CE6] hover:underline cursor-pointer flex items-center gap-1"
+                  >
+                    <span>← {t("Submit another request", "Enviar otra solicitud")}</span>
+                  </button>
                 </motion.div>
               ) : (
                 <form
@@ -299,14 +344,23 @@ export function GetInTouch() {
                   </div>
 
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
                     type="submit"
                     disabled={submitting}
-                    className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#005CE6] hover:bg-[#0047B3] px-6 py-4.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg hover:brightness-110 cursor-pointer transition-all duration-300 disabled:opacity-75 disabled:cursor-not-allowed"
+                    className="group relative inline-flex w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-[#005CE6] to-[#0047B3] hover:from-[#0066FF] hover:to-[#0052CC] px-6 py-4.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xl shadow-[#005CE6]/30 cursor-pointer transition-all duration-300 disabled:opacity-75 disabled:cursor-not-allowed"
                   >
-                    <span>{submitting ? t("Sending...", "Enviando...") : t("Send Free Estimate Request", "Enviar Solicitud de Presupuesto Gratis")}</span>
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    {submitting ? (
+                      <span className="flex items-center gap-2">
+                        <div className="h-4 w-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                        <span>{t("Transmitting Request to Dispatch...", "Transmitiendo Solicitud a Despacho...")}</span>
+                      </span>
+                    ) : (
+                      <>
+                        <span>{t("Send Free Estimate Request", "Enviar Solicitud de Presupuesto Gratis")}</span>
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </>
+                    )}
                   </motion.button>
 
                   <p className="text-center text-[10px] text-slate-400 font-semibold">

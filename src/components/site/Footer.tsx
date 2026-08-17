@@ -8,6 +8,7 @@ import {
 import logoImg from "@/assets/logo.png";
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -39,6 +40,7 @@ const socials = [
 
 export function Footer() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
 
   const quickLinks = [
     { label: t("Home", "Inicio"), href: "/" },
@@ -48,98 +50,142 @@ export function Footer() {
     { label: t("Upfront Pricing", "Precios Transparentes"), href: "/upfront-pricing" },
     { label: t("Finance", "Financiamiento"), href: "/finance" },
     { label: t("Get Free Estimate", "Obtener Presupuesto Gratis"), href: "/request-free-estimate" },
+    { label: t("Careers", "Carreras"), href: "/careers" },
+    { label: t("Projects", "Proyectos"), href: "/projects" },
     { label: t("Contact Us", "Contáctenos"), href: "/contact" },
   ];
 
-  const servicesLinks = [
-    { label: t("AC Repair & Maintenance", "Reparación y Mantenimiento AC"), href: "/services/air-conditioning" },
-    { label: t("HVAC Installation", "Instalación de HVAC"), href: "/services/hvac-install" },
-    { label: t("Heating Service", "Servicio de Calefacción"), href: "/services/heating" },
-    { label: t("Commercial HVAC", "HVAC Comercial"), href: "/services/commercial-hvac" },
-    { label: t("Indoor Air Quality", "Calidad del Aire Interior"), href: "/services/indoor-air-quality" },
-    { label: t("Residential HVAC", "HVAC Residencial"), href: "/services/residential-hvac" },
+  const serviceLinks = [
+    { label: t("HVAC Install", "Instalación HVAC"), href: "/services/hvac-install" },
+    { label: t("Air Conditioning", "Aire Acondicionado"), href: "/services/air-conditioning" },
     { label: t("HVAC Repairs", "Reparaciones HVAC"), href: "/services/hvac-repairs" },
+    { label: t("AC Repair Cypress", "Reparación AC Cypress"), href: "/services/ac-repair-cypress" },
+    { label: t("AC Repair Tomball", "Reparación AC Tomball"), href: "/services/ac-repair-tomball" },
+    { label: t("Heating", "Calefacción"), href: "/services/heating" },
     { label: t("HVAC Maintenance", "Mantenimiento HVAC"), href: "/services/hvac-maintenance" },
+    { label: t("Indoor Air Quality", "Calidad del Aire"), href: "/services/indoor-air-quality" },
+    { label: t("Commercial HVAC", "HVAC Comercial"), href: "/services/commercial-hvac" },
+    { label: t("Residential HVAC", "HVAC Residencial"), href: "/services/residential-hvac" },
   ];
 
   return (
-    <footer className="relative bg-[#050b1a] text-white overflow-hidden border-t border-slate-900 select-none">
-      {/* Background patterns */}
-      <div className="absolute inset-0 bg-grid opacity-[0.02] pointer-events-none" />
+    <footer className="bg-[#020617] text-white pt-16 pb-12 border-t border-slate-800/80 relative overflow-hidden">
+      {/* Glow Effects */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#005CE6]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Decorative Blur Blobs */}
-      <div className="absolute -top-40 left-1/4 w-[400px] h-[400px] bg-[#005CE6]/10 rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
-      <div className="absolute -bottom-40 right-10 w-[350px] h-[350px] bg-cyan-500/5 rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDuration: '10s' }} />
-
-      <div className="relative mx-auto w-[90%] max-w-7xl pt-16 pb-8 lg:pt-20 lg:pb-10 z-10 text-left">
-        <div className="grid grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-10">
-
-          {/* Logo & Description */}
-          <div className="col-span-2 lg:col-span-4">
-            <Link to="/" className="flex items-center">
-              <img
-                src={logoImg}
-                alt="Upfront AC Logo"
-                className="h-20 sm:h-24 w-auto object-contain"
-              />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-slate-800">
+          
+          {/* Brand Col */}
+          <div className="lg:col-span-2 space-y-6">
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="bg-white rounded-2xl p-2 shadow-lg transition-transform group-hover:scale-105">
+                <img
+                  src={logoImg}
+                  alt="Upfront AC & Heating Logo"
+                  className="h-10 w-auto object-contain"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xl font-black tracking-tight text-white uppercase">
+                  UPFRONT <span className="text-[#005CE6]">AC</span>
+                </span>
+                <span className="text-[10px] text-slate-400 font-bold tracking-widest uppercase">
+                  Heating & Air Conditioning
+                </span>
+              </div>
             </Link>
 
-            <p className="mt-6 text-sm text-slate-400 leading-relaxed max-w-sm font-semibold">
+            <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
               {t(
-                "A full service residential and commercial HVAC service company located in Tomball, Texas and serving the greater Houston Area. We Provide 24/7 emergency HVAC Service. Customer satisfaction is our main target . We Committed to customer satisfaction.",
-                "Una empresa de servicio de HVAC residencial y comercial ubicada en Tomball, Texas y atendiendo al área metropolitana de Houston. Brindamos servicio de HVAC de emergencia las 24 horas, los 7 días de la semana. La satisfacción del cliente es nuestro objetivo principal."
+                "Upfront AC & Heating provides honest, top-tier HVAC repairs, installations, and maintenance across Tomball, Cypress, and Greater Houston.",
+                "Upfront AC & Heating ofrece reparaciones, instalaciones y mantenimiento de HVAC de primer nivel en Tomball, Cypress y Greater Houston."
               )}
             </p>
 
-            {/* Socials row */}
-            <div className="mt-8 flex gap-3 select-none">
-              {socials.map(({ icon: Icon, href, label }, i) => (
-                <motion.a
-                  key={i}
-                  whileHover={{ y: -4, scale: 1.05, backgroundColor: "rgba(0, 92, 230, 0.2)", borderColor: "rgba(0, 92, 230, 0.4)" }}
-                  whileTap={{ scale: 0.95 }}
-                  href={href}
-                  aria-label={label}
-                  className="grid place-items-center h-10 w-10 rounded-xl bg-slate-900/60 border border-slate-800 text-slate-400 hover:text-white transition-colors shadow-sm"
-                >
-                  <Icon className="h-5 w-5" />
-                </motion.a>
-              ))}
+            {/* Socials */}
+            <div className="flex items-center gap-3 pt-2">
+              {socials.map((s, idx) => {
+                const Icon = s.icon;
+                return (
+                  <a
+                    key={idx}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="h-10 w-10 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#005CE6] hover:border-[#005CE6] transition-all"
+                  >
+                    <Icon />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          {/* Quick Links Column */}
-          <Col title={t("Quick Links", "Enlaces Rápidos")} items={quickLinks} />
+          {/* Quick Links */}
+          <div>
+            <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
+              {t("Quick Links", "Enlaces Rápidos")}
+            </div>
+            <ul className="space-y-3 text-sm text-slate-400">
+              {quickLinks.slice(0, 6).map((link, idx) => (
+                <li key={idx}>
+                  <Link
+                    to={link.href}
+                    className="hover:text-white hover:translate-x-1 inline-block transition-all"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          {/* Services Column */}
-          <Col title={t("Our Services", "Nuestros Servicios")} items={servicesLinks} />
+          {/* Services Links */}
+          <div>
+            <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
+              {t("HVAC Services", "Servicios HVAC")}
+            </div>
+            <ul className="space-y-3 text-sm text-slate-400">
+              {serviceLinks.slice(0, 6).map((link, idx) => (
+                <li key={idx}>
+                  <Link
+                    to={link.href}
+                    className="hover:text-white hover:translate-x-1 inline-block transition-all"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          {/* Contact & Hours Column (4-span grid layout subsplit) */}
-          <div className="col-span-2 lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-6">
-
-            {/* Contact Details */}
+          {/* Contact & Hours Info */}
+          <div className="space-y-6">
             <div>
-              <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
-                {t("Contact Us", "Contáctenos")}
+              <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-4">
+                {t("Contact Info", "Información de Contacto")}
               </div>
-              <ul className="space-y-4.5 text-sm">
+              <ul className="space-y-3.5 text-sm">
                 <li>
                   <a
-                    href="tel:7138197908"
-                    className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group"
+                    href={`tel:${phoneTel}`}
+                    className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors group"
                   >
                     <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
                       <Phone className="h-4 w-4 group-hover:rotate-12 transition-transform" />
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Phone</span>
-                      <span className="font-semibold text-white tracking-tight mt-0.5">713-819-7908</span>
+                      <span className="font-semibold text-white tracking-tight mt-0.5">{settings.officePhone || "(713) 819-7908"}</span>
                     </div>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="mailto:allen@upfrontac.com"
+                    href={`mailto:${settings.alertEmail || "allen@upfrontac.com"}`}
                     className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group"
                   >
                     <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
@@ -147,7 +193,7 @@ export function Footer() {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Email</span>
-                      <span className="font-semibold text-white tracking-tight mt-0.5 text-wrap break-all">allen@upfrontac.com</span>
+                      <span className="font-semibold text-white tracking-tight mt-0.5 text-wrap break-all">{settings.alertEmail || "allen@upfrontac.com"}</span>
                     </div>
                   </a>
                 </li>
@@ -174,23 +220,24 @@ export function Footer() {
 
             {/* Hours Info */}
             <div>
-              <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
+              <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-3">
                 {t("Office Hours", "Horarios de Oficina")}
               </div>
-              <div className="bg-slate-900/40 border border-red-500/25 rounded-2xl p-5">
-                <span className="text-red-400 font-black uppercase tracking-wider block mb-3 text-[10px] flex items-center gap-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                  </span>
-                  {t("Call for 24/7 Emergency Service", "Llama para Servicio de Emergencia 24/7")}
-                </span>
-                <p className="text-xs text-slate-300 leading-relaxed font-semibold">
-                  <span className="text-white block font-bold mb-1">{t("Monday-Friday:", "Lunes-Viernes:")}</span>
-                  {t("24 Hours Service", "Servicio 24 Horas")}<br /><br />
-                  <span className="text-white block font-bold mb-1">{t("Saturday-Sunday:", "Sábado-Domingo:")}</span>
-                  {t("12am-5pm", "12am-5pm")}
-                </p>
+              <div className="bg-slate-900/40 border border-blue-500/25 rounded-2xl p-4">
+                <div className="text-xs text-slate-300 leading-relaxed font-semibold space-y-2">
+                  <div>
+                    <span className="text-slate-400 text-[11px] block">{t("Monday - Friday:", "Lunes - Viernes:")}</span>
+                    <span className="text-white font-bold">{settings.weekdays || "9:00 AM - 6:30 PM"}</span>
+                  </div>
+                  <div className="pt-1">
+                    <span className="text-slate-400 text-[11px] block">{t("Saturday:", "Sábado:")}</span>
+                    <span className="text-white font-bold">{settings.saturdays || "9:00 AM - 6:30 PM"}</span>
+                  </div>
+                  <div className="pt-1">
+                    <span className="text-rose-400 text-[11px] font-black block">{t("Sunday / Emergencies:", "Domingo / Emergencias:")}</span>
+                    <span className="text-rose-400 font-black">{settings.sundays || "24/7 Emergency Dispatch"}</span>
+                  </div>
+                </div>
               </div>
             </div>
 

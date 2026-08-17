@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { MessageCircle, X, Send, Phone, Calendar, CheckCircle2 } from "lucide-react";
+import { MessageCircle, X, Send, Phone, Calendar, CheckCircle2, Lock, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { io } from "socket.io-client";
 import { createChatSession, sendChatMessage, getChatSessionById, dedupeChatMessages, ChatMessage } from "@/lib/leads-store";
 import { toast } from "sonner";
 import logoImg from "@/assets/logo.png";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 export function FloatingChat() {
+  const { settings, phoneTel } = useSiteSettings();
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
@@ -14,6 +16,7 @@ export function FloatingChat() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isClosed, setIsClosed] = useState(false);
 
   const socketRef = useRef<any>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -50,8 +53,15 @@ export function FloatingChat() {
       if (storedPhone) setPhone(storedPhone);
 
       getChatSessionById(storedId).then((session) => {
-        if (session && Array.isArray(session.messages)) {
-          setMessages(dedupeChatMessages(session.messages));
+        if (session) {
+          if (session.isClosed || session.status === "closed") {
+            setIsClosed(true);
+          } else {
+            setIsClosed(false);
+          }
+          if (Array.isArray(session.messages)) {
+            setMessages(dedupeChatMessages(session.messages));
+          }
         }
       });
     }
@@ -81,12 +91,28 @@ export function FloatingChat() {
       }
     };
 
+    const handleStatusChange = (data: any) => {
+      if (sessionId && data.sessionId === sessionId) {
+        setIsClosed(Boolean(data.isClosed));
+        if (data.isClosed) {
+          toast.info("This chat session has been marked resolved and closed by support.");
+        }
+      }
+    };
+
     socket.on("message", handleIncomingMessage);
     socket.on("new-chat-message", handleIncomingMessage);
+    socket.on("session-status", handleStatusChange);
+    socket.on("session-status-changed", handleStatusChange);
 
     const handleCustomEvent = (e: any) => {
-      if (e.detail && sessionId && e.detail.id === sessionId && Array.isArray(e.detail.messages)) {
-        setMessages(dedupeChatMessages(e.detail.messages));
+      if (e.detail && sessionId && e.detail.id === sessionId) {
+        if (e.detail.isClosed !== undefined) {
+          setIsClosed(Boolean(e.detail.isClosed));
+        }
+        if (Array.isArray(e.detail.messages)) {
+          setMessages(dedupeChatMessages(e.detail.messages));
+        }
       }
     };
     window.addEventListener("upfront-chats-updated", handleCustomEvent);
@@ -109,6 +135,11 @@ export function FloatingChat() {
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isClosed) {
+      toast.error("This chat session has been closed. Please start a new chat.");
+      return;
+    }
+
     const textToSend = message.trim();
     if (!textToSend) return;
 
@@ -173,7 +204,7 @@ export function FloatingChat() {
     setName("");
     setPhone("");
     setMessages([]);
-    setIsOpen(false);
+    setIsClosed(false);
   };
 
   return (
@@ -275,7 +306,7 @@ export function FloatingChat() {
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <a
-                      href="tel:+17138197908"
+                      href={`tel:${phoneTel}`}
                       className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 hover:border-[#005CE6]/30 rounded-xl py-2 px-1 text-[10px] sm:text-xs font-bold text-slate-700 transition"
                     >
                       <Phone className="h-3.5 w-3.5 text-[#005CE6] shrink-0" /> Call 24/7 Support
@@ -291,44 +322,73 @@ export function FloatingChat() {
                 </>
               )}
 
-              <form onSubmit={handleSend} className="mt-1 flex flex-col gap-2">
-                {!sessionId && (
-                  <div className="grid grid-cols-2 gap-2">
+              {isClosed ? (
+                <div className="mt-1 bg-slate-50 border border-slate-200/90 rounded-2xl p-3.5 text-center space-y-2">
+                  <div className="flex items-center justify-center gap-1.5 text-xs font-black text-slate-800 uppercase tracking-wider">
+                    <Lock className="w-3.5 h-3.5 text-slate-500" />
+                    <span>Chat Closed by Support</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500 font-semibold leading-relaxed">
+                    This inquiry has been resolved and closed. If you have additional questions, please start a new chat or call our 24/7 hotline.
+                  </p>
+                  <div className="flex items-center justify-center gap-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={handleClearChat}
+                      className="px-3 py-2 bg-[#005CE6] hover:bg-[#0047B3] text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 shadow-sm"
+                    >
+                      <RotateCcw className="w-3 h-3" />
+                      <span>Start New Chat</span>
+                    </button>
+                    <a
+                      href={`tel:${phoneTel}`}
+                      className="px-3 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5"
+                    >
+                      <Phone className="w-3 h-3 text-[#005CE6]" />
+                      <span>Call Us</span>
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleSend} className="mt-1 flex flex-col gap-2">
+                  {!sessionId && (
+                    <div className="grid grid-cols-2 gap-2">
+                      <input
+                        type="text"
+                        required
+                        placeholder="Your Name *"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/10 focus:border-[#005CE6] transition"
+                      />
+                      <input
+                        type="tel"
+                        placeholder="Phone (optional)"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/10 focus:border-[#005CE6] transition"
+                      />
+                    </div>
+                  )}
+                  <div className="relative flex items-center">
                     <input
                       type="text"
                       required
-                      placeholder="Your Name *"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/10 focus:border-[#005CE6] transition"
+                      placeholder="Type a message..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-3 pr-10 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/10 focus:border-[#005CE6] transition"
                     />
-                    <input
-                      type="tel"
-                      placeholder="Phone (optional)"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/10 focus:border-[#005CE6] transition"
-                    />
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !message.trim() || (!sessionId && !name.trim())}
+                      className="absolute right-1.5 p-1.5 rounded-lg text-white bg-[#005CE6] hover:bg-[#0047B3] transition disabled:opacity-50 disabled:hover:bg-[#005CE6] cursor-pointer"
+                    >
+                      <Send className="h-3 w-3" />
+                    </button>
                   </div>
-                )}
-                <div className="relative flex items-center">
-                  <input
-                    type="text"
-                    required
-                    placeholder="Type a message..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-3 pr-10 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/10 focus:border-[#005CE6] transition"
-                  />
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || !message.trim() || (!sessionId && !name.trim())}
-                    className="absolute right-1.5 p-1.5 rounded-lg text-white bg-[#005CE6] hover:bg-[#0047B3] transition disabled:opacity-50 disabled:hover:bg-[#005CE6] cursor-pointer"
-                  >
-                    <Send className="h-3 w-3" />
-                  </button>
-                </div>
-              </form>
+                </form>
+              )}
             </div>
           </motion.div>
         )}

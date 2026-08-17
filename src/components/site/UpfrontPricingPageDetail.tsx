@@ -23,22 +23,42 @@ import {
   AlertCircle
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { PageHeader } from "@/components/site/PageHeader";
+import { addWebEmail } from "@/lib/leads-store";
+import { toast } from "sonner";
 
 export function UpfrontPricingPageDetail() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("all");
   const [formData, setFormData] = useState({ name: "", phone: "", service: "", date: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
+    if (!formData.name.trim() || !formData.phone.trim()) return;
+
+    setSubmitting(true);
+    try {
+      await addWebEmail({
+        name: formData.name.trim(),
+        email: "pricing-booking@upfrontac.com",
+        phone: formData.phone.trim(),
+        service: formData.service || "Flat-Rate Service Booking",
+        message: `Preferred Date: ${formData.date || "ASAP"}. Service Category: ${formData.service || "Standard Diagnostic"}`,
+        source: "Upfront Pricing Page (/upfront-pricing)"
+      });
+      setSubmitted(true);
+      toast.success("Service booked! We will confirm your appointment shortly.");
       setFormData({ name: "", phone: "", service: "", date: "" });
-    }, 4000);
+    } catch {
+      toast.error(`Failed to submit request. Please call ${settings.officePhone || "(713) 819-7908"}.`);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const pricingCategories = [
@@ -272,11 +292,11 @@ export function UpfrontPricingPageDetail() {
                 Applied directly toward your repair when service is approved. Same-day emergency scheduling available.
               </p>
               <a
-                href="tel:+17138197908"
+                href={`tel:${phoneTel}`}
                 className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-3.5 text-xs shadow-lg transition-all"
               >
                 <PhoneCall className="w-4 h-4 fill-white" />
-                <span>Call (713) 819-7908</span>
+                <span>Call {settings.officePhone || "(713) 819-7908"}</span>
               </a>
             </div>
           </div>
@@ -418,8 +438,8 @@ export function UpfrontPricingPageDetail() {
                   <PhoneCall className="w-5 h-5 text-[#005CE6] shrink-0 mt-1" />
                   <div>
                     <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">Direct Phone</span>
-                    <a href="tel:+17138197908" className="text-sm font-extrabold text-[#005CE6] hover:underline">
-                      +1 713-819-7908
+                    <a href={`tel:${phoneTel}`} className="text-sm font-extrabold text-[#005CE6] hover:underline">
+                      {settings.officePhone || "(713) 819-7908"}
                     </a>
                   </div>
                 </div>
@@ -428,8 +448,8 @@ export function UpfrontPricingPageDetail() {
                   <Clock className="w-5 h-5 text-[#005CE6] shrink-0 mt-1" />
                   <div>
                     <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">Hours & Emergency Dispatch</span>
-                    <span className="text-sm font-extrabold text-slate-900">Mon-Sat 9:00 am – 6:30 pm</span>
-                    <span className="text-xs font-bold text-emerald-600 block mt-0.5">24/7 Emergency Dispatch Available</span>
+                    <span className="text-sm font-extrabold text-slate-900">M-F: {settings.weekdays || "9:00 AM - 6:30 PM"}</span>
+                    <span className="text-xs font-bold text-emerald-600 block mt-0.5">Sat: {settings.saturdays} • Sun: {settings.sundays}</span>
                   </div>
                 </div>
               </div>
@@ -477,12 +497,43 @@ export function UpfrontPricingPageDetail() {
             {/* Form */}
             <div className="lg:col-span-7 bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
               {submitted ? (
-                <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3">
-                  <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
-                  <h3 className="text-xl font-extrabold text-emerald-900">Service Request Received!</h3>
-                  <p className="text-xs text-emerald-700 font-medium">
-                    Thank you! A representative will call you to confirm dispatch and timing.
-                  </p>
+                <div className="p-8 sm:p-10 rounded-2xl bg-emerald-50/90 border border-emerald-200 text-center space-y-4 shadow-sm animate-fade-in">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-300 flex items-center justify-center text-emerald-600 mx-auto shadow-md">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-600 animate-pulse" />
+                  </div>
+                  <div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-2">
+                      Booking Confirmed
+                    </span>
+                    <h3 className="text-2xl font-black text-emerald-950">Service Request Received!</h3>
+                    <p className="text-xs sm:text-sm text-emerald-800 font-semibold max-w-md mx-auto mt-2 leading-relaxed">
+                      Thank you! Your flat-rate service booking has been scheduled. A dispatch coordinator will call you within 15–30 minutes to verify technician arrival.
+                    </p>
+                  </div>
+
+                  <div className="bg-white/80 rounded-xl p-4 border border-emerald-200 text-left space-y-2 max-w-sm mx-auto">
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                      <span className="text-slate-500">Service:</span>
+                      <span className="text-slate-900">{formData.service || "Standard Diagnostic"}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                      <span className="text-slate-500">Emergency Line:</span>
+                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] hover:underline font-extrabold">
+                        {settings.officePhone || "(713) 819-7908"}
+                      </a>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: "", phone: "", service: "", date: "" });
+                    }}
+                    className="mt-2 text-xs font-bold text-[#005CE6] hover:underline cursor-pointer"
+                  >
+                    ← Book another service
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -554,10 +605,20 @@ export function UpfrontPricingPageDetail() {
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-[1.01] active:scale-95"
+                    disabled={submitting}
+                    className="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-75 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-4 h-4 fill-white" />
-                    <span>Book Upfront Service Now</span>
+                    {submitting ? (
+                      <span className="flex items-center gap-2">
+                        <div className="h-4 w-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                        <span>Confirming Flat-Rate Booking...</span>
+                      </span>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 fill-white" />
+                        <span>Book Upfront Service Now</span>
+                      </>
+                    )}
                   </button>
                 </form>
               )}
@@ -591,8 +652,12 @@ export function UpfrontPricingPageDetail() {
               </div>
 
               <div className="p-4 rounded-2xl bg-white/10 border border-white/10 text-center">
-                <span className="text-xs font-black text-cyan-300 block">Call Direct: (713) 819-7908</span>
-                <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">Monday-Saturday 9:00 am – 6:30 pm</span>
+                <a href={`tel:${phoneTel}`} className="text-xs font-black text-cyan-300 block hover:underline">
+                  Call Direct: {settings.officePhone || "(713) 819-7908"}
+                </a>
+                <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">
+                  M-F {settings.weekdays} • Sat {settings.saturdays}
+                </span>
               </div>
             </div>
 

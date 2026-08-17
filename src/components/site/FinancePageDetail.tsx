@@ -24,6 +24,9 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
+import { addWebEmail } from "@/lib/leads-store";
+import { toast } from "sonner";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import hvacImg from "@/assets/service-air-conditioning.png";
 import installImg from "@/assets/service-hvac-install.png";
 import tomballImg from "@/assets/service-ac-tomball.png";
@@ -31,6 +34,7 @@ import cypressImg from "@/assets/service-ac-cypress.png";
 
 export function FinancePageDetail() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [formData, setFormData] = useState({
     name: "",
@@ -40,13 +44,29 @@ export function FinancePageDetail() {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: "", phone: "", budget: "", service: "" });
-    }, 4000);
+    if (!formData.name.trim() || !formData.phone.trim()) return;
+
+    setSubmitting(true);
+    try {
+      await addWebEmail({
+        name: formData.name.trim(),
+        email: "financing-inquiry@upfrontac.com",
+        phone: formData.phone.trim(),
+        service: `Financing Application: ${formData.service || "HVAC System Replacement"}`,
+        message: `Estimated Budget: ${formData.budget || "Not Specified"}\nSystem / Service: ${formData.service || "HVAC Replacement Financing"}`,
+        source: "Financing Page (/finance)"
+      });
+      setSubmitted(true);
+      toast.success("Financing inquiry received! A specialist will contact you shortly.");
+    } catch (err) {
+      toast.error("Failed to submit request. Please call (713) 819-7908.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const coreBenefits = [
@@ -501,12 +521,43 @@ export function FinancePageDetail() {
             {/* Form */}
             <div className="lg:col-span-7 bg-[#F8FAFC] rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
               {submitted ? (
-                <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3">
-                  <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
-                  <h3 className="text-xl font-extrabold text-emerald-900">Application Received!</h3>
-                  <p className="text-xs text-emerald-700 font-medium">
-                    Thank you! A financing specialist will call you shortly to discuss your pre-qualification.
-                  </p>
+                <div className="p-8 sm:p-10 rounded-2xl bg-emerald-50/90 border border-emerald-200 text-center space-y-4 shadow-sm animate-fade-in">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-300 flex items-center justify-center text-emerald-600 mx-auto shadow-md">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-600 animate-pulse" />
+                  </div>
+                  <div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-2">
+                      Pre-Qualification Received
+                    </span>
+                    <h3 className="text-2xl font-black text-emerald-950">Application Received!</h3>
+                    <p className="text-xs sm:text-sm text-emerald-800 font-semibold max-w-md mx-auto mt-2 leading-relaxed">
+                      Thank you! A financing specialist will call you within 15–30 minutes to review low monthly payment options and pre-qualification plans.
+                    </p>
+                  </div>
+
+                  <div className="bg-white/80 rounded-xl p-4 border border-emerald-200 text-left space-y-2 max-w-sm mx-auto">
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                      <span className="text-slate-500">Service:</span>
+                      <span className="text-slate-900">{formData.service || "HVAC Replacement"}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                      <span className="text-slate-500">Financing Desk:</span>
+                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] hover:underline font-extrabold">
+                        {settings.officePhone || "(713) 819-7908"}
+                      </a>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: "", phone: "", budget: "", service: "" });
+                    }}
+                    className="mt-2 text-xs font-bold text-[#005CE6] hover:underline cursor-pointer"
+                  >
+                    ← Submit another application
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -580,10 +631,20 @@ export function FinancePageDetail() {
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-[1.01] active:scale-95"
+                    disabled={submitting}
+                    className="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-75 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-4 h-4 fill-white" />
-                    <span>Submit Financing Pre-Qualification</span>
+                    {submitting ? (
+                      <span className="flex items-center gap-2">
+                        <div className="h-4 w-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                        <span>Submitting Financing Application...</span>
+                      </span>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 fill-white" />
+                        <span>Check My Financing Options</span>
+                      </>
+                    )}
                   </button>
                 </form>
               )}

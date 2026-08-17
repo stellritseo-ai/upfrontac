@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UpfrontPricingRouteImport } from './routes/upfront-pricing'
+import { Route as UnderConstructionRouteImport } from './routes/under-construction'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ServiceAreasRouteImport } from './routes/service-areas'
@@ -39,6 +40,11 @@ import { Route as DashboardLoginRouteImport } from './routes/dashboard/login'
 const UpfrontPricingRoute = UpfrontPricingRouteImport.update({
   id: '/upfront-pricing',
   path: '/upfront-pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UnderConstructionRoute = UnderConstructionRouteImport.update({
+  id: '/under-construction',
+  path: '/under-construction',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -181,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/service-areas': typeof ServiceAreasRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/under-construction': typeof UnderConstructionRoute
   '/upfront-pricing': typeof UpfrontPricingRoute
   '/dashboard/login': typeof DashboardLoginRoute
   '/services/ac-repair-cypress': typeof ServicesAcRepairCypressRoute
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/reviews': typeof ReviewsRoute
   '/service-areas': typeof ServiceAreasRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/under-construction': typeof UnderConstructionRoute
   '/upfront-pricing': typeof UpfrontPricingRoute
   '/dashboard/login': typeof DashboardLoginRoute
   '/services/ac-repair-cypress': typeof ServicesAcRepairCypressRoute
@@ -237,6 +245,7 @@ export interface FileRoutesById {
   '/service-areas': typeof ServiceAreasRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/under-construction': typeof UnderConstructionRoute
   '/upfront-pricing': typeof UpfrontPricingRoute
   '/dashboard/login': typeof DashboardLoginRoute
   '/services/ac-repair-cypress': typeof ServicesAcRepairCypressRoute
@@ -267,6 +276,7 @@ export interface FileRouteTypes {
     | '/service-areas'
     | '/services'
     | '/sitemap.xml'
+    | '/under-construction'
     | '/upfront-pricing'
     | '/dashboard/login'
     | '/services/ac-repair-cypress'
@@ -294,6 +304,7 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/service-areas'
     | '/sitemap.xml'
+    | '/under-construction'
     | '/upfront-pricing'
     | '/dashboard/login'
     | '/services/ac-repair-cypress'
@@ -322,6 +333,7 @@ export interface FileRouteTypes {
     | '/service-areas'
     | '/services'
     | '/sitemap.xml'
+    | '/under-construction'
     | '/upfront-pricing'
     | '/dashboard/login'
     | '/services/ac-repair-cypress'
@@ -351,6 +363,7 @@ export interface RootRouteChildren {
   ServiceAreasRoute: typeof ServiceAreasRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  UnderConstructionRoute: typeof UnderConstructionRoute
   UpfrontPricingRoute: typeof UpfrontPricingRoute
   DashboardLoginRoute: typeof DashboardLoginRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
@@ -363,6 +376,13 @@ declare module '@tanstack/react-router' {
       path: '/upfront-pricing'
       fullPath: '/upfront-pricing'
       preLoaderRoute: typeof UpfrontPricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/under-construction': {
+      id: '/under-construction'
+      path: '/under-construction'
+      fullPath: '/under-construction'
+      preLoaderRoute: typeof UnderConstructionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -588,6 +608,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServiceAreasRoute: ServiceAreasRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  UnderConstructionRoute: UnderConstructionRoute,
   UpfrontPricingRoute: UpfrontPricingRoute,
   DashboardLoginRoute: DashboardLoginRoute,
   DashboardIndexRoute: DashboardIndexRoute,

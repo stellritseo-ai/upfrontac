@@ -37,6 +37,7 @@ import {
   Info,
   Image as ImageIcon,
   Eye,
+  EyeOff,
   X,
   Send,
   Upload,
@@ -47,6 +48,7 @@ import {
   CheckSquare,
   Check,
   ExternalLink,
+  Menu,
   Flame,
   Snowflake,
   Wrench,
@@ -60,7 +62,10 @@ import {
   KeyRound,
   RefreshCw,
   SlidersHorizontal,
-  ChevronLeft
+  ChevronLeft,
+  Copy,
+  XCircle,
+  RotateCcw
 } from "lucide-react";
 
 import {
@@ -100,6 +105,8 @@ import {
   sendChatMessage,
   markChatAsRead,
   deleteChatSession,
+  closeChatSession,
+  reopenChatSession,
   deleteWebEmail,
   uploadGalleryPhoto,
   removeGalleryPhoto,
@@ -176,6 +183,7 @@ function DashboardPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [currentUser, setCurrentUser] = useState<{ id: string; username: string; role: string } | null>(null);
   const [activeTab, setActiveTab] = useState<"overview" | "leads" | "reviews" | "gallery" | "chat" | "emails" | "settings" | "security">("overview");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Database / state stores
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -204,9 +212,21 @@ function DashboardPage() {
   const [portalUsers, setPortalUsers] = useState<PortalUser[]>([]);
   const [updateUsername, setUpdateUsername] = useState("");
   const [updatePassword, setUpdatePassword] = useState("");
+  const [updatePasswordConfirm, setUpdatePasswordConfirm] = useState("");
   const [addUsername, setAddUsername] = useState("");
   const [addPassword, setAddPassword] = useState("");
-  const [addRole, setAddRole] = useState<"admin" | "editor" | "viewer">("viewer");
+  const [addRole, setAddRole] = useState<"admin" | "editor" | "viewer">("editor");
+  const [userSearch, setUserSearch] = useState("");
+  const [userRoleFilter, setUserRoleFilter] = useState<string>("all");
+  const [showAddPassword, setShowAddPassword] = useState(false);
+  const [showUpdatePassword, setShowUpdatePassword] = useState(false);
+  const [editingUser, setEditingUser] = useState<PortalUser | null>(null);
+  const [editUserUsername, setEditUserUsername] = useState("");
+  const [editUserPassword, setEditUserPassword] = useState("");
+  const [editUserRole, setEditUserRole] = useState<"admin" | "editor" | "viewer">("viewer");
+  const [showEditPassword, setShowEditPassword] = useState(false);
+  const [isSavingUserEdit, setIsSavingUserEdit] = useState(false);
+  const [isCreatingUser, setIsCreatingUser] = useState(false);
 
   // Filters & Search
   const [searchTerm, setSearchTerm] = useState("");
@@ -216,8 +236,14 @@ function DashboardPage() {
   // Modals & Forms
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [isEditingLead, setIsEditingLead] = useState(false);
+  const [editName, setEditName] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const [editEmail, setEditEmail] = useState("");
+  const [editAddress, setEditAddress] = useState("");
+  const [editProjectType, setEditProjectType] = useState("residential");
   const [editEstimatedValue, setEditEstimatedValue] = useState(0);
   const [editNotes, setEditNotes] = useState("");
+  const [editDescription, setEditDescription] = useState("");
   const [editStatus, setEditStatus] = useState<Lead["status"]>("new");
 
   const [isAddingLead, setIsAddingLead] = useState(false);
@@ -227,7 +253,7 @@ function DashboardPage() {
   const [newLeadAddress, setNewLeadAddress] = useState("");
   const [newLeadType, setNewLeadType] = useState("residential");
   const [newLeadDesc, setNewLeadDesc] = useState("");
-  const [newLeadVal, setNewLeadVal] = useState(2500);
+  const [newLeadVal, setNewLeadVal] = useState(450);
 
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [reviewReplyText, setReviewReplyText] = useState("");
@@ -251,15 +277,16 @@ function DashboardPage() {
   const [googlePlaceId, setGooglePlaceId] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_google_place_id") : null) || "");
   const [isSyncingGoogle, setIsSyncingGoogle] = useState(false);
 
+  // Web Inquiries Filters & Modals
   const [selectedEmail, setSelectedEmail] = useState<WebEmail | null>(null);
   const [isViewingEmail, setIsViewingEmail] = useState(false);
+  const [emailSearch, setEmailSearch] = useState("");
+  const [emailSourceFilter, setEmailSourceFilter] = useState("all");
 
   // Portal & Site Config States
   const [alertEmail, setAlertEmail] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_alertEmail") : null) || "allen@upfrontac.com");
   const [officePhone, setOfficePhone] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_officePhone") : null) || "(713) 819-7908");
-  const [smsTemplate, setSmsTemplate] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_smsTemplate") : null) || "Hi {Name}, thank you for choosing Upfront Air Conditioning & Heating! A Texas licensed technician will contact you during the {Time} window regarding your {Type} service.");
   const [emailAlert, setEmailAlert] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_emailAlert") !== "false" : true));
-  const [smsAlert, setSmsAlert] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_smsAlert") !== "false" : true));
   const [maintenanceMode, setMaintenanceMode] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_maintenanceMode") === "true" : false));
   const [weekdays, setWeekdays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_weekdays") : null) || "9:00 AM - 6:30 PM");
   const [saturdays, setSaturdays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_saturdays") : null) || "9:00 AM - 6:30 PM");
@@ -328,9 +355,7 @@ function DashboardPage() {
         if (settings) {
           setAlertEmail(settings.alertEmail || "allen@upfrontac.com");
           setOfficePhone(settings.officePhone || "(713) 819-7908");
-          setSmsTemplate(settings.smsTemplate || "");
           setEmailAlert(settings.emailAlert);
-          setSmsAlert(settings.smsAlert);
           setMaintenanceMode(settings.maintenanceMode);
           setWeekdays(settings.weekdays || "9:00 AM - 6:30 PM");
           setSaturdays(settings.saturdays || "9:00 AM - 6:30 PM");
@@ -393,20 +418,70 @@ function DashboardPage() {
       }
     });
 
+    socket.on("new-lead", (newLead: Lead) => {
+      setLeads((prev) => {
+        if (prev.some((l) => l.id === newLead.id)) return prev;
+        return [newLead, ...prev];
+      });
+      toast.success(`⚡ New HVAC Dispatch Lead: ${newLead.name}!`, {
+        description: `${newLead.projectType?.toUpperCase()} · $${newLead.estimatedValue?.toLocaleString()} (${newLead.address || "Houston"})`,
+        action: {
+          label: "View Leads",
+          onClick: () => setActiveTab("leads")
+        }
+      });
+    });
+
+    socket.on("lead-updated", (data: { id: string; updates: any }) => {
+      setLeads((prev) =>
+        prev.map((lead) => (lead.id === data.id ? { ...lead, ...data.updates } : lead))
+      );
+    });
+
+    socket.on("lead-deleted", (data: { id: string }) => {
+      setLeads((prev) => prev.filter((lead) => lead.id !== data.id));
+    });
+
+    socket.on("new-inquiry", (newInquiry: WebEmail) => {
+      setWebEmails((prev) => {
+        if (prev.some((e) => e.id === newInquiry.id)) return prev;
+        return [newInquiry, ...prev];
+      });
+      toast.success(`📬 New Web Inquiry from ${newInquiry.name}!`, {
+        description: `${newInquiry.service || "General Request"} (${newInquiry.source || "Website"})`,
+        action: {
+          label: "View Inquiries",
+          onClick: () => setActiveTab("emails")
+        }
+      });
+    });
+
     socket.on("new-notification", (notification: DashboardNotification) => {
       setNotifications((prev) => {
         if (prev.some((n) => n.id === notification.id)) return prev;
         return [notification, ...prev];
       });
 
-      if (notification.type === "form_submission") {
+      if (notification.type === "form_submission" || notification.type === "lead") {
         toast.message(notification.title, {
           description: notification.message,
           action: {
-            label: "View Email",
+            label: "View Inquiries",
             onClick: () => setActiveTab("emails")
           }
         });
+      }
+    });
+
+    socket.on("settings-updated", (updated: any) => {
+      if (updated) {
+        setAlertEmail(updated.alertEmail || "allen@upfrontac.com");
+        setOfficePhone(updated.officePhone || "(713) 819-7908");
+        setEmailAlert(updated.emailAlert !== undefined ? Boolean(updated.emailAlert) : true);
+        setMaintenanceMode(updated.maintenanceMode !== undefined ? Boolean(updated.maintenanceMode) : false);
+        setWeekdays(updated.weekdays || "9:00 AM - 6:30 PM");
+        setSaturdays(updated.saturdays || "9:00 AM - 6:30 PM");
+        setSundays(updated.sundays || "24/7 Emergency Dispatch");
       }
     });
 
@@ -415,16 +490,41 @@ function DashboardPage() {
     };
   }, [isAuthenticated, activeSessionId, activeTab]);
 
-  // Polling fallback for chat and notifications
+  // Window event listener for cross-tab leads & inquiries updates
+  useEffect(() => {
+    const handleInquiriesUpdated = () => {
+      getWebEmails().then((emails) => {
+        if (Array.isArray(emails)) setWebEmails(emails);
+      });
+    };
+    const handleLeadsUpdated = () => {
+      getLeads().then((leadsData) => {
+        if (Array.isArray(leadsData)) setLeads(leadsData);
+      });
+    };
+    window.addEventListener("upfront-emails-updated", handleInquiriesUpdated);
+    window.addEventListener("upfront-leads-updated", handleLeadsUpdated);
+    return () => {
+      window.removeEventListener("upfront-emails-updated", handleInquiriesUpdated);
+      window.removeEventListener("upfront-leads-updated", handleLeadsUpdated);
+    };
+  }, []);
+
+  // Polling fallback for chat, inquiries, and notifications
   useEffect(() => {
     if (!isAuthenticated) return;
     const interval = setInterval(() => {
-      getNotifications().then(notifs => {
+      getNotifications().then((notifs) => {
         if (Array.isArray(notifs)) setNotifications(notifs);
       });
       if (activeTab === "chat") {
-        getChatSessions().then(sessions => {
+        getChatSessions().then((sessions) => {
           if (Array.isArray(sessions)) setChatSessions(sessions);
+        });
+      }
+      if (activeTab === "emails" || activeTab === "overview") {
+        getWebEmails().then((emails) => {
+          if (Array.isArray(emails)) setWebEmails(emails);
         });
       }
     }, 10000);
@@ -479,6 +579,26 @@ function DashboardPage() {
     ];
   }, [leads]);
 
+  const filteredWebEmails = useMemo(() => {
+    return webEmails.filter((email) => {
+      const q = emailSearch.toLowerCase().trim();
+      const matchesSearch =
+        !q ||
+        email.name?.toLowerCase().includes(q) ||
+        email.email?.toLowerCase().includes(q) ||
+        email.phone?.toLowerCase().includes(q) ||
+        email.service?.toLowerCase().includes(q) ||
+        email.source?.toLowerCase().includes(q) ||
+        email.message?.toLowerCase().includes(q);
+
+      const matchesSource =
+        emailSourceFilter === "all" ||
+        (email.source && email.source.toLowerCase().includes(emailSourceFilter.toLowerCase()));
+
+      return matchesSearch && matchesSource;
+    });
+  }, [webEmails, emailSearch, emailSourceFilter]);
+
   const handleLogout = () => {
     localStorage.removeItem("electrical-session-token");
     setIsAuthenticated(false);
@@ -488,35 +608,105 @@ function DashboardPage() {
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentUser) return;
+    if (updatePassword && updatePassword !== updatePasswordConfirm) {
+      toast.error("New passwords do not match. Please verify.");
+      return;
+    }
     try {
-      const res = await updateUserCredentials(currentUser.id, updateUsername, updatePassword);
+      const res = await updateUserCredentials(
+        currentUser.id,
+        updateUsername.trim() || undefined,
+        updatePassword.trim() || undefined
+      );
       if (res.success) {
         toast.success("Security credentials updated successfully!");
         setCurrentUser((prev) => prev ? { ...prev, username: res.username } : null);
         setUpdatePassword("");
+        setUpdatePasswordConfirm("");
       }
     } catch (err: any) {
       toast.error(err.message || "Failed to update profile");
     }
   };
 
-  const handleSaveConfig = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleToggleMaintenanceMode = async () => {
+    const nextVal = !maintenanceMode;
+    setMaintenanceMode(nextVal);
+    try {
+      const saved = await saveSiteSettings({
+        alertEmail: alertEmail.trim(),
+        officePhone: officePhone.trim(),
+        emailAlert,
+        maintenanceMode: nextVal,
+        weekdays: weekdays.trim(),
+        saturdays: saturdays.trim(),
+        sundays: sundays.trim()
+      });
+      if (saved) {
+        setMaintenanceMode(saved.maintenanceMode);
+      }
+      if (nextVal) {
+        toast.error("🚨 Emergency Maintenance Mode ACTIVATED! Public visitors will now see the Under Construction screen.", {
+          duration: 6000
+        });
+      } else {
+        toast.success("✅ Maintenance Mode DEACTIVATED — Website is Live & Operational!");
+      }
+    } catch {
+      setMaintenanceMode(!nextVal);
+      toast.error("Failed to update maintenance mode.");
+    }
+  };
+
+  const handleToggleEmailAlert = async () => {
+    const nextVal = !emailAlert;
+    setEmailAlert(nextVal);
     try {
       await saveSiteSettings({
-        alertEmail,
-        officePhone,
-        smsTemplate,
-        emailAlert,
-        smsAlert,
+        alertEmail: alertEmail.trim(),
+        officePhone: officePhone.trim(),
+        emailAlert: nextVal,
         maintenanceMode,
-        weekdays,
-        saturdays,
-        sundays
+        weekdays: weekdays.trim(),
+        saturdays: saturdays.trim(),
+        sundays: sundays.trim()
       });
-      toast.success("Operational settings updated successfully!");
+      toast.success(nextVal ? "Instant email notifications enabled" : "Email notifications muted");
+    } catch {
+      setEmailAlert(!nextVal);
+      toast.error("Failed to update notification settings.");
+    }
+  };
+
+  const [isSavingConfig, setIsSavingConfig] = useState(false);
+
+  const handleSaveConfig = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingConfig(true);
+    try {
+      const saved = await saveSiteSettings({
+        alertEmail: alertEmail.trim(),
+        officePhone: officePhone.trim(),
+        emailAlert,
+        maintenanceMode,
+        weekdays: weekdays.trim(),
+        saturdays: saturdays.trim(),
+        sundays: sundays.trim()
+      });
+      if (saved) {
+        setAlertEmail(saved.alertEmail);
+        setOfficePhone(saved.officePhone);
+        setWeekdays(saved.weekdays);
+        setSaturdays(saved.saturdays);
+        setSundays(saved.sundays);
+        setEmailAlert(saved.emailAlert);
+        setMaintenanceMode(saved.maintenanceMode);
+      }
+      toast.success("Operational settings updated & synced to live website!");
     } catch {
       toast.error("Failed to save operational settings.");
+    } finally {
+      setIsSavingConfig(false);
     }
   };
 
@@ -526,17 +716,54 @@ function DashboardPage() {
       toast.error("Username and password are required.");
       return;
     }
+    setIsCreatingUser(true);
     try {
-      const res = await createPortalUser(addUsername, addPassword, addRole);
+      const res = await createPortalUser(addUsername.trim(), addPassword.trim(), addRole);
       if (res.success) {
-        toast.success(`User account '${res.username}' created.`);
+        toast.success(`Team account '${res.username}' created successfully.`);
         setAddUsername("");
         setAddPassword("");
-        setAddRole("viewer");
+        setAddRole("editor");
         getPortalUsers().then(setPortalUsers);
       }
     } catch (err: any) {
       toast.error(err.message || "Failed to create portal user.");
+    } finally {
+      setIsCreatingUser(false);
+    }
+  };
+
+  const handleOpenEditUser = (user: PortalUser) => {
+    setEditingUser(user);
+    setEditUserUsername(user.username);
+    setEditUserPassword("");
+    setEditUserRole(user.role as any || "viewer");
+    setShowEditPassword(false);
+  };
+
+  const handleEditUserSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingUser) return;
+    setIsSavingUserEdit(true);
+    try {
+      const res = await updateUserCredentials(
+        editingUser.id,
+        editUserUsername.trim() || undefined,
+        editUserPassword.trim() || undefined,
+        editUserRole
+      );
+      if (res.success) {
+        toast.success(`Account '${res.username || editingUser.username}' updated successfully!`);
+        if (currentUser && currentUser.id === editingUser.id) {
+          setCurrentUser(prev => prev ? { ...prev, username: res.username, role: editUserRole } : null);
+        }
+        setEditingUser(null);
+        getPortalUsers().then(setPortalUsers);
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to update account.");
+    } finally {
+      setIsSavingUserEdit(false);
     }
   };
 
@@ -551,13 +778,13 @@ function DashboardPage() {
     }
     triggerConfirm({
       title: "Delete Account",
-      message: `Are you sure you want to remove user account '${username}'?`,
-      confirmText: "Delete",
+      message: `Are you sure you want to remove user account '${username}'? This cannot be undone.`,
+      confirmText: "Delete Account",
       onConfirm: async () => {
         try {
           const res = await deletePortalUser(userId);
           if (res.success) {
-            toast.success("User account deleted.");
+            toast.success(`User '${username}' removed from database.`);
             getPortalUsers().then(setPortalUsers);
           }
         } catch {
@@ -567,12 +794,30 @@ function DashboardPage() {
     });
   };
 
+  const filteredPortalUsers = useMemo(() => {
+    return portalUsers.filter((u) => {
+      const matchSearch =
+        u.username.toLowerCase().includes(userSearch.toLowerCase()) ||
+        u.role.toLowerCase().includes(userSearch.toLowerCase()) ||
+        (u.id && u.id.toLowerCase().includes(userSearch.toLowerCase()));
+      const matchRole =
+        userRoleFilter === "all" ? true : u.role.toLowerCase() === userRoleFilter.toLowerCase();
+      return matchSearch && matchRole;
+    });
+  }, [portalUsers, userSearch, userRoleFilter]);
+
   // Lead Handlers
   const handleEditLead = (lead: Lead) => {
     setSelectedLead(lead);
-    setEditEstimatedValue(lead.estimatedValue);
-    setEditStatus(lead.status);
+    setEditName(lead.name || "");
+    setEditPhone(lead.phone || "");
+    setEditEmail(lead.email || "");
+    setEditAddress(lead.address || "");
+    setEditProjectType(lead.projectType || "residential");
+    setEditEstimatedValue(lead.estimatedValue || 0);
+    setEditStatus(lead.status || "new");
     setEditNotes(lead.notes || "");
+    setEditDescription(lead.description || "");
     setIsEditingLead(true);
   };
 
@@ -580,13 +825,19 @@ function DashboardPage() {
     if (!selectedLead) return;
     try {
       const updated = await updateLeadDetails(selectedLead.id, {
-        estimatedValue: editEstimatedValue,
+        name: editName.trim() || selectedLead.name,
+        phone: editPhone.trim() || selectedLead.phone,
+        email: editEmail.trim() || selectedLead.email,
+        address: editAddress.trim() || selectedLead.address,
+        projectType: editProjectType || selectedLead.projectType,
+        estimatedValue: Number(editEstimatedValue) || 0,
         status: editStatus,
-        notes: editNotes
+        notes: editNotes.trim(),
+        description: editDescription.trim() || selectedLead.description
       });
       if (updated) {
         setLeads(updated);
-        toast.success("Lead details updated.");
+        toast.success("Lead details and dispatch ticket saved.");
         setIsEditingLead(false);
         setSelectedLead(null);
       }
@@ -610,7 +861,7 @@ function DashboardPage() {
   const handleDeleteLead = (id: string, name: string) => {
     triggerConfirm({
       title: "Delete Lead Ticket",
-      message: `Are you sure you want to delete the lead record for "${name}"?`,
+      message: `Are you sure you want to delete the lead record for "${name}"? This cannot be undone.`,
       confirmText: "Delete",
       onConfirm: async () => {
         try {
@@ -628,27 +879,31 @@ function DashboardPage() {
 
   const handleAddCustomLead = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newLeadName.trim()) return;
+    if (!newLeadName.trim() || !newLeadPhone.trim()) {
+      toast.error("Customer name and phone number are required.");
+      return;
+    }
     try {
-      await addCustomLead({
-        name: newLeadName,
-        email: newLeadEmail,
-        phone: newLeadPhone,
-        address: newLeadAddress,
+      const created = await addCustomLead({
+        name: newLeadName.trim(),
+        email: newLeadEmail.trim() || `${newLeadName.trim().toLowerCase().replace(/\s+/g, ".")}@client.com`,
+        phone: newLeadPhone.trim(),
+        address: newLeadAddress.trim() || "Cypress, TX",
         projectType: newLeadType,
-        description: newLeadDesc,
+        description: newLeadDesc.trim() || "Direct dispatch lead created from admin dashboard.",
         status: "new",
-        estimatedValue: newLeadVal,
-        contactTime: "anytime"
+        estimatedValue: Number(newLeadVal) || 450,
+        contactTime: "anytime",
+        notes: ""
       });
-      toast.success("New HVAC dispatch lead created successfully.");
+      toast.success(`New HVAC dispatch lead for '${newLeadName}' created.`);
       setIsAddingLead(false);
       setNewLeadName("");
       setNewLeadEmail("");
       setNewLeadPhone("");
       setNewLeadAddress("");
       setNewLeadDesc("");
-      setNewLeadVal(2500);
+      setNewLeadVal(450);
       getLeads().then(setLeads);
     } catch {
       toast.error("Failed to create lead.");
@@ -873,6 +1128,25 @@ function DashboardPage() {
     });
   };
 
+  const handleToggleChatStatus = async (id: string, shouldClose: boolean) => {
+    try {
+      const updated = shouldClose ? await closeChatSession(id) : await reopenChatSession(id);
+      if (updated) {
+        setChatSessions((prev) => prev.map((s) => s.id === id ? updated : s));
+        if (socketRef.current) {
+          socketRef.current.emit("session-status", {
+            sessionId: id,
+            isClosed: shouldClose,
+            status: shouldClose ? "closed" : "active"
+          });
+        }
+        toast.success(shouldClose ? "Chat closed. Visitor cannot reply on this chat." : "Chat session reopened.");
+      }
+    } catch {
+      toast.error("Failed to update chat status.");
+    }
+  };
+
   // Gallery Handlers
   const handleUploadGallery = async () => {
     if (selectedGalleryFiles.length === 0) {
@@ -952,19 +1226,31 @@ function DashboardPage() {
     });
   };
 
-  // Filtered Leads
+  // Sorted & Filtered Leads
+  const sortedLeads = useMemo(() => {
+    return [...leads].sort((a, b) => {
+      const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return timeB - timeA;
+    });
+  }, [leads]);
+
   const filteredLeads = useMemo(() => {
-    return leads.filter((lead) => {
+    const s = searchTerm.toLowerCase().trim();
+    return sortedLeads.filter((lead) => {
       const matchesSearch =
-        lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lead.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lead.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lead.phone.includes(searchTerm);
+        !s ||
+        (lead.name || "").toLowerCase().includes(s) ||
+        (lead.email || "").toLowerCase().includes(s) ||
+        (lead.address || "").toLowerCase().includes(s) ||
+        (lead.phone || "").includes(s) ||
+        (lead.description || "").toLowerCase().includes(s) ||
+        (lead.notes || "").toLowerCase().includes(s);
       const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
       const matchesType = typeFilter === "all" || lead.projectType === typeFilter;
       return matchesSearch && matchesStatus && matchesType;
     });
-  }, [leads, searchTerm, statusFilter, typeFilter]);
+  }, [sortedLeads, searchTerm, statusFilter, typeFilter]);
 
   // Filtered Reviews
   const filteredReviews = useMemo(() => {
@@ -1001,8 +1287,136 @@ function DashboardPage() {
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex font-sans text-slate-900 antialiased selection:bg-[#005CE6] selection:text-white">
       
-      {/* ── LEFT SIDEBAR NAVIGATION ── */}
-      <aside className="w-72 bg-[#060B18] text-white flex flex-col justify-between p-5 sticky top-0 h-screen z-40 border-r border-slate-800 shadow-2xl shrink-0 overflow-hidden">
+      {/* ── MOBILE SLIDE-OVER DRAWER ── */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs lg:hidden"
+            />
+            <motion.aside
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 220 }}
+              className="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-[#060B18] text-white flex flex-col justify-between p-5 shadow-2xl border-r border-slate-800 lg:hidden overflow-hidden"
+            >
+              {/* Glow ambient decoration inside mobile drawer */}
+              <div className="absolute -top-24 -left-24 w-60 h-60 bg-[#005CE6]/20 rounded-full blur-[100px] pointer-events-none" />
+
+              <div className="space-y-6 overflow-y-auto pr-1 relative z-10 scrollbar-none">
+                {/* Header Branding */}
+                <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-white rounded-xl p-1.5 shadow-md flex items-center justify-center">
+                      <img src={logo} alt="Upfront A/C & Heating" className="h-8 w-auto object-contain select-none" />
+                    </div>
+                    <div className="flex flex-col text-left">
+                      <span className="text-xs font-black uppercase tracking-wider text-white">Upfront A/C</span>
+                      <span className="text-[10px] font-bold text-cyan-400 tracking-tight">TACLA #121344E</span>
+                    </div>
+                  </div>
+                  
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-rose-500 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Quick Action Dispatch Button */}
+                <button
+                  onClick={() => {
+                    setActiveTab("leads");
+                    setIsAddingLead(true);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full bg-gradient-to-r from-[#005CE6] to-[#0047B3] hover:from-[#0066FF] hover:to-[#0052CC] text-white text-xs font-extrabold py-3 px-4 rounded-xl shadow-lg shadow-[#005CE6]/30 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>+ New Dispatch / Lead</span>
+                </button>
+
+                {/* Navigation Links */}
+                <div className="space-y-1">
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 px-3 mb-2">Command Menu</p>
+                  {[
+                    { id: "overview", label: "Executive Overview", icon: TrendingUp },
+                    { id: "leads", label: "Leads & Dispatch", icon: Briefcase, badge: leads.filter(l => l.status === "new").length },
+                    { id: "reviews", label: "Reviews Moderator", icon: Star, badge: reviews.length },
+                    { id: "gallery", label: "Photo Showcase", icon: ImageIcon, badge: galleryPhotos.length },
+                    { id: "chat", label: "Live Visitor Chat", icon: MessageCircle, badge: chatSessions.filter(s => s.unread).length },
+                    { id: "emails", label: "Web Inquiries", icon: Mail, badge: webEmails.length },
+                    { id: "settings", label: "Portal Operations", icon: Settings },
+                    { id: "security", label: "Security & Users", icon: Sliders }
+                  ].map((tab) => {
+                    const Icon = tab.icon;
+                    const isActive = activeTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => {
+                          setActiveTab(tab.id as any);
+                          setMobileMenuOpen(false);
+                        }}
+                        className={`w-full px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-between relative group cursor-pointer ${
+                          isActive
+                            ? "bg-[#005CE6] text-white shadow-lg shadow-[#005CE6]/30"
+                            : "text-slate-400 hover:bg-slate-800/60 hover:text-white"
+                        }`}
+                      >
+                        <span className="flex items-center gap-3">
+                          <Icon className={`w-4 h-4 transition-transform ${isActive ? "text-white" : "text-slate-400 group-hover:text-cyan-400"}`} />
+                          <span>{tab.label}</span>
+                        </span>
+                        
+                        {Boolean(tab.badge && tab.badge > 0) && (
+                          <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                            isActive ? "bg-white/20 text-white" : "bg-cyan-500/20 text-cyan-300"
+                          }`}>
+                            {tab.badge}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Mobile Drawer Footer */}
+              <div className="border-t border-slate-800/80 pt-4 space-y-3 relative z-10">
+                <div className="flex items-center justify-between px-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full bg-[#005CE6] flex items-center justify-center text-white font-black text-xs">
+                      {currentUser?.username?.charAt(0).toUpperCase() || "A"}
+                    </div>
+                    <div className="flex flex-col text-left">
+                      <span className="text-xs font-bold text-white capitalize">{currentUser?.username || "Admin"}</span>
+                      <span className="text-[10px] font-medium text-slate-400 capitalize">{currentUser?.role || "Administrator"}</span>
+                    </div>
+                  </div>
+                  
+                  <button
+                    onClick={handleLogout}
+                    title="Sign Out"
+                    className="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* ── DESKTOP LEFT SIDEBAR NAVIGATION ── */}
+      <aside className="hidden lg:flex w-72 bg-[#060B18] text-white flex-col justify-between p-5 sticky top-0 h-screen z-40 border-r border-slate-800 shadow-2xl shrink-0 overflow-hidden">
         
         {/* Glow ambient decoration inside sidebar */}
         <div className="absolute -top-24 -left-24 w-60 h-60 bg-[#005CE6]/20 rounded-full blur-[100px] pointer-events-none" />
@@ -1149,27 +1563,38 @@ function DashboardPage() {
       <div className="flex-1 min-h-screen overflow-y-auto flex flex-col bg-[#F8FAFC]">
         
         {/* Top Executive Header Bar */}
-        <header className="bg-white/80 backdrop-blur-xl border-b border-slate-200/80 px-6 sm:px-8 py-4 flex items-center justify-between sticky top-0 z-30 shadow-xs">
-          <div>
-            <div className="flex items-center gap-2 text-xs text-slate-400 font-bold uppercase tracking-wider">
-              <span>Upfront Command</span>
-              <span>/</span>
-              <span className="text-[#005CE6]">{activeTab}</span>
+        <header className="bg-white/80 backdrop-blur-xl border-b border-slate-200/80 px-4 sm:px-8 py-3.5 sm:py-4 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+          <div className="flex items-center gap-3">
+            {/* Hamburger Button on Mobile */}
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-[#005CE6] text-slate-700 hover:text-white transition-colors cursor-pointer shrink-0"
+              title="Open Menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+
+            <div>
+              <div className="flex items-center gap-2 text-[11px] text-slate-400 font-bold uppercase tracking-wider">
+                <span className="hidden sm:inline">Upfront Command</span>
+                <span className="hidden sm:inline">/</span>
+                <span className="text-[#005CE6]">{activeTab}</span>
+              </div>
+              <h1 className="font-extrabold text-base sm:text-xl lg:text-2xl text-slate-900 leading-tight capitalize mt-0.5 truncate max-w-[200px] sm:max-w-md lg:max-w-none">
+                {activeTab === "overview" && "Executive Overview & Metrics"}
+                {activeTab === "leads" && "HVAC Leads & Dispatch Pipeline"}
+                {activeTab === "reviews" && "Reviews & Reputation"}
+                {activeTab === "gallery" && "Cloud Media Showcase"}
+                {activeTab === "chat" && "Live Visitor Chat"}
+                {activeTab === "emails" && "Contact Form Inquiries"}
+                {activeTab === "settings" && "Portal Operations & Alerts"}
+                {activeTab === "security" && "Security & User Management"}
+              </h1>
             </div>
-            <h1 className="font-extrabold text-xl sm:text-2xl text-slate-900 leading-tight capitalize mt-0.5">
-              {activeTab === "overview" && "Executive Overview & Metrics"}
-              {activeTab === "leads" && "HVAC Service Leads & Dispatch Pipeline"}
-              {activeTab === "reviews" && "Customer Reviews & Reputation Moderator"}
-              {activeTab === "gallery" && "Cloud Media Showcase & Installation Gallery"}
-              {activeTab === "chat" && "Live Website Visitor Chat & Conversations"}
-              {activeTab === "emails" && "Contact Form Inquiries & Messages"}
-              {activeTab === "settings" && "Operations & Alert Configurations"}
-              {activeTab === "security" && "Portal Access & User Management"}
-            </h1>
           </div>
 
           {/* Topbar Right Tools */}
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             
             {/* Search Input */}
             <div className="relative hidden md:block">
@@ -1179,14 +1604,14 @@ function DashboardPage() {
                 placeholder="Search leads, phone, address..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 border border-slate-200/80 rounded-full text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 focus:border-[#005CE6] w-64 transition-all"
+                className="pl-9 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 border border-slate-200/80 rounded-full text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 focus:border-[#005CE6] w-56 lg:w-64 transition-all"
               />
             </div>
 
             {/* Live Chat Drawer Indicator */}
             <button
               onClick={() => setActiveTab("chat")}
-              className={`p-2.5 rounded-full border transition-all relative cursor-pointer ${
+              className={`p-2 sm:p-2.5 rounded-full border transition-all relative cursor-pointer ${
                 activeTab === "chat"
                   ? "bg-[#005CE6] text-white border-[#005CE6]"
                   : "bg-slate-100 hover:bg-slate-200/80 text-slate-600 border-slate-200"
@@ -1309,6 +1734,47 @@ function DashboardPage() {
               transition={{ duration: 0.3 }}
               className="space-y-8"
             >
+              {/* Executive Operational Pulse Banner */}
+              <div className="bg-gradient-to-r from-[#0B1528] via-[#0E1F3D] to-[#0A162C] border border-slate-800 rounded-3xl p-6 shadow-xl text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#005CE6]/20 border border-[#005CE6]/40 flex items-center justify-center text-cyan-400">
+                    <Sparkles className="w-6 h-6 animate-pulse" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h2 className="text-lg font-black text-white">Upfront AC Operations Center</h2>
+                      <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-black px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                        MongoDB Atlas Live
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-300 font-medium mt-0.5">
+                      Real-time customer dispatch, incoming web inquiries, and automated quote metrics.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 flex-wrap w-full md:w-auto">
+                  <button
+                    onClick={() => {
+                      setActiveTab("leads");
+                      setIsAddingLead(true);
+                    }}
+                    className="px-4 py-2.5 rounded-xl bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs font-black shadow-lg shadow-[#005CE6]/30 flex items-center gap-2 transition cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>New Dispatch Lead</span>
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("emails")}
+                    className="px-4 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-2 transition cursor-pointer"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Inquiries ({webEmails.length})</span>
+                  </button>
+                </div>
+              </div>
+
               {/* Top 4 KPI Metric Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
                 
@@ -1324,9 +1790,9 @@ function DashboardPage() {
                     <span className="text-3xl font-black text-slate-900">${analytics.totalValue.toLocaleString()}</span>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-emerald-600">
                       <span className="flex items-center gap-0.5 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                        <TrendingUp className="w-3 h-3" /> +18.4%
+                        <TrendingUp className="w-3 h-3" /> Active Pipeline
                       </span>
-                      <span className="text-slate-400 font-medium text-[11px]">vs last month</span>
+                      <span className="text-slate-400 font-medium text-[11px]">{leads.length} Active Records</span>
                     </div>
                   </div>
                 </div>
@@ -1343,7 +1809,7 @@ function DashboardPage() {
                     <span className="text-3xl font-black text-slate-900">{leads.filter(l => l.status === "new").length}</span>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-cyan-600">
                       <span className="bg-cyan-50 px-2 py-0.5 rounded-full border border-cyan-200 text-[11px]">
-                        {leads.length} Total Captured
+                        {analytics.activeCount} In Active Dispatch
                       </span>
                     </div>
                   </div>
@@ -1352,7 +1818,7 @@ function DashboardPage() {
                 {/* Metric 3: Closed / Won Jobs */}
                 <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-slate-400">Won HVAC Jobs</span>
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-slate-400">Won HVAC Contracts</span>
                     <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
@@ -1360,8 +1826,8 @@ function DashboardPage() {
                   <div className="mt-4">
                     <span className="text-3xl font-black text-slate-900">{analytics.wonCount}</span>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-slate-500">
-                      <span className="bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200 text-[11px]">
-                        {analytics.conversionRate}% Win Rate
+                      <span className="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 text-[11px] font-black">
+                        {analytics.conversionRate}% Win Rate · ${analytics.wonValue.toLocaleString()}
                       </span>
                     </div>
                   </div>
@@ -1402,7 +1868,7 @@ function DashboardPage() {
                     </div>
                     <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl text-xs font-bold text-slate-600">
                       <span className="px-3 py-1 bg-white text-[#005CE6] rounded-lg shadow-xs">Daily Leads</span>
-                      <span className="px-3 py-1 text-slate-400">Monthly Forecast</span>
+                      <span className="px-3 py-1 text-slate-400">Houston HQ</span>
                     </div>
                   </div>
 
@@ -1477,11 +1943,11 @@ function DashboardPage() {
                 </div>
 
                 <div className="divide-y divide-slate-100">
-                  {leads.slice(0, 5).map((lead) => (
+                  {sortedLeads.slice(0, 6).map((lead) => (
                     <div key={lead.id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors">
                       <div className="flex items-start gap-3.5">
                         <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center shrink-0 font-black text-sm">
-                          {lead.name.charAt(0)}
+                          {lead.name ? lead.name.charAt(0).toUpperCase() : "L"}
                         </div>
                         <div>
                           <div className="flex items-center gap-2 flex-wrap">
@@ -1489,9 +1955,13 @@ function DashboardPage() {
                             <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
                               lead.status === "new" ? "bg-amber-100 text-amber-800" :
                               lead.status === "won" ? "bg-emerald-100 text-emerald-800" :
+                              lead.status === "lost" ? "bg-rose-100 text-rose-800" :
                               "bg-blue-100 text-blue-800"
                             }`}>
                               {lead.status.replace("_", " ")}
+                            </span>
+                            <span className="text-[10px] font-semibold text-slate-400">
+                              {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "Recent"}
                             </span>
                           </div>
                           <div className="flex items-center gap-3 text-xs text-slate-500 font-medium mt-1 flex-wrap">
@@ -1499,13 +1969,13 @@ function DashboardPage() {
                               <MapPin className="w-3.5 h-3.5 text-slate-400" /> {lead.address || "Houston, TX"}
                             </span>
                             <span>•</span>
-                            <span className="text-[#005CE6] font-bold capitalize">{lead.projectType} Service</span>
+                            <span className="text-[#005CE6] font-bold capitalize">{lead.projectType ? lead.projectType.replace("-", " ") : "HVAC"} Service</span>
                           </div>
                         </div>
                       </div>
 
                       <div className="flex items-center gap-3 self-end sm:self-auto">
-                        <span className="text-sm font-black text-slate-900">${lead.estimatedValue.toLocaleString()}</span>
+                        <span className="text-sm font-black text-slate-900">${(lead.estimatedValue || 0).toLocaleString()}</span>
                         <a
                           href={`tel:${lead.phone}`}
                           className="p-2 rounded-xl bg-slate-100 hover:bg-[#005CE6] text-slate-600 hover:text-white transition-colors"
@@ -1538,16 +2008,61 @@ function DashboardPage() {
               transition={{ duration: 0.3 }}
               className="space-y-6"
             >
+              {/* Tab 2 Top KPI Summary Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Leads</span>
+                    <p className="text-2xl font-black text-slate-900 mt-1">{leads.length}</p>
+                  </div>
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#005CE6] flex items-center justify-center">
+                    <Briefcase className="w-5 h-5" />
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-amber-600">New Inquiries</span>
+                    <p className="text-2xl font-black text-amber-600 mt-1">{leads.filter(l => l.status === "new").length}</p>
+                  </div>
+                  <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                    <Zap className="w-5 h-5" />
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-600">Active Dispatch</span>
+                    <p className="text-2xl font-black text-cyan-600 mt-1">
+                      {leads.filter(l => ["contacted", "consultation_scheduled", "proposal_sent"].includes(l.status)).length}
+                    </p>
+                  </div>
+                  <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Won Revenue</span>
+                    <p className="text-2xl font-black text-emerald-600 mt-1">${analytics.wonValue.toLocaleString()}</p>
+                  </div>
+                  <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <DollarSign className="w-5 h-5" />
+                  </div>
+                </div>
+              </div>
+
               {/* Header Controls & Filters */}
               <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 
                 {/* Search & Filter Inputs */}
-                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                  <div className="relative flex-1 sm:w-64">
+                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto flex-1">
+                  <div className="relative flex-1 min-w-[200px] sm:max-w-xs">
                     <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                     <input
                       type="text"
-                      placeholder="Search name, phone, address..."
+                      placeholder="Search name, phone, address, notes..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
@@ -1559,13 +2074,13 @@ function DashboardPage() {
                     onChange={(e) => setStatusFilter(e.target.value)}
                     className="px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-700 focus:bg-white focus:outline-none cursor-pointer"
                   >
-                    <option value="all">All Statuses</option>
-                    <option value="new">New Inquiry</option>
-                    <option value="contacted">Contacted</option>
-                    <option value="consultation_scheduled">Scheduled</option>
-                    <option value="proposal_sent">Proposal Sent</option>
-                    <option value="won">Won Job</option>
-                    <option value="lost">Lost</option>
+                    <option value="all">All Statuses ({leads.length})</option>
+                    <option value="new">New Inquiry ({leads.filter(l => l.status === "new").length})</option>
+                    <option value="contacted">Contacted ({leads.filter(l => l.status === "contacted").length})</option>
+                    <option value="consultation_scheduled">Scheduled ({leads.filter(l => l.status === "consultation_scheduled").length})</option>
+                    <option value="proposal_sent">Proposal Sent ({leads.filter(l => l.status === "proposal_sent").length})</option>
+                    <option value="won">Won Jobs ({leads.filter(l => l.status === "won").length})</option>
+                    <option value="lost">Lost ({leads.filter(l => l.status === "lost").length})</option>
                   </select>
 
                   <select
@@ -1574,18 +2089,20 @@ function DashboardPage() {
                     className="px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-700 focus:bg-white focus:outline-none cursor-pointer"
                   >
                     <option value="all">All Services</option>
-                    <option value="residential">Residential AC</option>
+                    <option value="residential">Residential AC Repair</option>
+                    <option value="install">System Replacement</option>
                     <option value="heating">Heating / Furnace</option>
-                    <option value="install">HVAC Installation</option>
-                    <option value="maintenance">Maintenance</option>
+                    <option value="maintenance">Seasonal Tune-Up</option>
                     <option value="commercial">Commercial HVAC</option>
+                    <option value="indoor_air_quality">Air Quality / IAQ</option>
+                    <option value="emergency">24/7 Emergency</option>
                   </select>
                 </div>
 
                 {/* Add Lead Button */}
                 <button
                   onClick={() => setIsAddingLead(true)}
-                  className="w-full md:w-auto px-5 py-2.5 bg-[#005CE6] hover:bg-[#0047B3] text-white rounded-2xl text-xs font-extrabold shadow-md shadow-[#005CE6]/20 flex items-center justify-center gap-2 cursor-pointer transition-all"
+                  className="w-full md:w-auto px-5 py-2.5 bg-[#005CE6] hover:bg-[#0047B3] text-white rounded-2xl text-xs font-extrabold shadow-md shadow-[#005CE6]/20 flex items-center justify-center gap-2 cursor-pointer transition-all shrink-0"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add Dispatch Lead</span>
@@ -1599,9 +2116,9 @@ function DashboardPage() {
                   <table className="w-full text-left text-xs text-slate-600">
                     <thead className="bg-slate-50 border-b border-slate-200/80 text-[10px] font-black uppercase tracking-wider text-slate-400">
                       <tr>
-                        <th className="py-4 px-6">Client / Location</th>
-                        <th className="py-4 px-4">Contact Info</th>
-                        <th className="py-4 px-4">Service Type</th>
+                        <th className="py-4 px-6">Client & Service Address</th>
+                        <th className="py-4 px-4">Direct Contact</th>
+                        <th className="py-4 px-4">Service Specialty</th>
                         <th className="py-4 px-4">Est. Value</th>
                         <th className="py-4 px-4">Status</th>
                         <th className="py-4 px-6 text-right">Actions</th>
@@ -1611,7 +2128,7 @@ function DashboardPage() {
                       {filteredLeads.length === 0 ? (
                         <tr>
                           <td colSpan={6} className="py-12 text-center text-slate-400 font-medium">
-                            No HVAC leads match the current filters.
+                            No HVAC leads match the current filters or search criteria.
                           </td>
                         </tr>
                       ) : (
@@ -1621,14 +2138,19 @@ function DashboardPage() {
                             {/* Client & Address */}
                             <td className="py-4 px-6">
                               <div className="flex items-start gap-3">
-                                <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#005CE6] flex items-center justify-center font-black text-xs shrink-0">
-                                  {lead.name.charAt(0)}
+                                <div className="w-9 h-9 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center font-black text-xs shrink-0">
+                                  {lead.name ? lead.name.charAt(0).toUpperCase() : "L"}
                                 </div>
                                 <div>
-                                  <span className="font-extrabold text-slate-900 block">{lead.name}</span>
-                                  <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1 mt-0.5">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="font-extrabold text-slate-900 block">{lead.name}</span>
+                                    <span className="text-[10px] text-slate-400 font-medium">
+                                      {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : ""}
+                                    </span>
+                                  </div>
+                                  <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1 mt-0.5">
                                     <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
-                                    {lead.address || "Houston, TX"}
+                                    {lead.address || "Houston / Cypress Service Area, TX"}
                                   </span>
                                 </div>
                               </div>
@@ -1636,26 +2158,42 @@ function DashboardPage() {
 
                             {/* Contact Info */}
                             <td className="py-4 px-4">
-                              <div className="space-y-0.5">
-                                <a href={`tel:${lead.phone}`} className="text-slate-800 font-bold hover:text-[#005CE6] block">
-                                  {lead.phone}
-                                </a>
-                                <a href={`mailto:${lead.email}`} className="text-[11px] text-slate-400 hover:underline block">
-                                  {lead.email}
-                                </a>
+                              <div className="space-y-1">
+                                {lead.phone ? (
+                                  <a href={`tel:${lead.phone}`} className="text-slate-900 font-bold hover:text-[#005CE6] flex items-center gap-1">
+                                    <Phone className="w-3 h-3 text-[#005CE6]" />
+                                    <span>{lead.phone}</span>
+                                  </a>
+                                ) : (
+                                  <span className="text-slate-400 text-[11px]">No phone</span>
+                                )}
+                                {lead.email && (
+                                  <a href={`mailto:${lead.email}`} className="text-[11px] text-slate-500 hover:underline flex items-center gap-1">
+                                    <Mail className="w-3 h-3 text-slate-400" />
+                                    <span className="truncate max-w-[150px]">{lead.email}</span>
+                                  </a>
+                                )}
                               </div>
                             </td>
 
                             {/* Service Type */}
                             <td className="py-4 px-4">
-                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 font-bold text-[11px] capitalize">
-                                {lead.projectType}
+                              <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider border ${
+                                lead.projectType === "residential" || lead.projectType === "ac" ? "bg-blue-50 text-[#005CE6] border-blue-200" :
+                                lead.projectType === "install" ? "bg-cyan-50 text-cyan-700 border-cyan-200" :
+                                lead.projectType === "heating" ? "bg-amber-50 text-amber-700 border-amber-200" :
+                                lead.projectType === "maintenance" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
+                                lead.projectType === "commercial" ? "bg-purple-50 text-purple-700 border-purple-200" :
+                                lead.projectType === "indoor_air_quality" ? "bg-teal-50 text-teal-700 border-teal-200" :
+                                "bg-slate-100 text-slate-700 border-slate-200"
+                              }`}>
+                                {lead.projectType ? lead.projectType.replace("_", " ").replace("-", " ") : "HVAC"}
                               </span>
                             </td>
 
                             {/* Value */}
-                            <td className="py-4 px-4 font-black text-slate-900">
-                              ${lead.estimatedValue.toLocaleString()}
+                            <td className="py-4 px-4 font-black text-slate-900 text-sm">
+                              ${(lead.estimatedValue || 0).toLocaleString()}
                             </td>
 
                             {/* Status Stepper Dropdown */}
@@ -1682,6 +2220,13 @@ function DashboardPage() {
                             {/* Actions */}
                             <td className="py-4 px-6 text-right">
                               <div className="flex items-center justify-end gap-2">
+                                <a
+                                  href={`tel:${lead.phone}`}
+                                  className="p-1.5 rounded-lg bg-slate-100 hover:bg-[#005CE6] text-slate-600 hover:text-white transition-colors"
+                                  title="Call Customer"
+                                >
+                                  <Phone className="w-3.5 h-3.5" />
+                                </a>
                                 <button
                                   onClick={() => handleEditLead(lead)}
                                   className="p-1.5 rounded-lg bg-slate-100 hover:bg-[#005CE6] text-slate-600 hover:text-white transition-colors cursor-pointer"
@@ -2007,10 +2552,10 @@ function DashboardPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden h-[660px] grid grid-cols-1 md:grid-cols-12"
+              className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden h-[580px] sm:h-[660px] grid grid-cols-1 md:grid-cols-12"
             >
               {/* Left Pane: Sessions List */}
-              <div className="md:col-span-4 border-r border-slate-200 flex flex-col h-full bg-slate-50/50">
+              <div className={`md:col-span-4 border-r border-slate-200 flex-col h-full bg-slate-50/50 ${activeChatSession ? "hidden md:flex" : "flex"}`}>
                 <div className="p-4 border-b border-slate-200 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="font-extrabold text-xs uppercase tracking-wider text-slate-500">
@@ -2089,9 +2634,16 @@ function DashboardPage() {
                         >
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
-                              <span className="font-extrabold text-xs text-slate-900 truncate">
-                                {session.clientName || "Website Visitor"}
-                              </span>
+                              <div className="flex items-center gap-1.5 min-w-0">
+                                <span className="font-extrabold text-xs text-slate-900 truncate">
+                                  {session.clientName || "Website Visitor"}
+                                </span>
+                                {session.isClosed && (
+                                  <span className="text-[9px] font-bold text-slate-400 bg-slate-100 border border-slate-200 px-1.5 py-0.2 rounded-md shrink-0">
+                                    Closed
+                                  </span>
+                                )}
+                              </div>
                               <span className="text-[10px] text-slate-400 font-medium shrink-0">
                                 {formatChatTime(session.lastMessageTime)}
                               </span>
@@ -2119,37 +2671,73 @@ function DashboardPage() {
               </div>
 
               {/* Right Pane: Active Thread */}
-              <div className="md:col-span-8 flex flex-col h-full bg-white min-h-0 overflow-hidden">
+              <div className={`md:col-span-8 flex-col h-full bg-white min-h-0 overflow-hidden ${!activeChatSession ? "hidden md:flex" : "flex"}`}>
                 {activeChatSession ? (
                   <>
                     {/* Active Chat Header */}
                     <div className="shrink-0 p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-[#005CE6] text-white font-black text-sm flex items-center justify-center">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <button
+                          onClick={() => setActiveSessionId(null)}
+                          className="md:hidden p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer shrink-0"
+                          title="Back to Chats List"
+                        >
+                          <ChevronLeft className="w-4 h-4" />
+                        </button>
+                        <div className="w-9 h-9 rounded-full bg-[#005CE6] text-white font-black text-sm flex items-center justify-center shrink-0">
                           {activeChatSession.clientName?.charAt(0) || "V"}
                         </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h4 className="font-extrabold text-sm text-slate-900">{activeChatSession.clientName}</h4>
-                            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                            <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">{activeChatSession.clientName}</h4>
+                            <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 bg-slate-100 px-1.5 sm:px-2 py-0.5 rounded-full">
                               {activeChatSession.clientCity || "Tomball, TX"}
                             </span>
                           </div>
-                          <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1 mt-0.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                            Active Visitor Session
-                          </span>
+                          {activeChatSession.isClosed ? (
+                            <span className="text-[10px] sm:text-[11px] text-slate-500 font-bold flex items-center gap-1 mt-0.5">
+                              <Lock className="w-3 h-3 text-slate-400" />
+                              Chat Session Closed
+                            </span>
+                          ) : (
+                            <span className="text-[10px] sm:text-[11px] text-emerald-600 font-bold flex items-center gap-1 mt-0.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                              Active Visitor Session
+                            </span>
+                          )}
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {activeChatSession.clientPhone && (
                           <a
                             href={`tel:${activeChatSession.clientPhone}`}
-                            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#005CE6] bg-blue-50 hover:bg-blue-100 border border-blue-200/60 px-3 py-1.5 rounded-xl transition"
+                            className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-[#005CE6] bg-blue-50 hover:bg-blue-100 border border-blue-200/60 px-3 py-1.5 rounded-xl transition"
                           >
                             <Phone className="w-3 h-3" />
                             <span>{activeChatSession.clientPhone}</span>
                           </a>
+                        )}
+
+                        {activeChatSession.isClosed ? (
+                          <button
+                            type="button"
+                            onClick={() => handleToggleChatStatus(activeChatSession.id, false)}
+                            className="inline-flex items-center gap-1.5 text-xs font-extrabold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-xl transition cursor-pointer shadow-2xs"
+                            title="Reopen this chat session"
+                          >
+                            <RotateCcw className="w-3.5 h-3.5" />
+                            <span>Reopen Chat</span>
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => handleToggleChatStatus(activeChatSession.id, true)}
+                            className="inline-flex items-center gap-1.5 text-xs font-extrabold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-xl transition cursor-pointer shadow-2xs"
+                            title="Close chat session (visitor cannot reply)"
+                          >
+                            <XCircle className="w-3.5 h-3.5" />
+                            <span>Close Chat</span>
+                          </button>
                         )}
                       </div>
                     </div>
@@ -2190,46 +2778,65 @@ function DashboardPage() {
                       <div ref={chatEndRef} />
                     </div>
 
-                    {/* Quick Canned Replies */}
-                    <div className="shrink-0 px-4 pt-3 pb-1 border-t border-slate-100 bg-white flex items-center gap-1.5 overflow-x-auto select-none no-scrollbar">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 shrink-0 mr-1">
-                        Quick Replies:
-                      </span>
-                      {[
-                        "👋 Hi! How can we assist you with your AC today?",
-                        "❄️ A technician is available in Tomball/Cypress today.",
-                        "🚨 Emergency service available 24/7: (713) 819-7908.",
-                        "📋 Can we get your address to schedule a Free Estimate?"
-                      ].map((canned, idx) => (
+                    {activeChatSession.isClosed ? (
+                      <div className="shrink-0 p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+                          <Lock className="w-4 h-4 text-slate-400 shrink-0" />
+                          <span>This chat has been closed. Visitor cannot send new replies.</span>
+                        </div>
                         <button
-                          key={idx}
                           type="button"
-                          onClick={() => setAdminReplyText(canned)}
-                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 whitespace-nowrap transition cursor-pointer shrink-0"
+                          onClick={() => handleToggleChatStatus(activeChatSession.id, false)}
+                          className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 shrink-0 shadow-sm"
                         >
-                          {canned.slice(0, 30)}...
+                          <RotateCcw className="w-3.5 h-3.5" />
+                          <span>Reopen Chat</span>
                         </button>
-                      ))}
-                    </div>
+                      </div>
+                    ) : (
+                      <>
+                        {/* Quick Canned Replies */}
+                        <div className="shrink-0 px-4 pt-3 pb-1 border-t border-slate-100 bg-white flex items-center gap-1.5 overflow-x-auto select-none no-scrollbar">
+                          <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 shrink-0 mr-1">
+                            Quick Replies:
+                          </span>
+                          {[
+                            "👋 Hi! How can we assist you with your AC today?",
+                            "❄️ A technician is available in Tomball/Cypress today.",
+                            "🚨 Emergency service available 24/7: (713) 819-7908.",
+                            "📋 Can we get your address to schedule a Free Estimate?"
+                          ].map((canned, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => setAdminReplyText(canned)}
+                              className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 whitespace-nowrap transition cursor-pointer shrink-0"
+                            >
+                              {canned.slice(0, 30)}...
+                            </button>
+                          ))}
+                        </div>
 
-                    {/* Chat Input Bar */}
-                    <form onSubmit={handleSendChatReply} className="shrink-0 p-4 border-t border-slate-200 flex gap-3 bg-white">
-                      <input
-                        type="text"
-                        placeholder={`Reply to ${activeChatSession.clientName}...`}
-                        value={adminReplyText}
-                        onChange={(e) => setAdminReplyText(e.target.value)}
-                        className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 font-medium"
-                      />
-                      <button
-                        type="submit"
-                        disabled={!adminReplyText.trim()}
-                        className="px-5 py-3 bg-[#005CE6] hover:bg-[#0047B3] text-white rounded-2xl text-xs font-extrabold flex items-center gap-1.5 shadow-md shadow-[#005CE6]/30 cursor-pointer disabled:opacity-50 transition"
-                      >
-                        <Send className="w-3.5 h-3.5" />
-                        <span>Send</span>
-                      </button>
-                    </form>
+                        {/* Chat Input Bar */}
+                        <form onSubmit={handleSendChatReply} className="shrink-0 p-4 border-t border-slate-200 flex gap-3 bg-white">
+                          <input
+                            type="text"
+                            placeholder={`Reply to ${activeChatSession.clientName}...`}
+                            value={adminReplyText}
+                            onChange={(e) => setAdminReplyText(e.target.value)}
+                            className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 font-medium"
+                          />
+                          <button
+                            type="submit"
+                            disabled={!adminReplyText.trim()}
+                            className="px-5 py-3 bg-[#005CE6] hover:bg-[#0047B3] text-white rounded-2xl text-xs font-extrabold flex items-center gap-1.5 shadow-md shadow-[#005CE6]/30 cursor-pointer disabled:opacity-50 transition"
+                          >
+                            <Send className="w-3.5 h-3.5" />
+                            <span>Send</span>
+                          </button>
+                        </form>
+                      </>
+                    )}
                   </>
                 ) : (
                   <div className="flex-1 flex flex-col items-center justify-center text-slate-400 p-8 text-center">
@@ -2257,54 +2864,395 @@ function DashboardPage() {
               transition={{ duration: 0.3 }}
               className="space-y-6"
             >
-              <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex items-center justify-between">
+              {/* Header Card */}
+              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h3 className="text-base font-black text-slate-900">Website Contact Form Submissions</h3>
-                  <p className="text-xs text-slate-400 font-medium">Inquiries received through the public contact & free estimate forms</p>
-                </div>
-                <span className="text-xs font-bold text-[#005CE6] bg-blue-50 px-3 py-1 rounded-full">
-                  {webEmails.length} Submissions
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {webEmails.map((email) => (
-                  <div key={email.id} className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
-                    <div>
-                      <div className="flex items-start justify-between gap-2">
-                        <span className="font-extrabold text-sm text-slate-900">{email.name}</span>
-                        <span className="text-[10px] text-slate-400">{new Date(email.createdAt).toLocaleDateString()}</span>
-                      </div>
-                      <span className="text-[11px] font-black text-[#005CE6] uppercase tracking-wider block mt-1">
-                        Service: {email.service || "General HVAC Request"}
-                      </span>
-                      <p className="text-xs text-slate-600 font-medium mt-3 leading-relaxed bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
-                        "{email.message || "No detailed message provided."}"
-                      </p>
+                  <div className="flex items-center gap-2.5 mb-1">
+                    <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200 text-[#005CE6] flex items-center justify-center">
+                      <Mail className="w-4 h-4" />
                     </div>
-
-                    <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <div className="flex items-center gap-3 text-xs">
-                        {email.phone && (
-                          <a href={`tel:${email.phone}`} className="font-bold text-slate-800 hover:text-[#005CE6]">
-                            {email.phone}
-                          </a>
-                        )}
-                        <a href={`mailto:${email.email}`} className="text-slate-500 hover:underline">
-                          {email.email}
-                        </a>
-                      </div>
-
-                      <button
-                        onClick={() => handleDeleteEmail(email.id)}
-                        className="p-1.5 rounded-xl bg-slate-100 hover:bg-rose-500 text-slate-600 hover:text-white transition-colors cursor-pointer"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
+                    <h3 className="text-lg font-black text-slate-900 tracking-tight">Web Inquiries & Dedicated Page Leads</h3>
                   </div>
-                ))}
+                  <p className="text-xs text-slate-500 font-medium">
+                    Real-time submissions captured from Contact, Free Estimate, Pricing, Financing, Careers & Service Area forms.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 border border-emerald-200/80 rounded-xl text-xs font-black text-emerald-700 select-none">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    Live Sync Active
+                  </span>
+                  <button
+                    onClick={() => {
+                      getWebEmails().then(setWebEmails);
+                      toast.success("Web inquiries refreshed!");
+                    }}
+                    className="p-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 rounded-xl transition cursor-pointer"
+                    title="Refresh Inquiries"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
+
+              {/* KPI Mini-Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center shrink-0">
+                    <FileText className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">Total Submissions</span>
+                    <span className="text-2xl font-black text-slate-900">{webEmails.length}</span>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                    <PhoneCall className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">Direct Phone Provided</span>
+                    <span className="text-2xl font-black text-slate-900">
+                      {webEmails.filter((e) => e.phone && e.phone.trim().length > 0).length}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                    <Calendar className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">Free Estimates</span>
+                    <span className="text-2xl font-black text-slate-900">
+                      {webEmails.filter((e) => (e.source && e.source.toLowerCase().includes("estimate")) || (e.service && e.service.toLowerCase().includes("estimate"))).length}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Search & Source Filter Bar */}
+              <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs space-y-3">
+                <div className="relative">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={emailSearch}
+                    onChange={(e) => setEmailSearch(e.target.value)}
+                    placeholder="Search by customer name, phone, email, service type, or message..."
+                    className="w-full pl-10 pr-9 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 font-medium"
+                  />
+                  {emailSearch && (
+                    <button
+                      onClick={() => setEmailSearch("")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Source Filter Chips */}
+                <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1">
+                  <span className="text-[11px] font-black uppercase text-slate-400 tracking-wider shrink-0 mr-1">
+                    Filter by Source:
+                  </span>
+                  {[
+                    { id: "all", label: `All (${webEmails.length})` },
+                    { id: "estimate", label: `Free Estimate (${webEmails.filter(e => e.source?.toLowerCase().includes("estimate")).length})` },
+                    { id: "contact", label: `Contact Form (${webEmails.filter(e => e.source?.toLowerCase().includes("contact")).length})` },
+                    { id: "financ", label: `Financing (${webEmails.filter(e => e.source?.toLowerCase().includes("financ")).length})` },
+                    { id: "career", label: `Careers (${webEmails.filter(e => e.source?.toLowerCase().includes("career")).length})` },
+                    { id: "pricing", label: `Pricing (${webEmails.filter(e => e.source?.toLowerCase().includes("pricing")).length})` },
+                    { id: "area", label: `Service Areas (${webEmails.filter(e => e.source?.toLowerCase().includes("area")).length})` }
+                  ].map((chip) => (
+                    <button
+                      key={chip.id}
+                      onClick={() => setEmailSourceFilter(chip.id)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition cursor-pointer shrink-0 ${
+                        emailSourceFilter === chip.id
+                          ? "bg-[#005CE6] text-white shadow-xs"
+                          : "bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200/80"
+                      }`}
+                    >
+                      {chip.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Inquiries Grid */}
+              {filteredWebEmails.length === 0 ? (
+                <div className="bg-white rounded-3xl p-12 border border-slate-200/80 text-center flex flex-col items-center justify-center">
+                  <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center mb-3">
+                    <Mail className="w-7 h-7" />
+                  </div>
+                  <h4 className="text-sm font-black text-slate-800">No Web Inquiries Found</h4>
+                  <p className="text-xs text-slate-400 mt-1 max-w-sm">
+                    {emailSearch || emailSourceFilter !== "all"
+                      ? "No submissions matched your search criteria. Try clearing the filter."
+                      : "Website form submissions will automatically populate here in real-time."}
+                  </p>
+                  {(emailSearch || emailSourceFilter !== "all") && (
+                    <button
+                      onClick={() => {
+                        setEmailSearch("");
+                        setEmailSourceFilter("all");
+                      }}
+                      className="mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition"
+                    >
+                      Reset Filters
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {filteredWebEmails.map((email) => {
+                    const sourceLower = (email.source || "").toLowerCase();
+                    const sourceBadge = sourceLower.includes("estimate")
+                      ? { bg: "bg-blue-50", text: "text-[#005CE6]", border: "border-blue-200", label: email.source || "Free Estimate Page" }
+                      : sourceLower.includes("contact")
+                      ? { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", label: email.source || "Contact Form" }
+                      : sourceLower.includes("career")
+                      ? { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200", label: email.source || "Careers Page" }
+                      : sourceLower.includes("financ")
+                      ? { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200", label: email.source || "Financing Page" }
+                      : sourceLower.includes("pricing")
+                      ? { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200", label: email.source || "Pricing Page" }
+                      : sourceLower.includes("area")
+                      ? { bg: "bg-cyan-50", text: "text-cyan-700", border: "border-cyan-200", label: email.source || "Service Areas" }
+                      : { bg: "bg-slate-50", text: "text-slate-700", border: "border-slate-200", label: email.source || "Website Form" };
+
+                    return (
+                      <div
+                        key={email.id}
+                        className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-all group"
+                      >
+                        <div>
+                          {/* Top Row: Source Badge & Timestamp */}
+                          <div className="flex items-center justify-between gap-2 mb-3">
+                            <span className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border ${sourceBadge.bg} ${sourceBadge.text} ${sourceBadge.border}`}>
+                              {sourceBadge.label}
+                            </span>
+                            <span className="text-[11px] text-slate-400 font-semibold flex items-center gap-1">
+                              <Clock className="w-3 h-3 text-slate-300" />
+                              {new Date(email.createdAt).toLocaleDateString()} {new Date(email.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+
+                          {/* Customer Name & Service */}
+                          <div className="mb-3">
+                            <h4 className="font-extrabold text-base text-slate-900 group-hover:text-[#005CE6] transition-colors">
+                              {email.name}
+                            </h4>
+                            <div className="flex items-center gap-1.5 mt-1">
+                              <Wrench className="w-3.5 h-3.5 text-[#005CE6] shrink-0" />
+                              <span className="text-xs font-bold text-slate-700">
+                                {email.service || "General HVAC Request"}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Contact Info Pills */}
+                          <div className="flex flex-wrap items-center gap-2 mb-4">
+                            {email.phone && (
+                              <a
+                                href={`tel:${email.phone}`}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#005CE6] border border-blue-200/70 rounded-xl text-xs font-bold transition"
+                              >
+                                <Phone className="w-3 h-3" />
+                                <span>{email.phone}</span>
+                              </a>
+                            )}
+                            {email.email && (
+                              <a
+                                href={`mailto:${email.email}`}
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/80 rounded-xl text-xs font-medium transition"
+                              >
+                                <Mail className="w-3 h-3 text-slate-400" />
+                                <span>{email.email}</span>
+                              </a>
+                            )}
+                          </div>
+
+                          {/* Message Body Block */}
+                          <div className="bg-slate-50/80 border border-slate-100 rounded-2xl p-4 text-xs text-slate-700 leading-relaxed font-medium whitespace-pre-wrap max-h-36 overflow-y-auto overscroll-contain">
+                            {email.message || "No detailed message provided."}
+                          </div>
+                        </div>
+
+                        {/* Bottom Action Toolbar */}
+                        <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2">
+                            {email.phone && (
+                              <a
+                                href={`tel:${email.phone}`}
+                                className="px-3 py-1.5 bg-[#005CE6] hover:bg-[#0047B3] text-white rounded-xl text-xs font-bold inline-flex items-center gap-1.5 shadow-xs transition"
+                              >
+                                <Phone className="w-3 h-3" />
+                                <span>Call</span>
+                              </a>
+                            )}
+                            {email.email && (
+                              <a
+                                href={`mailto:${email.email}?subject=Upfront AC & Heating Inquiry - ${encodeURIComponent(email.service || "HVAC Service")}`}
+                                className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 transition"
+                              >
+                                <Mail className="w-3 h-3 text-slate-600" />
+                                <span>Email</span>
+                              </a>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const info = `Name: ${email.name}\nPhone: ${email.phone || "N/A"}\nEmail: ${email.email}\nService: ${email.service || "General"}\nSource: ${email.source || "Website"}\nMessage:\n${email.message || ""}`;
+                                navigator.clipboard.writeText(info);
+                                toast.success("Customer inquiry copied to clipboard!");
+                              }}
+                              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer"
+                              title="Copy Customer Info"
+                            >
+                              <Copy className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedEmail(email);
+                                setIsViewingEmail(true);
+                              }}
+                              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer"
+                              title="View Full Breakdown"
+                            >
+                              <Eye className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+
+                          <button
+                            onClick={() => handleDeleteEmail(email.id)}
+                            className="p-2 rounded-xl bg-slate-100 hover:bg-rose-500 text-slate-500 hover:text-white transition-colors cursor-pointer"
+                            title="Delete Inquiry"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Inquiry Details Modal */}
+              <AnimatePresence>
+                {isViewingEmail && selectedEmail && (
+                  <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-100 flex flex-col gap-5 max-h-[90vh] overflow-y-auto"
+                    >
+                      <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center font-extrabold text-base">
+                            {selectedEmail.name.charAt(0) || "U"}
+                          </div>
+                          <div>
+                            <h4 className="font-extrabold text-base text-slate-900">{selectedEmail.name}</h4>
+                            <span className="text-xs text-slate-400 font-medium">
+                              Received {new Date(selectedEmail.createdAt).toLocaleDateString()} at {new Date(selectedEmail.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setIsViewingEmail(false);
+                            setSelectedEmail(null);
+                          }}
+                          className="p-1.5 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </div>
+
+                      <div className="space-y-3.5 text-xs text-slate-700">
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block mb-1">Source Page</span>
+                            <span className="font-bold text-[#005CE6]">{selectedEmail.source || "Website Form"}</span>
+                          </div>
+                          <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block mb-1">Requested Service</span>
+                            <span className="font-bold text-slate-800">{selectedEmail.service || "General HVAC"}</span>
+                          </div>
+                        </div>
+
+                        <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
+                          <div>
+                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block">Phone Number</span>
+                            <span className="font-bold text-slate-900 text-sm">{selectedEmail.phone || "Not Provided"}</span>
+                          </div>
+                          {selectedEmail.phone && (
+                            <a
+                              href={`tel:${selectedEmail.phone}`}
+                              className="px-3 py-1.5 bg-[#005CE6] text-white rounded-xl font-bold flex items-center gap-1 hover:bg-[#0047B3] transition"
+                            >
+                              <Phone className="w-3 h-3" /> Call
+                            </a>
+                          )}
+                        </div>
+
+                        <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
+                          <div>
+                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block">Email Address</span>
+                            <span className="font-bold text-slate-900">{selectedEmail.email || "Not Provided"}</span>
+                          </div>
+                          {selectedEmail.email && (
+                            <a
+                              href={`mailto:${selectedEmail.email}?subject=Upfront AC & Heating Follow-Up`}
+                              className="px-3 py-1.5 bg-slate-200 text-slate-800 rounded-xl font-bold flex items-center gap-1 hover:bg-slate-300 transition"
+                            >
+                              <Mail className="w-3 h-3" /> Email
+                            </a>
+                          )}
+                        </div>
+
+                        <div>
+                          <span className="text-[10px] font-extrabold uppercase text-slate-400 block mb-1.5">Submitted Notes & Form Details</span>
+                          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-xs leading-relaxed whitespace-pre-wrap max-h-52 overflow-y-auto">
+                            {selectedEmail.message || "No additional comments provided."}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const info = `Name: ${selectedEmail.name}\nPhone: ${selectedEmail.phone || "N/A"}\nEmail: ${selectedEmail.email}\nService: ${selectedEmail.service || "General"}\nSource: ${selectedEmail.source || "Website"}\nMessage:\n${selectedEmail.message || ""}`;
+                            navigator.clipboard.writeText(info);
+                            toast.success("Customer inquiry copied to clipboard!");
+                          }}
+                          className="px-4 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs inline-flex items-center gap-1.5 transition cursor-pointer"
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Copy Info</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsViewingEmail(false);
+                            setSelectedEmail(null);
+                          }}
+                          className="px-5 py-2.5 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-bold text-xs transition cursor-pointer shadow-md shadow-[#005CE6]/30"
+                        >
+                          Done
+                        </button>
+                      </div>
+                    </motion.div>
+                  </div>
+                )}
+              </AnimatePresence>
             </motion.div>
           )}
 
@@ -2316,82 +3264,339 @@ function DashboardPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs max-w-4xl"
+              className="space-y-6"
             >
-              <h3 className="text-base font-black text-slate-900 mb-1">HVAC Dispatch & Alert Settings</h3>
-              <p className="text-xs text-slate-400 font-medium mb-6">Manage automated client communications, alert emails, and operating hours</p>
-
-              <form onSubmit={handleSaveConfig} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Alert Notification Email</label>
-                    <input
-                      type="email"
-                      value={alertEmail}
-                      onChange={(e) => setAlertEmail(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
-                    />
+              {/* Top Banner Card */}
+              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2.5 mb-1">
+                    <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200 text-[#005CE6] flex items-center justify-center">
+                      <Settings className="w-4 h-4" />
+                    </div>
+                    <h3 className="text-lg font-black text-slate-900 tracking-tight">HVAC Dispatch & Portal Operations</h3>
                   </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Dispatch Office Phone</label>
-                    <input
-                      type="text"
-                      value={officePhone}
-                      onChange={(e) => setOfficePhone(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
-                    />
-                  </div>
+                  <p className="text-xs text-slate-500 font-medium">
+                    Configure alert routing emails, dispatch phone lines, and operating hours. Updates sync instantly to all website visitors and service pages in real-time.
+                  </p>
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Automated SMS Response Template</label>
-                  <textarea
-                    rows={3}
-                    value={smsTemplate}
-                    onChange={(e) => setSmsTemplate(e.target.value)}
-                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 leading-relaxed"
-                  />
-                  <span className="text-[10px] text-slate-400 font-medium">Available tags: {'{Name}'}, {'{Time}'}, {'{Type}'}</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 border border-emerald-200/80 rounded-xl text-xs font-black text-emerald-700 select-none">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    Live DB Synced
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      getSiteSettings().then(settings => {
+                        if (settings) {
+                          setAlertEmail(settings.alertEmail || "allen@upfrontac.com");
+                          setOfficePhone(settings.officePhone || "(713) 819-7908");
+                          setEmailAlert(settings.emailAlert);
+                          setMaintenanceMode(settings.maintenanceMode);
+                          setWeekdays(settings.weekdays || "9:00 AM - 6:30 PM");
+                          setSaturdays(settings.saturdays || "9:00 AM - 6:30 PM");
+                          setSundays(settings.sundays || "24/7 Emergency Dispatch");
+                        }
+                      });
+                      toast.success("Settings reloaded from database!");
+                    }}
+                    className="p-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 rounded-xl transition cursor-pointer"
+                    title="Reload from DB"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                {/* Left 2 Cols: Main Configuration Form */}
+                <div className="lg:col-span-2 space-y-6">
+                  <form onSubmit={handleSaveConfig} className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-7">
+                    
+                    {/* Section 1: Contact & Dispatch Routing */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-4 pb-2 border-b border-slate-100">
+                        <Phone className="w-4 h-4 text-[#005CE6]" />
+                        <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider">
+                          1. Direct Routing & Contact Info
+                        </h4>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                            <span>Alert Notification Email</span>
+                            <span className="text-[10px] text-slate-400 font-normal">Receives all web inquiries</span>
+                          </label>
+                          <div className="relative">
+                            <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                            <input
+                              type="email"
+                              required
+                              value={alertEmail}
+                              onChange={(e) => setAlertEmail(e.target.value)}
+                              placeholder="allen@upfrontac.com"
+                              className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 font-bold focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 transition"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                            <span>Dispatch Office Phone</span>
+                            <span className="text-[10px] text-slate-400 font-normal">Displayed on website & call buttons</span>
+                          </label>
+                          <div className="relative">
+                            <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                            <input
+                              type="text"
+                              required
+                              value={officePhone}
+                              onChange={(e) => setOfficePhone(e.target.value)}
+                              placeholder="(713) 819-7908"
+                              className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 font-bold focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 transition"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Section 2: Operating & Dispatch Hours */}
+                    <div>
+                      <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4 text-[#005CE6]" />
+                          <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider">
+                            2. Service & Operational Schedule
+                          </h4>
+                        </div>
+
+                        {/* Quick Presets */}
+                        <div className="hidden sm:flex items-center gap-1.5">
+                          <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider">Presets:</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setWeekdays("9:00 AM - 6:30 PM");
+                              setSaturdays("9:00 AM - 6:30 PM");
+                              setSundays("24/7 Emergency Dispatch");
+                              toast.info("Applied Upfront Standard Schedule");
+                            }}
+                            className="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold transition"
+                          >
+                            Upfront Standard
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setWeekdays("24 Hours Available");
+                              setSaturdays("24 Hours Available");
+                              setSundays("24 Hours Available");
+                              toast.info("Applied 24/7 Full Schedule");
+                            }}
+                            className="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold transition"
+                          >
+                            24/7 All Week
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div className="space-y-1.5 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-100">
+                          <label className="text-xs font-black text-slate-800 flex items-center justify-between">
+                            <span>Monday - Friday</span>
+                            <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">Weekdays</span>
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={weekdays}
+                            onChange={(e) => setWeekdays(e.target.value)}
+                            placeholder="9:00 AM - 6:30 PM"
+                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
+                          />
+                        </div>
+
+                        <div className="space-y-1.5 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-100">
+                          <label className="text-xs font-black text-slate-800 flex items-center justify-between">
+                            <span>Saturday</span>
+                            <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">Weekend</span>
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={saturdays}
+                            onChange={(e) => setSaturdays(e.target.value)}
+                            placeholder="9:00 AM - 6:30 PM"
+                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
+                          />
+                        </div>
+
+                        <div className="space-y-1.5 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-100">
+                          <label className="text-xs font-black text-slate-800 flex items-center justify-between">
+                            <span>Sunday / Emergencies</span>
+                            <span className="text-[9px] font-bold text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded">Emergency</span>
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={sundays}
+                            onChange={(e) => setSundays(e.target.value)}
+                            placeholder="24/7 Emergency Dispatch"
+                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Section 3: Notification & System Controls */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-4 pb-2 border-b border-slate-100">
+                        <Sliders className="w-4 h-4 text-[#005CE6]" />
+                        <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider">
+                          3. System Automation & Alerts
+                        </h4>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-center justify-between">
+                          <div>
+                            <span className="text-xs font-black text-slate-900 block">Instant Email Alerts</span>
+                            <span className="text-[11px] text-slate-500 font-medium leading-tight block mt-0.5">
+                              Notify {alertEmail || "admin"} immediately on incoming leads
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleToggleEmailAlert}
+                            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer shrink-0 ${
+                              emailAlert ? "bg-[#005CE6]" : "bg-slate-300"
+                            }`}
+                          >
+                            <div
+                              className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
+                                emailAlert ? "translate-x-6" : "translate-x-0"
+                              }`}
+                            />
+                          </button>
+                        </div>
+
+                        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-center justify-between">
+                          <div>
+                            <span className="text-xs font-black text-slate-900 block">Emergency Maintenance Mode</span>
+                            <span className="text-[11px] text-slate-500 font-medium leading-tight block mt-0.5">
+                              Displays maintenance screen to public visitors
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleToggleMaintenanceMode}
+                            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer shrink-0 ${
+                              maintenanceMode ? "bg-rose-600 shadow-sm shadow-rose-500/40" : "bg-slate-300"
+                            }`}
+                          >
+                            <div
+                              className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
+                                maintenanceMode ? "translate-x-6" : "translate-x-0"
+                              }`}
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Row */}
+                    <div className="pt-2 flex items-center justify-end gap-3">
+                      <button
+                        type="submit"
+                        disabled={isSavingConfig}
+                        className="px-8 py-3.5 bg-gradient-to-r from-[#005CE6] to-[#0047B3] hover:from-[#0066FF] hover:to-[#0052CC] text-white text-xs font-extrabold rounded-2xl shadow-lg shadow-[#005CE6]/30 transition-all hover:scale-[1.02] active:scale-95 cursor-pointer disabled:opacity-50 flex items-center gap-2"
+                      >
+                        {isSavingConfig ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            <span>Saving & Broadcasting...</span>
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle2 className="w-4 h-4" />
+                            <span>Save & Broadcast to Live Website</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Monday - Friday</label>
-                    <input
-                      type="text"
-                      value={weekdays}
-                      onChange={(e) => setWeekdays(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:bg-white"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Saturday</label>
-                    <input
-                      type="text"
-                      value={saturdays}
-                      onChange={(e) => setSaturdays(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:bg-white"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Sunday / Emergencies</label>
-                    <input
-                      type="text"
-                      value={sundays}
-                      onChange={(e) => setSundays(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:bg-white"
-                    />
+                {/* Right 1 Col: Live Website Appearance Preview */}
+                <div className="space-y-4">
+                  <div className="bg-slate-900 text-white rounded-3xl p-6 border border-slate-800 shadow-xl space-y-5 sticky top-24">
+                    <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                      <span className="text-xs font-black uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                        Live Public Site Preview
+                      </span>
+                      <span className="text-[10px] text-slate-500 font-bold">Real-Time</span>
+                    </div>
+
+                    {/* Preview 1: Header Call Bar */}
+                    <div className="space-y-1.5">
+                      <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider block">
+                        Header Call Button
+                      </span>
+                      <div className="bg-[#005CE6] text-white p-3.5 rounded-2xl shadow-md flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                          <Phone className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="text-[9px] uppercase font-black tracking-wider text-white/80 block">Call Us Now</span>
+                          <span className="text-sm font-black">{officePhone || "(713) 819-7908"}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Preview 2: Footer Contact Block */}
+                    <div className="space-y-1.5">
+                      <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider block">
+                        Footer Contact Card
+                      </span>
+                      <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/60 space-y-2.5 text-xs">
+                        <div className="flex items-center gap-2.5 text-slate-300">
+                          <Phone className="w-3.5 h-3.5 text-[#005CE6] shrink-0" />
+                          <span className="font-bold">{officePhone || "(713) 819-7908"}</span>
+                        </div>
+                        <div className="flex items-center gap-2.5 text-slate-300">
+                          <Mail className="w-3.5 h-3.5 text-[#005CE6] shrink-0" />
+                          <span className="font-medium text-slate-300 break-all">{alertEmail || "allen@upfrontac.com"}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Preview 3: Working Hours Schedule */}
+                    <div className="space-y-1.5">
+                      <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider block">
+                        Website Operational Hours
+                      </span>
+                      <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/60 space-y-2 text-xs">
+                        <div className="flex items-center justify-between">
+                          <span className="text-slate-400 font-bold text-[11px]">Mon - Fri:</span>
+                          <span className="font-bold text-white text-[11px]">{weekdays || "9:00 AM - 6:30 PM"}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-slate-400 font-bold text-[11px]">Saturday:</span>
+                          <span className="font-bold text-white text-[11px]">{saturdays || "9:00 AM - 6:30 PM"}</span>
+                        </div>
+                        <div className="flex items-center justify-between pt-1 border-t border-slate-700/50">
+                          <span className="text-rose-400 font-black text-[11px]">Sunday:</span>
+                          <span className="font-black text-rose-400 text-[11px]">{sundays || "24/7 Emergency Dispatch"}</span>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
-
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs font-extrabold rounded-2xl shadow-lg shadow-[#005CE6]/30 transition-all cursor-pointer"
-                >
-                  Save Operational Settings
-                </button>
-              </form>
+              </div>
             </motion.div>
           )}
 
@@ -2403,111 +3608,463 @@ function DashboardPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="space-y-8 max-w-4xl"
+              className="space-y-8 max-w-6xl"
             >
-              {/* Update Current Credentials */}
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
-                <h3 className="text-base font-black text-slate-900 mb-1">Update Admin Password</h3>
-                <p className="text-xs text-slate-400 font-medium mb-6">Modify login credentials for your active account ({currentUser?.username})</p>
-
-                <form onSubmit={handleUpdateProfile} className="space-y-4 max-w-md">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Username</label>
-                    <input
-                      type="text"
-                      required
-                      value={updateUsername}
-                      onChange={(e) => setUpdateUsername(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800"
-                    />
+              {/* Top Security Overview Header & KPI Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* 1. Security Status */}
+                <div className="bg-gradient-to-br from-slate-900 via-slate-850 to-[#0F172A] rounded-3xl p-5 border border-slate-700/60 shadow-lg text-white relative overflow-hidden">
+                  <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none" />
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center">
+                      <ShieldCheck className="w-5 h-5" />
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Active &amp; Secured
+                    </span>
                   </div>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Security Protocol</span>
+                  <div className="text-lg font-black text-white mt-0.5">SHA-256 Hashing</div>
+                  <p className="text-[11px] text-slate-400 mt-1 font-medium">Multi-round salted credential encryption</p>
+                </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">New Password</label>
-                    <input
-                      type="password"
-                      required
-                      placeholder="••••••••••••"
-                      value={updatePassword}
-                      onChange={(e) => setUpdatePassword(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800"
-                    />
+                {/* 2. Active Session */}
+                <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs relative overflow-hidden">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-10 h-10 rounded-2xl bg-blue-50 border border-blue-200/60 text-[#005CE6] flex items-center justify-center">
+                      <User className="w-5 h-5" />
+                    </div>
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black bg-blue-50 text-[#005CE6] border border-blue-100 uppercase">
+                      {currentUser?.role || "Admin"}
+                    </span>
                   </div>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Active Session User</span>
+                  <div className="text-lg font-black text-slate-900 mt-0.5 truncate">{currentUser?.username || "admin"}</div>
+                  <p className="text-[11px] text-slate-500 mt-1 font-medium">Protected HTTPS &amp; Socket Session</p>
+                </div>
 
-                  <button
-                    type="submit"
-                    className="px-6 py-2.5 bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs font-extrabold rounded-2xl shadow-md transition cursor-pointer"
-                  >
-                    Update Password
-                  </button>
-                </form>
+                {/* 3. Team Member Accounts */}
+                <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-10 h-10 rounded-2xl bg-violet-50 border border-violet-200/60 text-violet-600 flex items-center justify-center">
+                      <Users className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-black text-violet-700 bg-violet-50 px-2.5 py-1 rounded-full border border-violet-100">
+                      {portalUsers.length} Accounts
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Portal Team Size</span>
+                  <div className="text-lg font-black text-slate-900 mt-0.5">
+                    {portalUsers.filter(u => u.role === "admin").length} Admins • {portalUsers.filter(u => u.role !== "admin").length} Staff
+                  </div>
+                  <p className="text-[11px] text-slate-500 mt-1 font-medium">Role-Based Access Control (RBAC)</p>
+                </div>
+
+                {/* 4. Database Sync */}
+                <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200/60 text-emerald-600 flex items-center justify-center">
+                      <Server className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-black text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+                      Live
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Storage Engine</span>
+                  <div className="text-lg font-black text-slate-900 mt-0.5">MongoDB Atlas</div>
+                  <p className="text-[11px] text-slate-500 mt-1 font-medium">Real-time synchronized persistence</p>
+                </div>
               </div>
 
-              {/* Add New Portal User */}
-              {currentUser?.role === "admin" && (
-                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
-                  <h3 className="text-base font-black text-slate-900 mb-1">Create Team Account</h3>
-                  <p className="text-xs text-slate-400 font-medium mb-6">Grant dashboard access to dispatchers, technicians, or office managers</p>
-
-                  <form onSubmit={handleCreateUser} className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                    <input
-                      type="text"
-                      required
-                      placeholder="Username"
-                      value={addUsername}
-                      onChange={(e) => setAddUsername(e.target.value)}
-                      className="px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800"
-                    />
-                    <input
-                      type="password"
-                      required
-                      placeholder="Password"
-                      value={addPassword}
-                      onChange={(e) => setAddPassword(e.target.value)}
-                      className="px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800"
-                    />
-                    <div className="flex gap-2">
-                      <select
-                        value={addRole}
-                        onChange={(e) => setAddRole(e.target.value as any)}
-                        className="px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex-1"
-                      >
-                        <option value="viewer">Viewer</option>
-                        <option value="editor">Dispatcher / Editor</option>
-                        <option value="admin">Administrator</option>
-                      </select>
-                      <button
-                        type="submit"
-                        className="px-4 py-2.5 bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs font-extrabold rounded-xl shrink-0 cursor-pointer"
-                      >
-                        Add
-                      </button>
-                    </div>
-                  </form>
-
-                  {/* Existing Users List */}
-                  <div className="divide-y divide-slate-100 border-t border-slate-100 pt-4">
-                    {portalUsers.map((u) => (
-                      <div key={u.id} className="py-3 flex items-center justify-between">
-                        <div>
-                          <span className="font-extrabold text-xs text-slate-900">{u.username}</span>
-                          <span className="text-[10px] font-bold text-[#005CE6] uppercase ml-2 bg-blue-50 px-2 py-0.5 rounded-md">
-                            {u.role}
+              {/* Main Content Grid: Left (User Directory) + Right (Create Team Member & Profile) */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                {/* ── LEFT COLUMN: Team Directory (7 Cols) ── */}
+                <div className="lg:col-span-7 space-y-6">
+                  <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-base font-black text-slate-900">Portal Team Accounts</h3>
+                          <span className="px-2.5 py-0.5 bg-blue-50 text-[#005CE6] text-[11px] font-black rounded-full border border-blue-100">
+                            {filteredPortalUsers.length}
                           </span>
                         </div>
-                        {u.username !== "admin" && (
+                        <p className="text-xs text-slate-500 font-medium mt-0.5">
+                          Authorized team members with access to Upfront AC Dashboard
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => getPortalUsers().then(setPortalUsers)}
+                        className="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-slate-200 flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto"
+                        title="Reload users from MongoDB"
+                      >
+                        <RefreshCw className="w-3.5 h-3.5" />
+                        <span>Refresh</span>
+                      </button>
+                    </div>
+
+                    {/* Filter & Search Bar */}
+                    <div className="pt-4 pb-4 flex flex-col sm:flex-row gap-3">
+                      <div className="relative flex-1">
+                        <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                        <input
+                          type="text"
+                          value={userSearch}
+                          onChange={(e) => setUserSearch(e.target.value)}
+                          placeholder="Search accounts by username or role..."
+                          className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200/90 rounded-2xl text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#005CE6] focus:ring-2 focus:ring-[#005CE6]/10 outline-none transition"
+                        />
+                        {userSearch && (
                           <button
-                            onClick={() => handleDeleteUser(u.id, u.username)}
-                            className="text-slate-400 hover:text-rose-500 p-1 cursor-pointer"
+                            onClick={() => setUserSearch("")}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <X className="w-3.5 h-3.5" />
                           </button>
                         )}
                       </div>
-                    ))}
+
+                      {/* Role Filter Tabs */}
+                      <div className="flex items-center gap-1 bg-slate-100/80 p-1 rounded-2xl shrink-0 overflow-x-auto">
+                        {[
+                          { id: "all", label: "All" },
+                          { id: "admin", label: "Admins" },
+                          { id: "editor", label: "Dispatchers" },
+                          { id: "viewer", label: "Viewers" }
+                        ].map((tab) => (
+                          <button
+                            key={tab.id}
+                            type="button"
+                            onClick={() => setUserRoleFilter(tab.id)}
+                            className={`px-3 py-1.5 rounded-xl text-[11px] font-extrabold transition-all cursor-pointer ${
+                              userRoleFilter === tab.id
+                                ? "bg-white text-[#005CE6] shadow-xs"
+                                : "text-slate-600 hover:text-slate-900"
+                            }`}
+                          >
+                            {tab.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Users List / Table */}
+                    <div className="space-y-3 pt-2">
+                      {filteredPortalUsers.length === 0 ? (
+                        <div className="text-center py-12 px-4 bg-slate-50/60 rounded-2xl border border-dashed border-slate-200">
+                          <Users className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                          <p className="text-xs font-bold text-slate-700">No portal accounts found</p>
+                          <p className="text-[11px] text-slate-400 mt-0.5">Try searching with a different username or role filter.</p>
+                          {userSearch && (
+                            <button
+                              onClick={() => { setUserSearch(""); setUserRoleFilter("all"); }}
+                              className="mt-3 text-xs font-extrabold text-[#005CE6] hover:underline"
+                            >
+                              Clear Search Filter
+                            </button>
+                          )}
+                        </div>
+                      ) : (
+                        filteredPortalUsers.map((user) => {
+                          const isCurrentUser = currentUser?.id === user.id || currentUser?.username === user.username;
+                          const isRootAdmin = user.username === "admin";
+                          const initials = user.username.slice(0, 2).toUpperCase();
+
+                          const roleBadgeStyle =
+                            user.role === "admin"
+                              ? "bg-purple-50 text-purple-700 border-purple-200/80"
+                              : user.role === "editor"
+                              ? "bg-sky-50 text-sky-700 border-sky-200/80"
+                              : "bg-slate-100 text-slate-700 border-slate-200/80";
+
+                          const roleAvatarStyle =
+                            user.role === "admin"
+                              ? "from-purple-600 to-indigo-600 ring-purple-200"
+                              : user.role === "editor"
+                              ? "from-[#005CE6] to-cyan-500 ring-blue-200"
+                              : "from-slate-600 to-slate-800 ring-slate-200";
+
+                          return (
+                            <div
+                              key={user.id}
+                              className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                                isCurrentUser
+                                  ? "bg-blue-50/40 border-blue-200/80 shadow-xs"
+                                  : "bg-slate-50/50 hover:bg-slate-50 border-slate-200/70"
+                              }`}
+                            >
+                              <div className="flex items-center gap-3.5 min-w-0">
+                                {/* Avatar */}
+                                <div className="relative shrink-0">
+                                  <div className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${roleAvatarStyle} text-white font-black text-sm flex items-center justify-center shadow-xs ring-2`}>
+                                    {initials}
+                                  </div>
+                                  <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white" title="Active Account" />
+                                </div>
+
+                                {/* Info */}
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="font-black text-sm text-slate-900 truncate">
+                                      {user.username}
+                                    </span>
+                                    {isCurrentUser && (
+                                      <span className="px-2 py-0.5 bg-blue-600 text-white text-[10px] font-black rounded-full shadow-xs">
+                                        You (Active)
+                                      </span>
+                                    )}
+                                    {isRootAdmin && (
+                                      <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-black rounded-full border border-amber-200">
+                                        Root System
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-2 mt-1">
+                                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border uppercase tracking-wider ${roleBadgeStyle}`}>
+                                      {user.role === "editor" ? "Dispatcher / Editor" : user.role}
+                                    </span>
+                                    <span className="text-[11px] text-slate-400 font-medium">
+                                      ID: {user.id.slice(0, 10)}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Actions */}
+                              <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                                {currentUser?.role === "admin" && (
+                                  <button
+                                    onClick={() => handleOpenEditUser(user)}
+                                    className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl border border-slate-200 shadow-xs flex items-center gap-1.5 transition cursor-pointer"
+                                    title="Edit account credentials and role"
+                                  >
+                                    <Edit2 className="w-3.5 h-3.5 text-slate-500" />
+                                    <span>Edit</span>
+                                  </button>
+                                )}
+
+                                {!isRootAdmin && !isCurrentUser && currentUser?.role === "admin" && (
+                                  <button
+                                    onClick={() => handleDeleteUser(user.id, user.username)}
+                                    className="p-2 bg-white hover:bg-rose-50 text-slate-400 hover:text-rose-600 rounded-xl border border-slate-200 hover:border-rose-200 shadow-xs transition cursor-pointer"
+                                    title="Remove account permanently"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
                   </div>
                 </div>
-              )}
+
+                {/* ── RIGHT COLUMN: Create Team Account & Personal Profile (5 Cols) ── */}
+                <div className="lg:col-span-5 space-y-6">
+                  
+                  {/* Create New Team Member Account (Admin only) */}
+                  {currentUser?.role === "admin" && (
+                    <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs">
+                      <div className="flex items-center gap-2.5 pb-4 border-b border-slate-100 mb-5">
+                        <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#005CE6] flex items-center justify-center">
+                          <Plus className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-black text-slate-900">Add Team Member</h3>
+                          <p className="text-[11px] text-slate-400 font-medium">Provision new staff account for Upfront portal</p>
+                        </div>
+                      </div>
+
+                      <form onSubmit={handleCreateUser} className="space-y-4">
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-extrabold text-slate-700">Account Username *</label>
+                          <div className="relative">
+                            <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                            <input
+                              type="text"
+                              required
+                              placeholder="e.g. dispatcher_sarah"
+                              value={addUsername}
+                              onChange={(e) => setAddUsername(e.target.value)}
+                              className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 focus:bg-white focus:border-[#005CE6] focus:ring-2 focus:ring-[#005CE6]/10 outline-none transition"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-extrabold text-slate-700">Initial Password *</label>
+                          <div className="relative">
+                            <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                            <input
+                              type={showAddPassword ? "text" : "password"}
+                              required
+                              placeholder="Minimum 6 characters"
+                              value={addPassword}
+                              onChange={(e) => setAddPassword(e.target.value)}
+                              className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 focus:bg-white focus:border-[#005CE6] focus:ring-2 focus:ring-[#005CE6]/10 outline-none transition"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowAddPassword(!showAddPassword)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+                            >
+                              {showAddPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-extrabold text-slate-700">Access Role &amp; Permissions</label>
+                          <div className="relative">
+                            <select
+                              value={addRole}
+                              onChange={(e) => setAddRole(e.target.value as any)}
+                              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#005CE6] outline-none transition appearance-none cursor-pointer"
+                            >
+                              <option value="editor">Dispatcher / Editor (Leads &amp; Chats)</option>
+                              <option value="admin">Administrator (Full Access)</option>
+                              <option value="viewer">Viewer (Read-Only Access)</option>
+                            </select>
+                            <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                          </div>
+                        </div>
+
+                        {/* Role Description Helper */}
+                        <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/60 text-[11px] text-slate-500 font-medium">
+                          {addRole === "admin" && "👑 Full access to all portal data, database operations, team accounts, and site settings."}
+                          {addRole === "editor" && "🎧 Can respond to live chats, review web inquiries, manage dispatch leads, and view reviews."}
+                          {addRole === "viewer" && "👁️ Read-only dashboard view. Cannot edit leads, dispatch chats, or alter settings."}
+                        </div>
+
+                        <button
+                          type="submit"
+                          disabled={isCreatingUser}
+                          className="w-full py-3 bg-gradient-to-r from-[#005CE6] to-[#0047B3] hover:from-[#0066FF] hover:to-[#0052CC] text-white text-xs font-extrabold rounded-2xl shadow-md shadow-[#005CE6]/20 transition-all hover:scale-[1.01] active:scale-98 cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                        >
+                          {isCreatingUser ? (
+                            <>
+                              <RefreshCw className="w-4 h-4 animate-spin" />
+                              <span>Creating Account...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Plus className="w-4 h-4" />
+                              <span>Create Team Account</span>
+                            </>
+                          )}
+                        </button>
+                      </form>
+                    </div>
+                  )}
+
+                  {/* Update My Account Security / Credentials */}
+                  <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs">
+                    <div className="flex items-center gap-2.5 pb-4 border-b border-slate-100 mb-5">
+                      <div className="w-8 h-8 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center">
+                        <KeyRound className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-black text-slate-900">My Profile &amp; Password</h3>
+                        <p className="text-[11px] text-slate-400 font-medium">Update credentials for your logged-in session ({currentUser?.username})</p>
+                      </div>
+                    </div>
+
+                    <form onSubmit={handleUpdateProfile} className="space-y-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-extrabold text-slate-700">Display Username</label>
+                        <input
+                          type="text"
+                          required
+                          value={updateUsername}
+                          onChange={(e) => setUpdateUsername(e.target.value)}
+                          placeholder="e.g. admin"
+                          className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 focus:bg-white focus:border-[#005CE6] outline-none transition"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-extrabold text-slate-700">New Password</label>
+                        <div className="relative">
+                          <input
+                            type={showUpdatePassword ? "text" : "password"}
+                            placeholder="Leave blank to keep unchanged"
+                            value={updatePassword}
+                            onChange={(e) => setUpdatePassword(e.target.value)}
+                            className="w-full px-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 focus:bg-white focus:border-[#005CE6] outline-none transition"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowUpdatePassword(!showUpdatePassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+                          >
+                            {showUpdatePassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                          </button>
+                        </div>
+                      </div>
+
+                      {updatePassword && (
+                        <>
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-extrabold text-slate-700">Confirm New Password</label>
+                            <input
+                              type={showUpdatePassword ? "text" : "password"}
+                              placeholder="Re-enter new password"
+                              value={updatePasswordConfirm}
+                              onChange={(e) => setUpdatePasswordConfirm(e.target.value)}
+                              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 focus:bg-white focus:border-[#005CE6] outline-none transition"
+                            />
+                          </div>
+
+                          {/* Password Strength Indicator */}
+                          <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/60 space-y-1.5">
+                            <div className="flex items-center justify-between text-[10px] font-bold">
+                              <span className="text-slate-500">Password Strength</span>
+                              <span className={
+                                updatePassword.length >= 10 && /[0-9]/.test(updatePassword) && /[^A-Za-z0-9]/.test(updatePassword)
+                                  ? "text-emerald-600 font-black"
+                                  : updatePassword.length >= 8
+                                  ? "text-blue-600 font-black"
+                                  : "text-amber-600 font-black"
+                              }>
+                                {updatePassword.length >= 10 && /[0-9]/.test(updatePassword) && /[^A-Za-z0-9]/.test(updatePassword)
+                                  ? "Strong / Secure"
+                                  : updatePassword.length >= 8
+                                  ? "Good"
+                                  : "Weak (add numbers/symbols)"}
+                              </span>
+                            </div>
+                            <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full transition-all duration-300 ${
+                                  updatePassword.length >= 10 && /[0-9]/.test(updatePassword) && /[^A-Za-z0-9]/.test(updatePassword)
+                                    ? "w-full bg-emerald-500"
+                                    : updatePassword.length >= 8
+                                    ? "w-2/3 bg-blue-500"
+                                    : "w-1/3 bg-amber-500"
+                                }`}
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      <button
+                        type="submit"
+                        className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white text-xs font-extrabold rounded-2xl shadow-md transition cursor-pointer"
+                      >
+                        Update Security Credentials
+                      </button>
+                    </form>
+                  </div>
+
+                </div>
+
+              </div>
             </motion.div>
           )}
 
@@ -2646,12 +4203,12 @@ function DashboardPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 overflow-hidden"
+              className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 overflow-hidden max-h-[90vh] overflow-y-auto"
             >
               <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
                 <div>
-                  <h3 className="font-black text-base text-slate-900">Lead Details: {selectedLead.name}</h3>
-                  <span className="text-xs text-slate-400">{selectedLead.phone} • {selectedLead.address}</span>
+                  <h3 className="font-black text-base text-slate-900">Lead & Dispatch Details: {selectedLead.name}</h3>
+                  <span className="text-xs text-slate-400">ID: {selectedLead.id} · Created {selectedLead.createdAt ? new Date(selectedLead.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "Recently"}</span>
                 </div>
                 <button onClick={() => setIsEditingLead(false)} className="text-slate-400 hover:text-slate-700 cursor-pointer">
                   <X className="w-5 h-5" />
@@ -2659,7 +4216,65 @@ function DashboardPage() {
               </div>
 
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-700">Customer Name *</label>
+                    <input
+                      type="text"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-bold"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-700">Phone Number *</label>
+                    <input
+                      type="text"
+                      value={editPhone}
+                      onChange={(e) => setEditPhone(e.target.value)}
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-bold"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-700">Email Address</label>
+                    <input
+                      type="email"
+                      value={editEmail}
+                      onChange={(e) => setEditEmail(e.target.value)}
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-700">Service Location Address</label>
+                    <input
+                      type="text"
+                      value={editAddress}
+                      onChange={(e) => setEditAddress(e.target.value)}
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-bold text-slate-700">Service Type</label>
+                    <select
+                      value={editProjectType}
+                      onChange={(e) => setEditProjectType(e.target.value)}
+                      className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700"
+                    >
+                      <option value="residential">Residential AC Repair</option>
+                      <option value="heating">Heating / Furnace</option>
+                      <option value="install">HVAC Replacement</option>
+                      <option value="maintenance">Seasonal Tune-Up</option>
+                      <option value="commercial">Commercial HVAC</option>
+                      <option value="indoor_air_quality">Air Quality / IAQ</option>
+                      <option value="emergency">24/7 Emergency AC</option>
+                    </select>
+                  </div>
                   <div className="space-y-1">
                     <label className="text-[11px] font-bold text-slate-700">Estimated Value ($)</label>
                     <input
@@ -2676,9 +4291,9 @@ function DashboardPage() {
                       onChange={(e) => setEditStatus(e.target.value as any)}
                       className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700"
                     >
-                      <option value="new">New</option>
+                      <option value="new">New Inquiry</option>
                       <option value="contacted">Contacted</option>
-                      <option value="consultation_scheduled">Consultation Scheduled</option>
+                      <option value="consultation_scheduled">Scheduled</option>
                       <option value="proposal_sent">Proposal Sent</option>
                       <option value="won">Won Job</option>
                       <option value="lost">Lost</option>
@@ -2687,12 +4302,23 @@ function DashboardPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Technician Dispatch Notes</label>
+                  <label className="text-[11px] font-bold text-slate-700">Customer Problem Description / Request</label>
+                  <textarea
+                    rows={2}
+                    value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)}
+                    placeholder="Customer inquiry details or notes submitted from form..."
+                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 leading-relaxed"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-700">Technician Dispatch Notes & Parts</label>
                   <textarea
                     rows={3}
                     value={editNotes}
                     onChange={(e) => setEditNotes(e.target.value)}
-                    placeholder="Enter inspection results, capacitor replacements, part numbers..."
+                    placeholder="Enter inspection findings, capacitor/refrigerant levels, diagnostic codes, scheduled technician..."
                     className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 leading-relaxed"
                   />
                 </div>
@@ -3077,6 +4703,118 @@ function DashboardPage() {
                   {confirmConfig.confirmText || "Confirm"}
                 </button>
               </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ── EDIT PORTAL USER MODAL ── */}
+      <AnimatePresence>
+        {editingUser && (
+          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-200 overflow-hidden"
+            >
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#005CE6] flex items-center justify-center">
+                    <Edit2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-black text-base text-slate-900">Edit Account</h3>
+                    <p className="text-[11px] text-slate-400 font-medium">{editingUser.username}</p>
+                  </div>
+                </div>
+                <button onClick={() => setEditingUser(null)} className="text-slate-400 hover:text-slate-700 cursor-pointer">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleEditUserSubmit} className="space-y-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-extrabold text-slate-700">Account Username</label>
+                  <div className="relative">
+                    <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      required
+                      value={editUserUsername}
+                      onChange={(e) => setEditUserUsername(e.target.value)}
+                      className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 focus:bg-white focus:border-[#005CE6] outline-none transition"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-extrabold text-slate-700">Reset Password (Optional)</label>
+                  <div className="relative">
+                    <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type={showEditPassword ? "text" : "password"}
+                      placeholder="Leave blank to keep existing"
+                      value={editUserPassword}
+                      onChange={(e) => setEditUserPassword(e.target.value)}
+                      className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 focus:bg-white focus:border-[#005CE6] outline-none transition"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowEditPassword(!showEditPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+                    >
+                      {showEditPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-extrabold text-slate-700">Access Role &amp; Permissions</label>
+                  <div className="relative">
+                    <select
+                      value={editUserRole}
+                      disabled={editingUser.username === "admin"}
+                      onChange={(e) => setEditUserRole(e.target.value as any)}
+                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#005CE6] outline-none transition appearance-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <option value="editor">Dispatcher / Editor (Leads &amp; Chats)</option>
+                      <option value="admin">Administrator (Full Access)</option>
+                      <option value="viewer">Viewer (Read-Only Access)</option>
+                    </select>
+                    <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                  {editingUser.username === "admin" && (
+                    <p className="text-[10px] text-amber-600 font-bold mt-1">
+                      Root administrator role is permanent and cannot be downgraded.
+                    </p>
+                  )}
+                </div>
+
+                <div className="mt-6 flex justify-end gap-3 pt-3 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={() => setEditingUser(null)}
+                    className="px-4 py-2.5 rounded-2xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSavingUserEdit}
+                    className="px-6 py-2.5 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs font-extrabold shadow-md shadow-[#005CE6]/20 transition cursor-pointer disabled:opacity-50 flex items-center gap-2"
+                  >
+                    {isSavingUserEdit ? (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Saving...</span>
+                      </>
+                    ) : (
+                      <span>Save Changes</span>
+                    )}
+                  </button>
+                </div>
+              </form>
             </motion.div>
           </div>
         )}

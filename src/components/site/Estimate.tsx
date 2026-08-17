@@ -35,8 +35,8 @@ export function Estimate() {
         source: "Free Estimate Page"
       });
 
-      // 2. Email backup forwarding
-      const response = await fetch("https://formsubmit.co/ajax/Williams@electricalcontractorcorp.com", {
+      // 2. Email backup forwarding (background notification)
+      fetch("https://formsubmit.co/ajax/allen@upfrontac.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,15 +49,11 @@ export function Estimate() {
           "Service Needed": service || "General Inquiry",
           Message: msg
         })
-      });
+      }).catch((err) => console.log("Background email alert:", err));
 
-      if (response.ok) {
-        toast.success(t("Thanks! We'll be in touch within 24 hours.", "¡Gracias! Nos pondremos en contacto dentro de las 24 horas."));
-        form.reset();
-        setService("");
-      } else {
-        toast.error(t("Submission failed. Please try again.", "Error en el envío. Por favor, inténtelo de nuevo."));
-      }
+      toast.success(t("Thanks! We'll be in touch within 24 hours.", "¡Gracias! Nos pondremos en contacto dentro de las 24 horas."));
+      form.reset();
+      setService("");
     } catch (err) {
       toast.error(t("Connection error. Please try again.", "Error de conexión. Por favor, inténtelo de nuevo."));
     } finally {

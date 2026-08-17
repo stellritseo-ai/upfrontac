@@ -9,9 +9,11 @@ import {
 import { cn } from "@/lib/utils";
 import logoImg from "@/assets/logo.png";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 export function Header() {
   const { language, setLanguage, t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
 
   const navItems = [
     { to: "/", label: t("Home", "Inicio") },
@@ -223,7 +225,7 @@ export function Header() {
               </a>
 
               <a
-                href="tel:+17138197908"
+                href={`tel:${phoneTel}`}
                 className="flex items-center gap-1 bg-[#005CE6] hover:bg-[#004bb8] text-white text-[11px] font-black rounded-full px-3 py-1.5 shadow-sm shadow-[#005CE6]/25 transition-all active:scale-95 shrink-0"
               >
                 <Phone className="h-3 w-3 fill-white text-white shrink-0" />
@@ -355,7 +357,7 @@ export function Header() {
 
             {/* Call Now button */}
             <a
-              href="tel:+17138197908"
+              href={`tel:${phoneTel}`}
               className="bg-[#005CE6] hover:bg-[#0047B3] text-white flex items-center gap-2 lg:gap-3 shadow-[0_8px_20px_-6px_rgba(255,107,0,0.6)] transition duration-300 shrink-0 px-3 lg:px-5 py-2 lg:py-2.5"
               style={{ borderRadius: "50px 0px 50px 50px" }}
             >
@@ -364,7 +366,7 @@ export function Header() {
               </div>
               <div className="flex flex-col text-left leading-none">
                 <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-wider text-white/90">{t("Call Us Now", "Llámenos Ahora")}</span>
-                <span className="text-xs lg:text-sm xl:text-base font-extrabold text-white mt-0.5">(713) 819-7908</span>
+                <span className="text-xs lg:text-sm xl:text-base font-extrabold text-white mt-0.5">{settings.officePhone || "(713) 819-7908"}</span>
               </div>
             </a>
           </div>
@@ -387,12 +389,12 @@ export function Header() {
             {/* Top Quick Actions Bar: Direct Call + Language Toggle */}
             <div className="grid grid-cols-2 gap-3 p-2 rounded-2xl bg-slate-900/80 border border-slate-800">
               <a
-                href="tel:+17138197908"
+                href={`tel:${phoneTel}`}
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#005CE6] to-[#0047B3] py-2.5 px-3 text-xs font-black text-white shadow-md shadow-[#005CE6]/30 active:scale-95 transition-transform"
               >
                 <Phone className="h-3.5 w-3.5 fill-white" />
-                <span>(713) 819-7908</span>
+                <span>{settings.officePhone || "(713) 819-7908"}</span>
               </a>
 
               <div className="flex items-center justify-center gap-1.5 rounded-xl bg-slate-800/80 p-1 border border-slate-700/60">

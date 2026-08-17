@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import heroVideo from "@/assets/hvacwelcome.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 export function ContactIllustrationSection() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
 
   const warningSigns = [
     {
@@ -169,10 +171,10 @@ export function ContactIllustrationSection() {
                     {t("Need Inspection?", "¿Necesita Inspección?")}
                   </span>
                   <a
-                    href="tel:7138197908"
+                    href={`tel:${phoneTel}`}
                     className="inline-flex items-center gap-1.5 text-xs font-black text-cyan-300 hover:text-white transition-colors"
                   >
-                    <span>(713) 819-7908</span>
+                    <span>{settings.officePhone || "(713) 819-7908"}</span>
                     <PhoneCall className="w-3.5 h-3.5" />
                   </a>
                 </div>

@@ -66,31 +66,45 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     // ── /api/leads ──
     if (pathname === "/api/leads") {
       if (method === "GET") {
-        const leads = await dbGetLeads(INITIAL_LEADS);
-        return jsonResponse(leads);
+        try {
+          const leads = await dbGetLeads(INITIAL_LEADS);
+          (globalThis as any).__serverLeads = leads;
+          return jsonResponse(leads);
+        } catch (dbErr) {
+          console.warn("MongoDB leads fetch error, using in-memory store:", dbErr);
+          if (!(globalThis as any).__serverLeads) (globalThis as any).__serverLeads = [...INITIAL_LEADS];
+          return jsonResponse((globalThis as any).__serverLeads);
+        }
       }
       if (method === "POST") {
         const body = await request.json();
+        let savedLead: any = null;
         if (body.custom) {
           const newLead = {
             ...body.lead,
             id: "lead-" + Math.random().toString(36).substr(2, 9),
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            photos: body.lead.photos || []
           };
-          const saved = await dbAddLead(newLead);
-          return jsonResponse(saved);
+          try {
+            savedLead = await dbAddLead(newLead);
+          } catch (err) {
+            console.warn("MongoDB lead custom add error:", err);
+            savedLead = newLead;
+          }
         } else {
-          let estimatedValue = 2500;
-          switch (body.leadData.projectType) {
-            case "panel-upgrades": estimatedValue = 3500; break;
-            case "ev-charger": estimatedValue = 1200; break;
-            case "generator": estimatedValue = 14500; break;
-            case "commercial": estimatedValue = 32000; break;
-            case "residential": estimatedValue = 2500; break;
-            case "industrial": estimatedValue = 54000; break;
-            case "emergency": estimatedValue = 450; break;
-            case "wiring-rewiring": estimatedValue = 8500; break;
-            case "security-systems": estimatedValue = 6500; break;
+          let estimatedValue = 450;
+          const projType = body.leadData ? body.leadData.projectType : "residential";
+          switch (projType) {
+            case "install": estimatedValue = 8500; break;
+            case "heating": estimatedValue = 650; break;
+            case "maintenance": estimatedValue = 189; break;
+            case "commercial": estimatedValue = 3500; break;
+            case "indoor_air_quality": estimatedValue = 1200; break;
+            case "emergency": estimatedValue = 550; break;
+            case "residential":
+            default:
+              estimatedValue = 450; break;
           }
           const newLead = {
             ...body.leadData,
@@ -100,18 +114,59 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             createdAt: new Date().toISOString(),
             photos: []
           };
-          const saved = await dbAddLead(newLead);
-          return jsonResponse(saved);
+          try {
+            savedLead = await dbAddLead(newLead);
+          } catch (err) {
+            console.warn("MongoDB lead add error:", err);
+            savedLead = newLead;
+          }
         }
+
+        if (!(globalThis as any).__serverLeads) (globalThis as any).__serverLeads = [...INITIAL_LEADS];
+        (globalThis as any).__serverLeads.unshift(savedLead);
+
+        const io = (global as any).io;
+        if (io && savedLead) {
+          io.emit("new-lead", savedLead);
+        }
+        return jsonResponse(savedLead);
       }
       if (method === "PUT") {
         const body = await request.json();
-        const updated = await dbUpdateLead(body.id, body.updates);
+        let updated: any = null;
+        try {
+          updated = await dbUpdateLead(body.id, body.updates);
+        } catch (dbErr) {
+          console.warn("MongoDB lead update error:", dbErr);
+          if ((globalThis as any).__serverLeads) {
+            (globalThis as any).__serverLeads = (globalThis as any).__serverLeads.map((l: any) =>
+              l.id === body.id ? { ...l, ...body.updates } : l
+            );
+            updated = (globalThis as any).__serverLeads;
+          }
+        }
+        const io = (global as any).io;
+        if (io) {
+          io.emit("lead-updated", { id: body.id, updates: body.updates });
+        }
         return jsonResponse(updated);
       }
       if (method === "DELETE") {
         const body = await request.json();
-        const updated = await dbDeleteLead(body.id);
+        let updated: any = null;
+        try {
+          updated = await dbDeleteLead(body.id);
+        } catch (dbErr) {
+          console.warn("MongoDB lead delete error:", dbErr);
+          if ((globalThis as any).__serverLeads) {
+            (globalThis as any).__serverLeads = (globalThis as any).__serverLeads.filter((l: any) => l.id !== body.id);
+            updated = (globalThis as any).__serverLeads;
+          }
+        }
+        const io = (global as any).io;
+        if (io) {
+          io.emit("lead-deleted", { id: body.id });
+        }
         return jsonResponse(updated);
       }
     }
@@ -314,25 +369,92 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     // ── /api/emails ──
     if (pathname === "/api/emails") {
       if (method === "GET") {
-        const emails = await dbGetWebEmails(INITIAL_EMAILS);
-        return jsonResponse(emails);
+        try {
+          const emails = await dbGetWebEmails(INITIAL_EMAILS);
+          return jsonResponse(emails);
+        } catch (dbErr) {
+          console.warn("MongoDB emails read error, using fallback:", dbErr);
+          return jsonResponse((globalThis as any).__serverEmails || INITIAL_EMAILS);
+        }
       }
       if (method === "POST") {
         const body = await request.json();
         const newEmail = {
           ...body.emailData,
-          id: "email-" + Math.random().toString(36).substr(2, 9),
-          createdAt: new Date().toISOString()
+          id: (body.emailData && body.emailData.id) || ("email-" + Math.random().toString(36).substr(2, 9)),
+          createdAt: (body.emailData && body.emailData.createdAt) || new Date().toISOString()
         };
-        const saved = await dbAddWebEmail(newEmail);
+
+        let saved = newEmail;
+        try {
+          saved = await dbAddWebEmail(newEmail);
+        } catch (dbErr) {
+          console.warn("MongoDB email save error, using in-memory store:", dbErr);
+        }
+
+        if (!(globalThis as any).__serverEmails) (globalThis as any).__serverEmails = [...INITIAL_EMAILS];
+        (globalThis as any).__serverEmails.unshift(saved);
+
+        // Also automatically create a corresponding Lead in the Leads & Dispatch database
+        let savedLead: any = null;
+        let projectType = "residential";
+        let estimatedValue = 450;
+        const srvLower = ((newEmail.service || "") + " " + (newEmail.message || "")).toLowerCase();
+        if (srvLower.includes("install") || srvLower.includes("replacement") || srvLower.includes("system") || srvLower.includes("heat pump")) {
+          projectType = "install";
+          estimatedValue = 8500;
+        } else if (srvLower.includes("heat") || srvLower.includes("furnace") || srvLower.includes("heater")) {
+          projectType = "heating";
+          estimatedValue = 650;
+        } else if (srvLower.includes("maintenance") || srvLower.includes("tune-up") || srvLower.includes("tuneup") || srvLower.includes("checkup")) {
+          projectType = "maintenance";
+          estimatedValue = 189;
+        } else if (srvLower.includes("commercial") || srvLower.includes("rooftop")) {
+          projectType = "commercial";
+          estimatedValue = 3500;
+        } else if (srvLower.includes("air quality") || srvLower.includes("iaq") || srvLower.includes("purification") || srvLower.includes("duct")) {
+          projectType = "indoor_air_quality";
+          estimatedValue = 1200;
+        } else if (srvLower.includes("emergency") || srvLower.includes("urgent") || srvLower.includes("24/7")) {
+          projectType = "emergency";
+          estimatedValue = 550;
+        }
+
+        const correspondingLead = {
+          id: "lead-" + Math.random().toString(36).substr(2, 9),
+          name: newEmail.name || "Website Prospect",
+          email: newEmail.email || "",
+          phone: newEmail.phone || "",
+          address: (newEmail as any).address || `${newEmail.source || "Website Inquiry"} · Houston / Cypress, TX`,
+          projectType,
+          description: newEmail.message || `Customer inquiry received from ${newEmail.source || "Website Form"} (${newEmail.service || "General Request"})`,
+          contactTime: (newEmail as any).contactTime || "anytime",
+          status: "new" as const,
+          estimatedValue,
+          createdAt: newEmail.createdAt || new Date().toISOString(),
+          photos: []
+        };
+
+        try {
+          savedLead = await dbAddLead(correspondingLead);
+        } catch (leadErr) {
+          console.warn("Auto-lead MongoDB save error, using in-memory store:", leadErr);
+          savedLead = correspondingLead;
+        }
+
+        if (!(globalThis as any).__serverLeads) (globalThis as any).__serverLeads = [...INITIAL_LEADS];
+        (globalThis as any).__serverLeads.unshift(savedLead);
 
         // Add a dashboard notification for the new form submission
         try {
-          const notification = await dbAddNotification({
-            type: "form_submission",
-            title: "New Form Submission",
-            message: `Submission from ${newEmail.name} for ${newEmail.service || "General Inquiry"}`,
-            link: "/dashboard?tab=emails",
+          const notification = {
+            id: "notif-" + Math.random().toString(36).substr(2, 9),
+            type: "form_submission" as const,
+            title: "📬 New Website Form Submission",
+            message: `${newEmail.name} submitted an inquiry from ${newEmail.source || "Website"} (${newEmail.service || "General Inquiry"})`,
+            link: "/dashboard",
+            read: false,
+            createdAt: new Date().toISOString(),
             metadata: {
               name: newEmail.name,
               email: newEmail.email,
@@ -341,23 +463,38 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
               message: newEmail.message,
               source: newEmail.source
             }
-          });
+          };
 
-          // Broadcast the notification via Socket.io
+          try {
+            await dbAddNotification(notification);
+          } catch {}
+
           const io = (global as any).io;
           if (io) {
             io.emit("new-notification", notification);
+            io.emit("new-inquiry", saved);
+            if (savedLead) {
+              io.emit("new-lead", savedLead);
+            }
           }
         } catch (err) {
           console.error("Failed to create form submission notification:", err);
         }
 
-        return jsonResponse(saved);
+        return jsonResponse({ ...saved, lead: savedLead });
       }
       if (method === "DELETE") {
         const body = await request.json();
-        const updated = await dbDeleteWebEmail(body.id);
-        return jsonResponse(updated);
+        try {
+          const updated = await dbDeleteWebEmail(body.id);
+          return jsonResponse(updated);
+        } catch (dbErr) {
+          console.warn("MongoDB email delete error, using in-memory store:", dbErr);
+          if ((globalThis as any).__serverEmails) {
+            (globalThis as any).__serverEmails = (globalThis as any).__serverEmails.filter((e: any) => e.id !== body.id);
+          }
+          return jsonResponse((globalThis as any).__serverEmails || []);
+        }
       }
     }
 
@@ -492,6 +629,10 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             };
           }
 
+          if (session && (session.isClosed || session.status === "closed") && body.sender === "client") {
+            return jsonResponse({ error: "This chat session has been closed by the support agent." }, 403);
+          }
+
           const newMsg = {
             id: body.messageId || ("msg-" + Math.random().toString(36).substr(2, 9)),
             sender: body.sender,
@@ -536,6 +677,80 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           }
 
           return jsonResponse(updatedSession);
+        }
+        if (body.action === "close" || body.action === "reopen") {
+          const isClosed = body.action === "close";
+          const status = isClosed ? "closed" : "active";
+          const timestamp = new Date().toISOString();
+          const sysMsg = {
+            id: "sys-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6),
+            sender: "admin",
+            text: isClosed
+              ? "🔒 This chat session has been closed by Upfront AC support."
+              : "🔓 This chat session has been reopened.",
+            timestamp
+          };
+
+          let session: any = null;
+          try {
+            const db = await getDb();
+            session = await db.collection("chat_sessions").findOne({ id: body.sessionId });
+          } catch (dbErr) {
+            console.warn("MongoDB find session for close/reopen error:", dbErr);
+          }
+
+          if (!session && (globalThis as any).__serverChats) {
+            session = (globalThis as any).__serverChats.find((s: any) => s.id === body.sessionId);
+          }
+
+          if (session) {
+            const currentMsgs = Array.isArray(session.messages) ? session.messages : [];
+            const messages = [...currentMsgs, sysMsg];
+            const updatedSession = {
+              ...session,
+              status,
+              isClosed,
+              closedAt: isClosed ? timestamp : undefined,
+              messages,
+              lastMessage: sysMsg.text,
+              lastMessageTime: timestamp,
+              unread: false
+            };
+
+            try {
+              await dbSaveChatSession(updatedSession);
+            } catch (dbErr) {
+              console.warn("MongoDB save closed session error:", dbErr);
+            }
+
+            if (!(globalThis as any).__serverChats) (globalThis as any).__serverChats = [];
+            const sIdx = (globalThis as any).__serverChats.findIndex((s: any) => s.id === updatedSession.id);
+            if (sIdx >= 0) {
+              (globalThis as any).__serverChats[sIdx] = updatedSession;
+            } else {
+              (globalThis as any).__serverChats.unshift(updatedSession);
+            }
+
+            const io = (global as any).io;
+            if (io) {
+              io.to(body.sessionId).emit("session-status", {
+                sessionId: body.sessionId,
+                status,
+                isClosed,
+                closedAt: updatedSession.closedAt
+              });
+              io.to(body.sessionId).emit("message", { ...sysMsg, sessionId: body.sessionId });
+              io.emit("session-status-changed", {
+                sessionId: body.sessionId,
+                status,
+                isClosed,
+                closedAt: updatedSession.closedAt
+              });
+            }
+
+            return jsonResponse(updatedSession);
+          }
+          return jsonResponse({ error: "Session not found" }, 404);
         }
         if (body.action === "read") {
           try {
@@ -637,7 +852,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           return jsonResponse(mapped);
         } catch (dbErr) {
           console.warn("MongoDB users read error, using fallback admin:", dbErr);
-          return jsonResponse(DEFAULT_ADMIN.map(u => ({ id: u.id, username: u.username, role: u.role })));
+          return jsonResponse([{ id: DEFAULT_ADMIN.id, username: DEFAULT_ADMIN.username, role: DEFAULT_ADMIN.role }]);
         }
       }
       if (method === "POST") {
@@ -691,6 +906,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           try {
             const updates: any = {};
             if (body.username) updates.username = body.username;
+            if (body.role) updates.role = body.role;
             if (body.password) {
               updates.password = await hashPassword(body.password);
             }
@@ -709,9 +925,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
       const defaultSettings = {
         alertEmail: "allen@upfrontac.com",
         officePhone: "(713) 819-7908",
-        smsTemplate: "Hi {Name}, thank you for choosing Upfront Air Conditioning & Heating! A Texas licensed technician will contact you during the {Time} window regarding your {Type} service.",
         emailAlert: true,
-        smsAlert: true,
         maintenanceMode: false,
         weekdays: "9:00 AM - 6:30 PM",
         saturdays: "9:00 AM - 6:30 PM",
@@ -729,15 +943,21 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
       }
       if (method === "POST") {
         const body = await request.json();
+        let saved = { ...defaultSettings, ...body };
         try {
-          const saved = await dbSaveSettings(body);
-          (globalThis as any).__serverSettings = saved;
-          return jsonResponse(saved);
+          saved = await dbSaveSettings(body);
         } catch (dbErr) {
           console.warn("MongoDB settings save error, using in-memory store:", dbErr);
-          (globalThis as any).__serverSettings = { ...defaultSettings, ...body };
-          return jsonResponse((globalThis as any).__serverSettings);
         }
+        (globalThis as any).__serverSettings = saved;
+
+        // Broadcast updated settings to all clients in real time
+        const io = (global as any).io;
+        if (io) {
+          io.emit("settings-updated", saved);
+        }
+
+        return jsonResponse(saved);
       }
     }
 

@@ -25,9 +25,13 @@ import { PageHeader } from "@/components/site/PageHeader";
 import tomballImg from "@/assets/service-ac-tomball.png";
 import cypressImg from "@/assets/service-ac-cypress.png";
 import hvacImg from "@/assets/service-air-conditioning.png";
+import { addWebEmail } from "@/lib/leads-store";
+import { toast } from "sonner";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 export function RequestFreeEstimatePageDetail() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -38,26 +42,32 @@ export function RequestFreeEstimatePageDetail() {
     timeline: "As Soon As Possible",
     contactMethod: "Phone"
   });
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        fullName: "",
-        phone: "",
-        email: "",
-        address: "",
-        serviceNeeded: "",
-        problemDescription: "",
-        timeline: "As Soon As Possible",
-        contactMethod: "Phone"
+    if (!formData.fullName.trim() || !formData.phone.trim()) return;
+
+    setSubmitting(true);
+    try {
+      await addWebEmail({
+        name: formData.fullName.trim(),
+        email: formData.email.trim() || "estimate-request@upfrontac.com",
+        phone: formData.phone.trim(),
+        service: formData.serviceNeeded || "Free Estimate Request",
+        message: `Address: ${formData.address}\nTimeline: ${formData.timeline}\nPreferred Method: ${formData.contactMethod}\nNotes: ${formData.problemDescription}`,
+        source: "Free Estimate Page (/request-free-estimate)"
       });
-    }, 4000);
+      setSubmitted(true);
+      toast.success("Free estimate request received! We will contact you shortly.");
+    } catch (err) {
+      toast.error("Failed to submit request. Please call (713) 819-7908.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const scrollToTop = () => {
@@ -277,12 +287,52 @@ export function RequestFreeEstimatePageDetail() {
             {/* Form */}
             <div className="lg:col-span-8 bg-[#F8FAFC] rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
               {submitted ? (
-                <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3">
-                  <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
-                  <h3 className="text-xl font-extrabold text-emerald-900">Estimate Request Received!</h3>
-                  <p className="text-xs text-emerald-700 font-medium">
-                    Thank you! An Upfront AC specialist will review your details and contact you shortly.
-                  </p>
+                <div className="p-8 sm:p-10 rounded-2xl bg-emerald-50/90 border border-emerald-200 text-center space-y-4 shadow-sm animate-fade-in">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-300 flex items-center justify-center text-emerald-600 mx-auto shadow-md">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-600 animate-pulse" />
+                  </div>
+                  <div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-2">
+                      Priority Dispatch Confirmed
+                    </span>
+                    <h3 className="text-2xl font-black text-emerald-950">Estimate Request Received!</h3>
+                    <p className="text-xs sm:text-sm text-emerald-800 font-semibold max-w-md mx-auto mt-2 leading-relaxed">
+                      Thank you! An Upfront AC specialist will review your project requirements and contact you within 15–30 minutes to confirm your free quote.
+                    </p>
+                  </div>
+
+                  <div className="bg-white/80 rounded-xl p-4 border border-emerald-200 text-left space-y-2 max-w-sm mx-auto">
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                      <span className="text-slate-500">Service:</span>
+                      <span className="text-slate-900">{formData.serviceNeeded || "Free Estimate"}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                      <span className="text-slate-500">Hotline:</span>
+                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] hover:underline font-extrabold">
+                        {settings.officePhone || "(713) 819-7908"}
+                      </a>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({
+                        fullName: "",
+                        phone: "",
+                        email: "",
+                        address: "",
+                        serviceNeeded: "",
+                        problemDescription: "",
+                        timeline: "As Soon As Possible",
+                        contactMethod: "Phone"
+                      });
+                    }}
+                    className="mt-2 text-xs font-bold text-[#005CE6] hover:underline cursor-pointer"
+                  >
+                    ← Submit another estimate request
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -433,10 +483,20 @@ export function RequestFreeEstimatePageDetail() {
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-[1.01] active:scale-95"
+                    disabled={submitting}
+                    className="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-75 disabled:cursor-not-allowed"
                   >
-                    <Calculator className="w-4 h-4 text-white" />
-                    <span>GET MY FREE ESTIMATE</span>
+                    {submitting ? (
+                      <span className="flex items-center gap-2">
+                        <div className="h-4 w-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                        <span>Transmitting Estimate Request...</span>
+                      </span>
+                    ) : (
+                      <>
+                        <Calculator className="w-4 h-4 text-white" />
+                        <span>GET MY FREE ESTIMATE</span>
+                      </>
+                    )}
                   </button>
                 </form>
               )}

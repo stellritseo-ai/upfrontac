@@ -36,8 +36,8 @@ export function CTASection() {
         source: "Landing CTA Section"
       });
 
-      // 2. Email backup
-      await fetch("https://formsubmit.co/ajax/Williams@electricalcontractorcorp.com", {
+      // 2. Email backup (background notification)
+      fetch("https://formsubmit.co/ajax/allen@upfrontac.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export function CTASection() {
           "Service Needed": service || "General Quote Request",
           Message: message
         })
-      });
+      }).catch((err) => console.log("Background email alert:", err));
 
       toast.success("Thank you! We will get in touch with you shortly.");
       setIsSubmitted(true);

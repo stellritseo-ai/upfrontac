@@ -1,9 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Calculator, Clock, CreditCard, PhoneCall, ShieldCheck, Star, Tag, Users } from "lucide-react";
+import { ArrowRight, Calculator, Clock, CreditCard, ShieldCheck, Star, Tag, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroVideo from "@/assets/herovideo.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
-import { LiquidGlass } from "@liquidglass/react";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
 export function Hero() {
@@ -18,7 +17,7 @@ export function Hero() {
   ];
 
   return (
-    <section className="relative isolate min-h-screen overflow-hidden pt-16 md:pt-20 flex items-center">
+    <section className="relative isolate min-h-screen overflow-hidden pt-16 md:pt-20 flex items-center select-none">
       {/* Background Video */}
       <div className="absolute inset-0 -z-10">
         <AutoPlayVideo
@@ -39,55 +38,65 @@ export function Hero() {
         <div className="animate-fade-up text-white flex flex-col items-start text-left max-w-4xl w-full">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold backdrop-blur-md shadow-md">
             <span className="flex text-amber-400 gap-0.5">
-              {[...Array(5)].map((_, i) => <Star key={i} className="h-3.5 w-3.5 fill-current text-amber-400" />)}
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-3.5 w-3.5 fill-current text-amber-400" />
+              ))}
             </span>
             {t("EPA-Certified · Licensed · Insured in Texas", "EPA-Certified · Licensed · Insured in Texas")}
           </span>
+
           <h1 className="mt-6 font-display text-[26px] leading-[36px] sm:text-[36px] sm:leading-[48px] md:text-[45px] md:leading-[58px] font-extrabold tracking-tight max-w-3xl">
             {t("AC not cooling in Houston heat? ", "AC no enfría en el calor de Houston?")}
-            <span className="gradient-text-orange">{t("Emergency HVAC Repair", "Reparación de HVAC de Emergencia")}</span> {t("in 60 minutes or less.", "en 60 minutos o menos")}
+            <span className="gradient-text-orange">
+              {t("Emergency HVAC Repair", "Reparación de HVAC de Emergencia")}
+            </span>{" "}
+            {t("in 60 minutes or less.", "en 60 minutos o menos")}
           </h1>
+
           <p className="max-w-2xl mt-0 mb-[-10px] text-white text-[15px] sm:text-[17px] leading-relaxed sm:leading-[40px]">
-            {t("Upfront AC delivers fast, reliable heating and cooling solutions across Houston, TX — for homes and businesses. In-house EPA-certified technicians, transparent pricing, and 24/7 emergency dispatch from North Houston to Katy, Tomball, Cypress, Sugar Land and The Woodlands.", "Upfront AC ofrece soluciones rápidas y confiables de calefacción y refrigeración en toda el área metropolitana de Houston, TX, tanto para hogares como para negocios. Contamos con técnicos certificados por la EPA, precios transparentes y servicio de emergencia disponible las 24 horas del día, los 7 días de la semana, desde el norte de Houston hasta Katy, Tomball, Cypress, Sugar Land y The Woodlands.")}
+            {t(
+              "Upfront AC delivers fast, reliable heating and cooling solutions across Houston, TX — for homes and businesses. In-house EPA-certified technicians, transparent pricing, and 24/7 emergency dispatch from North Houston to Katy, Tomball, Cypress, Sugar Land and The Woodlands.",
+              "Upfront AC ofrece soluciones rápidas y confiables de calefacción y refrigeración en toda el área metropolitana de Houston, TX, tanto para hogares como para negocios. Contamos con técnicos certificados por la EPA, precios transparentes y servicio de emergencia disponible las 24 horas del día, los 7 días de la semana, desde el norte de Houston hasta Katy, Tomball, Cypress, Sugar Land y The Woodlands."
+            )}
           </p>
-          <div className="mt-7 flex flex-row flex-wrap items-center gap-3 sm:gap-4">
-            <Button asChild size="lg" className="bg-[#DC2626] hover:bg-[#B91C1C] text-white rounded-full font-bold shadow-[0_10px_30px_-8px_rgba(220,38,38,0.6)] hover:shadow-[0_14px_40px_-8px_rgba(220,38,38,0.8)] hover:-translate-y-0.5 transition-all">
-              <Link to="/contact" className="flex items-center gap-2">
-                <PhoneCall className="h-4 w-4 shrink-0" />
-                <span>{t("Get Emergency HVAC Service", "Obtener Servicio de Emergencia HVAC")}</span>
-              </Link>
-            </Button>
-            <Button asChild variant="heroOutline" size="lg">
-              <Link to="/request-free-estimate" className="flex items-center gap-2">
-                <Calculator className="h-4 w-4 text-cyan-400 shrink-0" />
+
+          {/* Primary CTA Buttons */}
+          <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+            <Button
+              asChild
+              className="bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs sm:text-sm font-extrabold px-6 sm:px-8 py-5 sm:py-6 rounded-2xl shadow-xl shadow-[#005CE6]/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            >
+              <Link to="/request-free-estimate" className="flex items-center justify-center gap-2">
+                <Calculator className="h-4 w-4" />
                 <span>{t("Request Free Estimate", "Solicitar Presupuesto Gratis")}</span>
+                <ArrowRight className="h-4 w-4 ml-1" />
               </Link>
             </Button>
-            <Button asChild variant="heroOutline" size="lg">
-              <Link to="/upfront-pricing" className="flex items-center gap-2">
-                <Tag className="h-4 w-4 text-emerald-400 shrink-0" />
-                <span>{t("Upfront Pricing", "Precios Transparentes")}</span>
+
+            <Button
+              asChild
+              variant="outline"
+              className="bg-white/10 hover:bg-white/20 text-white border-white/25 backdrop-blur-md text-xs sm:text-sm font-bold px-6 py-5 sm:py-6 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <Link to="/upfront-pricing" className="flex items-center justify-center gap-2">
+                <Tag className="h-4 w-4 text-cyan-300" />
+                <span>{t("Explore Upfront Pricing", "Ver Precios Transparentes")}</span>
               </Link>
             </Button>
           </div>
 
-          {/* Liquid Glass Badge Buttons - Single Line */}
-          <div className="mt-8 flex flex-row flex-nowrap items-center gap-1.5 sm:gap-2.5 w-full max-w-full overflow-x-auto no-scrollbar py-2">
+          {/* Glass Badge Pills - Single Line */}
+          <div className="mt-8 flex flex-row flex-nowrap items-center gap-2 sm:gap-2.5 w-full max-w-full overflow-x-auto no-scrollbar py-2">
             {badges.map((b, idx) => (
-              <LiquidGlass
+              <div
                 key={idx}
-                borderRadius={50}
-                blur={6}
-                contrast={1.15}
-                brightness={1.05}
-                shadowIntensity={0.2}
-                className="!w-auto !h-auto px-3 sm:px-3.5 py-2 shrink-0 border border-white/30 bg-white/10 hover:bg-white/20 transition-all duration-300 cursor-pointer shadow-lg"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 shrink-0 rounded-full border border-white/20 bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all duration-300 shadow-md"
               >
-                <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-white whitespace-nowrap">
-                  {b.icon}
+                {b.icon}
+                <span className="text-[11px] sm:text-xs font-bold text-white whitespace-nowrap">
                   {b.label}
                 </span>
-              </LiquidGlass>
+              </div>
             ))}
           </div>
         </div>

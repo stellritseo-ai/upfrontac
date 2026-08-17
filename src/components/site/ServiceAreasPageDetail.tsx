@@ -25,7 +25,10 @@ import {
   ChevronRight
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { PageHeader } from "@/components/site/PageHeader";
+import { addWebEmail } from "@/lib/leads-store";
+import { toast } from "sonner";
 import tomballImg from "@/assets/service-ac-tomball.png";
 import cypressImg from "@/assets/service-ac-cypress.png";
 import hvacImg from "@/assets/service-air-conditioning.png";
@@ -33,6 +36,7 @@ import repairsImg from "@/assets/service-hvac-repairs.png";
 
 export function ServiceAreasPageDetail() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -40,16 +44,31 @@ export function ServiceAreasPageDetail() {
     date: "",
     city: ""
   });
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: "", phone: "", service: "", date: "", city: "" });
-    }, 4000);
+    if (!formData.name.trim() || !formData.phone.trim()) return;
+
+    setSubmitting(true);
+    try {
+      await addWebEmail({
+        name: formData.name.trim(),
+        email: "service-area-inquiry@upfrontac.com",
+        phone: formData.phone.trim(),
+        service: `${formData.service || "HVAC Service"} (${formData.city || selectedCity || "Tomball / Cypress Area"})`,
+        message: `City / Service Area: ${formData.city || selectedCity || "Greater Houston"}\nRequested Date / Time: ${formData.date || "As soon as possible"}`,
+        source: "Service Areas Page (/service-areas)"
+      });
+      setSubmitted(true);
+      toast.success("Service area request received! We will contact you shortly.");
+    } catch {
+      toast.error(`Failed to submit request. Please call ${settings.officePhone || "(713) 819-7908"}.`);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const scrollToContact = (cityName?: string) => {
@@ -185,11 +204,11 @@ export function ServiceAreasPageDetail() {
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <a
-                href="tel:+17138197908"
+                href={`tel:${phoneTel}`}
                 className="inline-flex items-center gap-3 rounded-full bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold px-8 py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-105 active:scale-95"
               >
                 <PhoneCall className="w-4 h-4 fill-white" />
-                <span>Call (713) 819-7908</span>
+                <span>Call {settings.officePhone || "(713) 819-7908"}</span>
               </a>
 
               <button
@@ -320,8 +339,8 @@ export function ServiceAreasPageDetail() {
                   <PhoneCall className="w-5 h-5 text-[#005CE6] shrink-0 mt-1" />
                   <div>
                     <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">Direct Phone</span>
-                    <a href="tel:+17138197908" className="text-sm font-extrabold text-[#005CE6] hover:underline">
-                      +1 713-819-7908
+                    <a href={`tel:${phoneTel}`} className="text-sm font-extrabold text-[#005CE6] hover:underline">
+                      {settings.officePhone || "(713) 819-7908"}
                     </a>
                   </div>
                 </div>
@@ -330,8 +349,8 @@ export function ServiceAreasPageDetail() {
                   <Clock className="w-5 h-5 text-[#005CE6] shrink-0 mt-1" />
                   <div>
                     <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">Office Hours</span>
-                    <span className="text-sm font-extrabold text-slate-900">Monday–Saturday 9:00 am – 6:30 pm</span>
-                    <span className="text-xs font-bold text-emerald-600 block mt-0.5">24/7 Emergency Service Dispatch</span>
+                    <span className="text-sm font-extrabold text-slate-900">M-F: {settings.weekdays || "9:00 AM - 6:30 PM"}</span>
+                    <span className="text-xs font-bold text-emerald-600 block mt-0.5">Sat: {settings.saturdays} • Sun: {settings.sundays}</span>
                   </div>
                 </div>
               </div>
@@ -393,12 +412,39 @@ export function ServiceAreasPageDetail() {
               )}
 
               {submitted ? (
-                <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3">
-                  <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
-                  <h3 className="text-xl font-extrabold text-emerald-900">Request Submitted Successfully!</h3>
-                  <p className="text-xs text-emerald-700 font-medium">
-                    Thank you! A technician will call you shortly at the provided number.
-                  </p>
+                <div className="p-8 sm:p-10 rounded-2xl bg-emerald-50/90 border border-emerald-200 text-center space-y-4 shadow-sm animate-fade-in">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-300 flex items-center justify-center text-emerald-600 mx-auto shadow-md">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-600 animate-pulse" />
+                  </div>
+                  <div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-2">
+                      Local Dispatch Dispatched
+                    </span>
+                    <h3 className="text-2xl font-black text-emerald-950">Request Submitted Successfully!</h3>
+                    <p className="text-xs sm:text-sm text-emerald-800 font-semibold max-w-md mx-auto mt-2 leading-relaxed">
+                      Thank you! Your local dispatch request has been logged for {selectedCity || "your area"}. A technician will call you within 15–30 minutes.
+                    </p>
+                  </div>
+
+                  <div className="bg-white/80 rounded-xl p-4 border border-emerald-200 text-left space-y-2 max-w-sm mx-auto">
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                      <span className="text-slate-500">Service Hotline:</span>
+                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] hover:underline font-extrabold">
+                        {settings.officePhone || "(713) 819-7908"}
+                      </a>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: "", phone: "", service: "", date: "", city: "" });
+                    }}
+                    className="mt-2 text-xs font-bold text-[#005CE6] hover:underline cursor-pointer"
+                  >
+                    ← Submit another local request
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -470,10 +516,20 @@ export function ServiceAreasPageDetail() {
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-[1.01] active:scale-95"
+                    disabled={submitting}
+                    className="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-75 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-4 h-4 fill-white" />
-                    <span>Submit Service Request</span>
+                    {submitting ? (
+                      <span className="flex items-center gap-2">
+                        <div className="h-4 w-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                        <span>Transmitting Local Request...</span>
+                      </span>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 fill-white" />
+                        <span>Submit Service Request</span>
+                      </>
+                    )}
                   </button>
                 </form>
               )}
@@ -519,8 +575,8 @@ export function ServiceAreasPageDetail() {
                     </div>
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Phone</span>
-                      <a href="tel:+17138197908" className="text-sm font-extrabold text-white hover:text-cyan-300">
-                        +1 713-819-7908
+                      <a href={`tel:${phoneTel}`} className="text-sm font-extrabold text-white hover:text-cyan-300">
+                        {settings.officePhone || "(713) 819-7908"}
                       </a>
                     </div>
                   </div>
@@ -531,8 +587,8 @@ export function ServiceAreasPageDetail() {
                     </div>
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Timing</span>
-                      <span className="text-sm font-extrabold text-white">Monday-Saturday 9:00 am – 6:30 pm</span>
-                      <span className="text-xs font-bold text-emerald-400 block mt-0.5">24/7 Emergency Dispatch</span>
+                      <span className="text-sm font-extrabold text-white">M-F: {settings.weekdays || "9:00 AM - 6:30 PM"}</span>
+                      <span className="text-xs font-bold text-emerald-400 block mt-0.5">Sat: {settings.saturdays} • Sun: {settings.sundays}</span>
                     </div>
                   </div>
                 </div>

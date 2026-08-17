@@ -2,11 +2,13 @@ import { motion } from "framer-motion";
 import { Phone, Users, Star, ShieldCheck, ThermometerSun, MapPin, ArrowRight } from "lucide-react";
 import heroVideo from "@/assets/hvacwelcome.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { Link } from "@tanstack/react-router";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
 export function EmergencyCTA() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
 
   const highlights = [
     {
@@ -153,7 +155,7 @@ export function EmergencyCTA() {
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-[#005CE6] to-blue-600 rounded-3xl blur-lg opacity-40 group-hover:opacity-75 transition duration-500"></div>
 
               <a
-                href="tel:7138197908"
+                href={`tel:${phoneTel}`}
                 className="relative flex items-center justify-between gap-4 rounded-3xl bg-white/10 backdrop-blur-2xl border border-white/30 p-6 font-semibold text-white shadow-2xl hover:bg-white/20 transition-all duration-300 w-full"
               >
                 <div className="flex items-center gap-4">
@@ -166,7 +168,7 @@ export function EmergencyCTA() {
                       {t("24/7 HVAC Hotline", "Línea Directa HVAC 24/7")}
                     </span>
                     <span className="block text-2xl sm:text-3xl font-display font-black leading-tight tracking-tight mt-0.5 text-white">
-                      (713) 819-7908
+                      {settings.officePhone || "(713) 819-7908"}
                     </span>
                   </div>
                 </div>

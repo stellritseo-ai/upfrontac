@@ -25,10 +25,12 @@ import {
   Star
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import aboutTeamImg from "@/assets/service-residential-hvac.png";
 
 export function About() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
   const [activeTab, setActiveTab] = useState<"company" | "vision" | "values">("company");
 
   // Advantages List
@@ -478,11 +480,11 @@ export function About() {
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="tel:+17138197908"
+                href={`tel:${phoneTel}`}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold px-8 py-4 text-sm shadow-xl shadow-[#005CE6]/40 transition-all hover:scale-105 active:scale-95"
               >
                 <Phone className="w-5 h-5 fill-white" />
-                <span>{t("Call Us: +1 (713) 819-7908", "Llámenos: +1 (713) 819-7908")}</span>
+                <span>{settings.officePhone || "(713) 819-7908"}</span>
               </a>
 
               <a

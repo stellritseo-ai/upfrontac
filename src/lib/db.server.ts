@@ -55,7 +55,7 @@ export async function dbGetLeads(initialSeeds: any[]): Promise<any[]> {
     }
   }
 
-  const docs = await leadsCol.find({}).toArray();
+  const docs = await leadsCol.find({}).sort({ createdAt: -1, _id: -1 }).toArray();
   return docs.map(mapDoc);
 }
 

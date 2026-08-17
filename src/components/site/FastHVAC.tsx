@@ -3,10 +3,12 @@ import { PhoneCall, Zap, Clock, ShieldCheck, ArrowRight, MapPin, Sparkles } from
 import { Link } from "@tanstack/react-router";
 import hvacVideo from "@/assets/hvacwelcome.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
 export function FastHVAC() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
 
   return (
     <section id="fast-hvac" className="relative w-full overflow-hidden py-[20px] text-white bg-slate-950 border-y border-white/10 select-none">
@@ -111,7 +113,7 @@ export function FastHVAC() {
             >
               {/* Primary Call Button */}
               <a
-                href="tel:7138197908"
+                href={`tel:${phoneTel}`}
                 className="group relative flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] p-4 sm:p-5 font-black text-white shadow-xl shadow-[#005CE6]/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full"
               >
                 <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
@@ -122,7 +124,7 @@ export function FastHVAC() {
                     {t("Call Now for Dispatch", "Llamar Ahora para Despacho")}
                   </span>
                   <span className="block text-xl font-extrabold tracking-tight text-white mt-0.5">
-                    (713) 819-7908
+                    {settings.officePhone || "(713) 819-7908"}
                   </span>
                 </div>
               </a>

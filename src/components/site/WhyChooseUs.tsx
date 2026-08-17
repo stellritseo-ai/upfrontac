@@ -2,11 +2,13 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import whyChooseVideo from "@/assets/videowhychooseus.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { Zap, CheckCircle2, ShieldCheck, Clock, Award, PhoneCall, Sparkles } from "lucide-react";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
 export function WhyChooseUs() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
 
   const features = [
     {
@@ -132,11 +134,11 @@ export function WhyChooseUs() {
                 </Link>
                 
                 <a
-                  href="tel:7138197908"
+                  href={`tel:${phoneTel}`}
                   className="inline-flex items-center justify-center gap-2 bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs font-extrabold uppercase tracking-widest rounded-full px-7 py-3.5 transition-all duration-300 shadow-lg shadow-[#005CE6]/30 hover:scale-[1.03] active:scale-[0.97]"
                 >
                   <PhoneCall className="w-4 h-4 text-cyan-300" />
-                  <span>(713) 819-7908</span>
+                  <span>{settings.officePhone || "(713) 819-7908"}</span>
                 </a>
               </div>
             </div>

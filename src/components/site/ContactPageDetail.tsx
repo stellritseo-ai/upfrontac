@@ -17,27 +17,47 @@ import {
   User
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { PageHeader } from "@/components/site/PageHeader";
+import { addWebEmail } from "@/lib/leads-store";
+import { toast } from "sonner";
 import tomballImg from "@/assets/service-ac-tomball.png";
 import cypressImg from "@/assets/service-ac-cypress.png";
 
 export function ContactPageDetail() {
   const { t } = useLanguage();
+  const { settings, phoneTel } = useSiteSettings();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: ""
   });
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
+    if (!formData.name.trim() || !formData.email.trim()) return;
+
+    setSubmitting(true);
+    try {
+      await addWebEmail({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        message: formData.message.trim(),
+        service: "Contact Us Inquiry",
+        source: "Contact Page (/contact)"
+      });
+      setSubmitted(true);
+      toast.success("Thank you! Your message has been sent to our dispatch team.");
       setFormData({ name: "", email: "", phone: "", message: "" });
-    }, 4000);
+    } catch {
+      toast.error(`Failed to submit message. Please call our office directly at ${settings.officePhone || "(713) 819-7908"}.`);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -151,8 +171,8 @@ export function ContactPageDetail() {
                 <Mail className="w-6 h-6" />
               </div>
               <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">Email</span>
-              <a href="mailto:allen@upfrontac.com" className="text-sm font-extrabold text-[#005CE6] hover:underline block">
-                allen@upfrontac.com
+              <a href={`mailto:${settings.alertEmail || "allen@upfrontac.com"}`} className="text-sm font-extrabold text-[#005CE6] hover:underline block">
+                {settings.alertEmail || "allen@upfrontac.com"}
               </a>
               <span className="text-xs text-slate-500 font-medium block">24-hour response guarantee</span>
             </div>
@@ -162,8 +182,8 @@ export function ContactPageDetail() {
                 <PhoneCall className="w-6 h-6" />
               </div>
               <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">Phone</span>
-              <a href="tel:+17138197908" className="text-sm font-extrabold text-slate-900 hover:text-[#005CE6] block">
-                +1 (713) 819-7908
+              <a href={`tel:${phoneTel}`} className="text-sm font-extrabold text-slate-900 hover:text-[#005CE6] block">
+                {settings.officePhone || "(713) 819-7908"}
               </a>
               <span className="text-xs text-emerald-600 font-bold block">24/7 Emergency Dispatch</span>
             </div>
@@ -173,10 +193,12 @@ export function ContactPageDetail() {
                 <Clock className="w-6 h-6" />
               </div>
               <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">Hours of Operation</span>
-              <span className="text-sm font-extrabold text-slate-900 block">
-                Monday-Saturday 9:00 am – 6:30 pm
+              <span className="text-sm font-extrabold text-slate-900 block leading-tight">
+                M-F: {settings.weekdays || "9:00 AM - 6:30 PM"}
               </span>
-              <span className="text-xs text-slate-500 font-medium block">Sunday: Emergency Dispatch</span>
+              <span className="text-xs text-slate-500 font-medium block">
+                Sat: {settings.saturdays || "9:00 AM - 6:30 PM"} • Sun: {settings.sundays || "24/7 Dispatch"}
+              </span>
             </div>
 
           </div>
@@ -205,12 +227,39 @@ export function ContactPageDetail() {
             {/* Form */}
             <div className="lg:col-span-7 bg-[#F8FAFC] rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
               {submitted ? (
-                <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3">
-                  <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
-                  <h3 className="text-xl font-extrabold text-emerald-900">Message Sent Successfully!</h3>
-                  <p className="text-xs text-emerald-700 font-medium">
-                    Thank you for reaching out to Upfront AC. We will get back to you within 24 hours.
-                  </p>
+                <div className="p-8 sm:p-10 rounded-2xl bg-emerald-50/90 border border-emerald-200 text-center space-y-4 shadow-sm animate-fade-in">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-300 flex items-center justify-center text-emerald-600 mx-auto shadow-md">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-600 animate-pulse" />
+                  </div>
+                  <div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-2">
+                      Inquiry Received & Dispatched
+                    </span>
+                    <h3 className="text-2xl font-black text-emerald-950">Message Sent Successfully!</h3>
+                    <p className="text-xs sm:text-sm text-emerald-800 font-semibold max-w-md mx-auto mt-2 leading-relaxed">
+                      Thank you for contacting Upfront AC. Our team will review your message and reach back out to you promptly within 15–30 minutes.
+                    </p>
+                  </div>
+
+                  <div className="bg-white/80 rounded-xl p-4 border border-emerald-200 text-left space-y-2 max-w-sm mx-auto">
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                      <span className="text-slate-500">Emergency Dispatch:</span>
+                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] hover:underline font-extrabold">
+                        {settings.officePhone || "(713) 819-7908"}
+                      </a>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: "", email: "", phone: "", message: "" });
+                    }}
+                    className="mt-2 text-xs font-bold text-[#005CE6] hover:underline cursor-pointer"
+                  >
+                    ← Send another message
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -274,10 +323,20 @@ export function ContactPageDetail() {
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-[1.01] active:scale-95"
+                    disabled={submitting}
+                    className="w-full inline-flex items-center justify-center gap-3 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-4 text-sm shadow-xl shadow-[#005CE6]/30 transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-75 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-4 h-4 fill-white" />
-                    <span>Send Message</span>
+                    {submitting ? (
+                      <span className="flex items-center gap-2">
+                        <div className="h-4 w-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
+                        <span>Sending Message to Dispatch...</span>
+                      </span>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 fill-white" />
+                        <span>Send Message</span>
+                      </>
+                    )}
                   </button>
                 </form>
               )}

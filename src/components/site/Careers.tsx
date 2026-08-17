@@ -42,8 +42,8 @@ export function Careers() {
         source: "Careers Form"
       });
 
-      // 2. Email backup
-      const response = await fetch("https://formsubmit.co/ajax/Williams@electricalcontractorcorp.com", {
+      // 2. Email backup (background notification)
+      fetch("https://formsubmit.co/ajax/allen@upfrontac.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,17 +58,13 @@ export function Careers() {
           "License Status": license || "Not Specified",
           Message: msg
         })
-      });
+      }).catch((err) => console.log("Background email alert:", err));
 
-      if (response.ok) {
-        toast.success(t("Application received! We'll review your details and contact you soon.", "¡Solicitud recibida! Revisaremos sus datos y nos pondremos en contacto pronto."));
-        form.reset();
-        setJob("");
-        setExp("");
-        setLicense("");
-      } else {
-        toast.error(t("Submission failed. Please try again.", "Error en el envío. Por favor, inténtelo de nuevo."));
-      }
+      toast.success(t("Application received! We'll review your details and contact you soon.", "¡Solicitud recibida! Revisaremos sus datos y nos pondremos en contacto pronto."));
+      form.reset();
+      setJob("");
+      setExp("");
+      setLicense("");
     } catch (err) {
       toast.error(t("Connection error. Please try again.", "Error de conexión. Por favor, inténtelo de nuevo."));
     } finally {

@@ -199,7 +199,8 @@ export async function dbGetChatSessions(_initialSeeds: any[]): Promise<any[]> {
 export async function dbSaveChatSession(session: any): Promise<void> {
   const db = await getDb();
   const chatsCol = db.collection("chat_sessions");
-  await chatsCol.updateOne({ id: session.id }, { $set: session }, { upsert: true });
+  const { _id, ...cleanSession } = session;
+  await chatsCol.updateOne({ id: cleanSession.id }, { $set: cleanSession }, { upsert: true });
 }
 
 // ── GALLERY PHOTOS ──

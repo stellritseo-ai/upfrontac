@@ -576,16 +576,27 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
       if (method === "POST") {
         const body = await request.json();
         if (body.action === "create") {
+          const firstMsgText = (body.firstMessage || body.initialMessage || body.message || "").trim();
+          const initialMessages: any[] = [];
+          if (firstMsgText) {
+            initialMessages.push({
+              id: "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6),
+              sender: "client",
+              text: firstMsgText,
+              timestamp: new Date().toISOString()
+            });
+          }
+
           const newSession = {
-            id: "session-" + Math.random().toString(36).substr(2, 9),
+            id: body.id || ("session-" + Math.random().toString(36).substr(2, 9)),
             clientName: body.clientName || "Website Visitor",
             clientCity: body.clientCity || "Tomball, TX",
             clientEmail: body.clientEmail || "",
             clientPhone: body.clientPhone || "",
-            lastMessage: "Chat session initialized",
+            lastMessage: firstMsgText || "Chat session initialized",
             lastMessageTime: new Date().toISOString(),
             unread: true,
-            messages: []
+            messages: initialMessages
           };
 
           try {
@@ -595,21 +606,31 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           }
 
           if (!(globalThis as any).__serverChats) (globalThis as any).__serverChats = [];
-          (globalThis as any).__serverChats.unshift(newSession);
+          const existIdx = (globalThis as any).__serverChats.findIndex((s: any) => s.id === newSession.id);
+          if (existIdx >= 0) {
+            (globalThis as any).__serverChats[existIdx] = newSession;
+          } else {
+            (globalThis as any).__serverChats.unshift(newSession);
+          }
 
           // Save a dashboard notification for the new chat session
           try {
+            const notifMsg = firstMsgText
+              ? `${newSession.clientName} (${newSession.clientCity}): "${firstMsgText}"`
+              : `${newSession.clientName} started a live chat session from ${newSession.clientCity}.`;
+
             const notification = await dbAddNotification({
               type: "chat_start",
               title: "New Live Chat Started",
-              message: `${newSession.clientName} started a live chat session from ${newSession.clientCity}.`,
+              message: notifMsg,
               link: "/dashboard?tab=chat",
               metadata: {
                 sessionId: newSession.id,
                 clientName: newSession.clientName,
                 clientCity: newSession.clientCity,
                 clientPhone: newSession.clientPhone,
-                clientEmail: newSession.clientEmail
+                clientEmail: newSession.clientEmail,
+                initialMessage: firstMsgText
               }
             });
 
@@ -617,7 +638,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             const io = (global as any).io;
             if (io) {
               io.emit("new-notification", notification);
-              io.emit("session-created", { sessionId: newSession.id, clientName: newSession.clientName });
+              io.emit("session-created", { sessionId: newSession.id, clientName: newSession.clientName, firstMessage: firstMsgText });
             }
           } catch (err) {
             console.error("Failed to broadcast chat start notification:", err);

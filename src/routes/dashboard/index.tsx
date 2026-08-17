@@ -371,6 +371,37 @@ function DashboardPage() {
   const socketRef = useRef<any>(null);
   const deletedEmailIdsRef = useRef<Set<string>>(new Set());
   const deletedLeadIdsRef = useRef<Set<string>>(new Set());
+  const deletedChatIdsRef = useRef<Set<string>>(new Set());
+
+  // Listen to same-window and cross-tab real-time events immediately
+  useEffect(() => {
+    const handleChatUpdate = () => {
+      getChatSessions().then(setChatSessions);
+    };
+    const handleEmailUpdate = () => {
+      getWebEmails().then(setWebEmails);
+    };
+    const handleLeadUpdate = () => {
+      getLeads().then(setLeads);
+    };
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === "upfront-chats-v2") getChatSessions().then(setChatSessions);
+      if (e.key === "upfront-emails-v2") getWebEmails().then(setWebEmails);
+      if (e.key === "electrical-leads") getLeads().then(setLeads);
+    };
+
+    window.addEventListener("upfront-chats-updated", handleChatUpdate);
+    window.addEventListener("upfront-emails-updated", handleEmailUpdate);
+    window.addEventListener("upfront-leads-updated", handleLeadUpdate);
+    window.addEventListener("storage", handleStorage);
+
+    return () => {
+      window.removeEventListener("upfront-chats-updated", handleChatUpdate);
+      window.removeEventListener("upfront-emails-updated", handleEmailUpdate);
+      window.removeEventListener("upfront-leads-updated", handleLeadUpdate);
+      window.removeEventListener("storage", handleStorage);
+    };
+  }, []);
 
   // Real-time sync: Socket.IO on local dev, polling on Vercel
   useRealtimeSync({
@@ -428,9 +459,36 @@ function DashboardPage() {
         }
         if (latestSessions.status === "fulfilled" && Array.isArray(latestSessions.value)) {
           setChatSessions((prev) => {
-            const prevIds = prev.map((s) => s.id).join(",");
-            const newIds = latestSessions.value.map((s: ChatSession) => s.id).join(",");
-            return prevIds === newIds ? prev : latestSessions.value;
+            const deleted = new Set(getStorageItem<string[]>("upfront-deleted-chats", []));
+            const map = new Map<string, ChatSession>();
+            latestSessions.value.forEach((s: ChatSession) => {
+              if (s?.id && !deleted.has(s.id) && !deletedChatIdsRef.current.has(s.id)) {
+                map.set(s.id, s);
+              }
+            });
+            prev.forEach((s) => {
+              if (s?.id && !deleted.has(s.id) && !deletedChatIdsRef.current.has(s.id)) {
+                const existing = map.get(s.id);
+                if (existing) {
+                  const messages = dedupeChatMessages([...(s.messages || []), ...(existing.messages || [])]);
+                  map.set(s.id, {
+                    ...s,
+                    ...existing,
+                    messages,
+                    lastMessage: existing.lastMessage || s.lastMessage,
+                    lastMessageTime: existing.lastMessageTime || s.lastMessageTime
+                  });
+                } else {
+                  map.set(s.id, s);
+                }
+              }
+            });
+            const merged = Array.from(map.values()).sort(
+              (a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()
+            );
+            const prevSummary = prev.map((s) => s.id + "-" + (s.messages?.length || 0) + "-" + s.lastMessageTime).join(",");
+            const mergedSummary = merged.map((s) => s.id + "-" + (s.messages?.length || 0) + "-" + s.lastMessageTime).join(",");
+            return prevSummary === mergedSummary ? prev : merged;
           });
         }
       } catch {
@@ -1124,6 +1182,7 @@ function DashboardPage() {
       confirmText: "Delete",
       onConfirm: async () => {
         try {
+          deletedChatIdsRef.current.add(id);
           const updated = await deleteChatSession(id);
           setChatSessions(updated);
           if (activeSessionId === id) {

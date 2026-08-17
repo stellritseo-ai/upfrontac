@@ -1026,39 +1026,104 @@ export const syncGooglePlacesReviews = async (
 
 // ── CHATS ──
 export const getChatSessions = async (): Promise<ChatSession[]> => {
+  const localChats = getStorageItem<ChatSession[]>("upfront-chats-v2", []);
+  const deletedIds = new Set(getStorageItem<string[]>("upfront-deleted-chats", []));
+
   try {
     const chats = await apiCall<ChatSession[]>("/api/chats?t=" + Date.now(), "GET");
     if (Array.isArray(chats)) {
-      const sorted = chats.sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime());
+      const mergedMap = new Map<string, ChatSession>();
+      localChats.forEach((c) => {
+        if (c?.id && !deletedIds.has(c.id)) mergedMap.set(c.id, c);
+      });
+      chats.forEach((c) => {
+        if (c?.id && !deletedIds.has(c.id)) {
+          const local = mergedMap.get(c.id);
+          if (local) {
+            const messages = dedupeChatMessages([...(local.messages || []), ...(c.messages || [])]);
+            mergedMap.set(c.id, {
+              ...local,
+              ...c,
+              messages,
+              lastMessage: c.lastMessage || local.lastMessage,
+              lastMessageTime: c.lastMessageTime || local.lastMessageTime,
+              unread: c.unread !== undefined ? c.unread : local.unread
+            });
+          } else {
+            mergedMap.set(c.id, c);
+          }
+        }
+      });
+      const sorted = Array.from(mergedMap.values()).sort(
+        (a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()
+      );
       setStorageItem("upfront-chats-v2", sorted);
       return sorted;
     }
   } catch (err) {
     console.warn("MongoDB/API offline, checking local storage chats:", err);
   }
-  const chats = getStorageItem<ChatSession[]>("upfront-chats-v2", INITIAL_CHATS);
-  return chats.sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime());
+  const filteredLocal = localChats.filter((c) => c?.id && !deletedIds.has(c.id));
+  return filteredLocal.sort(
+    (a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()
+  );
 };
 
 export const getChatSessionById = async (sessionId: string): Promise<ChatSession | null> => {
   const chats = await getChatSessions();
-  return chats.find(c => c.id === sessionId) || null;
+  return chats.find((c) => c.id === sessionId) || null;
 };
 
 export const createChatSession = async (
   clientName: string,
   clientCity: string = "Tomball, TX",
   clientEmail?: string,
-  clientPhone?: string
+  clientPhone?: string,
+  initialMessage?: string
 ): Promise<ChatSession> => {
+  const customId = "session-" + Math.random().toString(36).substr(2, 9);
+  const initialMessages: ChatMessage[] = initialMessage
+    ? [
+        {
+          id: "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6),
+          sender: "client",
+          text: initialMessage,
+          timestamp: new Date().toISOString()
+        }
+      ]
+    : [];
+
+  const newSessionFallback: ChatSession = {
+    id: customId,
+    clientName: clientName || "Website Visitor",
+    clientCity: clientCity || "Tomball, TX",
+    clientEmail,
+    clientPhone,
+    lastMessage: initialMessage || "Chat session initialized",
+    lastMessageTime: new Date().toISOString(),
+    unread: true,
+    messages: initialMessages
+  };
+
   try {
-    const session = await apiCall<ChatSession>("/api/chats", "POST", { action: "create", clientName, clientCity, clientEmail, clientPhone });
+    const session = await apiCall<ChatSession>("/api/chats", "POST", {
+      action: "create",
+      id: customId,
+      clientName,
+      clientCity,
+      clientEmail,
+      clientPhone,
+      firstMessage: initialMessage
+    });
     if (session) {
       const chats = await getChatSessions();
-      if (!chats.some(c => c.id === session.id)) {
+      const existIdx = chats.findIndex((c) => c.id === session.id);
+      if (existIdx >= 0) {
+        chats[existIdx] = session;
+      } else {
         chats.unshift(session);
-        setStorageItem("upfront-chats-v2", chats);
       }
+      setStorageItem("upfront-chats-v2", chats);
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: session }));
       }
@@ -1069,23 +1134,12 @@ export const createChatSession = async (
   }
 
   const chats = await getChatSessions();
-  const newSession: ChatSession = {
-    id: "session-" + Math.random().toString(36).substr(2, 9),
-    clientName: clientName || "Website Visitor",
-    clientCity: clientCity || "Tomball, TX",
-    clientEmail,
-    clientPhone,
-    lastMessage: "Chat session initialized",
-    lastMessageTime: new Date().toISOString(),
-    unread: true,
-    messages: []
-  };
-  chats.unshift(newSession);
+  chats.unshift(newSessionFallback);
   setStorageItem("upfront-chats-v2", chats);
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: newSession }));
+    window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: newSessionFallback }));
   }
-  return newSession;
+  return newSessionFallback;
 };
 
 export const dedupeChatMessages = (messages: ChatMessage[]): ChatMessage[] => {
@@ -1096,7 +1150,7 @@ export const dedupeChatMessages = (messages: ChatMessage[]): ChatMessage[] => {
     if (!m || !m.text) continue;
     if (m.id && seenIds.has(m.id)) continue;
     const isDuplicate = result.some(
-      existing =>
+      (existing) =>
         existing.sender === m.sender &&
         existing.text.trim() === m.text.trim() &&
         Math.abs(new Date(existing.timestamp).getTime() - new Date(m.timestamp).getTime()) < 3000
@@ -1130,8 +1184,11 @@ export const sendChatMessage = async (
     if (updated) {
       updated.messages = dedupeChatMessages(updated.messages || []);
       const chats = await getChatSessions();
-      const updatedChats = chats.map(c => c.id === sessionId ? updated : c);
+      const updatedChats = chats.map((c) => (c.id === sessionId ? updated : c));
       setStorageItem("upfront-chats-v2", updatedChats);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updated }));
+      }
       return updated;
     }
   } catch (err) {
@@ -1140,7 +1197,7 @@ export const sendChatMessage = async (
 
   const chats = await getChatSessions();
   let updatedSession: ChatSession | null = null;
-  const updatedChats = chats.map(c => {
+  const updatedChats = chats.map((c) => {
     if (c.id === sessionId) {
       const newMsg: ChatMessage = {
         id: msgId,
@@ -1161,6 +1218,9 @@ export const sendChatMessage = async (
     return c;
   });
   setStorageItem("upfront-chats-v2", updatedChats);
+  if (typeof window !== "undefined" && updatedSession) {
+    window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updatedSession }));
+  }
   return updatedSession;
 };
 
@@ -1169,33 +1229,48 @@ export const markChatAsRead = async (sessionId: string): Promise<ChatSession[]> 
     const updated = await apiCall<ChatSession[]>("/api/chats", "POST", { action: "read", sessionId });
     if (Array.isArray(updated)) {
       setStorageItem("upfront-chats-v2", updated);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("upfront-chats-updated"));
+      }
       return updated;
     }
   } catch (err) {
     console.warn("MongoDB offline, marking read in local storage:", err);
   }
   const chats = await getChatSessions();
-  const updated = chats.map(c => c.id === sessionId ? { ...c, unread: false } : c);
+  const updated = chats.map((c) => (c.id === sessionId ? { ...c, unread: false } : c));
   setStorageItem("upfront-chats-v2", updated);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("upfront-chats-updated"));
+  }
   return updated;
 };
 
 export const deleteChatSession = async (id: string): Promise<ChatSession[]> => {
+  const deleted = getStorageItem<string[]>("upfront-deleted-chats", []);
+  if (!deleted.includes(id)) {
+    deleted.push(id);
+    setStorageItem("upfront-deleted-chats", deleted);
+  }
+
+  const current = getStorageItem<ChatSession[]>("upfront-chats-v2", []);
+  const filtered = current.filter((c) => c.id !== id);
+  setStorageItem("upfront-chats-v2", filtered);
+
   try {
-    const chats = await apiCall<ChatSession[]>("/api/chats?id=" + id, "DELETE");
+    const chats = await apiCall<ChatSession[]>("/api/chats?id=" + encodeURIComponent(id), "DELETE");
     if (Array.isArray(chats)) {
-      setStorageItem("upfront-chats-v2", chats);
+      const cleaned = chats.filter((c) => c.id !== id && !deleted.includes(c.id));
+      setStorageItem("upfront-chats-v2", cleaned);
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: id }));
       }
-      return chats;
+      return cleaned;
     }
   } catch (err) {
     console.warn("MongoDB offline, deleting from local storage:", err);
   }
-  const chats = await getChatSessions();
-  const filtered = chats.filter(c => c.id !== id);
-  setStorageItem("upfront-chats-v2", filtered);
+
   if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: id }));
   }

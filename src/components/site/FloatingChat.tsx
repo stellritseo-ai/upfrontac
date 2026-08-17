@@ -181,7 +181,7 @@ export function FloatingChat() {
 
     try {
       if (!activeId) {
-        const session = await createChatSession(clientName, "Tomball, TX", "", clientPhone);
+        const session = await createChatSession(clientName, "Tomball, TX", "", clientPhone, textToSend);
         activeId = session.id;
         setSessionId(activeId);
         setName(clientName);
@@ -191,19 +191,23 @@ export function FloatingChat() {
 
         if (socketRef.current) {
           socketRef.current.emit("join-session", activeId);
-          socketRef.current.emit("session-created", { sessionId: activeId, clientName, clientPhone });
+          socketRef.current.emit("session-created", { sessionId: activeId, clientName, clientPhone, firstMessage: textToSend });
+          socketRef.current.emit("send-message", {
+            ...optimisticMsg,
+            sessionId: activeId,
+            clientName
+          });
         }
+      } else {
+        if (socketRef.current) {
+          socketRef.current.emit("send-message", {
+            ...optimisticMsg,
+            sessionId: activeId,
+            clientName
+          });
+        }
+        await sendChatMessage(activeId, "client", textToSend, msgId, time);
       }
-
-      if (socketRef.current) {
-        socketRef.current.emit("send-message", {
-          ...optimisticMsg,
-          sessionId: activeId,
-          clientName
-        });
-      }
-
-      sendChatMessage(activeId, "client", textToSend, msgId, time);
     } catch (err) {
       console.error("Failed to send chat message:", err);
     }

@@ -30,10 +30,37 @@ export async function uploadToCloudinary(fileStr: string, folder = "upfrontac") 
   return result.secure_url;
 }
 
+export async function listCloudinaryPhotos(folderPrefix = "upfrontac") {
+  ensureConfigured();
+  try {
+    const res = await cloudinary.api.resources({
+      type: "upload",
+      prefix: folderPrefix,
+      max_results: 500
+    });
+    if (res && Array.isArray(res.resources)) {
+      return res.resources.map((r: any) => {
+        const folderParts = (r.public_id || "").split("/");
+        const category = folderParts.length > 2 ? folderParts[1] : (folderParts[0] === "upfrontac" && folderParts[1] ? folderParts[1] : "residential");
+        return {
+          id: "photo-" + r.public_id.replace(/[^a-zA-Z0-9]/g, "-"),
+          url: r.secure_url,
+          category: category || "residential",
+          title: "HVAC Project",
+          uploadedAt: r.created_at || new Date().toISOString()
+        };
+      });
+    }
+    return [];
+  } catch (err) {
+    console.warn("Cloudinary list error:", err);
+    return [];
+  }
+}
+
 export async function deleteFromCloudinary(url: string) {
   ensureConfigured();
   try {
-    // Cloudinary URL format: https://res.cloudinary.com/<cloud_name>/image/upload/v<version>/<folder>/<filename>.<ext>
     const match = url.match(/\/upload\/(?:v\d+\/)?(.+)\.[a-zA-Z0-9]+$/);
     if (match && match[1]) {
       await cloudinary.uploader.destroy(match[1]);
@@ -47,4 +74,5 @@ export async function deleteFromCloudinary(url: string) {
     console.warn("Cloudinary destroy error:", err);
   }
 }
+
 

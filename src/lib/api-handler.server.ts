@@ -33,7 +33,7 @@ import {
   INITIAL_REVIEWS,
 } from "./leads-store.js";
 
-import { uploadToCloudinary, deleteFromCloudinary } from "./cloudinary.server.js";
+import { uploadToCloudinary, deleteFromCloudinary, listCloudinaryPhotos } from "./cloudinary.server.js";
 import { hashPassword, verifyPassword } from "./crypto.server.js";
 
 const DEFAULT_ADMIN = {
@@ -774,9 +774,25 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
       if (method === "GET") {
         try {
           const photos = await dbGetGalleryPhotos([]);
+          if (Array.isArray(photos) && photos.length > 0) {
+            return jsonResponse(photos);
+          }
+          // If MongoDB has 0 photos or is empty, fetch live from Cloudinary!
+          const cloudPhotos = await listCloudinaryPhotos("upfrontac");
+          if (cloudPhotos.length > 0) {
+            return jsonResponse(cloudPhotos);
+          }
           return jsonResponse(photos);
         } catch (dbErr) {
-          console.warn("MongoDB gallery read error, using fallback:", dbErr);
+          console.warn("MongoDB gallery read error, syncing directly with Cloudinary:", dbErr);
+          try {
+            const cloudPhotos = await listCloudinaryPhotos("upfrontac");
+            if (cloudPhotos.length > 0) {
+              return jsonResponse(cloudPhotos);
+            }
+          } catch (cErr) {
+            console.warn("Cloudinary list fallback error:", cErr);
+          }
           return jsonResponse((globalThis as any).__serverGallery || []);
         }
       }
@@ -801,7 +817,13 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           const updated = await dbAddGalleryPhoto(newPhoto);
           return jsonResponse(updated);
         } catch (dbErr) {
-          console.warn("MongoDB gallery insert error, using in-memory store:", dbErr);
+          console.warn("MongoDB gallery insert error, syncing with Cloudinary:", dbErr);
+          try {
+            const cloudPhotos = await listCloudinaryPhotos("upfrontac");
+            if (cloudPhotos.length > 0) {
+              return jsonResponse(cloudPhotos);
+            }
+          } catch {}
           if (!(globalThis as any).__serverGallery) (globalThis as any).__serverGallery = [];
           (globalThis as any).__serverGallery.unshift(newPhoto);
           return jsonResponse((globalThis as any).__serverGallery);
@@ -819,23 +841,34 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           return jsonResponse({ error: "Missing image ID" }, 400);
         }
 
+        let photoUrlToDelete = "";
         try {
           const db = await getDb();
           const photo = await db.collection("gallery_photos").findOne({ id });
-          if (photo && photo.url && photo.url.includes("cloudinary.com")) {
-            try {
-              await deleteFromCloudinary(photo.url);
-            } catch (cloudinaryErr) {
-              console.error("Failed to delete from Cloudinary:", cloudinaryErr);
-            }
+          if (photo?.url) photoUrlToDelete = photo.url;
+        } catch {}
+
+        if (photoUrlToDelete && photoUrlToDelete.includes("cloudinary.com")) {
+          try {
+            await deleteFromCloudinary(photoUrlToDelete);
+          } catch (cloudinaryErr) {
+            console.error("Failed to delete from Cloudinary:", cloudinaryErr);
           }
+        }
+
+        try {
           const updated = await dbRemoveGalleryPhoto(id);
           return jsonResponse(updated);
         } catch (dbErr) {
-          console.warn("MongoDB gallery delete error, using in-memory store:", dbErr);
-          if (!(globalThis as any).__serverGallery) (globalThis as any).__serverGallery = [];
-          (globalThis as any).__serverGallery = (globalThis as any).__serverGallery.filter((p: any) => p.id !== id);
-          return jsonResponse((globalThis as any).__serverGallery);
+          console.warn("MongoDB gallery delete error, fetching Cloudinary:", dbErr);
+          try {
+            const cloudPhotos = await listCloudinaryPhotos("upfrontac");
+            return jsonResponse(cloudPhotos.filter((p: any) => p.id !== id));
+          } catch {}
+          if ((globalThis as any).__serverGallery) {
+            (globalThis as any).__serverGallery = (globalThis as any).__serverGallery.filter((p: any) => p.id !== id);
+          }
+          return jsonResponse((globalThis as any).__serverGallery || []);
         }
       }
     }

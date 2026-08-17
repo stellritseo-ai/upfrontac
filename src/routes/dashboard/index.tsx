@@ -169,6 +169,8 @@ function DashboardPage() {
   const [webEmails, setWebEmails] = useState<WebEmail[]>([]);
   const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const [chatSearchQuery, setChatSearchQuery] = useState("");
+  const [chatFilterUnread, setChatFilterUnread] = useState(false);
   const [notifications, setNotifications] = useState<DashboardNotification[]>([]);
   const [showNotificationsPopover, setShowNotificationsPopover] = useState(false);
   const [adminReplyText, setAdminReplyText] = useState("");
@@ -1959,42 +1961,113 @@ function DashboardPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden h-[620px] grid grid-cols-1 md:grid-cols-12"
+              className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden h-[660px] grid grid-cols-1 md:grid-cols-12"
             >
               {/* Left Pane: Sessions List */}
               <div className="md:col-span-4 border-r border-slate-200 flex flex-col h-full bg-slate-50/50">
-                <div className="p-4 border-b border-slate-200">
-                  <span className="font-extrabold text-xs uppercase tracking-wider text-slate-400">Visitor Conversations</span>
+                <div className="p-4 border-b border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-extrabold text-xs uppercase tracking-wider text-slate-500">
+                      Visitor Conversations ({chatSessions.length})
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] font-bold text-emerald-700">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      Live Socket
+                    </span>
+                  </div>
+
+                  {/* Search and Unread Filter */}
+                  <div className="flex items-center gap-2">
+                    <div className="relative flex-1">
+                      <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        placeholder="Search chats..."
+                        value={chatSearchQuery}
+                        onChange={(e) => setChatSearchQuery(e.target.value)}
+                        className="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#005CE6]"
+                      />
+                    </div>
+                    <button
+                      onClick={() => setChatFilterUnread(!chatFilterUnread)}
+                      className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition cursor-pointer ${
+                        chatFilterUnread
+                          ? "bg-[#005CE6] text-white"
+                          : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
+                      }`}
+                      title="Toggle Unread Only"
+                    >
+                      Unread
+                    </button>
+                  </div>
                 </div>
+
+                {/* Sessions List */}
                 <div className="overflow-y-auto flex-1 divide-y divide-slate-100">
-                  {chatSessions.length === 0 ? (
-                    <div className="p-8 text-center text-xs text-slate-400">No chat sessions active.</div>
+                  {chatSessions
+                    .filter((session) => {
+                      if (chatFilterUnread && !session.unread) return false;
+                      if (!chatSearchQuery.trim()) return true;
+                      const q = chatSearchQuery.toLowerCase();
+                      const nameMatch = (session.clientName || "").toLowerCase().includes(q);
+                      const msgMatch = (session.lastMessage || "").toLowerCase().includes(q);
+                      const phoneMatch = (session.clientPhone || "").toLowerCase().includes(q);
+                      return nameMatch || msgMatch || phoneMatch;
+                    })
+                    .length === 0 ? (
+                    <div className="p-8 text-center text-xs text-slate-400">
+                      {chatSessions.length === 0
+                        ? "No live chats yet. Visitor chats will automatically pop up here in real time."
+                        : "No conversations match your search."}
+                    </div>
                   ) : (
-                    chatSessions.map((session) => (
-                      <div
-                        key={session.id}
-                        onClick={() => handleSelectChat(session.id)}
-                        className={`p-4 transition cursor-pointer text-left flex items-start justify-between gap-2 ${
-                          activeSessionId === session.id ? "bg-white shadow-xs border-l-4 border-[#005CE6]" : "hover:bg-slate-100/60"
-                        }`}
-                      >
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="font-extrabold text-xs text-slate-900 truncate">{session.clientName || "Website Visitor"}</span>
-                            {session.unread && (
-                              <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0 animate-pulse" />
-                            )}
-                          </div>
-                          <p className="text-[11px] text-slate-500 truncate mt-0.5">{session.lastMessage || "Started a chat..."}</p>
-                        </div>
-                        <button
-                          onClick={(e) => handleDeleteChat(session.id, e)}
-                          className="text-slate-300 hover:text-rose-500 p-1 cursor-pointer"
+                    chatSessions
+                      .filter((session) => {
+                        if (chatFilterUnread && !session.unread) return false;
+                        if (!chatSearchQuery.trim()) return true;
+                        const q = chatSearchQuery.toLowerCase();
+                        const nameMatch = (session.clientName || "").toLowerCase().includes(q);
+                        const msgMatch = (session.lastMessage || "").toLowerCase().includes(q);
+                        const phoneMatch = (session.clientPhone || "").toLowerCase().includes(q);
+                        return nameMatch || msgMatch || phoneMatch;
+                      })
+                      .map((session) => (
+                        <div
+                          key={session.id}
+                          onClick={() => handleSelectChat(session.id)}
+                          className={`p-4 transition cursor-pointer text-left flex items-start justify-between gap-2 ${
+                            activeSessionId === session.id
+                              ? "bg-white shadow-xs border-l-4 border-[#005CE6]"
+                              : "hover:bg-slate-100/60"
+                          }`}
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    ))
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-extrabold text-xs text-slate-900 truncate">
+                                {session.clientName || "Website Visitor"}
+                              </span>
+                              <span className="text-[10px] text-slate-400 font-medium shrink-0">
+                                {formatChatTime(session.lastMessageTime)}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1.5 mt-1">
+                              {session.unread && (
+                                <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0 animate-pulse" />
+                              )}
+                              <p className="text-[11px] text-slate-500 truncate">
+                                {session.lastMessage || "Started a chat..."}
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={(e) => handleDeleteChat(session.id, e)}
+                            className="text-slate-300 hover:text-rose-500 p-1 cursor-pointer"
+                            title="Delete Chat"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ))
                   )}
                 </div>
               </div>
@@ -2003,18 +2076,33 @@ function DashboardPage() {
               <div className="md:col-span-8 flex flex-col h-full bg-white">
                 {activeChatSession ? (
                   <>
-                    <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-                      <div>
-                        <h4 className="font-extrabold text-sm text-slate-900">{activeChatSession.clientName}</h4>
-                        <span className="text-[10px] text-slate-400">{activeChatSession.clientCity || "Greater Houston Area"}</span>
+                    {/* Active Chat Header */}
+                    <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-full bg-[#005CE6] text-white font-black text-sm flex items-center justify-center">
+                          {activeChatSession.clientName?.charAt(0) || "V"}
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-extrabold text-sm text-slate-900">{activeChatSession.clientName}</h4>
+                            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+                              {activeChatSession.clientCity || "Tomball, TX"}
+                            </span>
+                          </div>
+                          <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1 mt-0.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            Active Visitor Session
+                          </span>
+                        </div>
                       </div>
                       <div className="flex items-center gap-2">
                         {activeChatSession.clientPhone && (
                           <a
                             href={`tel:${activeChatSession.clientPhone}`}
-                            className="text-xs font-bold text-[#005CE6] bg-blue-50 px-3 py-1 rounded-full"
+                            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#005CE6] bg-blue-50 hover:bg-blue-100 border border-blue-200/60 px-3 py-1.5 rounded-xl transition"
                           >
-                            {activeChatSession.clientPhone}
+                            <Phone className="w-3 h-3" />
+                            <span>{activeChatSession.clientPhone}</span>
                           </a>
                         )}
                       </div>
@@ -2030,32 +2118,55 @@ function DashboardPage() {
                           <div
                             className={`max-w-md p-3.5 rounded-2xl text-xs leading-relaxed ${
                               m.sender === "admin"
-                                ? "bg-[#005CE6] text-white rounded-br-none shadow-md shadow-[#005CE6]/20"
-                                : "bg-white text-slate-800 border border-slate-200/80 rounded-bl-none shadow-xs"
+                                ? "bg-[#005CE6] text-white rounded-br-none shadow-md shadow-[#005CE6]/20 font-medium"
+                                : "bg-white text-slate-800 border border-slate-200/80 rounded-bl-none shadow-xs font-medium"
                             }`}
                           >
                             {m.text}
                           </div>
                           <span className="text-[9px] text-slate-400 font-semibold mt-1 px-1">
-                            {formatChatTime(m.timestamp)}
+                            {m.sender === "admin" ? "Upfront AC Dispatch" : activeChatSession.clientName} · {formatChatTime(m.timestamp)}
                           </span>
                         </div>
                       ))}
                       <div ref={chatEndRef} />
                     </div>
 
+                    {/* Quick Canned Replies */}
+                    <div className="px-4 pt-3 pb-1 border-t border-slate-100 bg-white flex items-center gap-1.5 overflow-x-auto select-none no-scrollbar">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 shrink-0 mr-1">
+                        Quick Replies:
+                      </span>
+                      {[
+                        "👋 Hi! How can we assist you with your AC today?",
+                        "❄️ A technician is available in Tomball/Cypress today.",
+                        "🚨 Emergency service available 24/7: (713) 819-7908.",
+                        "📋 Can we get your address to schedule a Free Estimate?"
+                      ].map((canned, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setAdminReplyText(canned)}
+                          className="px-2.5 py-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-700 whitespace-nowrap transition cursor-pointer shrink-0"
+                        >
+                          {canned.slice(0, 30)}...
+                        </button>
+                      ))}
+                    </div>
+
                     {/* Chat Input Bar */}
-                    <form onSubmit={handleSendChatReply} className="p-4 border-t border-slate-200 flex gap-3">
+                    <form onSubmit={handleSendChatReply} className="p-4 border-t border-slate-200 flex gap-3 bg-white">
                       <input
                         type="text"
-                        placeholder="Type response to client..."
+                        placeholder={`Reply to ${activeChatSession.clientName}...`}
                         value={adminReplyText}
                         onChange={(e) => setAdminReplyText(e.target.value)}
-                        className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
+                        className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 font-medium"
                       />
                       <button
                         type="submit"
-                        className="px-5 py-3 bg-[#005CE6] hover:bg-[#0047B3] text-white rounded-2xl text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#005CE6]/30 cursor-pointer"
+                        disabled={!adminReplyText.trim()}
+                        className="px-5 py-3 bg-[#005CE6] hover:bg-[#0047B3] text-white rounded-2xl text-xs font-extrabold flex items-center gap-1.5 shadow-md shadow-[#005CE6]/30 cursor-pointer disabled:opacity-50 transition"
                       >
                         <Send className="w-3.5 h-3.5" />
                         <span>Send</span>
@@ -2064,8 +2175,13 @@ function DashboardPage() {
                   </>
                 ) : (
                   <div className="flex-1 flex flex-col items-center justify-center text-slate-400 p-8 text-center">
-                    <MessageSquare className="w-10 h-10 text-slate-300 mb-2" />
-                    <p className="text-xs font-bold text-slate-600">Select a visitor chat from the left pane to reply.</p>
+                    <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center mb-3">
+                      <MessageCircle className="w-7 h-7" />
+                    </div>
+                    <h4 className="text-sm font-black text-slate-800">Live Visitor Chat Console</h4>
+                    <p className="text-xs text-slate-500 max-w-sm mt-1">
+                      Select an incoming conversation from the left pane to chat live with your website visitors.
+                    </p>
                   </div>
                 )}
               </div>

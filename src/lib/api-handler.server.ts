@@ -387,18 +387,31 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     // ── /api/chats ──
     if (pathname === "/api/chats") {
       if (method === "GET") {
-        const chats = await dbGetChatSessions(INITIAL_CHATS);
-        return jsonResponse(chats);
+        try {
+          const chats = await dbGetChatSessions(INITIAL_CHATS);
+          return jsonResponse(chats);
+        } catch (dbErr) {
+          console.warn("MongoDB chat read error, using server fallback:", dbErr);
+          if (!(globalThis as any).__serverChats) (globalThis as any).__serverChats = [];
+          return jsonResponse((globalThis as any).__serverChats);
+        }
       }
       if (method === "DELETE") {
         const urlObj = new URL(request.url);
         const id = urlObj.searchParams.get("id");
         if (id) {
-          const db = await getDb();
-          await db.collection("chat_sessions").deleteOne({ id });
-          const docs = await db.collection("chat_sessions").find({}).toArray();
-          const mapped = docs.map(d => ({ ...d, id: d.id || String(d._id), _id: undefined }));
-          return jsonResponse(mapped);
+          try {
+            const db = await getDb();
+            await db.collection("chat_sessions").deleteOne({ id });
+            const docs = await db.collection("chat_sessions").find({}).toArray();
+            const mapped = docs.map(d => ({ ...d, id: d.id || String(d._id), _id: undefined }));
+            return jsonResponse(mapped);
+          } catch (dbErr) {
+            console.warn("MongoDB chat delete error, using server fallback:", dbErr);
+            if (!(globalThis as any).__serverChats) (globalThis as any).__serverChats = [];
+            (globalThis as any).__serverChats = (globalThis as any).__serverChats.filter((c: any) => c.id !== id);
+            return jsonResponse((globalThis as any).__serverChats);
+          }
         }
         return jsonResponse({ error: "Missing ID" }, 400);
       }
@@ -407,27 +420,35 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
         if (body.action === "create") {
           const newSession = {
             id: "session-" + Math.random().toString(36).substr(2, 9),
-            clientName: body.clientName,
-            clientCity: body.clientCity || "Miami",
-            clientEmail: body.clientEmail,
-            clientPhone: body.clientPhone,
+            clientName: body.clientName || "Website Visitor",
+            clientCity: body.clientCity || "Tomball, TX",
+            clientEmail: body.clientEmail || "",
+            clientPhone: body.clientPhone || "",
             lastMessage: "Chat session initialized",
             lastMessageTime: new Date().toISOString(),
             unread: true,
             messages: []
           };
-          await dbSaveChatSession(newSession);
+
+          try {
+            await dbSaveChatSession(newSession);
+          } catch (dbErr) {
+            console.warn("MongoDB chat create error, saving to memory fallback:", dbErr);
+          }
+
+          if (!(globalThis as any).__serverChats) (globalThis as any).__serverChats = [];
+          (globalThis as any).__serverChats.unshift(newSession);
 
           // Save a dashboard notification for the new chat session
           try {
             const notification = await dbAddNotification({
               type: "chat_start",
-              title: "New Chat Started",
-              message: `${body.clientName} started a live chat session.`,
+              title: "New Live Chat Started",
+              message: `${newSession.clientName} started a live chat session from ${newSession.clientCity}.`,
               link: "/dashboard?tab=chat",
               metadata: {
                 sessionId: newSession.id,
-                clientName: body.clientName,
+                clientName: newSession.clientName,
                 clientCity: newSession.clientCity,
                 clientPhone: newSession.clientPhone,
                 clientEmail: newSession.clientEmail
@@ -438,19 +459,38 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             const io = (global as any).io;
             if (io) {
               io.emit("new-notification", notification);
+              io.emit("session-created", { sessionId: newSession.id, clientName: newSession.clientName });
             }
           } catch (err) {
-            console.error("Failed to create chat start notification:", err);
+            console.error("Failed to broadcast chat start notification:", err);
           }
 
           return jsonResponse(newSession);
         }
         if (body.action === "message") {
-          const db = await getDb();
-          const session = await db.collection("chat_sessions").findOne({ id: body.sessionId });
-          if (!session) return jsonResponse(null, 404);
+          let session: any = null;
+          try {
+            const db = await getDb();
+            session = await db.collection("chat_sessions").findOne({ id: body.sessionId });
+          } catch (dbErr) {
+            console.warn("MongoDB find session error, checking memory:", dbErr);
+          }
 
-          const isFirstMessage = !session.messages || session.messages.length === 0;
+          if (!session && (globalThis as any).__serverChats) {
+            session = (globalThis as any).__serverChats.find((s: any) => s.id === body.sessionId);
+          }
+
+          if (!session) {
+            session = {
+              id: body.sessionId,
+              clientName: "Website Visitor",
+              clientCity: "Tomball, TX",
+              messages: [],
+              lastMessage: "",
+              lastMessageTime: new Date().toISOString(),
+              unread: true
+            };
+          }
 
           const newMsg = {
             id: "msg-" + Math.random().toString(36).substr(2, 9),
@@ -458,6 +498,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             text: body.text,
             timestamp: new Date().toISOString()
           };
+
           const updatedSession = {
             ...session,
             messages: [...(session.messages || []), newMsg],
@@ -465,53 +506,46 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             lastMessageTime: newMsg.timestamp,
             unread: body.sender === "client"
           };
-          await dbSaveChatSession(updatedSession);
 
-          // If this is the first client message, send an email notification to Williams@electricalcontractorcorp.com
-          if (isFirstMessage && body.sender === "client") {
-            try {
-              console.log("📨 Sending first-text email notification to Williams@electricalcontractorcorp.com...");
-              const emailPayload = {
-                _subject: `New Live Chat Started by ${session.clientName} (R&E Electrical)`,
-                "Client Name": session.clientName,
-                "Client City": session.clientCity || "Miami",
-                "Client Phone": session.clientPhone || "Not provided",
-                "Client Email": session.clientEmail || "Not provided",
-                "First Message": body.text,
-                "Sent At": newMsg.timestamp,
-                "Platform": "R&E Electrical Contractor Corp Portal"
-              };
+          try {
+            await dbSaveChatSession(updatedSession);
+          } catch (dbErr) {
+            console.warn("MongoDB chat update error:", dbErr);
+          }
 
-              // Make asynchronous call to formsubmit.co
-              fetch("https://formsubmit.co/ajax/Williams@electricalcontractorcorp.com", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Accept": "application/json"
-                },
-                body: JSON.stringify(emailPayload)
-              }).then(res => {
-                if (res.ok) {
-                  console.log("✅ Email notification sent successfully to Williams@electricalcontractorcorp.com via FormSubmit");
-                } else {
-                  console.warn("⚠️ FormSubmit returned non-ok status:", res.status);
-                }
-              }).catch(err => {
-                console.error("❌ Failed to send email via FormSubmit:", err);
-              });
-            } catch (err) {
-              console.error("Failed to construct/send first-text email notification:", err);
-            }
+          if (!(globalThis as any).__serverChats) (globalThis as any).__serverChats = [];
+          const existingIdx = (globalThis as any).__serverChats.findIndex((s: any) => s.id === updatedSession.id);
+          if (existingIdx >= 0) {
+            (globalThis as any).__serverChats[existingIdx] = updatedSession;
+          } else {
+            (globalThis as any).__serverChats.unshift(updatedSession);
+          }
+
+          // Broadcast message via Socket.io
+          const io = (global as any).io;
+          if (io) {
+            io.to(body.sessionId).emit("message", { ...newMsg, sessionId: body.sessionId });
+            io.emit("new-chat-message", { ...newMsg, sessionId: body.sessionId });
           }
 
           return jsonResponse(updatedSession);
         }
         if (body.action === "read") {
-          const db = await getDb();
-          await db.collection("chat_sessions").updateOne({ id: body.sessionId }, { $set: { unread: false } });
-          const docs = await db.collection("chat_sessions").find({}).toArray();
-          const mapped = docs.map(d => ({ ...d, id: d.id || String(d._id), _id: undefined }));
-          return jsonResponse(mapped);
+          try {
+            const db = await getDb();
+            await db.collection("chat_sessions").updateOne({ id: body.sessionId }, { $set: { unread: false } });
+            const docs = await db.collection("chat_sessions").find({}).toArray();
+            const mapped = docs.map(d => ({ ...d, id: d.id || String(d._id), _id: undefined }));
+            return jsonResponse(mapped);
+          } catch (dbErr) {
+            console.warn("MongoDB mark read error:", dbErr);
+            if ((globalThis as any).__serverChats) {
+              (globalThis as any).__serverChats = (globalThis as any).__serverChats.map((s: any) =>
+                s.id === body.sessionId ? { ...s, unread: false } : s
+              );
+            }
+            return jsonResponse((globalThis as any).__serverChats || []);
+          }
         }
       }
     }

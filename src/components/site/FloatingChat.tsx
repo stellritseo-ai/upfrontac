@@ -10,6 +10,7 @@ export function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,18 +18,41 @@ export function FloatingChat() {
   const socketRef = useRef<any>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
+  // Play audio chime when admin replies
+  const playChime = useCallback(() => {
+    try {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      if (AudioContext) {
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1); // A5
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.35);
+      }
+    } catch {}
+  }, []);
+
   // 1. Retrieve localStorage session on mount
   useEffect(() => {
     const storedId = localStorage.getItem("upfront-chat-session-id");
     const storedName = localStorage.getItem("upfront-chat-client-name");
+    const storedPhone = localStorage.getItem("upfront-chat-client-phone");
     if (storedId) {
       setSessionId(storedId);
       if (storedName) setName(storedName);
+      if (storedPhone) setPhone(storedPhone);
 
       // Load conversation history from database
       getChatSessionById(storedId).then((session) => {
-        if (session) {
-          setMessages(session.messages || []);
+        if (session && Array.isArray(session.messages)) {
+          setMessages(session.messages);
         }
       });
     }
@@ -36,8 +60,6 @@ export function FloatingChat() {
 
   // 2. Establish Socket.io connection when session is active
   useEffect(() => {
-    if (!sessionId) return;
-
     // Connect to the current window's origin
     const socket = io({
       transports: ["websocket", "polling"],
@@ -45,22 +67,39 @@ export function FloatingChat() {
     });
     socketRef.current = socket;
 
-    // Join room for the session
-    socket.emit("join-session", sessionId);
+    if (sessionId) {
+      socket.emit("join-session", sessionId);
+    }
 
     // Listen for incoming messages
-    socket.on("message", (msg: ChatMessage) => {
-      setMessages((prev) => {
-        // Prevent duplicate appending
-        if (prev.some((m) => m.id === msg.id)) return prev;
-        return [...prev, msg];
-      });
-    });
+    const handleIncomingMessage = (msg: any) => {
+      if (sessionId && msg.sessionId === sessionId) {
+        setMessages((prev) => {
+          if (prev.some((m) => m.id === msg.id)) return prev;
+          if (msg.sender === "admin") {
+            playChime();
+          }
+          return [...prev, msg];
+        });
+      }
+    };
+
+    socket.on("message", handleIncomingMessage);
+    socket.on("new-chat-message", handleIncomingMessage);
+
+    // Also listen for cross-tab custom events
+    const handleCustomEvent = (e: any) => {
+      if (e.detail && sessionId && e.detail.id === sessionId && Array.isArray(e.detail.messages)) {
+        setMessages(e.detail.messages);
+      }
+    };
+    window.addEventListener("upfront-chats-updated", handleCustomEvent);
 
     return () => {
       socket.disconnect();
+      window.removeEventListener("upfront-chats-updated", handleCustomEvent);
     };
-  }, [sessionId]);
+  }, [sessionId, playChime]);
 
   // 3. Scroll to the bottom of the chat dynamically
   useEffect(() => {
@@ -73,6 +112,7 @@ export function FloatingChat() {
 
     let activeId = sessionId;
     let clientName = name.trim();
+    let clientPhone = phone.trim();
 
     if (!activeId && !clientName) {
       toast.error("Please enter your name to start the chat.");
@@ -84,16 +124,19 @@ export function FloatingChat() {
     try {
       // Create session in the database if this is the first message
       if (!activeId) {
-        const session = await createChatSession(clientName, "Tomball", "", "");
+        const session = await createChatSession(clientName, "Tomball, TX", "", clientPhone);
         activeId = session.id;
         setSessionId(activeId);
         setName(clientName);
         localStorage.setItem("upfront-chat-session-id", activeId);
         localStorage.setItem("upfront-chat-client-name", clientName);
+        if (clientPhone) localStorage.setItem("upfront-chat-client-phone", clientPhone);
 
-        // Notify socket connection that session was created
-        const tempSocket = socketRef.current || io();
-        tempSocket.emit("session-created", { sessionId: activeId, clientName });
+        // Join room and notify socket
+        if (socketRef.current) {
+          socketRef.current.emit("join-session", activeId);
+          socketRef.current.emit("session-created", { sessionId: activeId, clientName, clientPhone });
+        }
       }
 
       // Save message to MongoDB
@@ -105,7 +148,8 @@ export function FloatingChat() {
         if (socketRef.current) {
           socketRef.current.emit("send-message", {
             ...lastMsg,
-            sessionId: activeId
+            sessionId: activeId,
+            clientName
           });
         }
 
@@ -123,8 +167,10 @@ export function FloatingChat() {
   const handleClearChat = () => {
     localStorage.removeItem("upfront-chat-session-id");
     localStorage.removeItem("upfront-chat-client-name");
+    localStorage.removeItem("upfront-chat-client-phone");
     setSessionId(null);
     setName("");
+    setPhone("");
     setMessages([]);
     setIsOpen(false);
   };
@@ -246,14 +292,23 @@ export function FloatingChat() {
 
               <form onSubmit={handleSend} className="mt-1 flex flex-col gap-2">
                 {!sessionId && (
-                  <input
-                    type="text"
-                    required
-                    placeholder="Your Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/10 focus:border-[#005CE6] transition"
-                  />
+                  <div className="grid grid-cols-2 gap-2">
+                    <input
+                      type="text"
+                      required
+                      placeholder="Your Name *"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/10 focus:border-[#005CE6] transition"
+                    />
+                    <input
+                      type="tel"
+                      placeholder="Phone (optional)"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/10 focus:border-[#005CE6] transition"
+                    />
+                  </div>
                 )}
                 <div className="relative flex items-center">
                   <input

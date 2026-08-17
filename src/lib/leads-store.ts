@@ -1225,25 +1225,20 @@ export const sendChatMessage = async (
 };
 
 export const markChatAsRead = async (sessionId: string): Promise<ChatSession[]> => {
+  const current = getStorageItem<ChatSession[]>("upfront-chats-v2", []);
+  const updatedLocal = current.map((c) => (c.id === sessionId ? { ...c, unread: false } : c));
+  setStorageItem("upfront-chats-v2", updatedLocal);
+
   try {
-    const updated = await apiCall<ChatSession[]>("/api/chats", "POST", { action: "read", sessionId });
-    if (Array.isArray(updated)) {
-      setStorageItem("upfront-chats-v2", updated);
-      if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-chats-updated"));
-      }
-      return updated;
-    }
+    apiCall<ChatSession[]>("/api/chats", "POST", { action: "read", sessionId }).catch(() => {});
   } catch (err) {
     console.warn("MongoDB offline, marking read in local storage:", err);
   }
-  const chats = await getChatSessions();
-  const updated = chats.map((c) => (c.id === sessionId ? { ...c, unread: false } : c));
-  setStorageItem("upfront-chats-v2", updated);
+
   if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent("upfront-chats-updated"));
   }
-  return updated;
+  return updatedLocal;
 };
 
 export const deleteChatSession = async (id: string): Promise<ChatSession[]> => {

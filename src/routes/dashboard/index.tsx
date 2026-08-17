@@ -1120,8 +1120,8 @@ function DashboardPage() {
   // Chat Handlers
   const handleSelectChat = async (id: string) => {
     setActiveSessionId(id);
-    const updated = await markChatAsRead(id);
-    setChatSessions(updated);
+    setChatSessions((prev) => prev.map((s) => (s.id === id ? { ...s, unread: false } : s)));
+    markChatAsRead(id);
     if (socketRef.current) {
       socketRef.current.emit("join-session", id);
     }

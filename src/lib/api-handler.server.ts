@@ -519,78 +519,14 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     // ── /api/gallery ──
     if (pathname === "/api/gallery") {
       if (method === "GET") {
-        const photos = await dbGetGalleryPhotos([
-          {
-            id: "photo-1",
-            url: "https://images.unsplash.com/photo-1565538810844-1e119411121f",
-            category: "residential",
-            title: "Luxury Home Lighting System",
-            location: "Coral Gables, FL",
-            tag: "Smart Lighting",
-            uploadedAt: new Date().toISOString()
-          },
-          {
-            id: "photo-2",
-            url: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e",
-            category: "commercial",
-            title: "Corporate Atrium Installation",
-            location: "Brickell, FL",
-            tag: "Panel Upgrade",
-            uploadedAt: new Date().toISOString()
-          },
-          {
-            id: "photo-3",
-            url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758",
-            category: "industrial",
-            title: "Warehouse High-Bay LED Retrofit",
-            location: "Doral, FL",
-            tag: "Industrial LED",
-            uploadedAt: new Date().toISOString()
-          },
-          {
-            id: "photo-4",
-            url: "https://images.unsplash.com/photo-1554118811-1e0d58224f24",
-            category: "commercial",
-            title: "Restaurant Ambient Lighting",
-            location: "Wynwood, FL",
-            tag: "Ambient Design",
-            uploadedAt: new Date().toISOString()
-          },
-          {
-            id: "photo-5",
-            url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd",
-            category: "commercial",
-            title: "Office Build-Out Wiring",
-            location: "Aventura, FL",
-            tag: "Full Rewire",
-            uploadedAt: new Date().toISOString()
-          },
-          {
-            id: "photo-6",
-            url: "https://images.unsplash.com/photo-1563720223185-11003d516935",
-            category: "residential",
-            title: "Fleet EV Charging Station",
-            location: "Pinecrest, FL",
-            tag: "EV Charger",
-            uploadedAt: new Date().toISOString()
-          },
-          {
-            id: "photo-7",
-            url: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d",
-            category: "residential",
-            title: "Whole-Home Generator Install",
-            location: "Miami Beach, FL",
-            tag: "Generator",
-            uploadedAt: new Date().toISOString()
-          }
-        ]);
+        const photos = await dbGetGalleryPhotos([]);
         return jsonResponse(photos);
       }
       if (method === "POST") {
         const body = await request.json();
         let url = body.url;
         if (!url && body.base64Photo) {
-          url = await uploadToCloudinary(body.base64Photo, "electrical/gallery");
+          url = await uploadToCloudinary(body.base64Photo, "upfrontac/gallery");
         }
         if (!url) {
           return jsonResponse({ error: "Missing image content or URL" }, 400);
@@ -599,6 +535,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           id: "photo-" + Math.random().toString(36).substr(2, 9),
           url,
           category: body.category || "residential",
+          title: body.title || "HVAC Project",
           uploadedAt: new Date().toISOString()
         };
         const updated = await dbAddGalleryPhoto(newPhoto);
@@ -709,7 +646,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     // ── /api/sign-upload ──
     if (pathname === "/api/sign-upload" && method === "POST") {
       const body = await request.json();
-      const folder = body.folder || "electrical/gallery";
+      const folder = body.folder || "upfrontac/gallery";
       const timestamp = Math.round(Date.now() / 1000);
       const apiSecret = process.env.CLOUDINARY_API_SECRET;
       const cloudName = process.env.CLOUDINARY_CLOUD_NAME;

@@ -1196,26 +1196,27 @@ export const deleteWebEmail = async (id: string): Promise<WebEmail[]> => {
 export const getGalleryPhotos = async (): Promise<GalleryPhoto[]> => {
   try {
     const photos = await apiCall<GalleryPhoto[]>("/api/gallery", "GET");
-    setStorageItem("electrical-gallery-photos", photos);
-    return photos;
+    if (Array.isArray(photos)) {
+      setStorageItem("upfront-gallery-photos-v2", photos);
+      return photos;
+    }
+    return [];
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage gallery:", err);
-    return getStorageItem<GalleryPhoto[]>("electrical-gallery-photos", [
-      { id: "photo-1", url: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e", uploadedAt: new Date().toISOString() }
-    ]);
+    return getStorageItem<GalleryPhoto[]>("upfront-gallery-photos-v2", []);
   }
 };
 
-export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?: string): Promise<GalleryPhoto[]> => {
+export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?: string, title?: string): Promise<GalleryPhoto[]> => {
   try {
-    const folder = `electrical/${category && category !== "all" ? category : "gallery"}`;
+    const folder = `upfrontac/${category && category !== "all" ? category : "gallery"}`;
 
     // Step 1: Get a signed upload token from the server
     const signRes = await apiCall<{ signature: string; timestamp: number; apiKey: string; cloudName: string; folder: string }>(
       "/api/sign-upload", "POST", { folder }
     );
 
-    // Step 2: Build FormData for direct Cloudinary upload (supports any size)
+    // Step 2: Build FormData for direct Cloudinary upload (supports high-res images)
     const formData = new FormData();
     formData.append("api_key", signRes.apiKey);
     formData.append("signature", signRes.signature);
@@ -1229,7 +1230,7 @@ export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?:
       formData.append("file", fileOrBase64);
     }
 
-    // Step 3: Upload directly to Cloudinary
+    // Step 3: Upload directly to Cloudinary CDN
     const uploadRes = await fetch(
       `https://api.cloudinary.com/v1_1/${signRes.cloudName}/auto/upload`,
       { method: "POST", body: formData }
@@ -1241,31 +1242,36 @@ export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?:
     const uploadData = await uploadRes.json();
     const secureUrl: string = uploadData.secure_url;
 
-    // Step 4: Save the URL to our database
-    return await apiCall<GalleryPhoto[]>("/api/gallery", "POST", { url: secureUrl, category });
+    // Step 4: Save the URL & metadata to our database
+    const updated = await apiCall<GalleryPhoto[]>("/api/gallery", "POST", { url: secureUrl, category, title });
+    setStorageItem("upfront-gallery-photos-v2", updated);
+    return updated;
   } catch (err) {
-    console.warn("Gallery upload failed, falling back to local storage:", err);
+    console.warn("Gallery upload fallback to local storage:", err);
     const photos = await getGalleryPhotos();
     const newPhoto: GalleryPhoto = {
       id: "photo-" + Math.random().toString(36).substr(2, 9),
       url: typeof fileOrBase64 === "string" ? fileOrBase64 : URL.createObjectURL(fileOrBase64),
       category: category || "residential",
+      title: title || "HVAC Project",
       uploadedAt: new Date().toISOString()
     };
     photos.unshift(newPhoto);
-    setStorageItem("electrical-gallery-photos", photos);
+    setStorageItem("upfront-gallery-photos-v2", photos);
     return photos;
   }
 };
 
 export const removeGalleryPhoto = async (id: string): Promise<GalleryPhoto[]> => {
   try {
-    return await apiCall<GalleryPhoto[]>(`/api/gallery?id=${id}`, "DELETE");
+    const updated = await apiCall<GalleryPhoto[]>(`/api/gallery?id=${id}`, "DELETE");
+    setStorageItem("upfront-gallery-photos-v2", updated);
+    return updated;
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage:", err);
     const photos = await getGalleryPhotos();
     const filtered = photos.filter(p => p.id !== id);
-    setStorageItem("electrical-gallery-photos", filtered);
+    setStorageItem("upfront-gallery-photos-v2", filtered);
     return filtered;
   }
 };

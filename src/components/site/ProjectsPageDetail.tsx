@@ -56,7 +56,7 @@ export function ProjectsPageDetail() {
       .map((photo) => photo.url)
       .filter((url) => url && !url.includes("unsplash.com") && !url.includes("localhost"));
 
-    return Array.from(new Set([...localGalleryImages, ...validDbUrls]));
+    return Array.from(new Set([...[...validDbUrls].reverse(), ...localGalleryImages]));
   }, [dbPhotos]);
 
   const categories = [

@@ -28,14 +28,14 @@ export function Projects({ isLanding = false }: { isLanding?: boolean }) {
       });
   }, []);
 
-  // Always display local gallery images from assets/gallery, plus any user-uploaded db photos
+  // Prioritize newly uploaded Cloudinary photos from database, followed by local gallery assets
   const allImages = useMemo(() => {
     const validDbUrls = dbPhotos
       .map((photo) => photo.url)
       .filter((url) => url && !url.includes("unsplash.com") && !url.includes("localhost"));
 
-    // Deduplicate and prioritize local gallery assets
-    return Array.from(new Set([...localGalleryImages, ...validDbUrls]));
+    // Deduplicate and place newest Cloudinary uploads first
+    return Array.from(new Set([...[...validDbUrls].reverse(), ...localGalleryImages]));
   }, [dbPhotos]);
 
   const [showAll, setShowAll] = useState(false);

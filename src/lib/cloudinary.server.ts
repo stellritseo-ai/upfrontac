@@ -32,10 +32,19 @@ export async function uploadToCloudinary(fileStr: string, folder = "upfrontac") 
 
 export async function deleteFromCloudinary(url: string) {
   ensureConfigured();
-  const parts = url.split("/");
-  const fileName = parts[parts.length - 1];
-  const publicId = fileName.split(".")[0];
-  const folderIndex = parts.indexOf("upfrontac");
-  const id = folderIndex !== -1 ? parts.slice(folderIndex).join("/").split(".")[0] : publicId;
-  await cloudinary.uploader.destroy(id);
+  try {
+    // Cloudinary URL format: https://res.cloudinary.com/<cloud_name>/image/upload/v<version>/<folder>/<filename>.<ext>
+    const match = url.match(/\/upload\/(?:v\d+\/)?(.+)\.[a-zA-Z0-9]+$/);
+    if (match && match[1]) {
+      await cloudinary.uploader.destroy(match[1]);
+      return;
+    }
+    const parts = url.split("/");
+    const fileName = parts[parts.length - 1];
+    const publicId = fileName.split(".")[0];
+    await cloudinary.uploader.destroy(publicId);
+  } catch (err) {
+    console.warn("Cloudinary destroy error:", err);
+  }
 }
+

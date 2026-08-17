@@ -149,20 +149,32 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
         return jsonResponse(updated);
       }
       if (method === "DELETE") {
-        const body = await request.json();
+        let id = "";
+        try {
+          const body = await request.json();
+          id = body.id;
+        } catch {}
+        if (!id) {
+          id = url.searchParams.get("id") || "";
+        }
+        if (!id) {
+          return jsonResponse({ error: "Missing lead ID" }, 400);
+        }
+
+        if ((globalThis as any).__serverLeads) {
+          (globalThis as any).__serverLeads = (globalThis as any).__serverLeads.filter((l: any) => l.id !== id);
+        }
+
         let updated: any = null;
         try {
-          updated = await dbDeleteLead(body.id);
+          updated = await dbDeleteLead(id);
         } catch (dbErr) {
           console.warn("MongoDB lead delete error:", dbErr);
-          if ((globalThis as any).__serverLeads) {
-            (globalThis as any).__serverLeads = (globalThis as any).__serverLeads.filter((l: any) => l.id !== body.id);
-            updated = (globalThis as any).__serverLeads;
-          }
+          updated = (globalThis as any).__serverLeads || [];
         }
         const io = (global as any).io;
         if (io) {
-          io.emit("lead-deleted", { id: body.id });
+          io.emit("lead-deleted", { id });
         }
         return jsonResponse(updated);
       }
@@ -481,15 +493,27 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
         return jsonResponse({ ...saved, lead: savedLead });
       }
       if (method === "DELETE") {
-        const body = await request.json();
+        let id = "";
         try {
-          const updated = await dbDeleteWebEmail(body.id);
+          const body = await request.json();
+          id = body.id;
+        } catch {}
+        if (!id) {
+          id = url.searchParams.get("id") || "";
+        }
+        if (!id) {
+          return jsonResponse({ error: "Missing email ID" }, 400);
+        }
+
+        if ((globalThis as any).__serverEmails) {
+          (globalThis as any).__serverEmails = (globalThis as any).__serverEmails.filter((e: any) => e.id !== id);
+        }
+
+        try {
+          const updated = await dbDeleteWebEmail(id);
           return jsonResponse(updated);
         } catch (dbErr) {
           console.warn("MongoDB email delete error, using in-memory store:", dbErr);
-          if ((globalThis as any).__serverEmails) {
-            (globalThis as any).__serverEmails = (globalThis as any).__serverEmails.filter((e: any) => e.id !== body.id);
-          }
           return jsonResponse((globalThis as any).__serverEmails || []);
         }
       }

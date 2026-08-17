@@ -714,12 +714,18 @@ async function apiCall<T>(url: string, method: string, body?: any): Promise<T> {
 // ── LEADS ──
 export const getLeads = async (): Promise<Lead[]> => {
   const localLeads = getStorageItem<Lead[]>("electrical-leads", []);
+  const deletedIds = new Set(getStorageItem<string[]>("upfront-deleted-leads", []));
+
   try {
     const leads = await apiCall<Lead[]>("/api/leads?t=" + Date.now(), "GET");
     if (Array.isArray(leads)) {
       const mergedMap = new Map<string, Lead>();
-      localLeads.forEach(l => { if (l?.id) mergedMap.set(l.id, l); });
-      leads.forEach(l => { if (l?.id) mergedMap.set(l.id, l); });
+      localLeads.forEach((l) => {
+        if (l?.id && !deletedIds.has(l.id)) mergedMap.set(l.id, l);
+      });
+      leads.forEach((l) => {
+        if (l?.id && !deletedIds.has(l.id)) mergedMap.set(l.id, l);
+      });
       const sorted = Array.from(mergedMap.values()).sort((a, b) => {
         const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
         const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
@@ -731,7 +737,8 @@ export const getLeads = async (): Promise<Lead[]> => {
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage leads:", err);
   }
-  return localLeads;
+  const filteredLocal = localLeads.filter((l) => l?.id && !deletedIds.has(l.id));
+  return filteredLocal;
 };
 
 export const addLead = async (leadData: Omit<Lead, "id" | "status" | "estimatedValue" | "createdAt">): Promise<Lead> => {
@@ -828,21 +835,33 @@ export const updateLeadDetails = async (id: string, updates: Partial<Omit<Lead, 
 };
 
 export const deleteLead = async (id: string): Promise<Lead[]> => {
+  // 1. Mark as deleted in persistent deleted set
+  const deleted = getStorageItem<string[]>("upfront-deleted-leads", []);
+  if (!deleted.includes(id)) {
+    deleted.push(id);
+    setStorageItem("upfront-deleted-leads", deleted);
+  }
+
+  // 2. Remove immediately from local storage
+  const current = getStorageItem<Lead[]>("electrical-leads", []);
+  const filtered = current.filter((l) => l.id !== id);
+  setStorageItem("electrical-leads", filtered);
+
+  // 3. Notify server
   try {
     const updated = await apiCall<Lead[]>("/api/leads", "DELETE", { id });
     if (Array.isArray(updated)) {
-      setStorageItem("electrical-leads", updated);
+      const cleaned = updated.filter((l) => l.id !== id && !deleted.includes(l.id));
+      setStorageItem("electrical-leads", cleaned);
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("upfront-leads-updated"));
       }
-      return updated;
+      return cleaned;
     }
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage:", err);
   }
-  const leads = await getLeads();
-  const filtered = leads.filter(l => l.id !== id);
-  setStorageItem("electrical-leads", filtered);
+
   if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent("upfront-leads-updated"));
   }
@@ -1258,12 +1277,18 @@ export const reopenChatSession = async (sessionId: string): Promise<ChatSession 
 // ── EMAILS / WEB INQUIRIES ──
 export const getWebEmails = async (): Promise<WebEmail[]> => {
   const localEmails = getStorageItem<WebEmail[]>("upfront-emails-v2", []);
+  const deletedIds = new Set(getStorageItem<string[]>("upfront-deleted-emails", []));
+
   try {
     const emails = await apiCall<WebEmail[]>("/api/emails?t=" + Date.now(), "GET");
     if (Array.isArray(emails)) {
       const mergedMap = new Map<string, WebEmail>();
-      localEmails.forEach(e => { if (e?.id) mergedMap.set(e.id, e); });
-      emails.forEach(e => { if (e?.id) mergedMap.set(e.id, e); });
+      localEmails.forEach((e) => {
+        if (e?.id && !deletedIds.has(e.id)) mergedMap.set(e.id, e);
+      });
+      emails.forEach((e) => {
+        if (e?.id && !deletedIds.has(e.id)) mergedMap.set(e.id, e);
+      });
       const sorted = Array.from(mergedMap.values()).sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
@@ -1273,7 +1298,10 @@ export const getWebEmails = async (): Promise<WebEmail[]> => {
   } catch (err) {
     console.warn("MongoDB/API offline, reading local storage emails:", err);
   }
-  return localEmails.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const filteredLocal = localEmails.filter((e) => e?.id && !deletedIds.has(e.id));
+  return filteredLocal.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 };
 
 export const addWebEmail = async (emailData: Omit<WebEmail, "id" | "createdAt">): Promise<WebEmail> => {
@@ -1376,21 +1404,33 @@ export const addWebEmail = async (emailData: Omit<WebEmail, "id" | "createdAt">)
 };
 
 export const deleteWebEmail = async (id: string): Promise<WebEmail[]> => {
+  // 1. Mark as deleted in persistent deleted set
+  const deleted = getStorageItem<string[]>("upfront-deleted-emails", []);
+  if (!deleted.includes(id)) {
+    deleted.push(id);
+    setStorageItem("upfront-deleted-emails", deleted);
+  }
+
+  // 2. Remove immediately from local storage
+  const current = getStorageItem<WebEmail[]>("upfront-emails-v2", []);
+  const filtered = current.filter((e) => e.id !== id);
+  setStorageItem("upfront-emails-v2", filtered);
+
+  // 3. Notify server
   try {
     const updated = await apiCall<WebEmail[]>("/api/emails", "DELETE", { id });
     if (Array.isArray(updated)) {
-      setStorageItem("upfront-emails-v2", updated);
+      const cleaned = updated.filter((e) => e.id !== id && !deleted.includes(e.id));
+      setStorageItem("upfront-emails-v2", cleaned);
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("upfront-emails-updated", { detail: id }));
       }
-      return updated;
+      return cleaned;
     }
   } catch (err) {
     console.warn("MongoDB offline, deleting email from local storage:", err);
   }
-  const emails = await getWebEmails();
-  const filtered = emails.filter(e => e.id !== id);
-  setStorageItem("upfront-emails-v2", filtered);
+
   if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent("upfront-emails-updated", { detail: id }));
   }

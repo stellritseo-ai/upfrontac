@@ -158,44 +158,565 @@ export const INITIAL_LEADS: Lead[] = [
 
 export const INITIAL_REVIEWS: Review[] = [
   {
-    id: "review-google-1",
-    title: "Life-saving emergency AC repair on a 100° Houston day!",
-    text: "Allen and his team at Upfront A/C are unmatched. Our AC stopped cooling in the middle of July. He diagnosed the blown capacitor and low refrigerant within 20 minutes and had our house down to 72° before dinner. 100% upfront pricing with zero hidden fees!",
-    author: "Michael Sterling",
-    location: "Cypress, TX",
+    id: "rev-google-1",
+    title: "Helpful, honest, and reasonable prices",
+    text: "I had a great experience with Allen from Upfront AC. He let me know when he was on his way, and he showed up as promised. He was helpful in answering questions, and his prices were reasonable. Would highly recommend him.",
+    author: "Lorraine Penczak",
+    location: "Google Verified Review · 3 months ago",
     rating: 5,
     featured: true,
-    createdAt: "2026-06-15T14:30:00Z"
+    source: "google",
+    createdAt: "2026-05-15T10:00:00Z"
   },
   {
-    id: "review-google-2",
-    title: "Full HVAC system replacement done with master craftsmanship",
-    text: "Got quotes from 4 different HVAC companies in Tomball. Upfront Air Conditioning gave the most detailed and honest breakdown. The new high-efficiency heat pump installation is whisper quiet and cut our electricity bill by 30%. True pros!",
-    author: "Jessica Thornton",
-    location: "Tomball, TX",
+    id: "rev-google-2",
+    title: "Told me the honest truth about my A/C unit",
+    text: "Allen is my neighbor for many years and saw A/C company at house and came over to ask a few questions. I explain to him what they said and he just told me the honest truth about my A/C unit. The company was basically trying to sell me a new unit when the issue was something much smaller.",
+    author: "Robert L Watts Jr",
+    location: "Google Verified Review · 4 months ago",
     rating: 5,
     featured: true,
-    createdAt: "2026-06-18T10:15:00Z"
+    source: "google",
+    createdAt: "2026-04-18T14:30:00Z"
   },
   {
-    id: "review-google-3",
-    title: "Honest, prompt, and thoroughly professional technicians",
-    text: "Had a furnace safety issue during the cold snap. Allen arrived on time, inspected the heat exchanger, and explained everything clearly. He even showed me the test readings. I will never call any other HVAC company in Houston!",
-    author: "David Vance",
-    location: "Spring, TX",
+    id: "rev-google-3",
+    title: "Helped us tremendously and quick to respond",
+    text: "I’ve had a couple interactions with Upfront AC and both times they have helped us tremendously! Their team is quick to respond, makes it really easy to understand what’s going on. I truly appreciate the help and services from these guys with fixing my problems!",
+    author: "Josh Juarez",
+    location: "Google Verified Review · 2 months ago",
     rating: 5,
     featured: true,
-    createdAt: "2026-06-22T16:45:00Z"
+    source: "google",
+    createdAt: "2026-06-10T11:15:00Z"
   },
   {
-    id: "review-google-4",
-    title: "Exceptional commercial rooftop unit service",
-    text: "Upfront AC maintains our retail store HVAC units in Katy. Fast response times, upfront transparent estimates, and flawless execution. Outstanding commercial HVAC partner.",
-    author: "Carlos Morales",
-    location: "Katy / Houston, TX",
+    id: "rev-google-4",
+    title: "Professional, prompt, efficient and reasonably priced",
+    text: "Allen and his son were quick and thorough! They were professional, prompt, efficient, and reasonably priced for the maintenance / repair work completed. Thank you Allen and Damian!",
+    author: "Melody Rymer",
+    location: "Google Verified Review · 3 months ago",
     rating: 5,
     featured: true,
-    createdAt: "2026-07-02T11:20:00Z"
+    source: "google",
+    createdAt: "2026-05-20T16:00:00Z"
+  },
+  {
+    id: "rev-google-5",
+    title: "Prolonged the life of my unit when others said replace",
+    text: "Stephen fixed my system and was able to prolong the life of my unit for me, when other companies said it needed to be replaced. I recommend this company if you want honest work done.",
+    author: "Deion Weaver",
+    location: "Google Verified Review · 2 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-06-12T09:45:00Z"
+  },
+  {
+    id: "rev-google-6",
+    title: "Honest, Decent and Affordable HVAC guys",
+    text: "Honest, Decent and Affordable HVAC guys. Not trying to upsell you things you don’t need.",
+    author: "Henrik T Andersen",
+    location: "Google Verified Review · 2 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-06-14T13:20:00Z"
+  },
+  {
+    id: "rev-google-7",
+    title: "Good utility bills through July and August",
+    text: "Friendly, professional and very helpful. Had a few questions about my new unit and was a bit concerned. He assured me I have a very good system, and it has proven to be very efficient. Good utility bills through July and August.",
+    author: "Joy Daniels",
+    location: "Local Guide · 11 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-09-15T15:00:00Z"
+  },
+  {
+    id: "rev-google-8",
+    title: "Fair upfront pricing, prompt and professional",
+    text: "Very knowledgeable, gave fair upfront pricing, and was very prompt and professional. I highly recommend using him.",
+    author: "Chris Watson",
+    location: "Local Guide · 4 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-04-22T10:30:00Z"
+  },
+  {
+    id: "rev-google-9",
+    title: "No surprises, new AC is great & cleanliness is a plus",
+    text: "Very knowledgeable & gave upfront pricing. No surprises. Explained recommendations for upgrades to the builder grade materials on my 20yr old system. New AC is great & cleanliness is a plus.",
+    author: "Lance Vincent",
+    location: "Google Verified Review · 9 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-11-10T12:00:00Z"
+  },
+  {
+    id: "rev-google-10",
+    title: "Treats you like family and does amazing work",
+    text: "Allen has been our service tech for many moons. He has always been reliable, fair, upfront, and honest. He communicates well, does extremely solid work and super friendly. Its hard to find someone who treats you like family and does such amazing work. I will recommend him to anyone.",
+    author: "Crystal Monariti",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-08-01T14:00:00Z"
+  },
+  {
+    id: "rev-google-11",
+    title: "Reaching out to Allen for almost a decade",
+    text: "I have been reaching out to Allen for years, almost a decade and he has never let me down. Even after the warranty company sends someone and the techs do not find anything - I reach out to Allen and he will find the issue. Very honest and flexible.",
+    author: "Priscilla Garcia",
+    location: "Local Guide · 11 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-09-20T17:00:00Z"
+  },
+  {
+    id: "rev-google-12",
+    title: "Saved me when my unit broke down over the holiday",
+    text: "Upfront AC was just supposed to do a routine maintenance for me, but they ended up saving me when my unit broke down over the holiday. Allen was very responsive and honest, getting me parts and service at the last minute.",
+    author: "Evan Visser",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-07-15T11:00:00Z"
+  },
+  {
+    id: "rev-google-13",
+    title: "Prompt, on time and work completed as planned",
+    text: "Prompt, on time and work completed as planned. Very good group to work with.",
+    author: "John Atwood",
+    location: "Google Verified Review · 2 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-06-18T08:30:00Z"
+  },
+  {
+    id: "rev-google-14",
+    title: "Truly honest contractor who diagnosed quickly",
+    text: "I had a great experience with Allen at Upfront A/C and just had to share. It's rare to find a contractor who's not only skilled but also truly honest. He came out, diagnosed the issue quickly, and fixed it right away.",
+    author: "Letha Gaines",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-08-10T15:30:00Z"
+  },
+  {
+    id: "rev-google-15",
+    title: "Shoes came off as soon as he stepped inside",
+    text: "Allen responded quickly to our urgent a/c problem and was very professional and respectful of our property. His shoes came off as soon as he stepped inside. Outstanding service.",
+    author: "M.A. Williams",
+    location: "Google Verified Review · 11 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-09-25T13:45:00Z"
+  },
+  {
+    id: "rev-google-16",
+    title: "Installed a new unit in our home seamlessly",
+    text: "We have been using Allen Swindell for our Ac/Heating service/repairs for years now. He installed a new unit in our home a couple years ago and we couldn’t be happier with his work. He is very honest, respectful, and reliable.",
+    author: "Sybil Ellis",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-06-15T12:00:00Z"
+  },
+  {
+    id: "rev-google-17",
+    title: "Always on time, very honest, family owned",
+    text: "I have been using Allen for a couple of years now on all my A/C work at my house. Always on time and very honest and family owned. He takes pride in his work and I know I’m always getting high quality work from Allen.",
+    author: "Eric M",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-07-20T10:00:00Z"
+  },
+  {
+    id: "rev-google-18",
+    title: "Amazing service! Would definitely recommend!",
+    text: "Amazing service!!! Would definitely recommend!",
+    author: "Brooke Davis",
+    location: "Google Verified Review · 2 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-06-25T14:15:00Z"
+  },
+  {
+    id: "rev-google-19",
+    title: "Conducts business with absolute integrity",
+    text: "When it comes to this company….they conduct business with absolute integrity. They act with urgency making you feel like a priority. You can tell he is motivated and takes great pride in what service he provides to the community.",
+    author: "Kristee Ochiltree",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-08-22T09:00:00Z"
+  },
+  {
+    id: "rev-google-20",
+    title: "Walked me through a repair via phone on Friday evening",
+    text: "I would refer anyone to Upfront AC! Allen exhibited what you would want from any service provider: patience, honesty, and care. He took his time on a Friday evening to walk me through a repair on my HVAC system via phone.",
+    author: "Je'Marcus Jackson",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-08-30T18:00:00Z"
+  },
+  {
+    id: "rev-google-21",
+    title: "Educating me in the process and reasonable price",
+    text: "Reasonable price. Allen with Upfront came over today and took care of my issue while talking us through it. It wasn’t an easy find so I appreciated his attention and educating me in the process.",
+    author: "Hector Gonzalez",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-07-10T16:20:00Z"
+  },
+  {
+    id: "rev-google-22",
+    title: "Honest, hardworking and reliable",
+    text: "If you want someone who is honest, hardworking and reliable you are looking in the right place with Allen! He always does his best to be a good person you can trust. Definitely recommend!",
+    author: "Rachel Hannes",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-06-30T11:45:00Z"
+  },
+  {
+    id: "rev-google-23",
+    title: "These guys ROCK! Up and running in no time",
+    text: "These guys ROCK! Our AC went out a few weeks ago and Alex got us up and running in no time. He cleared a clogged drain line that was backing up and triggering the float switch, and even went ahead and cleaned the machine up.",
+    author: "David Grench",
+    location: "Google Verified Review · 11 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-09-12T14:30:00Z"
+  },
+  {
+    id: "rev-google-24",
+    title: "New A/C was installed seamlessly next morning",
+    text: "If you ever need a true local A/C guy Alan is your guy. He came out after hours to just diagnose the problem. Unfortunately we needed a new A/C so not a quick fix. Still next morning a new A/C was installed seamlessly.",
+    author: "J&S",
+    location: "Google Verified Review · 10 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-10-05T09:15:00Z"
+  },
+  {
+    id: "rev-google-25",
+    title: "Finds the problem and fixes it, no band-aids",
+    text: "Always happy with the honest and fast service and support. Alan finds the problem and fixes it. Doesn’t just bandaid the symptoms. Truly appreciative of all the help he has provided.",
+    author: "Jennifer Andjelich",
+    location: "Local Guide · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-07-28T12:00:00Z"
+  },
+  {
+    id: "rev-google-26",
+    title: "Outstanding service, knowledgeable, and integrity",
+    text: "Outstanding service, knowledgeable, and integrity. Allen went above and beyond.",
+    author: "Marlon A Lara",
+    location: "Google Verified Review · 2 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-06-20T17:10:00Z"
+  },
+  {
+    id: "rev-google-27",
+    title: "Spent hours cleaning blowers in 90° heat",
+    text: "Upfront A/C came out to inspect and tune up my 2 A/C's. The young Man that came out was outstanding. He spent hours in my attic cleaning my Blowers, even with the temp 90 or above.",
+    author: "Henry Mcgowen",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-08-15T15:00:00Z"
+  },
+  {
+    id: "rev-google-28",
+    title: "Very impressed, knowledgeable and trustworthy",
+    text: "Great customer service...very impressed with Allen and Upfront AC. Very knowledgeable and trustworthy. Will be using again! If you need any A/C work done give him try!",
+    author: "Rebecca Williams",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-08-05T13:20:00Z"
+  },
+  {
+    id: "rev-google-29",
+    title: "Fast, thorough, and efficient job on my AC",
+    text: "Allen and his crew did a fast, thorough, and efficient job on my AC! I would trust them to help all my friends and family! Highly recommended! Thank you Upfront AC :)",
+    author: "Celise Keller",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-07-12T10:30:00Z"
+  },
+  {
+    id: "rev-google-30",
+    title: "Provides pictures of what is actually wrong",
+    text: "Excellent service, thorough, provides pictures of what is actually wrong versus just telling you. Doesn’t try to find things to charge you for but instead they try to save you money. Highly recommend.",
+    author: "Heather Smith",
+    location: "Local Guide · 10 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-10-18T16:00:00Z"
+  },
+  {
+    id: "rev-google-31",
+    title: "Fit us into schedule and charged what was estimated",
+    text: "Fit us into schedule and got the ac back up and running. Charged what was estimated. Will always call these guys when need hvac work done.",
+    author: "Jean-Paul Cardoso",
+    location: "Google Verified Review · 8 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-12-05T11:00:00Z"
+  },
+  {
+    id: "rev-google-32",
+    title: "Quick to respond, referred to many clients",
+    text: "Allen has always been quick to respond, very knowledgable about all things HVAC and I have used him for our personal home and referred him to many clients. Highly recommend.",
+    author: "Nicole Walters (KatyTXRealtor)",
+    location: "Local Guide · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-08-20T14:15:00Z"
+  },
+  {
+    id: "rev-google-33",
+    title: "Went out of their way to evaluate my situation",
+    text: "These guys have a lot of knowledge in the AC world. Went out of their way to come to my home and evaluate my situation to provide useful feedback. Thank you guys so much!!",
+    author: "Josh Bass",
+    location: "Local Guide · 11 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-09-08T15:45:00Z"
+  },
+  {
+    id: "rev-google-34",
+    title: "Professional & quick would definitely use again",
+    text: "Professional & quick would definitely use again & recommend.",
+    author: "Tonna Biehle",
+    location: "Google Verified Review · 10 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-10-22T12:00:00Z"
+  },
+  {
+    id: "rev-google-35",
+    title: "Reliable and honest and always on time",
+    text: "The best company you can contact for your ac needs. Reliable and honest and always on time.",
+    author: "Duane Ellis",
+    location: "Google Verified Review · 8 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-12-14T09:30:00Z"
+  },
+  {
+    id: "rev-google-36",
+    title: "Explained everything in detail and was honest",
+    text: "Great company! Allen explained everything in detail and was honest. Will definitely use him in the future.",
+    author: "BEATRIZ RAMIREZ",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-07-05T13:00:00Z"
+  },
+  {
+    id: "rev-google-37",
+    title: "He was a nice guy",
+    text: "He was a nice guy.",
+    author: "Nicole Price",
+    location: "Google Verified Review · 2 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-06-01T10:00:00Z"
+  },
+  {
+    id: "rev-google-38",
+    title: "I was hot for days he really saved me",
+    text: "I was hot for days he really saved me.",
+    author: "Treveon Green-Trent",
+    location: "Google Verified Review · 2 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-06-08T16:30:00Z"
+  },
+  {
+    id: "rev-google-39",
+    title: "Scott is the best in the business!",
+    text: "Scott is the best in the business!",
+    author: "Tracey Gaines",
+    location: "Google Verified Review · 3 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-05-18T11:20:00Z"
+  },
+  {
+    id: "rev-google-40",
+    title: "They go over and above service",
+    text: "This company is thorough in what they do. They are very nice and great customers service. They go over and above service.",
+    author: "Kristie Lazor",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-08-12T14:40:00Z"
+  },
+  {
+    id: "rev-google-41",
+    title: "On time and very direct, highly recommend",
+    text: "On time and very direct, would recommend Upfront AC when in need of any HVAC repairs or service.",
+    author: "Drayton Weaver",
+    location: "Google Verified Review · 8 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-12-20T10:15:00Z"
+  },
+  {
+    id: "rev-google-42",
+    title: "Very responsable, committed, punctual with fair prices",
+    text: "Excellent services, very responsable and committed, punctual and also very fair prices. I recommended.",
+    author: "Blanca Brito",
+    location: "Local Guide · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-07-25T15:10:00Z"
+  },
+  {
+    id: "rev-google-43",
+    title: "Outstanding service and fair pricing",
+    text: "Outstanding service! Highly responsible, punctual with very fair pricing.",
+    author: "Ginger Shunka",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-08-08T12:00:00Z"
+  },
+  {
+    id: "rev-google-44",
+    title: "Knowledgeable, checked everything for safety",
+    text: "Knowledgeable, checked everything to ensure safety, individual service.",
+    author: "Linda McRae",
+    location: "Local Guide · 8 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-12-18T14:00:00Z"
+  },
+  {
+    id: "rev-google-45",
+    title: "Great job. Highly Professional",
+    text: "Great job. Highly Professional.",
+    author: "Koteswara Rao",
+    location: "Local Guide · 11 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-09-28T16:00:00Z"
+  },
+  {
+    id: "rev-google-46",
+    title: "Great experience with Upfront AC",
+    text: "Great experience with Upfront AC, would recommend.",
+    author: "Taylor Becerra",
+    location: "Google Verified Review · 1 year ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2025-08-16T11:00:00Z"
+  },
+  {
+    id: "rev-google-47",
+    title: "Stop looking and just call UPFRONT AIR CONDITIONING",
+    text: "If you need AC help in Houston, stop looking and just call UPFRONT AIR CONDITIONING. The owner, Allen, and his helper, Stephen, came out to my house and they were absolutely incredible.",
+    author: "Andrew Robinson",
+    location: "Google Verified Review · 3 days ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-08-14T10:00:00Z"
+  },
+  {
+    id: "rev-google-48",
+    title: "No upsells, just honest work with a fair price",
+    text: "Allen and Stephen from Upfront AC were nothing short of amazing. They were prompt, professional, and thorough in their work. No upsells, just honest work with a fair price.",
+    author: "Lesley M.",
+    location: "Google Verified Review · 3 days ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-08-14T14:30:00Z"
+  },
+  {
+    id: "rev-google-49",
+    title: "Great Service and fair price, very professional",
+    text: "Great Service and fair price. Great work customer service and very professional.",
+    author: "Review4ALL Truth2020",
+    location: "Google Verified Review · 3 weeks ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-07-28T16:00:00Z"
+  },
+  {
+    id: "rev-google-50",
+    title: "Amazing experience working with Damien",
+    text: "This was an amazing experience working with Damien. He did what he said, and pointed me in the right direction.",
+    author: "Brooke Young",
+    location: "Google Verified Review · 1 month ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-07-15T12:00:00Z"
+  },
+  {
+    id: "rev-google-51",
+    title: "Service is top notch, no hidden fees",
+    text: "1st time using Allen and UP Front but wont be the last! Service is top notch. No hidden fees. Paid exactly what was quoted. He went above and beyond.",
+    author: "James Rogers",
+    location: "Google Verified Review · 2 months ago",
+    rating: 5,
+    featured: true,
+    source: "google",
+    createdAt: "2026-06-15T10:00:00Z"
   }
 ];
 
@@ -419,11 +940,29 @@ export const removeLeadPhoto = async (leadId: string, photoIndex: number): Promi
 export const getReviews = async (): Promise<Review[]> => {
   try {
     const reviews = await apiCall<Review[]>("/api/reviews", "GET");
-    setStorageItem("electrical-reviews", reviews);
-    return reviews;
+    if (Array.isArray(reviews) && reviews.length >= INITIAL_REVIEWS.length) {
+      setStorageItem("upfront-reviews-v2", reviews);
+      return reviews;
+    }
+    // If backend returns fewer than full set, merge them
+    const merged = [...INITIAL_REVIEWS];
+    if (Array.isArray(reviews)) {
+      for (const r of reviews) {
+        if (!merged.some(m => m.id === r.id || (m.author === r.author && m.text === r.text))) {
+          merged.unshift(r);
+        }
+      }
+    }
+    setStorageItem("upfront-reviews-v2", merged);
+    return merged;
   } catch (err) {
-    console.warn("MongoDB offline, falling back to local storage reviews:", err);
-    return getStorageItem<Review[]>("electrical-reviews", INITIAL_REVIEWS);
+    console.warn("MongoDB offline, loading all verified Google reviews:", err);
+    const local = getStorageItem<Review[]>("upfront-reviews-v2", INITIAL_REVIEWS);
+    if (!local || local.length < INITIAL_REVIEWS.length) {
+      setStorageItem("upfront-reviews-v2", INITIAL_REVIEWS);
+      return INITIAL_REVIEWS;
+    }
+    return local;
   }
 };
 
@@ -445,7 +984,7 @@ export const addReview = async (reviewData: Omit<Review, "id" | "featured" | "cr
       photos
     };
     reviews.unshift(newReview);
-    setStorageItem("electrical-reviews", reviews);
+    setStorageItem("upfront-reviews-v2", reviews);
     return newReview;
   }
 };
@@ -457,7 +996,7 @@ export const toggleReviewFeatured = async (id: string): Promise<Review[]> => {
     console.warn("MongoDB offline, falling back to local storage:", err);
     const reviews = await getReviews();
     const updated = reviews.map(r => r.id === id ? { ...r, featured: !r.featured } : r);
-    setStorageItem("electrical-reviews", updated);
+    setStorageItem("upfront-reviews-v2", updated);
     return updated;
   }
 };
@@ -469,7 +1008,7 @@ export const replyToReview = async (id: string, replyText: string): Promise<Revi
     console.warn("MongoDB offline, falling back to local storage:", err);
     const reviews = await getReviews();
     const updated = reviews.map(r => r.id === id ? { ...r, replyText } : r);
-    setStorageItem("electrical-reviews", updated);
+    setStorageItem("upfront-reviews-v2", updated);
     return updated;
   }
 };
@@ -481,7 +1020,7 @@ export const deleteReview = async (id: string): Promise<Review[]> => {
     console.warn("MongoDB offline, falling back to local storage:", err);
     const reviews = await getReviews();
     const updated = reviews.filter(r => r.id !== id);
-    setStorageItem("electrical-reviews", updated);
+    setStorageItem("upfront-reviews-v2", updated);
     return updated;
   }
 };

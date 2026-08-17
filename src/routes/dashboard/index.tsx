@@ -224,6 +224,11 @@ function DashboardPage() {
   const [newReviewRating, setNewReviewRating] = useState(5);
   const [newReviewPhoto, setNewReviewPhoto] = useState("");
 
+  // Review Filters
+  const [reviewSearch, setReviewSearch] = useState("");
+  const [reviewFilter, setReviewFilter] = useState("all");
+  const [reviewRatingFilter, setReviewRatingFilter] = useState("all");
+
   // Google Places Sync States
   const [isSyncingGoogleModal, setIsSyncingGoogleModal] = useState(false);
   const [googleApiKey, setGoogleApiKey] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_google_api_key") : null) || "");
@@ -912,6 +917,24 @@ function DashboardPage() {
       return matchesSearch && matchesStatus && matchesType;
     });
   }, [leads, searchTerm, statusFilter, typeFilter]);
+
+  // Filtered Reviews
+  const filteredReviews = useMemo(() => {
+    return reviews.filter((rev) => {
+      const matchesSearch =
+        rev.author.toLowerCase().includes(reviewSearch.toLowerCase()) ||
+        rev.title.toLowerCase().includes(reviewSearch.toLowerCase()) ||
+        rev.text.toLowerCase().includes(reviewSearch.toLowerCase()) ||
+        rev.location.toLowerCase().includes(reviewSearch.toLowerCase());
+      const matchesStatus =
+        reviewFilter === "all" ||
+        (reviewFilter === "featured" && rev.featured) ||
+        (reviewFilter === "hidden" && !rev.featured);
+      const matchesRating =
+        reviewRatingFilter === "all" || rev.rating === Number(reviewRatingFilter);
+      return matchesSearch && matchesStatus && matchesRating;
+    });
+  }, [reviews, reviewSearch, reviewFilter, reviewRatingFilter]);
 
   if (isAuthenticated === null) {
     return (
@@ -1653,7 +1676,7 @@ function DashboardPage() {
                   <div className="flex items-center gap-2">
                     <h3 className="text-base font-black text-slate-900">Verified Customer Testimonials</h3>
                     <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black px-2 py-0.5 rounded-full">
-                      5.0★ Rating
+                      5.0★ Rating ({reviews.length} Total)
                     </span>
                   </div>
                   <p className="text-xs text-slate-400 font-medium">Moderate client ratings, respond to feedback, and auto-sync live from your Google Business Profile</p>
@@ -1684,8 +1707,53 @@ function DashboardPage() {
                 </div>
               </div>
 
+              {/* Reviews Filter Toolbar */}
+              <div className="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto flex-1">
+                  <div className="relative flex-1 sm:w-72">
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Search author, keyword, or text..."
+                      value={reviewSearch}
+                      onChange={(e) => setReviewSearch(e.target.value)}
+                      className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
+                    />
+                  </div>
+
+                  <select
+                    value={reviewFilter}
+                    onChange={(e) => setReviewFilter(e.target.value)}
+                    className="px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 cursor-pointer"
+                  >
+                    <option value="all">All Statuses ({reviews.length})</option>
+                    <option value="featured">Featured on Site ({reviews.filter(r => r.featured).length})</option>
+                    <option value="hidden">Hidden ({reviews.filter(r => !r.featured).length})</option>
+                  </select>
+
+                  <select
+                    value={reviewRatingFilter}
+                    onChange={(e) => setReviewRatingFilter(e.target.value)}
+                    className="px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 cursor-pointer"
+                  >
+                    <option value="all">All Star Ratings</option>
+                    <option value="5">5 Stars Only</option>
+                    <option value="4">4 Stars Only</option>
+                  </select>
+                </div>
+
+                <span className="text-xs font-bold text-slate-400 whitespace-nowrap">
+                  Showing <strong className="text-slate-800">{filteredReviews.length}</strong> of {reviews.length} Reviews
+                </span>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {reviews.map((rev) => (
+                {filteredReviews.length === 0 ? (
+                  <div className="col-span-2 py-12 text-center text-slate-400 font-medium bg-white rounded-3xl border border-slate-200">
+                    No customer reviews match your search filter.
+                  </div>
+                ) : (
+                  filteredReviews.map((rev) => (
                   <div key={rev.id} className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
                       <div className="flex items-start justify-between gap-2">
@@ -1769,7 +1837,7 @@ function DashboardPage() {
                       </div>
                     </div>
                   </div>
-                ))}
+                )))}
               </div>
             </motion.div>
           )}

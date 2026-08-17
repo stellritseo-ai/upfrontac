@@ -1041,9 +1041,19 @@ export const getChatSessions = async (): Promise<ChatSession[]> => {
           const local = mergedMap.get(c.id);
           if (local) {
             const messages = dedupeChatMessages([...(local.messages || []), ...(c.messages || [])]);
+            const clientName =
+              local.clientName && local.clientName !== "Website Visitor"
+                ? local.clientName
+                : c.clientName || local.clientName || "Website Visitor";
+            const clientEmail = local.clientEmail || c.clientEmail || "";
+            const clientPhone = local.clientPhone || c.clientPhone || "";
+
             mergedMap.set(c.id, {
               ...local,
               ...c,
+              clientName,
+              clientEmail,
+              clientPhone,
               messages,
               lastMessage: c.lastMessage || local.lastMessage,
               lastMessageTime: c.lastMessageTime || local.lastMessageTime,
@@ -1109,7 +1119,7 @@ export const createChatSession = async (
     const session = await apiCall<ChatSession>("/api/chats", "POST", {
       action: "create",
       id: customId,
-      clientName,
+      clientName: clientName || "Website Visitor",
       clientCity,
       clientEmail,
       clientPhone,
@@ -1159,7 +1169,8 @@ export const dedupeChatMessages = (messages: ChatMessage[]): ChatMessage[] => {
     if (m.id) seenIds.add(m.id);
     result.push(m);
   }
-  return result;
+  // Guarantee strict chronological order (oldest at top -> newest at bottom)
+  return result.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 };
 
 export const sendChatMessage = async (
@@ -1167,7 +1178,10 @@ export const sendChatMessage = async (
   sender: "client" | "admin",
   text: string,
   messageId?: string,
-  timestamp?: string
+  timestamp?: string,
+  clientName?: string,
+  clientEmail?: string,
+  clientPhone?: string
 ): Promise<ChatSession | null> => {
   const msgId = messageId || "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
   const time = timestamp || new Date().toISOString();
@@ -1179,7 +1193,10 @@ export const sendChatMessage = async (
       sender,
       text,
       messageId: msgId,
-      timestamp: time
+      timestamp: time,
+      clientName,
+      clientEmail,
+      clientPhone
     });
     if (updated) {
       updated.messages = dedupeChatMessages(updated.messages || []);
@@ -1208,6 +1225,9 @@ export const sendChatMessage = async (
       const messages = dedupeChatMessages([...c.messages, newMsg]);
       updatedSession = {
         ...c,
+        clientName: clientName && clientName !== "Website Visitor" ? clientName : c.clientName,
+        clientEmail: clientEmail || c.clientEmail,
+        clientPhone: clientPhone || c.clientPhone,
         messages,
         lastMessage: text,
         lastMessageTime: time,

@@ -473,9 +473,19 @@ function DashboardPage() {
                 const existing = map.get(s.id);
                 if (existing) {
                   const messages = dedupeChatMessages([...(s.messages || []), ...(existing.messages || [])]);
+                  const clientName =
+                    existing.clientName && existing.clientName !== "Website Visitor"
+                      ? existing.clientName
+                      : (s.clientName && s.clientName !== "Website Visitor" ? s.clientName : (existing.clientName || s.clientName || "Website Visitor"));
+                  const clientEmail = existing.clientEmail || s.clientEmail || "";
+                  const clientPhone = existing.clientPhone || s.clientPhone || "";
+
                   map.set(s.id, {
                     ...s,
                     ...existing,
+                    clientName,
+                    clientEmail,
+                    clientPhone,
                     messages,
                     lastMessage: existing.lastMessage || s.lastMessage,
                     lastMessageTime: existing.lastMessageTime || s.lastMessageTime
@@ -498,18 +508,27 @@ function DashboardPage() {
       }
     },
     socketHandlers: {
-      "session-created": (data: { sessionId: string; clientName: string }) => {
+      "session-created": (data: { sessionId: string; clientName: string; clientEmail?: string; clientPhone?: string; firstMessage?: string }) => {
         getChatSessions().then(setChatSessions);
         getNotifications().then(setNotifications);
-        toast.info(`New live chat from ${data.clientName}`);
+        toast.info(`New live chat from ${data.clientName || "Website Visitor"}`);
       },
-      "new-chat-message": (msg: { sessionId: string; id: string; sender: "client" | "admin"; text: string; timestamp: string }) => {
+      "new-chat-message": (msg: { sessionId: string; id: string; sender: "client" | "admin"; text: string; timestamp: string; clientName?: string; clientEmail?: string; clientPhone?: string }) => {
         setChatSessions((prev) => {
           const updated = prev.map((session) => {
             if (session.id === msg.sessionId) {
               const messages = dedupeChatMessages([...(session.messages || []), msg]);
+              const clientName =
+                msg.clientName && msg.clientName !== "Website Visitor"
+                  ? msg.clientName
+                  : session.clientName;
+              const clientEmail = msg.clientEmail || session.clientEmail;
+              const clientPhone = msg.clientPhone || session.clientPhone;
               return {
                 ...session,
+                clientName,
+                clientEmail,
+                clientPhone,
                 messages,
                 lastMessage: msg.text,
                 lastMessageTime: msg.timestamp,
@@ -521,7 +540,7 @@ function DashboardPage() {
           return [...updated].sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime());
         });
         if (msg.sender === "client" && (msg.sessionId !== activeSessionId || activeTab !== "chat")) {
-          toast.message("Client Message Received", { description: `"${msg.text}"` });
+          toast.message(`${msg.clientName || "Visitor"} Message Received`, { description: `"${msg.text}"` });
         }
       },
       "new-lead": (newLead: Lead) => {
@@ -2801,6 +2820,16 @@ function DashboardPage() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
+                        {activeChatSession.clientEmail && (
+                          <a
+                            href={`mailto:${activeChatSession.clientEmail}`}
+                            className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 px-3 py-1.5 rounded-xl transition"
+                          >
+                            <Mail className="w-3 h-3 text-[#005CE6]" />
+                            <span>{activeChatSession.clientEmail}</span>
+                          </a>
+                        )}
+
                         {activeChatSession.clientPhone && (
                           <a
                             href={`tel:${activeChatSession.clientPhone}`}

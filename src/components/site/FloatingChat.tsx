@@ -248,10 +248,12 @@ export function FloatingChat() {
         socketRef.current.emit("send-message", {
           ...optimisticMsg,
           sessionId,
-          clientName: name
+          clientName: name,
+          clientEmail: email,
+          clientPhone: phone
         });
       }
-      await sendChatMessage(sessionId, "client", textToSend, msgId, time);
+      await sendChatMessage(sessionId, "client", textToSend, msgId, time, name, email, phone);
     } catch (err) {
       console.error("Failed to send chat message:", err);
     }
@@ -449,7 +451,7 @@ export function FloatingChat() {
             ) : (
               /* ── ACTIVE CONVERSATION SCREEN ── */
               <>
-                <div className="flex-1 min-h-0 p-4 overflow-y-auto bg-slate-50/50 flex flex-col gap-3 overscroll-contain">
+                <div className="flex-1 min-h-0 p-4 pt-5 overflow-y-auto bg-slate-50/50 flex flex-col gap-3.5 overscroll-contain">
                   {/* Default Greeting */}
                   <div className="flex gap-2.5 items-start">
                     <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center select-none shrink-0 overflow-hidden p-0.5 border border-slate-100 shadow-sm">
@@ -462,8 +464,8 @@ export function FloatingChat() {
                     </div>
                   </div>
 
-                  {/* Dynamic Messages */}
-                  {messages.map((msg) => {
+                  {/* Dynamic Messages (strictly sorted) */}
+                  {dedupeChatMessages(messages).map((msg) => {
                     const isAdmin = msg.sender === "admin";
                     return (
                       <div

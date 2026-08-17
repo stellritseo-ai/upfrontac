@@ -724,7 +724,9 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           if (!session) {
             session = {
               id: body.sessionId,
-              clientName: "Website Visitor",
+              clientName: body.clientName || "Website Visitor",
+              clientEmail: body.clientEmail || "",
+              clientPhone: body.clientPhone || "",
               clientCity: "Tomball, TX",
               messages: [],
               lastMessage: "",
@@ -749,10 +751,22 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             m.id === newMsg.id ||
             (m.sender === newMsg.sender && m.text?.trim() === newMsg.text?.trim() && Math.abs(new Date(m.timestamp).getTime() - new Date(newMsg.timestamp).getTime()) < 3000)
           );
-          const messages = alreadyExists ? currentMsgs : [...currentMsgs, newMsg];
+          const messages = (alreadyExists ? currentMsgs : [...currentMsgs, newMsg]).sort(
+            (a: any, b: any) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+          );
+
+          const clientName =
+            body.clientName && body.clientName !== "Website Visitor"
+              ? body.clientName
+              : session.clientName || "Website Visitor";
+          const clientEmail = body.clientEmail || session.clientEmail || "";
+          const clientPhone = body.clientPhone || session.clientPhone || "";
 
           const updatedSession = {
             ...session,
+            clientName,
+            clientEmail,
+            clientPhone,
             messages,
             lastMessage: body.text,
             lastMessageTime: newMsg.timestamp,

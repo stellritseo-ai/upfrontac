@@ -713,14 +713,25 @@ async function apiCall<T>(url: string, method: string, body?: any): Promise<T> {
 
 // ── LEADS ──
 export const getLeads = async (): Promise<Lead[]> => {
+  const localLeads = getStorageItem<Lead[]>("electrical-leads", []);
   try {
-    const leads = await apiCall<Lead[]>("/api/leads", "GET");
-    setStorageItem("electrical-leads", leads);
-    return leads;
+    const leads = await apiCall<Lead[]>("/api/leads?t=" + Date.now(), "GET");
+    if (Array.isArray(leads)) {
+      const mergedMap = new Map<string, Lead>();
+      localLeads.forEach(l => { if (l?.id) mergedMap.set(l.id, l); });
+      leads.forEach(l => { if (l?.id) mergedMap.set(l.id, l); });
+      const sorted = Array.from(mergedMap.values()).sort((a, b) => {
+        const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return timeB - timeA;
+      });
+      setStorageItem("electrical-leads", sorted);
+      return sorted;
+    }
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage leads:", err);
-    return getStorageItem<Lead[]>("electrical-leads", []);
   }
+  return localLeads;
 };
 
 export const addLead = async (leadData: Omit<Lead, "id" | "status" | "estimatedValue" | "createdAt">): Promise<Lead> => {
@@ -1246,18 +1257,23 @@ export const reopenChatSession = async (sessionId: string): Promise<ChatSession 
 
 // ── EMAILS / WEB INQUIRIES ──
 export const getWebEmails = async (): Promise<WebEmail[]> => {
+  const localEmails = getStorageItem<WebEmail[]>("upfront-emails-v2", []);
   try {
     const emails = await apiCall<WebEmail[]>("/api/emails?t=" + Date.now(), "GET");
     if (Array.isArray(emails)) {
-      const sorted = emails.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      const mergedMap = new Map<string, WebEmail>();
+      localEmails.forEach(e => { if (e?.id) mergedMap.set(e.id, e); });
+      emails.forEach(e => { if (e?.id) mergedMap.set(e.id, e); });
+      const sorted = Array.from(mergedMap.values()).sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
       setStorageItem("upfront-emails-v2", sorted);
       return sorted;
     }
   } catch (err) {
     console.warn("MongoDB/API offline, reading local storage emails:", err);
   }
-  const emails = getStorageItem<WebEmail[]>("upfront-emails-v2", []);
-  return emails.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  return localEmails.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 };
 
 export const addWebEmail = async (emailData: Omit<WebEmail, "id" | "createdAt">): Promise<WebEmail> => {

@@ -369,6 +369,8 @@ function DashboardPage() {
   }, [isAuthenticated, activeTab, currentUser]);
 
   const socketRef = useRef<any>(null);
+  const deletedEmailIdsRef = useRef<Set<string>>(new Set());
+  const deletedLeadIdsRef = useRef<Set<string>>(new Set());
 
   // Real-time sync: Socket.IO on local dev, polling on Vercel
   useRealtimeSync({
@@ -386,17 +388,42 @@ function DashboardPage() {
         if (notifs.status === "fulfilled" && Array.isArray(notifs.value)) setNotifications(notifs.value);
         if (latestLeads.status === "fulfilled" && Array.isArray(latestLeads.value)) {
           setLeads((prev) => {
-            // Only update if data actually changed
+            const map = new Map<string, Lead>();
+            latestLeads.value.forEach((l: Lead) => {
+              if (l?.id && !deletedLeadIdsRef.current.has(l.id)) map.set(l.id, l);
+            });
+            prev.forEach((l) => {
+              if (l?.id && !deletedLeadIdsRef.current.has(l.id) && !map.has(l.id)) {
+                map.set(l.id, l);
+              }
+            });
+            const merged = Array.from(map.values()).sort((a, b) => {
+              const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+              const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+              return timeB - timeA;
+            });
             const prevIds = prev.map((l) => l.id).join(",");
-            const newIds = latestLeads.value.map((l: Lead) => l.id).join(",");
-            return prevIds === newIds ? prev : latestLeads.value;
+            const mergedIds = merged.map((l) => l.id).join(",");
+            return prevIds === mergedIds ? prev : merged;
           });
         }
         if (latestEmails.status === "fulfilled" && Array.isArray(latestEmails.value)) {
           setWebEmails((prev) => {
+            const map = new Map<string, WebEmail>();
+            latestEmails.value.forEach((e: WebEmail) => {
+              if (e?.id && !deletedEmailIdsRef.current.has(e.id)) map.set(e.id, e);
+            });
+            prev.forEach((e) => {
+              if (e?.id && !deletedEmailIdsRef.current.has(e.id) && !map.has(e.id)) {
+                map.set(e.id, e);
+              }
+            });
+            const merged = Array.from(map.values()).sort(
+              (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
             const prevIds = prev.map((e) => e.id).join(",");
-            const newIds = latestEmails.value.map((e: WebEmail) => e.id).join(",");
-            return prevIds === newIds ? prev : latestEmails.value;
+            const mergedIds = merged.map((e) => e.id).join(",");
+            return prevIds === mergedIds ? prev : merged;
           });
         }
         if (latestSessions.status === "fulfilled" && Array.isArray(latestSessions.value)) {
@@ -845,6 +872,7 @@ function DashboardPage() {
       confirmText: "Delete",
       onConfirm: async () => {
         try {
+          deletedLeadIdsRef.current.add(id);
           const updated = await deleteLead(id);
           setLeads(updated);
           toast.success("Lead deleted successfully.");
@@ -1018,6 +1046,7 @@ function DashboardPage() {
       confirmText: "Delete",
       onConfirm: async () => {
         try {
+          deletedEmailIdsRef.current.add(id);
           const updated = await deleteWebEmail(id);
           setWebEmails(updated);
           toast.success("Contact submission deleted.");

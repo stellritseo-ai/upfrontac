@@ -493,15 +493,22 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           }
 
           const newMsg = {
-            id: "msg-" + Math.random().toString(36).substr(2, 9),
+            id: body.messageId || ("msg-" + Math.random().toString(36).substr(2, 9)),
             sender: body.sender,
             text: body.text,
-            timestamp: new Date().toISOString()
+            timestamp: body.timestamp || new Date().toISOString()
           };
+
+          const currentMsgs = Array.isArray(session.messages) ? session.messages : [];
+          const alreadyExists = currentMsgs.some((m: any) =>
+            m.id === newMsg.id ||
+            (m.sender === newMsg.sender && m.text?.trim() === newMsg.text?.trim() && Math.abs(new Date(m.timestamp).getTime() - new Date(newMsg.timestamp).getTime()) < 3000)
+          );
+          const messages = alreadyExists ? currentMsgs : [...currentMsgs, newMsg];
 
           const updatedSession = {
             ...session,
-            messages: [...(session.messages || []), newMsg],
+            messages,
             lastMessage: body.text,
             lastMessageTime: newMsg.timestamp,
             unread: body.sender === "client"

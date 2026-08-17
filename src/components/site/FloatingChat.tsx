@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { MessageCircle, X, Send, Phone, Calendar, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { io } from "socket.io-client";
-import { createChatSession, sendChatMessage, getChatSessionById, ChatMessage } from "@/lib/leads-store";
+import { createChatSession, sendChatMessage, getChatSessionById, dedupeChatMessages, ChatMessage } from "@/lib/leads-store";
 import { toast } from "sonner";
 import logoImg from "@/assets/logo.png";
 
@@ -29,8 +29,8 @@ export function FloatingChat() {
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.type = "sine";
-        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1); // A5
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
         gain.gain.setValueAtTime(0.15, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
         osc.start();
@@ -49,10 +49,9 @@ export function FloatingChat() {
       if (storedName) setName(storedName);
       if (storedPhone) setPhone(storedPhone);
 
-      // Load conversation history from database
       getChatSessionById(storedId).then((session) => {
         if (session && Array.isArray(session.messages)) {
-          setMessages(session.messages);
+          setMessages(dedupeChatMessages(session.messages));
         }
       });
     }
@@ -60,7 +59,6 @@ export function FloatingChat() {
 
   // 2. Establish Socket.io connection when session is active
   useEffect(() => {
-    // Connect to the current window's origin
     const socket = io({
       transports: ["websocket", "polling"],
       autoConnect: true
@@ -71,15 +69,14 @@ export function FloatingChat() {
       socket.emit("join-session", sessionId);
     }
 
-    // Listen for incoming messages
     const handleIncomingMessage = (msg: any) => {
       if (sessionId && msg.sessionId === sessionId) {
         setMessages((prev) => {
-          if (prev.some((m) => m.id === msg.id)) return prev;
-          if (msg.sender === "admin") {
+          const updated = dedupeChatMessages([...prev, msg]);
+          if (updated.length > prev.length && msg.sender === "admin") {
             playChime();
           }
-          return [...prev, msg];
+          return updated;
         });
       }
     };
@@ -87,10 +84,9 @@ export function FloatingChat() {
     socket.on("message", handleIncomingMessage);
     socket.on("new-chat-message", handleIncomingMessage);
 
-    // Also listen for cross-tab custom events
     const handleCustomEvent = (e: any) => {
       if (e.detail && sessionId && e.detail.id === sessionId && Array.isArray(e.detail.messages)) {
-        setMessages(e.detail.messages);
+        setMessages(dedupeChatMessages(e.detail.messages));
       }
     };
     window.addEventListener("upfront-chats-updated", handleCustomEvent);
@@ -108,7 +104,8 @@ export function FloatingChat() {
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) return;
+    const textToSend = message.trim();
+    if (!textToSend) return;
 
     let activeId = sessionId;
     let clientName = name.trim();
@@ -119,10 +116,21 @@ export function FloatingChat() {
       return;
     }
 
-    setIsSubmitting(true);
+    const msgId = "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
+    const time = new Date().toISOString();
+
+    const optimisticMsg: ChatMessage = {
+      id: msgId,
+      sender: "client",
+      text: textToSend,
+      timestamp: time
+    };
+
+    // Instant UI clear and optimistic append
+    setMessage("");
+    setMessages((prev) => dedupeChatMessages([...prev, optimisticMsg]));
 
     try {
-      // Create session in the database if this is the first message
       if (!activeId) {
         const session = await createChatSession(clientName, "Tomball, TX", "", clientPhone);
         activeId = session.id;
@@ -132,35 +140,23 @@ export function FloatingChat() {
         localStorage.setItem("upfront-chat-client-name", clientName);
         if (clientPhone) localStorage.setItem("upfront-chat-client-phone", clientPhone);
 
-        // Join room and notify socket
         if (socketRef.current) {
           socketRef.current.emit("join-session", activeId);
           socketRef.current.emit("session-created", { sessionId: activeId, clientName, clientPhone });
         }
       }
 
-      // Save message to MongoDB
-      const updatedSession = await sendChatMessage(activeId, "client", message.trim());
-      if (updatedSession) {
-        const lastMsg = updatedSession.messages[updatedSession.messages.length - 1];
-
-        // Broadcast message to Socket.io so the admin panel updates instantly
-        if (socketRef.current) {
-          socketRef.current.emit("send-message", {
-            ...lastMsg,
-            sessionId: activeId,
-            clientName
-          });
-        }
-
-        setMessages(updatedSession.messages || []);
-        setMessage("");
+      if (socketRef.current) {
+        socketRef.current.emit("send-message", {
+          ...optimisticMsg,
+          sessionId: activeId,
+          clientName
+        });
       }
+
+      sendChatMessage(activeId, "client", textToSend, msgId, time);
     } catch (err) {
       console.error("Failed to send chat message:", err);
-      toast.error("Message could not be sent. Please try again.");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

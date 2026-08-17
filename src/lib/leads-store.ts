@@ -1109,16 +1109,50 @@ export const createChatSession = async (
   return newSession;
 };
 
-export const sendChatMessage = async (sessionId: string, sender: "client" | "admin", text: string): Promise<ChatSession | null> => {
+export const dedupeChatMessages = (messages: ChatMessage[]): ChatMessage[] => {
+  if (!Array.isArray(messages)) return [];
+  const seenIds = new Set<string>();
+  const result: ChatMessage[] = [];
+  for (const m of messages) {
+    if (!m || !m.text) continue;
+    if (m.id && seenIds.has(m.id)) continue;
+    const isDuplicate = result.some(
+      existing =>
+        existing.sender === m.sender &&
+        existing.text.trim() === m.text.trim() &&
+        Math.abs(new Date(existing.timestamp).getTime() - new Date(m.timestamp).getTime()) < 3000
+    );
+    if (isDuplicate) continue;
+    if (m.id) seenIds.add(m.id);
+    result.push(m);
+  }
+  return result;
+};
+
+export const sendChatMessage = async (
+  sessionId: string,
+  sender: "client" | "admin",
+  text: string,
+  messageId?: string,
+  timestamp?: string
+): Promise<ChatSession | null> => {
+  const msgId = messageId || "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
+  const time = timestamp || new Date().toISOString();
+
   try {
-    const updated = await apiCall<ChatSession | null>("/api/chats", "POST", { action: "message", sessionId, sender, text });
+    const updated = await apiCall<ChatSession | null>("/api/chats", "POST", {
+      action: "message",
+      sessionId,
+      sender,
+      text,
+      messageId: msgId,
+      timestamp: time
+    });
     if (updated) {
+      updated.messages = dedupeChatMessages(updated.messages || []);
       const chats = await getChatSessions();
       const updatedChats = chats.map(c => c.id === sessionId ? updated : c);
       setStorageItem("upfront-chats-v2", updatedChats);
-      if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updated }));
-      }
       return updated;
     }
   } catch (err) {
@@ -1130,16 +1164,17 @@ export const sendChatMessage = async (sessionId: string, sender: "client" | "adm
   const updatedChats = chats.map(c => {
     if (c.id === sessionId) {
       const newMsg: ChatMessage = {
-        id: "msg-" + Math.random().toString(36).substr(2, 9),
+        id: msgId,
         sender,
         text,
-        timestamp: new Date().toISOString()
+        timestamp: time
       };
+      const messages = dedupeChatMessages([...c.messages, newMsg]);
       updatedSession = {
         ...c,
-        messages: [...c.messages, newMsg],
+        messages,
         lastMessage: text,
-        lastMessageTime: newMsg.timestamp,
+        lastMessageTime: time,
         unread: sender === "client"
       };
       return updatedSession;
@@ -1147,9 +1182,6 @@ export const sendChatMessage = async (sessionId: string, sender: "client" | "adm
     return c;
   });
   setStorageItem("upfront-chats-v2", updatedChats);
-  if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updatedSession }));
-  }
   return updatedSession;
 };
 

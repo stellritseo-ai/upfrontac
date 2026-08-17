@@ -117,6 +117,8 @@ import {
   Review,
   WebEmail,
   ChatSession,
+  ChatMessage,
+  dedupeChatMessages,
   GalleryPhoto,
   PortalUser,
   DashboardNotification
@@ -370,14 +372,7 @@ function DashboardPage() {
       setChatSessions((prev) => {
         const updated = prev.map((session) => {
           if (session.id === msg.sessionId) {
-            const exists = session.messages.some((m) => m.id === msg.id);
-            const messages = exists ? session.messages : [...session.messages, {
-              id: msg.id,
-              sender: msg.sender,
-              text: msg.text,
-              timestamp: msg.timestamp
-            }];
-
+            const messages = dedupeChatMessages([...(session.messages || []), msg]);
             return {
               ...session,
               messages,
@@ -798,23 +793,50 @@ function DashboardPage() {
 
   const handleSendChatReply = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!activeSessionId || !adminReplyText.trim()) return;
-    try {
-      const updated = await sendChatMessage(activeSessionId, "admin", adminReplyText);
-      if (updated) {
-        setChatSessions(prev => [...prev.map(s => s.id === activeSessionId ? updated : s)].sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()));
-        setAdminReplyText("");
-        
-        const lastMsg = updated.messages[updated.messages.length - 1];
-        if (socketRef.current) {
-          socketRef.current.emit("send-message", {
-            ...lastMsg,
-            sessionId: activeSessionId
-          });
+    const textToSend = adminReplyText.trim();
+    if (!activeSessionId || !textToSend) return;
+
+    // 1. INSTANT Optimistic UI Update (0ms latency!)
+    const msgId = "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
+    const time = new Date().toISOString();
+    const optimisticMsg: ChatMessage = {
+      id: msgId,
+      sender: "admin",
+      text: textToSend,
+      timestamp: time
+    };
+
+    setAdminReplyText("");
+
+    setChatSessions((prev) => {
+      const updated = prev.map((s) => {
+        if (s.id === activeSessionId) {
+          const messages = dedupeChatMessages([...(s.messages || []), optimisticMsg]);
+          return {
+            ...s,
+            messages,
+            lastMessage: textToSend,
+            lastMessageTime: time
+          };
         }
-      }
-    } catch {
-      toast.error("Failed to send chat reply.");
+        return s;
+      });
+      return [...updated].sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime());
+    });
+
+    // 2. Broadcast immediately over Socket.io
+    if (socketRef.current) {
+      socketRef.current.emit("send-message", {
+        ...optimisticMsg,
+        sessionId: activeSessionId
+      });
+    }
+
+    // 3. Persist in background
+    try {
+      sendChatMessage(activeSessionId, "admin", textToSend, msgId, time);
+    } catch (err) {
+      console.warn("Background chat persist error:", err);
     }
   };
 
@@ -2121,24 +2143,36 @@ function DashboardPage() {
                     </div>
 
                     {/* Messages Thread */}
-                    <div className="flex-1 p-5 overflow-y-auto space-y-3 bg-[#F8FAFC]">
-                      {activeChatSession.messages.map((m) => (
+                    <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-slate-50/50">
+                      {dedupeChatMessages(activeChatSession.messages || []).map((m) => (
                         <div
                           key={m.id}
-                          className={`flex flex-col ${m.sender === "admin" ? "items-end" : "items-start"}`}
+                          className={`flex items-end gap-2.5 ${m.sender === "admin" ? "justify-end" : "justify-start"}`}
                         >
-                          <div
-                            className={`max-w-md p-3.5 rounded-2xl text-xs leading-relaxed ${
-                              m.sender === "admin"
-                                ? "bg-[#005CE6] text-white rounded-br-none shadow-md shadow-[#005CE6]/20 font-medium"
-                                : "bg-white text-slate-800 border border-slate-200/80 rounded-bl-none shadow-xs font-medium"
-                            }`}
-                          >
-                            {m.text}
+                          {m.sender === "client" && (
+                            <div className="w-7 h-7 rounded-full bg-slate-200 border border-slate-300 text-slate-700 font-black text-[10px] flex items-center justify-center shrink-0 mb-1 uppercase select-none">
+                              {activeChatSession.clientName?.charAt(0) || "V"}
+                            </div>
+                          )}
+                          <div className={`flex flex-col max-w-[80%] ${m.sender === "admin" ? "items-end" : "items-start"}`}>
+                            <div
+                              className={`px-4 py-2.5 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap break-words ${
+                                m.sender === "admin"
+                                  ? "bg-[#005CE6] text-white rounded-br-xs shadow-sm font-medium"
+                                  : "bg-white text-slate-800 border border-slate-200/80 rounded-bl-xs shadow-xs font-medium"
+                              }`}
+                            >
+                              {m.text}
+                            </div>
+                            <span className="text-[10px] text-slate-400 font-semibold mt-1 px-1 select-none">
+                              {m.sender === "admin" ? "Upfront AC Dispatch" : activeChatSession.clientName} · {formatChatTime(m.timestamp)}
+                            </span>
                           </div>
-                          <span className="text-[9px] text-slate-400 font-semibold mt-1 px-1">
-                            {m.sender === "admin" ? "Upfront AC Dispatch" : activeChatSession.clientName} · {formatChatTime(m.timestamp)}
-                          </span>
+                          {m.sender === "admin" && (
+                            <div className="w-7 h-7 rounded-full bg-[#005CE6] text-white font-black text-[10px] flex items-center justify-center shrink-0 mb-1 select-none">
+                              UA
+                            </div>
+                          )}
                         </div>
                       ))}
                       <div ref={chatEndRef} />

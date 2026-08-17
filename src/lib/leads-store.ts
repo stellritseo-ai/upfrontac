@@ -75,89 +75,8 @@ export interface GalleryPhoto {
   uploadedAt: string;
 }
 
-// ── INITIAL PRE-SEEDS FOR UPFRONT AIR CONDITIONING & HEATING (HOUSTON / CYPRESS, TX) ──
-export const INITIAL_LEADS: Lead[] = [
-  {
-    id: "lead-1",
-    name: "Marcus Vance",
-    email: "marcus.vance@gmail.com",
-    phone: "(713) 819-7908",
-    address: "14210 Spring Cypress Rd, Cypress, TX 77429",
-    projectType: "residential",
-    description: "AC blowing warm air on the second floor during peak afternoon heat. Need urgent refrigerant leak test and capacitor diagnosis.",
-    contactTime: "morning",
-    status: "new",
-    estimatedValue: 450,
-    createdAt: "2026-08-16T09:30:00Z"
-  },
-  {
-    id: "lead-2",
-    name: "Sarah Jenkins",
-    email: "sarah.jenkins.tx@yahoo.com",
-    phone: "(832) 555-8831",
-    address: "28405 Tomball Pkwy, Tomball, TX 77375",
-    projectType: "install",
-    description: "Full system replacement estimate for a 16-SEER 4-Ton high-efficiency heat pump and air handler. Current unit is 14 years old.",
-    contactTime: "afternoon",
-    status: "contacted",
-    estimatedValue: 8900,
-    createdAt: "2026-08-15T14:15:00Z"
-  },
-  {
-    id: "lead-3",
-    name: "Daniel Alvarez",
-    email: "dan_alvarez@outlook.com",
-    phone: "(713) 555-4421",
-    address: "9405 Barker Cypress Rd, Cypress, TX 77433",
-    projectType: "maintenance",
-    description: "Pre-season 21-point HVAC tune-up and evaporator coil cleaning before peak summer temperatures.",
-    contactTime: "evening",
-    status: "consultation_scheduled",
-    estimatedValue: 189,
-    createdAt: "2026-08-14T11:00:00Z"
-  },
-  {
-    id: "lead-4",
-    name: "Emily Croft",
-    email: "emily.croft@gmail.com",
-    phone: "(281) 555-7729",
-    address: "18720 Kuykendahl Rd, Spring, TX 77379",
-    projectType: "heating",
-    description: "Gas furnace inspection, heat exchanger safety check, and thermostat calibration.",
-    contactTime: "afternoon",
-    status: "proposal_sent",
-    estimatedValue: 650,
-    createdAt: "2026-08-12T16:40:00Z"
-  },
-  {
-    id: "lead-5",
-    name: "Amanda Carter",
-    email: "amanda.carter@commercialtx.net",
-    phone: "(832) 555-1284",
-    address: "12820 Willow Chase Dr, Houston, TX 77070",
-    projectType: "commercial",
-    description: "Commercial rooftop 10-ton package unit servicing for retail strip center. Needs filter replacements, belt adjustments, and economizer check.",
-    contactTime: "morning",
-    status: "won",
-    notes: "Contract approved for bi-annual maintenance and emergency rooftop service.",
-    estimatedValue: 4800,
-    createdAt: "2026-08-10T10:10:00Z"
-  },
-  {
-    id: "lead-6",
-    name: "Jonathan Riggs",
-    email: "jriggs_woodlands@gmail.com",
-    phone: "(713) 555-9012",
-    address: "4202 Woodlands Pkwy, The Woodlands, TX 77380",
-    projectType: "indoor_air_quality",
-    description: "Whole-home REME HALO LED air purification system and media filter upgrade for allergy relief.",
-    contactTime: "evening",
-    status: "won",
-    notes: "Installed and validated airflow. Customer very satisfied.",
-    estimatedValue: 1450,
-    createdAt: "2026-08-08T15:20:00Z"
-  }
-];
+// ── NO DEMO SEEDS — Only real submissions from MongoDB are displayed ──
+export const INITIAL_LEADS: Lead[] = [];
 
 export const INITIAL_REVIEWS: Review[] = [
   {
@@ -725,38 +644,7 @@ export const INITIAL_REVIEWS: Review[] = [
 
 export const INITIAL_CHATS: ChatSession[] = [];
 
-export const INITIAL_EMAILS: WebEmail[] = [
-  {
-    id: "email-1",
-    name: "Brandon Scott",
-    email: "bscott.houston@gmail.com",
-    phone: "(713) 555-0194",
-    service: "AC System Replacement & Installation",
-    message: "Looking for an estimate to replace our 14-year-old 4-ton carrier unit in Tomball. Would love to review high-efficiency inverter heat pump options.",
-    source: "Free Estimate Page",
-    createdAt: "2026-08-16T14:30:00Z"
-  },
-  {
-    id: "email-2",
-    name: "Sarah Jenkins",
-    email: "sjenkins.cypress@yahoo.com",
-    phone: "(832) 555-0812",
-    service: "24/7 Emergency AC Diagnostic",
-    message: "Our AC stopped cooling this afternoon and is blowing warm air. Need a technician in Cypress as soon as possible.",
-    source: "Contact Page",
-    createdAt: "2026-08-17T09:15:00Z"
-  },
-  {
-    id: "email-3",
-    name: "David Miller",
-    email: "dmiller@magnoliacoffee.com",
-    phone: "(281) 555-7391",
-    service: "Commercial HVAC Maintenance",
-    message: "Inquiring about seasonal maintenance contracts for our 3 commercial rooftop packaged units in Tomball.",
-    source: "Commercial HVAC Page",
-    createdAt: "2026-08-17T11:45:00Z"
-  }
-];
+export const INITIAL_EMAILS: WebEmail[] = [];
 
 // ── LOCAL STORAGE FALLBACK HELPERS ──
 const getStorageItem = <T>(key: string, defaultValue: T): T => {
@@ -831,7 +719,7 @@ export const getLeads = async (): Promise<Lead[]> => {
     return leads;
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage leads:", err);
-    return getStorageItem<Lead[]>("electrical-leads", INITIAL_LEADS);
+    return getStorageItem<Lead[]>("electrical-leads", []);
   }
 };
 
@@ -1368,7 +1256,7 @@ export const getWebEmails = async (): Promise<WebEmail[]> => {
   } catch (err) {
     console.warn("MongoDB/API offline, reading local storage emails:", err);
   }
-  const emails = getStorageItem<WebEmail[]>("upfront-emails-v2", INITIAL_EMAILS);
+  const emails = getStorageItem<WebEmail[]>("upfront-emails-v2", []);
   return emails.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 };
 

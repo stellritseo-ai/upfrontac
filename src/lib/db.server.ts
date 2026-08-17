@@ -37,14 +37,9 @@ function mapDoc<T>(doc: any): T {
 }
 
 // ── LEADS ──
-export async function dbGetLeads(initialSeeds: any[]): Promise<any[]> {
+export async function dbGetLeads(_initialSeeds: any[]): Promise<any[]> {
   const db = await getDb();
   const leadsCol = db.collection("leads");
-  const count = await leadsCol.countDocuments();
-  if (count === 0 && initialSeeds.length > 0) {
-    await leadsCol.insertMany(initialSeeds);
-    return initialSeeds;
-  }
 
   // Clean up any legacy localhost photos from leads
   const allLeads = await leadsCol.find({}).toArray();
@@ -164,14 +159,9 @@ export async function dbDeleteReview(id: string): Promise<any[]> {
 }
 
 // ── WEB EMAILS ──
-export async function dbGetWebEmails(initialSeeds: any[]): Promise<any[]> {
+export async function dbGetWebEmails(_initialSeeds: any[]): Promise<any[]> {
   const db = await getDb();
   const emailsCol = db.collection("web_emails");
-  const count = await emailsCol.countDocuments();
-  if (count === 0 && initialSeeds.length > 0) {
-    await emailsCol.insertMany(initialSeeds);
-    return initialSeeds;
-  }
   const docs = await emailsCol.find({}).sort({ createdAt: -1 }).toArray();
   return docs.map(mapDoc);
 }
@@ -199,14 +189,9 @@ export async function dbDeleteWebEmail(id: string): Promise<any[]> {
 }
 
 // ── CHATS ──
-export async function dbGetChatSessions(initialSeeds: any[]): Promise<any[]> {
+export async function dbGetChatSessions(_initialSeeds: any[]): Promise<any[]> {
   const db = await getDb();
   const chatsCol = db.collection("chat_sessions");
-  const count = await chatsCol.countDocuments();
-  if (count === 0 && initialSeeds.length > 0) {
-    await chatsCol.insertMany(initialSeeds);
-    return initialSeeds;
-  }
   const docs = await chatsCol.find({}).sort({ lastMessageTime: -1 }).toArray();
   return docs.map(mapDoc);
 }

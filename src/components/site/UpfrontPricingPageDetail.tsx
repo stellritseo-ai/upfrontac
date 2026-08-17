@@ -536,7 +536,7 @@ export function UpfrontPricingPageDetail() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleBookingSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">

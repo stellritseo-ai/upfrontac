@@ -30,10 +30,7 @@ import {
 } from "./db.server.js";
 
 import {
-  INITIAL_LEADS,
   INITIAL_REVIEWS,
-  INITIAL_CHATS,
-  INITIAL_EMAILS
 } from "./leads-store.js";
 
 import { uploadToCloudinary, deleteFromCloudinary } from "./cloudinary.server.js";
@@ -67,12 +64,12 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     if (pathname === "/api/leads") {
       if (method === "GET") {
         try {
-          const leads = await dbGetLeads(INITIAL_LEADS);
+          const leads = await dbGetLeads([]);
           (globalThis as any).__serverLeads = leads;
           return jsonResponse(leads);
         } catch (dbErr) {
           console.warn("MongoDB leads fetch error, using in-memory store:", dbErr);
-          if (!(globalThis as any).__serverLeads) (globalThis as any).__serverLeads = [...INITIAL_LEADS];
+          if (!(globalThis as any).__serverLeads) (globalThis as any).__serverLeads = [];
           return jsonResponse((globalThis as any).__serverLeads);
         }
       }
@@ -122,7 +119,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           }
         }
 
-        if (!(globalThis as any).__serverLeads) (globalThis as any).__serverLeads = [...INITIAL_LEADS];
+        if (!(globalThis as any).__serverLeads) (globalThis as any).__serverLeads = [];
         (globalThis as any).__serverLeads.unshift(savedLead);
 
         const io = (global as any).io;
@@ -192,7 +189,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           await leadsCol.updateOne({ id: body.leadId }, { $set: { photos } });
         }
       }
-      const leads = await dbGetLeads(INITIAL_LEADS);
+      const leads = await dbGetLeads([]);
       return jsonResponse(leads);
     }
 
@@ -370,11 +367,11 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     if (pathname === "/api/emails") {
       if (method === "GET") {
         try {
-          const emails = await dbGetWebEmails(INITIAL_EMAILS);
+          const emails = await dbGetWebEmails([]);
           return jsonResponse(emails);
         } catch (dbErr) {
           console.warn("MongoDB emails read error, using fallback:", dbErr);
-          return jsonResponse((globalThis as any).__serverEmails || INITIAL_EMAILS);
+          return jsonResponse((globalThis as any).__serverEmails || []);
         }
       }
       if (method === "POST") {
@@ -392,7 +389,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           console.warn("MongoDB email save error, using in-memory store:", dbErr);
         }
 
-        if (!(globalThis as any).__serverEmails) (globalThis as any).__serverEmails = [...INITIAL_EMAILS];
+        if (!(globalThis as any).__serverEmails) (globalThis as any).__serverEmails = [];
         (globalThis as any).__serverEmails.unshift(saved);
 
         // Also automatically create a corresponding Lead in the Leads & Dispatch database
@@ -442,7 +439,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           savedLead = correspondingLead;
         }
 
-        if (!(globalThis as any).__serverLeads) (globalThis as any).__serverLeads = [...INITIAL_LEADS];
+        if (!(globalThis as any).__serverLeads) (globalThis as any).__serverLeads = [];
         (globalThis as any).__serverLeads.unshift(savedLead);
 
         // Add a dashboard notification for the new form submission

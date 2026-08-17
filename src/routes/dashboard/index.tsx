@@ -1992,6 +1992,17 @@ function DashboardPage() {
                       </div>
                     </div>
                   ))}
+                  {sortedLeads.length === 0 && (
+                    <div className="p-10 flex flex-col items-center justify-center text-center">
+                      <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center mb-3">
+                        <Users className="w-6 h-6" />
+                      </div>
+                      <h4 className="text-sm font-black text-slate-800">No Leads Yet</h4>
+                      <p className="text-xs text-slate-400 mt-1 max-w-sm">
+                        Incoming service requests from your website forms will appear here in real-time as customers submit them.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 

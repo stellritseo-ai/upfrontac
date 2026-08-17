@@ -98,9 +98,14 @@ export function FloatingChat() {
   }, [sessionId, playChime]);
 
   // 3. Scroll to the bottom of the chat dynamically
+  const prevMsgCountRef = useRef<number>(0);
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isOpen]);
+    const currentCount = messages.length;
+    if (currentCount > prevMsgCountRef.current || isOpen) {
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+    prevMsgCountRef.current = currentCount;
+  }, [messages.length, isOpen]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -180,10 +185,10 @@ export function FloatingChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="pointer-events-auto mb-4 w-[290px] sm:w-[350px] bg-white border border-slate-100 rounded-3xl shadow-[0_20px_50px_-12px_rgba(15,23,42,0.15)] overflow-hidden flex flex-col"
+            className="pointer-events-auto mb-4 w-[min(380px,calc(100vw-32px))] h-[min(540px,calc(100vh-100px))] max-h-[540px] bg-white border border-slate-200/80 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-[#005CE6] to-[#0047B3] p-4 text-white flex justify-between items-center">
+            <div className="shrink-0 bg-gradient-to-r from-[#005CE6] to-[#0047B3] p-4 text-white flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center select-none overflow-hidden p-1 border border-slate-100">
@@ -216,7 +221,7 @@ export function FloatingChat() {
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 p-4 h-[260px] overflow-y-auto bg-slate-50/50 flex flex-col gap-3">
+            <div className="flex-1 min-h-0 p-4 overflow-y-auto bg-slate-50/50 flex flex-col gap-3 overscroll-contain">
               {/* Default Welcome Message */}
               <div className="flex gap-2.5 items-start">
                 <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center select-none shrink-0 overflow-hidden p-0.5 border border-slate-100">
@@ -262,7 +267,7 @@ export function FloatingChat() {
             </div>
 
             {/* Form Actions */}
-            <div className="px-4 pb-4 pt-2 border-t border-slate-100 bg-white flex flex-col gap-2">
+            <div className="shrink-0 px-4 pb-4 pt-2 border-t border-slate-100 bg-white flex flex-col gap-2">
               {!sessionId && (
                 <>
                   <div className="text-[10px] font-black uppercase text-slate-400 tracking-wider text-left pl-1">

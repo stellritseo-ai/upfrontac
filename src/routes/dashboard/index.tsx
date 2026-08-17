@@ -435,11 +435,23 @@ function DashboardPage() {
     return chatSessions.find((s) => s.id === activeSessionId) || null;
   }, [chatSessions, activeSessionId]);
 
-  // Auto scroll chat
+  // Auto scroll chat ONLY when user switches sessions or when a new message count increases
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const prevMsgCountRef = useRef<number>(0);
+  const prevSessionIdRef = useRef<string | null>(null);
+
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [activeChatSession?.messages]);
+    const currentCount = activeChatSession?.messages?.length || 0;
+    const isNewSession = activeSessionId !== prevSessionIdRef.current;
+    const isNewMessage = currentCount > prevMsgCountRef.current;
+
+    if (isNewSession || isNewMessage) {
+      chatEndRef.current?.scrollIntoView({ behavior: isNewSession ? "auto" : "smooth" });
+    }
+
+    prevMsgCountRef.current = currentCount;
+    prevSessionIdRef.current = activeSessionId;
+  }, [activeSessionId, activeChatSession?.messages?.length]);
 
   // Analytics Computation
   const analytics = useMemo(() => {
@@ -2107,11 +2119,11 @@ function DashboardPage() {
               </div>
 
               {/* Right Pane: Active Thread */}
-              <div className="md:col-span-8 flex flex-col h-full bg-white">
+              <div className="md:col-span-8 flex flex-col h-full bg-white min-h-0 overflow-hidden">
                 {activeChatSession ? (
                   <>
                     {/* Active Chat Header */}
-                    <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
+                    <div className="shrink-0 p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-full bg-[#005CE6] text-white font-black text-sm flex items-center justify-center">
                           {activeChatSession.clientName?.charAt(0) || "V"}
@@ -2143,7 +2155,7 @@ function DashboardPage() {
                     </div>
 
                     {/* Messages Thread */}
-                    <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-slate-50/50">
+                    <div className="flex-1 min-h-0 p-5 overflow-y-auto space-y-4 bg-slate-50/50 overscroll-contain">
                       {dedupeChatMessages(activeChatSession.messages || []).map((m) => (
                         <div
                           key={m.id}
@@ -2179,7 +2191,7 @@ function DashboardPage() {
                     </div>
 
                     {/* Quick Canned Replies */}
-                    <div className="px-4 pt-3 pb-1 border-t border-slate-100 bg-white flex items-center gap-1.5 overflow-x-auto select-none no-scrollbar">
+                    <div className="shrink-0 px-4 pt-3 pb-1 border-t border-slate-100 bg-white flex items-center gap-1.5 overflow-x-auto select-none no-scrollbar">
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 shrink-0 mr-1">
                         Quick Replies:
                       </span>
@@ -2201,7 +2213,7 @@ function DashboardPage() {
                     </div>
 
                     {/* Chat Input Bar */}
-                    <form onSubmit={handleSendChatReply} className="p-4 border-t border-slate-200 flex gap-3 bg-white">
+                    <form onSubmit={handleSendChatReply} className="shrink-0 p-4 border-t border-slate-200 flex gap-3 bg-white">
                       <input
                         type="text"
                         placeholder={`Reply to ${activeChatSession.clientName}...`}

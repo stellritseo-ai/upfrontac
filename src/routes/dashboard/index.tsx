@@ -96,6 +96,7 @@ import {
   replyToReview,
   addReview,
   deleteReview,
+  syncGooglePlacesReviews,
   sendChatMessage,
   markChatAsRead,
   deleteChatSession,
@@ -222,6 +223,12 @@ function DashboardPage() {
   const [newReviewText, setNewReviewText] = useState("");
   const [newReviewRating, setNewReviewRating] = useState(5);
   const [newReviewPhoto, setNewReviewPhoto] = useState("");
+
+  // Google Places Sync States
+  const [isSyncingGoogleModal, setIsSyncingGoogleModal] = useState(false);
+  const [googleApiKey, setGoogleApiKey] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_google_api_key") : null) || "");
+  const [googlePlaceId, setGooglePlaceId] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_google_place_id") : null) || "");
+  const [isSyncingGoogle, setIsSyncingGoogle] = useState(false);
 
   const [selectedEmail, setSelectedEmail] = useState<WebEmail | null>(null);
   const [isViewingEmail, setIsViewingEmail] = useState(false);
@@ -717,6 +724,28 @@ function DashboardPage() {
       setReviewReplyText("");
     } catch {
       toast.error("Failed to publish reply.");
+    }
+  };
+
+  const handleSyncGoogleReviews = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setIsSyncingGoogle(true);
+    try {
+      if (googleApiKey) localStorage.setItem("upfront_google_api_key", googleApiKey);
+      if (googlePlaceId) localStorage.setItem("upfront_google_place_id", googlePlaceId);
+
+      const res = await syncGooglePlacesReviews(googleApiKey || undefined, googlePlaceId || undefined);
+      if (res.success) {
+        setReviews(res.reviews);
+        setIsSyncingGoogleModal(false);
+        toast.success(res.message || `Successfully synced ${res.count} Google reviews!`);
+      } else {
+        toast.error(res.message || "Failed to sync Google reviews.");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to connect to Google Places API.");
+    } finally {
+      setIsSyncingGoogle(false);
     }
   };
 
@@ -1621,16 +1650,38 @@ function DashboardPage() {
             >
               <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <h3 className="text-base font-black text-slate-900">Verified Customer Testimonials</h3>
-                  <p className="text-xs text-slate-400 font-medium">Moderate client ratings, respond to feedback, and control homepage showcase</p>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base font-black text-slate-900">Verified Customer Testimonials</h3>
+                    <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black px-2 py-0.5 rounded-full">
+                      5.0★ Rating
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 font-medium">Moderate client ratings, respond to feedback, and auto-sync live from your Google Business Profile</p>
                 </div>
-                <button
-                  onClick={() => setIsAddingReview(true)}
-                  className="px-5 py-2.5 bg-[#005CE6] hover:bg-[#0047B3] text-white rounded-2xl text-xs font-extrabold shadow-md shadow-[#005CE6]/20 flex items-center gap-2 cursor-pointer transition-all"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>Add Verified Review</span>
-                </button>
+                
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  {/* Automated Google Sync Button */}
+                  <button
+                    onClick={() => setIsSyncingGoogleModal(true)}
+                    className="px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-2xl text-xs font-black shadow-md shadow-blue-500/20 flex items-center gap-2 cursor-pointer transition-all hover:scale-[1.02] active:scale-95"
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                    </svg>
+                    <span>Sync Google Places API</span>
+                  </button>
+
+                  <button
+                    onClick={() => setIsAddingReview(true)}
+                    className="px-4 py-2.5 bg-[#005CE6] hover:bg-[#0047B3] text-white rounded-2xl text-xs font-extrabold shadow-md shadow-[#005CE6]/20 flex items-center gap-2 cursor-pointer transition-all"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Add Manual Review</span>
+                  </button>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -1638,11 +1689,25 @@ function DashboardPage() {
                   <div key={rev.id} className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
                       <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-1 text-amber-400">
-                          {Array.from({ length: rev.rating }).map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-amber-400" />
-                          ))}
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-0.5 text-amber-400">
+                            {Array.from({ length: rev.rating }).map((_, i) => (
+                              <Star key={i} className="w-4 h-4 fill-amber-400" />
+                            ))}
+                          </div>
+                          {(rev.source === "google" || rev.id.includes("google") || rev.title.includes("Google")) && (
+                            <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">
+                              <svg className="w-2.5 h-2.5" viewBox="0 0 24 24">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                              </svg>
+                              Google Verified
+                            </span>
+                          )}
                         </div>
+
                         <button
                           onClick={() => handleToggleReviewFeatured(rev.id)}
                           className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-full transition-colors cursor-pointer ${
@@ -1671,9 +1736,18 @@ function DashboardPage() {
                     </div>
 
                     <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <div className="flex flex-col text-left">
-                        <span className="font-bold text-xs text-slate-900">{rev.author}</span>
-                        <span className="text-[10px] text-slate-400">{rev.location || "Houston Metro"}</span>
+                      <div className="flex items-center gap-2.5">
+                        {rev.authorPhoto ? (
+                          <img src={rev.authorPhoto} alt={rev.author} className="w-8 h-8 rounded-full object-cover border border-slate-200" />
+                        ) : (
+                          <div className="w-8 h-8 rounded-full bg-blue-100 text-[#005CE6] font-black text-xs flex items-center justify-center">
+                            {rev.author.charAt(0)}
+                          </div>
+                        )}
+                        <div className="flex flex-col text-left">
+                          <span className="font-bold text-xs text-slate-900">{rev.author}</span>
+                          <span className="text-[10px] text-slate-400">{rev.location || "Houston Metro"}</span>
+                        </div>
                       </div>
 
                       <div className="flex items-center gap-2">
@@ -2426,6 +2500,126 @@ function DashboardPage() {
                   </button>
                 </div>
               </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ── GOOGLE PLACES API SYNC MODAL ── */}
+      <AnimatePresence>
+        {isSyncingGoogleModal && (
+          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 overflow-hidden"
+            >
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center p-1.5 border border-blue-100">
+                    <svg className="w-full h-full" viewBox="0 0 24 24">
+                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
+                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-black text-base text-slate-900">Google Places Reviews Sync</h3>
+                    <span className="text-[11px] font-bold text-slate-400">Automated Google Business Profile Integration</span>
+                  </div>
+                </div>
+                <button onClick={() => setIsSyncingGoogleModal(false)} className="text-slate-400 hover:text-slate-700 cursor-pointer">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSyncGoogleReviews} className="space-y-4">
+                <div className="bg-blue-50/80 border border-blue-100 rounded-2xl p-4 text-xs text-slate-700 space-y-1.5">
+                  <span className="font-extrabold text-[#005CE6] block flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5" /> How this sync works:
+                  </span>
+                  <p className="text-[11px] leading-relaxed text-slate-600">
+                    Connects directly to your Google Business Profile via Google Places API to fetch verified 5-star ratings, reviewer profile pictures, and timestamps without duplicates.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-bold text-slate-700">Google Place ID *</label>
+                    <a
+                      href="https://developers.google.com/maps/documentation/places/web-service/place-id"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] font-bold text-[#005CE6] hover:underline flex items-center gap-1"
+                    >
+                      <span>Find your Place ID</span>
+                      <ExternalLink className="w-2.5 h-2.5" />
+                    </a>
+                  </div>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. ChIJgUbEo8cfqokR5lP9_WhZeWA"
+                    value={googlePlaceId}
+                    onChange={(e) => setGooglePlaceId(e.target.value)}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-mono"
+                  />
+                  <span className="text-[10px] text-slate-400 block">Search "Upfront Air Conditioning & Heating" on Google Place ID Finder.</span>
+                </div>
+
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-bold text-slate-700">Google Cloud Places API Key *</label>
+                    <a
+                      href="https://console.cloud.google.com/apis/credentials"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] font-bold text-[#005CE6] hover:underline flex items-center gap-1"
+                    >
+                      <span>Google Cloud Console</span>
+                      <ExternalLink className="w-2.5 h-2.5" />
+                    </a>
+                  </div>
+                  <input
+                    type="password"
+                    required
+                    placeholder="AIzaSy..."
+                    value={googleApiKey}
+                    onChange={(e) => setGoogleApiKey(e.target.value)}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-mono"
+                  />
+                  <span className="text-[10px] text-slate-400 block">Saved securely and used to fetch live reviews from Google.</span>
+                </div>
+
+                <div className="pt-3 flex justify-end gap-3 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={() => setIsSyncingGoogleModal(false)}
+                    className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isSyncingGoogle}
+                    className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-black shadow-md shadow-blue-500/20 flex items-center gap-2 cursor-pointer transition-all disabled:opacity-50"
+                  >
+                    {isSyncingGoogle ? (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Syncing with Google...</span>
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5" />
+                        <span>Sync Reviews Now</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
             </motion.div>
           </div>
         )}

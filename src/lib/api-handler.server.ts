@@ -149,6 +149,129 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
       }
       if (method === "POST") {
         const body = await request.json();
+
+        // ── SYNC FROM GOOGLE PLACES API ──
+        if (body.action === "sync_google") {
+          const apiKey = body.apiKey || process.env.GOOGLE_PLACES_API_KEY || process.env.VITE_GOOGLE_PLACES_API_KEY;
+          const placeId = body.placeId || process.env.GOOGLE_PLACE_ID || process.env.VITE_GOOGLE_PLACE_ID;
+
+          if (!apiKey || !placeId) {
+            return jsonResponse({
+              success: false,
+              message: "Google Places API Key and Place ID are required. Please provide them in the modal or configure them in your .env file."
+            }, 400);
+          }
+
+          try {
+            let googleReviews: any[] = [];
+            let businessName = "Upfront Air Conditioning & Heating";
+
+            // Try New Google Places API first
+            try {
+              const newApiRes = await fetch(
+                `https://places.googleapis.com/v1/places/${placeId}?fields=reviews,rating,userRatingCount,displayName&key=${apiKey}`,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-Goog-Api-Key": apiKey,
+                    "X-Goog-FieldMask": "reviews,rating,userRatingCount,displayName"
+                  }
+                }
+              );
+              if (newApiRes.ok) {
+                const data = await newApiRes.json();
+                if (data.displayName?.text) businessName = data.displayName.text;
+                if (Array.isArray(data.reviews)) {
+                  googleReviews = data.reviews.map((r: any) => ({
+                    author: r.authorAttribution?.displayName || "Google Reviewer",
+                    authorPhoto: r.authorAttribution?.photoUri || "",
+                    rating: r.rating || 5,
+                    text: r.text?.text || r.originalText?.text || "Verified Google Review",
+                    relativeTime: r.relativePublishTimeDescription || "Recent",
+                    createdAt: r.publishTime || new Date().toISOString()
+                  }));
+                }
+              }
+            } catch (err) {
+              console.warn("New Places API failed, attempting legacy details API:", err);
+            }
+
+            // Fallback to legacy Maps Place Details API if needed
+            if (googleReviews.length === 0) {
+              const legacyRes = await fetch(
+                `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,reviews,user_ratings_total&key=${apiKey}`
+              );
+              if (legacyRes.ok) {
+                const data = await legacyRes.json();
+                if (data.result?.name) businessName = data.result.name;
+                if (Array.isArray(data.result?.reviews)) {
+                  googleReviews = data.result.reviews.map((r: any) => ({
+                    author: r.author_name || "Google Reviewer",
+                    authorPhoto: r.profile_photo_url || "",
+                    rating: r.rating || 5,
+                    text: r.text || "Verified Google Review",
+                    relativeTime: r.relative_time_description || "Recent",
+                    createdAt: r.time ? new Date(r.time * 1000).toISOString() : new Date().toISOString()
+                  }));
+                }
+              }
+            }
+
+            if (googleReviews.length === 0) {
+              return jsonResponse({
+                success: false,
+                message: "No reviews returned from Google Places API for this Place ID. Ensure the Place ID is correct and has public reviews enabled."
+              }, 404);
+            }
+
+            // Get existing reviews to avoid duplicates
+            const currentReviews = await dbGetReviews(INITIAL_REVIEWS);
+            let addedCount = 0;
+
+            for (const gRev of googleReviews) {
+              const exists = currentReviews.some(
+                (r) =>
+                  r.author.toLowerCase() === gRev.author.toLowerCase() ||
+                  (r.text && gRev.text && r.text.trim().substring(0, 30) === gRev.text.trim().substring(0, 30))
+              );
+
+              if (!exists) {
+                const newReview = {
+                  id: "review-g-" + Math.random().toString(36).substr(2, 9),
+                  title: `${gRev.rating}★ Google Verified Review`,
+                  text: gRev.text,
+                  author: gRev.author,
+                  location: "Google Verified Review",
+                  rating: gRev.rating,
+                  featured: true,
+                  source: "google" as const,
+                  authorPhoto: gRev.authorPhoto,
+                  createdAt: gRev.createdAt,
+                  photos: []
+                };
+                await dbAddReview(newReview);
+                addedCount++;
+              }
+            }
+
+            const updatedReviews = await dbGetReviews(INITIAL_REVIEWS);
+            return jsonResponse({
+              success: true,
+              count: addedCount,
+              businessName,
+              totalSynced: googleReviews.length,
+              reviews: updatedReviews,
+              message: `Successfully synced ${addedCount} new Google review${addedCount === 1 ? "" : "s"} (${googleReviews.length} total fetched from Google).`
+            });
+          } catch (apiErr: any) {
+            console.error("Google Places API fetch error:", apiErr);
+            return jsonResponse({
+              success: false,
+              message: apiErr.message || "Failed to connect to Google Places API."
+            }, 500);
+          }
+        }
+
         const photos: string[] = [];
         if (body.newReviewPhoto) {
           const url = await uploadToCloudinary(body.newReviewPhoto, "electrical/reviews");

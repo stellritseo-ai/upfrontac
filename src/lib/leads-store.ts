@@ -25,6 +25,8 @@ export interface Review {
   replyText?: string;
   createdAt: string;
   photos?: string[];
+  source?: "google" | "direct";
+  authorPhoto?: string;
 }
 
 export interface WebEmail {
@@ -156,44 +158,44 @@ export const INITIAL_LEADS: Lead[] = [
 
 export const INITIAL_REVIEWS: Review[] = [
   {
-    id: "review-1",
-    title: "Perfect Panel Upgrade - Clean and Professional!",
-    text: "R&E Electrical upgraded our home panel in Miami Beach. They handles permits, arrived early, and walked us through the inspections. Unbelievably neat wire work inside the panel cover. Highly recommend!",
-    author: "David R.",
-    location: "Miami, FL",
+    id: "review-google-1",
+    title: "Life-saving emergency AC repair on a 100° Houston day!",
+    text: "Allen and his team at Upfront A/C are unmatched. Our AC stopped cooling in the middle of July. He diagnosed the blown capacitor and low refrigerant within 20 minutes and had our house down to 72° before dinner. 100% upfront pricing with zero hidden fees!",
+    author: "Michael Sterling",
+    location: "Cypress, TX",
     rating: 5,
     featured: true,
-    createdAt: "2026-05-01T12:00:00Z"
+    createdAt: "2026-06-15T14:30:00Z"
   },
   {
-    id: "review-2",
-    title: "Highly Recommend for EV Charger Installs",
-    text: "Fast, honest, and competitive quote for my home Tesla Wall Connector. The job was clean, labeled correctly on the panel, and works perfectly. Excellent work!",
-    author: "Lisa M.",
-    location: "Fort Lauderdale, FL",
+    id: "review-google-2",
+    title: "Full HVAC system replacement done with master craftsmanship",
+    text: "Got quotes from 4 different HVAC companies in Tomball. Upfront Air Conditioning gave the most detailed and honest breakdown. The new high-efficiency heat pump installation is whisper quiet and cut our electricity bill by 30%. True pros!",
+    author: "Jessica Thornton",
+    location: "Tomball, TX",
     rating: 5,
     featured: true,
-    createdAt: "2026-05-02T12:00:00Z"
+    createdAt: "2026-06-18T10:15:00Z"
   },
   {
-    id: "review-3",
-    title: "standby Generator Installation Done Right",
-    text: "Outstanding service. The team installed our standby generator system seamlessly. They took care of everything from LP gas connection coordination to final inspections. Exceptional project management.",
-    author: "Marcus T.",
-    location: "Coral Gables, FL",
+    id: "review-google-3",
+    title: "Honest, prompt, and thoroughly professional technicians",
+    text: "Had a furnace safety issue during the cold snap. Allen arrived on time, inspected the heat exchanger, and explained everything clearly. He even showed me the test readings. I will never call any other HVAC company in Houston!",
+    author: "David Vance",
+    location: "Spring, TX",
     rating: 5,
     featured: true,
-    createdAt: "2026-05-03T12:00:00Z"
+    createdAt: "2026-06-22T16:45:00Z"
   },
   {
-    id: "review-4",
-    title: "Honest Electricians - No Surprise Fees",
-    text: "I was quoted for a full home rewire, and they stuck to the quote exactly. No surprise fees, no hidden costs. Cleaned up every single day before leaving. Highly professional team.",
-    author: "Elena P.",
-    location: "Miami, FL",
+    id: "review-google-4",
+    title: "Exceptional commercial rooftop unit service",
+    text: "Upfront AC maintains our retail store HVAC units in Katy. Fast response times, upfront transparent estimates, and flawless execution. Outstanding commercial HVAC partner.",
+    author: "Carlos Morales",
+    location: "Katy / Houston, TX",
     rating: 5,
     featured: true,
-    createdAt: "2026-05-04T12:00:00Z"
+    createdAt: "2026-07-02T11:20:00Z"
   }
 ];
 
@@ -481,6 +483,26 @@ export const deleteReview = async (id: string): Promise<Review[]> => {
     const updated = reviews.filter(r => r.id !== id);
     setStorageItem("electrical-reviews", updated);
     return updated;
+  }
+};
+
+export const syncGooglePlacesReviews = async (
+  apiKey?: string,
+  placeId?: string
+): Promise<{ success: boolean; reviews: Review[]; count: number; message?: string }> => {
+  try {
+    const res = await apiCall<{ success: boolean; reviews: Review[]; count: number; message?: string }>(
+      "/api/reviews",
+      "POST",
+      { action: "sync_google", apiKey, placeId }
+    );
+    if (res && res.reviews) {
+      setStorageItem("electrical-reviews", res.reviews);
+    }
+    return res;
+  } catch (err: any) {
+    console.error("Failed to sync Google reviews:", err);
+    throw new Error(err.message || "Failed to sync Google reviews");
   }
 };
 

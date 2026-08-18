@@ -1930,9 +1930,9 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   officePhone: "(713) 819-7908",
   emailAlert: true,
   maintenanceMode: false,
-  weekdays: "9:00 AM - 6:30 PM",
-  saturdays: "9:00 AM - 6:30 PM",
-  sundays: "24/7 Emergency Dispatch"
+  weekdays: "7:00 AM - 5:00 PM",
+  saturdays: "Emergency Calls Only",
+  sundays: "Emergency Calls Only"
 };
 
 export const getSiteSettings = async (): Promise<SiteSettings> => {

@@ -290,9 +290,9 @@ function DashboardPage() {
   const [officePhone, setOfficePhone] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_officePhone") : null) || "(713) 819-7908");
   const [emailAlert, setEmailAlert] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_emailAlert") !== "false" : true));
   const [maintenanceMode, setMaintenanceMode] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_maintenanceMode") === "true" : false));
-  const [weekdays, setWeekdays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_weekdays") : null) || "9:00 AM - 6:30 PM");
-  const [saturdays, setSaturdays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_saturdays") : null) || "9:00 AM - 6:30 PM");
-  const [sundays, setSundays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_sundays") : null) || "24/7 Emergency Dispatch");
+  const [weekdays, setWeekdays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_weekdays") : null) || "7:00 AM - 5:00 PM");
+  const [saturdays, setSaturdays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_saturdays") : null) || "Emergency Calls Only");
+  const [sundays, setSundays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_sundays") : null) || "Emergency Calls Only");
 
   const [confirmConfig, setConfirmConfig] = useState<{
     title: string;
@@ -359,9 +359,9 @@ function DashboardPage() {
           setOfficePhone(settings.officePhone || "(713) 819-7908");
           setEmailAlert(settings.emailAlert);
           setMaintenanceMode(settings.maintenanceMode);
-          setWeekdays(settings.weekdays || "9:00 AM - 6:30 PM");
-          setSaturdays(settings.saturdays || "9:00 AM - 6:30 PM");
-          setSundays(settings.sundays || "24/7 Emergency Dispatch");
+          setWeekdays(settings.weekdays || "7:00 AM - 5:00 PM");
+          setSaturdays(settings.saturdays || "Emergency Calls Only");
+          setSundays(settings.sundays || "Emergency Calls Only");
         }
       });
       if (currentUser?.role === "admin") {
@@ -587,9 +587,9 @@ function DashboardPage() {
           setOfficePhone(updated.officePhone || "(713) 819-7908");
           setEmailAlert(updated.emailAlert !== undefined ? Boolean(updated.emailAlert) : true);
           setMaintenanceMode(updated.maintenanceMode !== undefined ? Boolean(updated.maintenanceMode) : false);
-          setWeekdays(updated.weekdays || "9:00 AM - 6:30 PM");
-          setSaturdays(updated.saturdays || "9:00 AM - 6:30 PM");
-          setSundays(updated.sundays || "24/7 Emergency Dispatch");
+          setWeekdays(updated.weekdays || "7:00 AM - 5:00 PM");
+          setSaturdays(updated.saturdays || "Emergency Calls Only");
+          setSundays(updated.sundays || "Emergency Calls Only");
         }
       },
     },
@@ -3425,9 +3425,9 @@ function DashboardPage() {
                           setOfficePhone(settings.officePhone || "(713) 819-7908");
                           setEmailAlert(settings.emailAlert);
                           setMaintenanceMode(settings.maintenanceMode);
-                          setWeekdays(settings.weekdays || "9:00 AM - 6:30 PM");
-                          setSaturdays(settings.saturdays || "9:00 AM - 6:30 PM");
-                          setSundays(settings.sundays || "24/7 Emergency Dispatch");
+                          setWeekdays(settings.weekdays || "7:00 AM - 5:00 PM");
+                          setSaturdays(settings.saturdays || "Emergency Calls Only");
+                          setSundays(settings.sundays || "Emergency Calls Only");
                         }
                       });
                       toast.success("Settings reloaded from database!");
@@ -3509,10 +3509,10 @@ function DashboardPage() {
                           <button
                             type="button"
                             onClick={() => {
-                              setWeekdays("9:00 AM - 6:30 PM");
-                              setSaturdays("9:00 AM - 6:30 PM");
-                              setSundays("24/7 Emergency Dispatch");
-                              toast.info("Applied Upfront Standard Schedule");
+                              setWeekdays("7:00 AM - 5:00 PM");
+                              setSaturdays("Emergency Calls Only");
+                              setSundays("Emergency Calls Only");
+                              toast.info("Applied Upfront Standard Schedule (7 AM - 5 PM M-F)");
                             }}
                             className="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold transition"
                           >
@@ -3544,7 +3544,7 @@ function DashboardPage() {
                             required
                             value={weekdays}
                             onChange={(e) => setWeekdays(e.target.value)}
-                            placeholder="9:00 AM - 6:30 PM"
+                            placeholder="7:00 AM - 5:00 PM"
                             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
                           />
                         </div>
@@ -3552,14 +3552,14 @@ function DashboardPage() {
                         <div className="space-y-1.5 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-100">
                           <label className="text-xs font-black text-slate-800 flex items-center justify-between">
                             <span>Saturday</span>
-                            <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">Weekend</span>
+                            <span className="text-[9px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">Weekend</span>
                           </label>
                           <input
                             type="text"
                             required
                             value={saturdays}
                             onChange={(e) => setSaturdays(e.target.value)}
-                            placeholder="9:00 AM - 6:30 PM"
+                            placeholder="Emergency Calls Only"
                             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
                           />
                         </div>
@@ -3574,7 +3574,7 @@ function DashboardPage() {
                             required
                             value={sundays}
                             onChange={(e) => setSundays(e.target.value)}
-                            placeholder="24/7 Emergency Dispatch"
+                            placeholder="Emergency Calls Only"
                             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30"
                           />
                         </div>
@@ -3712,15 +3712,15 @@ function DashboardPage() {
                       <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/60 space-y-2 text-xs">
                         <div className="flex items-center justify-between">
                           <span className="text-slate-400 font-bold text-[11px]">Mon - Fri:</span>
-                          <span className="font-bold text-white text-[11px]">{weekdays || "9:00 AM - 6:30 PM"}</span>
+                          <span className="font-bold text-white text-[11px]">{weekdays || "7:00 AM - 5:00 PM"}</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-slate-400 font-bold text-[11px]">Saturday:</span>
-                          <span className="font-bold text-white text-[11px]">{saturdays || "9:00 AM - 6:30 PM"}</span>
+                          <span className="font-bold text-white text-[11px]">{saturdays || "Emergency Calls Only"}</span>
                         </div>
                         <div className="flex items-center justify-between pt-1 border-t border-slate-700/50">
                           <span className="text-rose-400 font-black text-[11px]">Sunday:</span>
-                          <span className="font-black text-rose-400 text-[11px]">{sundays || "24/7 Emergency Dispatch"}</span>
+                          <span className="font-black text-rose-400 text-[11px]">{sundays || "Emergency Calls Only"}</span>
                         </div>
                       </div>
                     </div>

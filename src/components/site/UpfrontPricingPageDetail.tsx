@@ -448,8 +448,8 @@ export function UpfrontPricingPageDetail() {
                   <Clock className="w-5 h-5 text-[#005CE6] shrink-0 mt-1" />
                   <div>
                     <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">Hours & Emergency Dispatch</span>
-                    <span className="text-sm font-extrabold text-slate-900">M-F: {settings.weekdays || "9:00 AM - 6:30 PM"}</span>
-                    <span className="text-xs font-bold text-emerald-600 block mt-0.5">Sat: {settings.saturdays} • Sun: {settings.sundays}</span>
+                    <span className="text-sm font-extrabold text-slate-900">M-F: {settings.weekdays || "7:00 AM - 5:00 PM"}</span>
+                    <span className="text-xs font-bold text-emerald-600 block mt-0.5">Sat & Sun: {settings.saturdays || "Emergency Calls Only"}</span>
                   </div>
                 </div>
               </div>
@@ -656,7 +656,7 @@ export function UpfrontPricingPageDetail() {
                   Call Direct: {settings.officePhone || "(713) 819-7908"}
                 </a>
                 <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">
-                  M-F {settings.weekdays} • Sat {settings.saturdays}
+                  M-F {settings.weekdays || "7:00 AM - 5:00 PM"} • Sat & Sun Emergency Calls Only
                 </span>
               </div>
             </div>

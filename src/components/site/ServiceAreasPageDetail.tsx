@@ -349,8 +349,8 @@ export function ServiceAreasPageDetail() {
                   <Clock className="w-5 h-5 text-[#005CE6] shrink-0 mt-1" />
                   <div>
                     <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">Office Hours</span>
-                    <span className="text-sm font-extrabold text-slate-900">M-F: {settings.weekdays || "9:00 AM - 6:30 PM"}</span>
-                    <span className="text-xs font-bold text-emerald-600 block mt-0.5">Sat: {settings.saturdays} • Sun: {settings.sundays}</span>
+                    <span className="text-sm font-extrabold text-slate-900">M-F: {settings.weekdays || "7:00 AM - 5:00 PM"}</span>
+                    <span className="text-xs font-bold text-emerald-600 block mt-0.5">Sat & Sun: {settings.saturdays || "Emergency Calls Only"}</span>
                   </div>
                 </div>
               </div>
@@ -587,8 +587,8 @@ export function ServiceAreasPageDetail() {
                     </div>
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">Timing</span>
-                      <span className="text-sm font-extrabold text-white">M-F: {settings.weekdays || "9:00 AM - 6:30 PM"}</span>
-                      <span className="text-xs font-bold text-emerald-400 block mt-0.5">Sat: {settings.saturdays} • Sun: {settings.sundays}</span>
+                      <span className="text-sm font-extrabold text-white">M-F: {settings.weekdays || "7:00 AM - 5:00 PM"}</span>
+                      <span className="text-xs font-bold text-emerald-400 block mt-0.5">Sat & Sun: {settings.saturdays || "Emergency Calls Only"}</span>
                     </div>
                   </div>
                 </div>

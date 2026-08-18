@@ -78,7 +78,7 @@ export function Estimate() {
           <form onSubmit={onSubmit} className="rounded-3xl border border-border bg-white p-8 shadow-[var(--shadow-card)]">
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label={t("Full Name", "Nombre Completo")} id="name"><Input id="name" required placeholder={t("Jane Smith", "Juan Pérez")} /></Field>
-              <Field label={t("Phone", "Teléfono")} id="phone"><Input id="phone" type="tel" required placeholder="(786) 307-5933" /></Field>
+              <Field label={t("Phone", "Teléfono")} id="phone"><Input id="phone" type="tel" required placeholder="(713) 819-7908" /></Field>
               <div className="sm:col-span-2">
                 <Field label={t("Email", "Correo Electrónico")} id="email"><Input id="email" type="email" required placeholder="jane@example.com" /></Field>
               </div>
@@ -87,13 +87,12 @@ export function Estimate() {
                   <Select value={service} onValueChange={setService}>
                     <SelectTrigger id="service" className="h-11"><SelectValue placeholder={t("Select a service", "Seleccione un servicio")} /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="residential">{t("Residential Electrical", "Eléctrico Residencial")}</SelectItem>
-                      <SelectItem value="commercial">{t("Commercial Electrical", "Eléctrico Comercial")}</SelectItem>
-                      <SelectItem value="industrial">{t("Industrial Electrical", "Eléctrico Industrial")}</SelectItem>
-                      <SelectItem value="panel">{t("Panel Upgrade", "Actualización de Panel")}</SelectItem>
-                      <SelectItem value="ev">{t("EV Charger", "Cargador EV")}</SelectItem>
-                      <SelectItem value="generator">{t("Generator", "Generador")}</SelectItem>
-                      <SelectItem value="emergency">{t("Emergency Service", "Servicio de Emergencia")}</SelectItem>
+                      <SelectItem value="ac-repair">{t("AC Repair & Diagnostics", "Reparación y Diagnóstico de AC")}</SelectItem>
+                      <SelectItem value="ac-install">{t("AC System Replacement & Install", "Reemplazo e Instalación de AC")}</SelectItem>
+                      <SelectItem value="heating">{t("Heating & Furnace Service", "Servicio de Calefacción y Horno")}</SelectItem>
+                      <SelectItem value="maintenance">{t("21-Point Maintenance Tune-Up", "Puesta a Punto de Mantenimiento")}</SelectItem>
+                      <SelectItem value="commercial">{t("Commercial HVAC Service", "Servicio HVAC Comercial")}</SelectItem>
+                      <SelectItem value="emergency">{t("Emergency Dispatch", "Despacho de Emergencia")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </Field>
@@ -112,18 +111,18 @@ export function Estimate() {
           <div className="flex flex-col gap-6">
             <div className="overflow-hidden rounded-3xl border border-border shadow-[var(--shadow-card)]">
               <iframe
-                title="R&E Electrical Contractor Corp Location"
+                title="Upfront AC Location Map"
                 className="h-72 w-full"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=-80.330%2C25.862%2C-80.318%2C25.872&layer=mapnik&marker=25.8677%2C-80.3243"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d109865.258814717!2d-95.6984218!3d30.0888293!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640cd1a97d74db1%3A0xb30d32f5fb3f9f!2sTomball%2C%20TX%2077377!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
               />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <InfoCard icon={Phone} title={t("Call Us", "Llámenos")} lines={["(786) 307-5933", t("24/7 Emergency", "Emergencia 24/7")]} />
-              <InfoCard icon={Mail} title={t("Email", "Correo")} lines={["Williams@electricalcontractorcorp.com"]} />
-              <InfoCard icon={MapPin} title={t("Office", "Oficina")} lines={["18730 NW 77 TH CT", "Hialeah, FL 33015"]} />
-              <InfoCard icon={Clock} title={t("Hours", "Horarios")} lines={[t("Mon–Sat: 7am–7pm", "Lun–Sáb: 7am–7pm"), t("Sun: Emergency only", "Dom: Solo emergencias")]} />
+              <InfoCard icon={Phone} title={t("Call Us", "Llámenos")} lines={["(713) 819-7908", t("24/7 Emergency Dispatch", "Despacho de Emergencia 24/7")]} />
+              <InfoCard icon={Mail} title={t("Email", "Correo")} lines={["allen@upfrontac.com"]} />
+              <InfoCard icon={MapPin} title={t("Service Area", "Área de Servicio")} lines={["Tomball & Cypress, TX", "Serving Greater NW Houston"]} />
+              <InfoCard icon={Clock} title={t("Hours", "Horarios")} lines={[t("Mon–Fri: 7:00 AM – 5:00 PM", "Lun–Vie: 7:00 AM – 5:00 PM"), t("Sat & Sun: Emergency Calls Only", "Sáb y Dom: Solo Emergencias")]} />
             </div>
           </div>
         </div>

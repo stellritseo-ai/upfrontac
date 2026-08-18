@@ -679,7 +679,7 @@ export function FinancePageDetail() {
 
               <div className="p-4 rounded-2xl bg-white/10 border border-white/10 text-center">
                 <span className="text-xs font-black text-cyan-300 block">Questions? Call (713) 819-7908</span>
-                <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">Monday-Saturday 9:00 am – 6:30 pm</span>
+                <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">Monday - Friday 7:00 AM – 5:00 PM • Sat & Sun Emergency Calls Only</span>
               </div>
             </div>
 

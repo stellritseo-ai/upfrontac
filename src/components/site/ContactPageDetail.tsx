@@ -194,10 +194,10 @@ export function ContactPageDetail() {
               </div>
               <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">Hours of Operation</span>
               <span className="text-sm font-extrabold text-slate-900 block leading-tight">
-                M-F: {settings.weekdays || "9:00 AM - 6:30 PM"}
+                M-F: {settings.weekdays || "7:00 AM - 5:00 PM"}
               </span>
               <span className="text-xs text-slate-500 font-medium block">
-                Sat: {settings.saturdays || "9:00 AM - 6:30 PM"} • Sun: {settings.sundays || "24/7 Dispatch"}
+                Sat & Sun: {settings.saturdays || "Emergency Calls Only"}
               </span>
             </div>
 

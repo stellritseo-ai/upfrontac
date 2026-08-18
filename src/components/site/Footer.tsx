@@ -221,21 +221,21 @@ export function Footer() {
             {/* Hours Info */}
             <div>
               <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-3">
-                {t("Office Hours", "Horarios de Oficina")}
+                {t("Office & Service Hours", "Horarios de Servicio")}
               </div>
               <div className="bg-slate-900/40 border border-blue-500/25 rounded-2xl p-4">
                 <div className="text-xs text-slate-300 leading-relaxed font-semibold space-y-2">
                   <div>
                     <span className="text-slate-400 text-[11px] block">{t("Monday - Friday:", "Lunes - Viernes:")}</span>
-                    <span className="text-white font-bold">{settings.weekdays || "9:00 AM - 6:30 PM"}</span>
+                    <span className="text-white font-bold">{settings.weekdays || "7:00 AM - 5:00 PM"}</span>
                   </div>
                   <div className="pt-1">
                     <span className="text-slate-400 text-[11px] block">{t("Saturday:", "Sábado:")}</span>
-                    <span className="text-white font-bold">{settings.saturdays || "9:00 AM - 6:30 PM"}</span>
+                    <span className="text-white font-bold">{settings.saturdays || "Emergency Calls Only"}</span>
                   </div>
                   <div className="pt-1">
                     <span className="text-rose-400 text-[11px] font-black block">{t("Sunday / Emergencies:", "Domingo / Emergencias:")}</span>
-                    <span className="text-rose-400 font-black">{settings.sundays || "24/7 Emergency Dispatch"}</span>
+                    <span className="text-rose-400 font-black">{settings.sundays || "Emergency Calls Only"}</span>
                   </div>
                 </div>
               </div>

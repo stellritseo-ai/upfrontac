@@ -50,11 +50,11 @@ export function AboutOwner() {
     {
       num: "02",
       icon: ShieldCheck,
-      tag: t("Integrity & Education at 54", "Integridad y Educación a los 54 Años"),
+      tag: t("Integrity & Education at 55", "Integridad y Educación a los 55 Años"),
       title: t("Doing Things Right the First Time", "Hacer las Cosas Bien a la Primera"),
       body: t(
-        "At 54 years old, Allen now leads Upfront AC with the kind of integrity you can feel from the first phone call to the final handshake. He believes in doing things right the first time, double-checking everything, and treating each home like it’s his own. He’s not just out to fix a unit — he’s out to educate, protect, and earn your trust.",
-        "A sus 54 años, Allen dirige Upfront AC con una integridad que se siente desde la primera llamada hasta el apretón de manos final. Cree en hacer las cosas bien a la primera, revisando todo y tratando cada hogar como si fuera el suyo. No solo está aquí para reparar una unidad — está aquí para educar, proteger y ganarse su confianza."
+        "At 55 years old, Allen now leads Upfront AC with the kind of integrity you can feel from the first phone call to the final handshake. He believes in doing things right the first time, double-checking everything, and treating each home like it’s his own. He’s not just out to fix a unit — he’s out to educate, protect, and earn your trust.",
+        "A sus 55 años, Allen dirige Upfront AC con una integridad que se siente desde la primera llamada hasta el apretón de manos final. Cree en hacer las cosas bien a la primera, revisando todo y tratando cada hogar como si fuera el suyo. No solo está aquí para reparar una unidad — está aquí para educar, proteger y ganarse su confianza."
       )
     },
     {
@@ -72,10 +72,10 @@ export function AboutOwner() {
       num: "04",
       icon: Heart,
       tag: t("Family & Community Mission", "Misión Familiar y Comunitaria"),
-      title: t("A Family Legacy for Son (16) & Daughter (12)", "Un Legado Familiar para sus Hijos"),
+      title: t("A Family Legacy for Son (17) & Daughter (13)", "Un Legado Familiar para sus Hijos"),
       body: t(
-        "But above all, Allen does this for his family and community. His mission is to provide a living wage for his employees, honest service for his customers, and eventually pass this business down to his 16-year-old son and 12-year-old daughter. Every system he installs, every call he takes — it’s all part of building something that lasts.",
-        "Pero sobre todo, Allen hace esto por su familia y su comunidad. Su misión es proporcionar un salario digno a sus empleados, un servicio honesto a sus clientes y, eventualmente, heredar este negocio a su hijo de 16 años y a su hija de 12 años. Cada sistema que instala, cada llamada que atiende — todo forma parte de construir algo duradero."
+        "But above all, Allen does this for his family and community. His mission is to provide a living wage for his employees, honest service for his customers, and eventually pass this business down to his 17-year-old son and 13-year-old daughter. Every system he installs, every call he takes — it’s all part of building something that lasts.",
+        "Pero sobre todo, Allen hace esto por su familia y su comunidad. Su misión es proporcionar un salario digno a sus empleados, un servicio honesto a sus clientes y, eventualmente, heredar este negocio a su hijo de 17 años y a su hija de 13 años. Cada sistema que instala, cada llamada que atiende — todo forma parte de construir algo duradero."
       )
     }
   ];
@@ -172,7 +172,7 @@ export function AboutOwner() {
                   alt="Allen Swindell, wife, son, and daughter"
                   className="w-full h-[480px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 />
-                
+
                 {/* Vignette Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/25 to-transparent" />
 

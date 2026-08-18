@@ -286,7 +286,7 @@ export function Careers() {
                   <Label htmlFor="app-phone" className="text-xs font-bold uppercase tracking-wider text-secondary">
                     {t("Phone Number", "Número de Teléfono")}
                   </Label>
-                  <Input id="app-phone" type="tel" required placeholder="(786) 307-5933" className="mt-1.5" />
+                  <Input id="app-phone" type="tel" required placeholder="(713) 819-7908" className="mt-1.5" />
                 </div>
 
                 <div>

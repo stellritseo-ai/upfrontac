@@ -3,6 +3,7 @@ import {
   Phone,
   Mail,
   MapPin,
+  Clock,
   ArrowRight,
 } from "lucide-react";
 import logoImg from "@/assets/logo.png";
@@ -162,82 +163,136 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Contact & Hours Info */}
-          <div className="space-y-6">
-            <div>
-              <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-4">
-                {t("Contact Info", "Información de Contacto")}
+          {/* Contact Info Col */}
+          <div>
+            <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
+              {t("Contact Info", "Información de Contacto")}
+            </div>
+            <ul className="space-y-3.5 text-sm">
+              <li>
+                <a
+                  href={`tel:${phoneTel}`}
+                  className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors group"
+                >
+                  <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
+                    <Phone className="h-4 w-4 group-hover:rotate-12 transition-transform" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Phone</span>
+                    <span className="font-semibold text-white tracking-tight mt-0.5">{settings.officePhone || "(713) 819-7908"}</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${settings.alertEmail || "allen@upfrontac.com"}`}
+                  className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group"
+                >
+                  <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
+                    <Mail className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Email</span>
+                    <span className="font-semibold text-white tracking-tight mt-0.5 text-wrap break-all">{settings.alertEmail || "allen@upfrontac.com"}</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://maps.google.com/?q=Northpointe,+Tomball,+Tx.+77377"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group"
+                >
+                  <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
+                    <MapPin className="h-4 w-4 group-hover:-translate-y-0.5 transition-transform" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">{t("Office", "Oficina")}</span>
+                    <span className="font-semibold text-white tracking-tight mt-0.5 leading-snug">
+                      Northpointe, Tomball, Tx. 77377
+                    </span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        {/* ── REDESIGNED FULL-WIDTH ROW: OFFICE & SERVICE HOURS ── */}
+        <div className="my-8 bg-slate-900/50 border border-slate-800/90 rounded-3xl p-5 sm:p-6 shadow-xl backdrop-blur-sm">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            
+            {/* Left Header */}
+            <div className="flex items-center gap-3.5 shrink-0">
+              <div className="w-11 h-11 rounded-2xl bg-[#005CE6]/15 border border-[#005CE6]/30 flex items-center justify-center text-[#005CE6] shrink-0 shadow-inner">
+                <Clock className="w-5 h-5" />
               </div>
-              <ul className="space-y-3.5 text-sm">
-                <li>
-                  <a
-                    href={`tel:${phoneTel}`}
-                    className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors group"
-                  >
-                    <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
-                      <Phone className="h-4 w-4 group-hover:rotate-12 transition-transform" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Phone</span>
-                      <span className="font-semibold text-white tracking-tight mt-0.5">{settings.officePhone || "(713) 819-7908"}</span>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={`mailto:${settings.alertEmail || "allen@upfrontac.com"}`}
-                    className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group"
-                  >
-                    <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
-                      <Mail className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Email</span>
-                      <span className="font-semibold text-white tracking-tight mt-0.5 text-wrap break-all">{settings.alertEmail || "allen@upfrontac.com"}</span>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://maps.google.com/?q=Northpointe,+Tomball,+Tx.+77377"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group"
-                  >
-                    <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
-                      <MapPin className="h-4 w-4 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">{t("Office", "Oficina")}</span>
-                      <span className="font-semibold text-white tracking-tight mt-0.5 leading-snug">
-                        Northpointe, Tomball, Tx. 77377
-                      </span>
-                    </div>
-                  </a>
-                </li>
-              </ul>
+              <div className="text-left">
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] uppercase tracking-widest text-slate-400 font-extrabold">
+                    {t("Operational Schedule", "Horario Operativo")}
+                  </span>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Live Hours
+                  </span>
+                </div>
+                <span className="text-base font-black text-white tracking-tight block mt-0.5">
+                  {t("Office & Service Hours", "Horarios de Oficina y Servicio")}
+                </span>
+              </div>
             </div>
 
-            {/* Hours Info */}
-            <div>
-              <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-3">
-                {t("Office & Service Hours", "Horarios de Servicio")}
-              </div>
-              <div className="bg-slate-900/40 border border-blue-500/25 rounded-2xl p-4">
-                <div className="text-xs text-slate-300 leading-relaxed font-semibold space-y-2">
-                  <div>
-                    <span className="text-slate-400 text-[11px] block">{t("Monday - Friday:", "Lunes - Viernes:")}</span>
-                    <span className="text-white font-bold">{settings.weekdays || "7:00 AM - 5:00 PM"}</span>
-                  </div>
-                  <div className="pt-1">
-                    <span className="text-slate-400 text-[11px] block">{t("Saturday:", "Sábado:")}</span>
-                    <span className="text-white font-bold">{settings.saturdays || "Emergency Calls Only"}</span>
-                  </div>
-                  <div className="pt-1">
-                    <span className="text-rose-400 text-[11px] font-black block">{t("Sunday / Emergencies:", "Domingo / Emergencias:")}</span>
-                    <span className="text-rose-400 font-black">{settings.sundays || "Emergency Calls Only"}</span>
-                  </div>
+            {/* Right: 3 In-Row Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full lg:w-auto flex-1 lg:max-w-3xl">
+              {/* Mon - Fri */}
+              <div className="bg-slate-950/80 border border-slate-800/90 hover:border-[#005CE6]/40 transition-colors rounded-2xl p-3.5 flex flex-col text-left group">
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <span className="text-xs font-bold text-slate-400">{t("Monday – Friday", "Lunes – Viernes")}</span>
+                  <span className="text-[9px] font-black text-blue-400 bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded uppercase tracking-wider">
+                    {t("Weekdays", "Días Laborables")}
+                  </span>
                 </div>
+                <span className="text-sm font-black text-white tracking-tight">
+                  {settings.weekdays || "7:00 AM - 5:00 PM"}
+                </span>
+                <span className="text-[10px] text-slate-500 font-medium mt-1">
+                  {t("Full Service, Repairs & Installs", "Servicio Completo e Instalaciones")}
+                </span>
+              </div>
+
+              {/* Saturday */}
+              <div className="bg-slate-950/80 border border-slate-800/90 hover:border-amber-500/40 transition-colors rounded-2xl p-3.5 flex flex-col text-left group">
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <span className="text-xs font-bold text-slate-400">{t("Saturday", "Sábado")}</span>
+                  <span className="text-[9px] font-black text-amber-400 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded uppercase tracking-wider">
+                    {t("Weekend", "Fin de Semana")}
+                  </span>
+                </div>
+                <span className="text-sm font-black text-amber-400 tracking-tight">
+                  {settings.saturdays || "Emergency Calls Only"}
+                </span>
+                <span className="text-[10px] text-slate-500 font-medium mt-1">
+                  {t("Rapid On-Call Technician Dispatch", "Técnico de Guardia para Urgencias")}
+                </span>
+              </div>
+
+              {/* Sunday */}
+              <div className="bg-slate-950/80 border border-slate-800/90 hover:border-rose-500/40 transition-colors rounded-2xl p-3.5 flex flex-col text-left group">
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <span className="text-xs font-bold text-slate-400">{t("Sunday", "Domingo")}</span>
+                  <span className="text-[9px] font-black text-rose-400 bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded uppercase tracking-wider">
+                    {t("24/7 Priority", "Prioridad 24/7")}
+                  </span>
+                </div>
+                <span className="text-sm font-black text-rose-400 tracking-tight">
+                  {settings.sundays || "Emergency Calls Only"}
+                </span>
+                <span className="text-[10px] text-slate-500 font-medium mt-1">
+                  {t("Critical AC Breakdown Response", "Respuesta Crítica a Fallas")}
+                </span>
               </div>
             </div>
 

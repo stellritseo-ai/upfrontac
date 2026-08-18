@@ -30,7 +30,7 @@ export function AboutOwner() {
   const { t } = useLanguage();
 
   const stats = [
-    { value: "54", label: t("Years of Integrity", "Años de Integridad"), desc: t("Leading with honest principles", "Liderando con principios honestos") },
+    { value: "55", label: t("Years of Integrity", "Años de Integridad"), desc: t("Leading with honest principles", "Liderando con principios honestos") },
     { value: "10+", label: t("Years in HVAC", "Años en HVAC"), desc: t("Industrial Oil & Gas background", "Experiencia en Petróleo y Gas") },
     { value: "85%", label: t("Self-Taught Master", "Maestro Autodidacta"), desc: t("Mastered from within", "Dominado desde adentro") },
     { value: "5 Yrs", label: t("Apprentice Mentor", "Mentor de Aprendices"), desc: t("Hands-on 2019–2024 mentorship", "Tutoría práctica 2019–2024") }
@@ -141,8 +141,8 @@ export function AboutOwner() {
                   <div className="space-y-2">
                     <p className="text-sm sm:text-base text-slate-800 leading-relaxed italic font-bold">
                       "{t(
-                        "At 54 years old, Allen now leads Upfront AC with the kind of integrity you can feel from the first phone call to the final handshake. He believes in doing things right the first time, double-checking everything, and treating each home like it’s his own.",
-                        "A sus 54 años, Allen dirige Upfront AC con una integridad que se siente desde la primera llamada hasta el apretón de manos final. Cree en hacer las cosas bien a la primera, revisando todo y tratando cada hogar como si fuera el suyo."
+                        "At 55 years old, Allen now leads Upfront AC with the kind of integrity you can feel from the first phone call to the final handshake. He believes in doing things right the first time, double-checking everything, and treating each home like it’s his own.",
+                        "A sus 55 años, Allen dirige Upfront AC con una integridad que se siente desde la primera llamada hasta el apretón de manos final. Cree en hacer las cosas bien a la primera, revisando todo y tratando cada hogar como si fuera el suyo."
                       )}"
                     </p>
                     <div className="pt-2 flex items-center justify-between border-t border-slate-200/80 text-xs">

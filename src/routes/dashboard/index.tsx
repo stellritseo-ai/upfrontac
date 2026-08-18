@@ -1885,79 +1885,117 @@ function DashboardPage() {
                 </div>
               </div>
 
-              {/* Top 4 KPI Metric Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+              {/* Top 5 KPI Metric Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
                 
                 {/* Metric 1: Pipeline Value */}
-                <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-slate-400">Total Pipeline Value</span>
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Total Pipeline</span>
                     <div className="w-10 h-10 rounded-2xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center">
                       <DollarSign className="w-5 h-5" />
                     </div>
                   </div>
                   <div className="mt-4">
-                    <span className="text-3xl font-black text-slate-900">${analytics.totalValue.toLocaleString()}</span>
+                    <span className="text-2xl sm:text-3xl font-black text-slate-900">${analytics.totalValue.toLocaleString()}</span>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-emerald-600">
-                      <span className="flex items-center gap-0.5 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      <span className="flex items-center gap-0.5 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 text-[10px]">
                         <TrendingUp className="w-3 h-3" /> Active Pipeline
                       </span>
-                      <span className="text-slate-400 font-medium text-[11px]">{leads.length} Active Records</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Metric 2: New Service Leads */}
-                <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-slate-400">New Service Leads</span>
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">New Service Leads</span>
                     <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-600 flex items-center justify-center">
                       <Zap className="w-5 h-5" />
                     </div>
                   </div>
                   <div className="mt-4">
-                    <span className="text-3xl font-black text-slate-900">{leads.filter(l => l.status === "new").length}</span>
+                    <span className="text-2xl sm:text-3xl font-black text-slate-900">{leads.filter(l => l.status === "new").length}</span>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-cyan-600">
-                      <span className="bg-cyan-50 px-2 py-0.5 rounded-full border border-cyan-200 text-[11px]">
-                        {analytics.activeCount} In Active Dispatch
+                      <span className="bg-cyan-50 px-2 py-0.5 rounded-full border border-cyan-200 text-[10px]">
+                        {analytics.activeCount} Active Dispatch
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Metric 3: Closed / Won Jobs */}
-                <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+                {/* Metric 3: Website Live Visitors (Dynamic & Interactive) */}
+                <div
+                  onClick={() => setActiveTab("chat")}
+                  className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md hover:border-[#005CE6]/60 hover:-translate-y-0.5 transition-all cursor-pointer group"
+                >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-slate-400">Won HVAC Contracts</span>
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 group-hover:text-[#005CE6] transition-colors">
+                      Live Visitors
+                    </span>
+                    <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center relative">
+                      <Users className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                      <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white animate-pulse" />
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl sm:text-3xl font-black text-slate-900">
+                        {chatSessions.filter(s => !s.isClosed).length}
+                      </span>
+                      <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                        Live Sessions
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 mt-2 text-xs font-bold">
+                      {chatSessions.some(s => s.unread) ? (
+                        <span className="bg-rose-50 text-rose-600 px-2 py-0.5 rounded-full border border-rose-200 text-[10px] font-black flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
+                          {chatSessions.filter(s => s.unread).length} Unread Chats
+                        </span>
+                      ) : (
+                        <span className="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 text-[10px] font-bold">
+                          {chatSessions.length} Total Connected
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Metric 4: Closed / Won Jobs */}
+                <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Won Contracts</span>
                     <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
                   </div>
                   <div className="mt-4">
-                    <span className="text-3xl font-black text-slate-900">{analytics.wonCount}</span>
+                    <span className="text-2xl sm:text-3xl font-black text-slate-900">{analytics.wonCount}</span>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-slate-500">
-                      <span className="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 text-[11px] font-black">
-                        {analytics.conversionRate}% Win Rate · ${analytics.wonValue.toLocaleString()}
+                      <span className="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 text-[10px] font-black">
+                        {analytics.conversionRate}% Win · ${analytics.wonValue.toLocaleString()}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Metric 4: Customer Satisfaction */}
-                <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+                {/* Metric 5: Customer Satisfaction */}
+                <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-slate-400">Customer Rating</span>
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Customer Rating</span>
                     <div className="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
                       <Star className="w-5 h-5 fill-amber-400" />
                     </div>
                   </div>
                   <div className="mt-4">
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-3xl font-black text-slate-900">5.0</span>
+                      <span className="text-2xl sm:text-3xl font-black text-slate-900">5.0</span>
                       <span className="text-sm font-bold text-slate-400">/ 5.0</span>
                     </div>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-amber-600">
-                      <span className="bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200 text-[11px]">
+                      <span className="bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200 text-[10px]">
                         {reviews.length} Verified Reviews
                       </span>
                     </div>

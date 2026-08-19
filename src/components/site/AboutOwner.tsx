@@ -33,7 +33,7 @@ export function AboutOwner() {
     { value: "55", label: t("Years of Integrity", "Años de Integridad"), desc: t("Leading with honest principles", "Liderando con principios honestos") },
     { value: "10+", label: t("Years in HVAC", "Años en HVAC"), desc: t("Industrial Oil & Gas background", "Experiencia en Petróleo y Gas") },
     { value: "85%", label: t("Self-Taught Master", "Maestro Autodidacta"), desc: t("Mastered from within", "Dominado desde adentro") },
-    { value: "5 Yrs", label: t("Apprentice Mentor", "Mentor de Aprendices"), desc: t("Hands-on 2019–2024 mentorship", "Tutoría práctica 2019–2024") }
+    { value: "5+ Yrs", label: t("Apprentice Mentor", "Mentor de Aprendices"), desc: t("Hands-on 2019–Present mentorship", "Tutoría práctica 2019–Presente") }
   ];
 
   const storyChapters = [
@@ -60,12 +60,12 @@ export function AboutOwner() {
     {
       num: "03",
       icon: GraduationCap,
-      tag: t("Hands-On Mentorship (2019–2024)", "Tutoría Práctica (2019–2024)"),
+      tag: t("Hands-On Mentorship (2019–Present time)", "Tutoría Práctica (2019–Present time)"),
       tagColor: "bg-[#005CE6]/10 text-[#005CE6] border-[#005CE6]/20",
       title: t("Passing the Skillset Down", "Transmitiendo el Oficio a Nuevas Generaciones"),
       body: t(
-        "He’s also a hands-on mentor. From 2019 to 2024, Allen passed on his entire skillset to a young apprentice — not because he had to, but because he believes knowledge should be shared. His team is trained the way he wishes he had been: with real-life experience, high standards, and full accountability.",
-        "También es un mentor práctico. De 2019 a 2024, Allen transmitió todo su conjunto de habilidades a un joven aprendiz — no porque tuviera que hacerlo, sino porque cree que el conocimiento debe compartirse. Su equipo está capacitado de la manera que él desearía haber sido capacitado: con experiencia de la vida real, altos estándares y total responsabilidad."
+        "He’s also a hands-on mentor. From 2019 to Present time, Allen passed on his entire skillset to a young apprentice — not because he had to, but because he believes knowledge should be shared. His team is trained the way he wishes he had been: with real-life experience, high standards, and full accountability.",
+        "También es un mentor práctico. De 2019 a Present time, Allen transmitió todo su conjunto de habilidades a un joven aprendiz — no porque tuviera que hacerlo, sino porque cree que el conocimiento debe compartirse. Su equipo está capacitado de la manera que él desearía haber sido capacitado: con experiencia de la vida real, altos estándares y total responsabilidad."
       )
     },
     {

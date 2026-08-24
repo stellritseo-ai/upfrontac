@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Calculator, Clock, CreditCard, ShieldCheck, Star, Tag, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroVideo from "@/assets/herovideo.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
+
+const HERO_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599071/herovideo.mov";
 
 export function Hero() {
   const { t } = useLanguage();
@@ -21,7 +22,7 @@ export function Hero() {
       {/* Background Video */}
       <div className="absolute inset-0 -z-10">
         <AutoPlayVideo
-          src={heroVideo}
+          src={HERO_VIDEO_URL}
           className="h-full w-full object-cover pointer-events-none"
         />
         {/* Horizontal gradient overlay: dark navy on the left for text readability, blending to transparent on the right */}

@@ -1,5 +1,6 @@
-import heroVideo from "@/assets/herovideo.mp4";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
+
+const HERO_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599071/herovideo.mov";
 
 export function PageHeader({
   eyebrow,
@@ -15,7 +16,7 @@ export function PageHeader({
       {/* Background Video */}
       <div className="absolute inset-0 -z-10">
         <AutoPlayVideo
-          src={heroVideo}
+          src={HERO_VIDEO_URL}
           className="h-full w-full object-cover opacity-85 pointer-events-none transition-opacity duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0F172A]/70 via-[#0F172A]/45 to-[#0F172A]/85" />

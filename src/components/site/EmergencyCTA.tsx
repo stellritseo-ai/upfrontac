@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
 import { Phone, Users, Star, ShieldCheck, ThermometerSun, MapPin, ArrowRight } from "lucide-react";
-import heroVideo from "@/assets/hvacwelcome.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { Link } from "@tanstack/react-router";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
+
+const HVAC_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599055/hvacwelcome.mov";
 
 export function EmergencyCTA() {
   const { t } = useLanguage();
@@ -50,7 +51,7 @@ export function EmergencyCTA() {
       {/* Background Video with Dark Glass Vignette Overlay */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <AutoPlayVideo
-          src={heroVideo}
+          src={HVAC_VIDEO_URL}
           className="h-full w-full object-cover [will-change:transform] translate-z-0 opacity-85 scale-105 pointer-events-none"
         />
         {/* Lighter Gradient Vignette Overlay for High Video Visibility */}

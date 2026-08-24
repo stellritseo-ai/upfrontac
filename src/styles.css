@@ -230,9 +230,15 @@
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes blob {
-  0%, 100% { transform: translate(0,0) scale(1); }
-  33% { transform: translate(30px,-20px) scale(1.1); }
-  66% { transform: translate(-20px,20px) scale(0.95); }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(30px, -20px, 0) scale(1.08); }
+  66% { transform: translate3d(-20px, 20px, 0) scale(0.96); }
+}
+
+@utility animate-blob {
+  animation: blob 14s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 @utility animate-float {
@@ -257,9 +263,6 @@
 }
 @utility animate-fade-up {
   animation: fade-up 0.8s ease-out both;
-}
-@utility animate-blob {
-  animation: blob 14s ease-in-out infinite;
 }
 
 @keyframes marquee {

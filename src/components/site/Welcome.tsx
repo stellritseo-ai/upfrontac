@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { ArrowRight, CheckCircle2, Sparkles, Award, Target } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import hvacWelcomeVideo from "@/assets/hvacwelcome.mp4";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
+
+const WELCOME_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599055/hvacwelcome.mov";
 
 export function Welcome() {
   const { t } = useLanguage();
@@ -107,7 +108,7 @@ export function Welcome() {
               {/* Inner Video Container */}
               <div className="relative w-full aspect-[4/5] sm:aspect-[4/5] min-h-[460px] sm:min-h-[540px] rounded-[24px] overflow-hidden bg-slate-950">
                 <AutoPlayVideo
-                  src={hvacWelcomeVideo}
+                  src={WELCOME_VIDEO_URL}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 pointer-events-none"
                 />
 

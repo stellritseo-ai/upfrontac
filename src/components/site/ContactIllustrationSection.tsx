@@ -2,10 +2,11 @@ import { motion } from "framer-motion";
 import { ThermometerSun, Wind, Volume2, TrendingUp, AlertTriangle, ShieldAlert, PhoneCall, ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import heroVideo from "@/assets/hvacwelcome.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+
+const HVAC_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599055/hvacwelcome.mov";
 
 export function ContactIllustrationSection() {
   const { t } = useLanguage();
@@ -79,7 +80,7 @@ export function ContactIllustrationSection() {
       {/* Background Video */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <AutoPlayVideo
-          src={heroVideo}
+          src={HVAC_VIDEO_URL}
           className="h-full w-full object-cover opacity-85 scale-105 pointer-events-none"
         />
         {/* Soft Dark Overlay for High Video Visibility & Contrast */}

@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
 import { PhoneCall, Zap, Clock, ShieldCheck, ArrowRight, MapPin, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import hvacVideo from "@/assets/hvacwelcome.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
+
+const HVAC_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599055/hvacwelcome.mov";
 
 export function FastHVAC() {
   const { t } = useLanguage();
@@ -15,7 +16,7 @@ export function FastHVAC() {
       {/* Background Video */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <AutoPlayVideo
-          src={hvacVideo}
+          src={HVAC_VIDEO_URL}
           className="h-full w-full object-cover opacity-90 scale-105 pointer-events-none"
         />
         {/* Soft Vignette Overlay for Maximum Video Clarity & Contrast */}

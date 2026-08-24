@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import whyChooseVideo from "@/assets/videowhychooseus.mp4";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { Zap, CheckCircle2, ShieldCheck, Clock, Award, PhoneCall, Sparkles } from "lucide-react";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
+
+const WHY_CHOOSE_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599054/videowhychooseus.mp4";
 
 export function WhyChooseUs() {
   const { t } = useLanguage();
@@ -155,7 +156,7 @@ export function WhyChooseUs() {
             >
               {/* Background Video */}
               <AutoPlayVideo
-                src={whyChooseVideo}
+                src={WHY_CHOOSE_VIDEO_URL}
                 className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out pointer-events-none"
               />
 

@@ -12,7 +12,7 @@ export function FastHVAC() {
   const { settings, phoneTel } = useSiteSettings();
 
   return (
-    <section id="fast-hvac" className="relative w-full overflow-hidden py-[20px] text-white bg-slate-950 border-y border-white/10 select-none">
+    <section id="fast-hvac" className="relative w-full overflow-hidden py-[20px] text-white bg-slate-950 border-y border-white/10 select-none" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 500px" }}>
       {/* Background Video */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <AutoPlayVideo

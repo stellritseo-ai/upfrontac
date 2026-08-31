@@ -76,7 +76,7 @@ export function ContactIllustrationSection() {
   ];
 
   return (
-    <section className="relative py-20 bg-slate-950 text-white overflow-hidden border-y border-white/10 select-none">
+    <section className="relative py-20 bg-slate-950 text-white overflow-hidden border-y border-white/10 select-none" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 700px" }}>
       {/* Background Video */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <AutoPlayVideo

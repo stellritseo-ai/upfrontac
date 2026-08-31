@@ -47,7 +47,7 @@ export function EmergencyCTA() {
   ];
 
   return (
-    <section className="relative w-full overflow-hidden py-16 lg:py-20 text-white bg-slate-950 border-y border-white/10">
+    <section className="relative w-full overflow-hidden py-16 lg:py-20 text-white bg-slate-950 border-y border-white/10" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 600px" }}>
       {/* Background Video with Dark Glass Vignette Overlay */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <AutoPlayVideo

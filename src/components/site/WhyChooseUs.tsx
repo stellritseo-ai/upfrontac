@@ -63,7 +63,7 @@ export function WhyChooseUs() {
   ];
 
   return (
-    <section id="why-choose-us" className="py-20 bg-white border-b border-slate-100 overflow-hidden">
+    <section id="why-choose-us" className="py-20 bg-white border-b border-slate-100 overflow-hidden" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 700px" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16 items-center">
 

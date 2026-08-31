@@ -19,7 +19,7 @@ export function Welcome() {
   ];
 
   return (
-    <section id="welcome" className="relative bg-gradient-to-b from-white via-slate-50/40 to-white overflow-hidden py-16 sm:py-20 border-b border-slate-100">
+    <section id="welcome" className="relative bg-gradient-to-b from-white via-slate-50/40 to-white overflow-hidden py-16 sm:py-20 border-b border-slate-100" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 750px" }}>
       {/* Background Decorative Blur Blobs */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute top-1/2 left-0 h-96 w-96 -translate-y-1/2 rounded-full bg-[#005CE6]/5 blur-3xl" />

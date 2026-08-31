@@ -77,7 +77,7 @@ export function ServiceArea() {
   const [hoveredArea, setHoveredArea] = useState<string | null>(null);
 
   return (
-    <section id="service-area" className="relative py-16 lg:py-20 bg-white border-b border-slate-100 overflow-hidden select-none">
+    <section id="service-area" className="relative py-16 lg:py-20 bg-white border-b border-slate-100 overflow-hidden select-none" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 650px" }}>
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Header Title */}

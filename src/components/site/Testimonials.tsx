@@ -553,6 +553,7 @@ export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
     <section
       id="reviews"
       className="relative py-16 lg:py-20 bg-[#F8FAFC] overflow-hidden select-none"
+      style={{ contentVisibility: "auto", containIntrinsicSize: "1px 600px" }}
     >
       {/* Background glow accents */}
       <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-blue-200/40 blur-[120px]" />
@@ -614,20 +615,24 @@ export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
       {/* CSS Animations */}
       <style>{`
         @keyframes marquee-left {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-33.3333%); }
+          0%   { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(-33.3333%, 0, 0); }
         }
         @keyframes marquee-right {
-          0%   { transform: translateX(-33.3333%); }
-          100% { transform: translateX(0); }
+          0%   { transform: translate3d(-33.3333%, 0, 0); }
+          100% { transform: translate3d(0, 0, 0); }
         }
         .marquee-track-left {
           animation: marquee-left 130s linear infinite;
           width: max-content;
+          will-change: transform;
+          transform: translateZ(0);
         }
         .marquee-track-right {
           animation: marquee-right 130s linear infinite;
           width: max-content;
+          will-change: transform;
+          transform: translateZ(0);
         }
       `}</style>
     </section>

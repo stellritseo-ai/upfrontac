@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface AutoPlayVideoProps extends React.VideoHTMLAttributes<HTMLVideoElement> {
   src: string;
+  priority?: boolean;
 }
 
-export function AutoPlayVideo({ src, className, style, ...props }: AutoPlayVideoProps) {
+export function AutoPlayVideo({ src, priority = false, className, style, ...props }: AutoPlayVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [inView, setInView] = useState(priority);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -22,25 +24,24 @@ export function AutoPlayVideo({ src, className, style, ...props }: AutoPlayVideo
     video.setAttribute("x5-video-player-type", "h5");
     video.setAttribute("x5-video-player-fullscreen", "false");
 
-    let isIntersecting = false;
+    let isIntersecting = priority;
 
-    const playVideo = () => {
+    const playVideo = async () => {
       if (!video || !isIntersecting || document.visibilityState === "hidden") return;
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = 0;
-      const promise = video.play();
-      if (promise !== undefined) {
-        promise.catch(() => {
-          // Playback blocked until user gesture (battery saver / strict policy)
-          const onFirstInteraction = () => {
-            if (isIntersecting && document.visibilityState !== "hidden") {
-              video.play().catch(() => {});
-            }
-          };
-          window.addEventListener("touchstart", onFirstInteraction, { once: true, passive: true });
-          window.addEventListener("click", onFirstInteraction, { once: true, passive: true });
-        });
+      try {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+        await video.play();
+      } catch {
+        // Autoplay policy fallback: resume on user interaction
+        const onFirstInteraction = () => {
+          if (isIntersecting && document.visibilityState !== "hidden") {
+            video.play().catch(() => {});
+          }
+        };
+        window.addEventListener("touchstart", onFirstInteraction, { once: true, passive: true });
+        window.addEventListener("click", onFirstInteraction, { once: true, passive: true });
       }
     };
 
@@ -51,12 +52,13 @@ export function AutoPlayVideo({ src, className, style, ...props }: AutoPlayVideo
     };
 
     // 2. IntersectionObserver: Pause video when not in viewport to save CPU/GPU and eliminate lag
-    // rootMargin: 200px begins playback just before scrolling into view for instant, seamless playback
+    // rootMargin: 150px begins playback just before scrolling into view for instant, seamless playback
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             isIntersecting = true;
+            setInView(true);
             playVideo();
           } else {
             isIntersecting = false;
@@ -64,7 +66,7 @@ export function AutoPlayVideo({ src, className, style, ...props }: AutoPlayVideo
           }
         });
       },
-      { rootMargin: "200px 0px 200px 0px", threshold: 0.05 }
+      { rootMargin: "150px 0px 150px 0px", threshold: 0.01 }
     );
 
     observer.observe(video);
@@ -83,13 +85,13 @@ export function AutoPlayVideo({ src, className, style, ...props }: AutoPlayVideo
     return () => {
       observer.disconnect();
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      pauseVideo();
     };
-  }, [src]);
+  }, [src, priority]);
 
   return (
     <video
       ref={videoRef}
-      autoPlay
       loop
       muted
       playsInline
@@ -97,7 +99,9 @@ export function AutoPlayVideo({ src, className, style, ...props }: AutoPlayVideo
       webkit-playsinline="true"
       // @ts-ignore
       x5-playsinline="true"
-      preload="metadata"
+      preload={priority ? "metadata" : "none"}
+      disablePictureInPicture
+      disableRemotePlayback
       aria-hidden="true"
       className={className}
       style={{
@@ -105,12 +109,18 @@ export function AutoPlayVideo({ src, className, style, ...props }: AutoPlayVideo
         willChange: "transform",
         backfaceVisibility: "hidden",
         WebkitBackfaceVisibility: "hidden",
+        contain: "paint",
         ...style,
       }}
       {...props}
     >
-      <source src={src} type="video/mp4" />
-      <source src={src} />
+      {(priority || inView) && (
+        <>
+          <source src={src} type="video/mp4" />
+          <source src={src} />
+        </>
+      )}
     </video>
   );
 }
+

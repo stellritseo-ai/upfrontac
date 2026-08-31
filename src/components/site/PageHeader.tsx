@@ -17,6 +17,7 @@ export function PageHeader({
       <div className="absolute inset-0 -z-10">
         <AutoPlayVideo
           src={HERO_VIDEO_URL}
+          priority={true}
           className="h-full w-full object-cover opacity-85 pointer-events-none transition-opacity duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0F172A]/70 via-[#0F172A]/45 to-[#0F172A]/85" />

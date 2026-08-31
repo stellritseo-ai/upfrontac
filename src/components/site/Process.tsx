@@ -50,7 +50,7 @@ export function Process() {
   ];
 
   return (
-    <section className="relative py-20 overflow-hidden bg-white border-y border-slate-100">
+    <section className="relative py-20 overflow-hidden bg-white border-y border-slate-100" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 800px" }}>
 
       {/* Background grid texture */}
       <div

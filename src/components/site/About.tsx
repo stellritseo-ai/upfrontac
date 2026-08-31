@@ -132,6 +132,13 @@ export function About() {
                 )}
               </p>
 
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-medium">
+                {t(
+                  "We are a Christian owned and operated company grounded in our faith in Jesus Christ and committed to treating every customer with honesty and care.",
+                  "Somos una empresa de propiedad y operación cristiana, fundamentada en nuestra fe en Jesucristo y comprometida a tratar a cada cliente con honestidad y cuidado."
+                )}
+              </p>
+
               <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200/90 shadow-lg shadow-slate-200/50 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1.5 h-full bg-[#005CE6]" />
                 <p className="text-sm sm:text-base text-slate-700 leading-relaxed italic font-semibold pl-2">
@@ -394,8 +401,8 @@ export function About() {
                   </h3>
                   <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
                     {t(
-                      "Quality over quantity, absolute price transparency, safety compliance, and family-first care guide every single service call. We treat your property with the utmost respect and care.",
-                      "Calidad sobre cantidad, transparencia de precios absoluta, cumplimiento de seguridad y atención centrada en la familia guían cada llamada de servicio."
+                      "We are a Christian owned and operated company grounded in our faith in Jesus Christ and committed to treating every customer with honesty and care. Quality over quantity, absolute price transparency, safety compliance, and family-first care guide every single service call. We treat your property with the utmost respect and care.",
+                      "Somos una empresa de propiedad y operación cristiana, fundamentada en nuestra fe en Jesucristo y comprometida a tratar a cada cliente con honestidad y cuidado. Calidad sobre cantidad, transparencia de precios absoluta, cumplimiento de seguridad y atención centrada en la familia guían cada llamada de servicio."
                     )}
                   </p>
                 </motion.div>

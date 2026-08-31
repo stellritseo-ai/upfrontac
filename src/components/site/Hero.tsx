@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
-const HERO_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599071/herovideo.mov";
+const HERO_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599071/herovideo.mp4";
 
 export function Hero() {
   const { t } = useLanguage();

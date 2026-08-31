@@ -5,7 +5,7 @@ import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { Zap, CheckCircle2, ShieldCheck, Clock, Award, PhoneCall, Sparkles } from "lucide-react";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
-const WHY_CHOOSE_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599054/videowhychooseus.mp4";
+const WHY_CHOOSE_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599054/videowhychooseus.mp4";
 
 export function WhyChooseUs() {
   const { t } = useLanguage();

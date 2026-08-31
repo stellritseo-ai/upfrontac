@@ -5,7 +5,7 @@ import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { Link } from "@tanstack/react-router";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
-const HVAC_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599055/hvacwelcome.mov";
+const HVAC_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599055/hvacwelcome.mp4";
 
 export function EmergencyCTA() {
   const { t } = useLanguage();

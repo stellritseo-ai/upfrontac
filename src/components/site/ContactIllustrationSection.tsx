@@ -6,7 +6,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
-const HVAC_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599055/hvacwelcome.mov";
+const HVAC_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599055/hvacwelcome.mp4";
 
 export function ContactIllustrationSection() {
   const { t } = useLanguage();

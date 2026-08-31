@@ -105,6 +105,13 @@ export function Footer() {
               )}
             </p>
 
+            <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
+              {t(
+                "We are a Christian owned and operated company grounded in our faith in Jesus Christ and committed to treating every customer with honesty and care.",
+                "Somos una empresa de propiedad y operación cristiana, fundamentada en nuestra fe en Jesucristo y comprometida a tratar a cada cliente con honestidad y cuidado."
+              )}
+            </p>
+
             {/* Socials */}
             <div className="flex items-center gap-3 pt-2">
               {socials.map((s, idx) => {

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
-const WELCOME_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/v1787599055/hvacwelcome.mov";
+const WELCOME_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599055/hvacwelcome.mp4";
 
 export function Welcome() {
   const { t } = useLanguage();
@@ -53,6 +53,12 @@ export function Welcome() {
                 {t(
                   "Upfront AC operates as a local HVAC service provider with trained in-house technicians, fast dispatch systems, and deep expertise in central air conditioning, ductwork, thermostat calibration and modern HVAC efficiency technologies.",
                   "Upfront AC opera como un proveedor de servicios HVAC local con técnicos internos capacitados, sistemas de despacho rápido y amplia experiencia en aire acondicionado central, conductos, calibración de termostatos y tecnologías modernas de eficiencia HVAC."
+                )}
+              </p>
+              <p>
+                {t(
+                  "We are a Christian owned and operated company grounded in our faith in Jesus Christ and committed to treating every customer with honesty and care.",
+                  "Somos una empresa de propiedad y operación cristiana, fundamentada en nuestra fe en Jesucristo y comprometida a tratar a cada cliente con honestidad y cuidado."
                 )}
               </p>
               <p>

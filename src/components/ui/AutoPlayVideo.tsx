@@ -109,18 +109,8 @@ export function AutoPlayVideo({ src, className, style, ...props }: AutoPlayVideo
       }}
       {...props}
     >
-      {src.endsWith(".mov") ? (
-        <>
-          <source src={src} type="video/quicktime" />
-          <source src={src} type="video/mp4" />
-          <source src={src} />
-        </>
-      ) : (
-        <>
-          <source src={src} type="video/mp4" />
-          <source src={src} />
-        </>
-      )}
+      <source src={src} type="video/mp4" />
+      <source src={src} />
     </video>
   );
 }

@@ -4,7 +4,10 @@ import { toast } from "sonner";
 import { addWebEmail } from "@/lib/leads-store";
 
 const TinyLightningIcon = () => (
-  <svg className="w-3.5 h-3.5 text-[#005CE6] fill-[#005CE6] shrink-0" viewBox="0 0 24 24">
+  <svg
+    className="w-3.5 h-3.5 text-[#005CE6] fill-[#005CE6] shrink-0"
+    viewBox="0 0 24 24"
+  >
     <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
   </svg>
 );
@@ -24,7 +27,7 @@ export function CTASection() {
     if (!name.trim() || !email.trim()) return;
 
     setIsSubmitting(true);
-    
+
     try {
       // 1. Save to MongoDB
       await addWebEmail({
@@ -33,7 +36,7 @@ export function CTASection() {
         email,
         service: service || "General Quote Request",
         message: `Address: ${address}\n\nMessage: ${message}`,
-        source: "Landing CTA Section"
+        source: "Landing CTA Section",
       });
 
       // 2. Email backup (background notification)
@@ -41,7 +44,7 @@ export function CTASection() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json"
+          Accept: "application/json",
         },
         body: JSON.stringify({
           Name: name,
@@ -49,8 +52,8 @@ export function CTASection() {
           Email: email,
           Address: address,
           "Service Needed": service || "General Quote Request",
-          Message: message
-        })
+          Message: message,
+        }),
       }).catch((err) => console.log("Background email alert:", err));
 
       toast.success("Thank you! We will get in touch with you shortly.");
@@ -64,11 +67,12 @@ export function CTASection() {
 
   return (
     <div className="w-full bg-[#f4f3ef] mt-[15px] mb-0 pt-[5px] pb-0 px-[15px]">
-      <section id="contact" className="mx-auto max-w-[1400px] w-full rounded-t-[10px] rounded-b-none bg-[#0F172A] py-6 sm:py-8 px-4 sm:px-6 md:px-12 lg:px-[80px] xl:px-[150px] border border-slate-800 shadow-[0_12px_45px_rgba(0,0,0,0.035)] relative overflow-hidden text-center animate-fade-up">
-        
+      <section
+        id="contact"
+        className="mx-auto max-w-[1400px] w-full rounded-t-[10px] rounded-b-none bg-[#0F172A] py-6 sm:py-8 px-4 sm:px-6 md:px-12 lg:px-[80px] xl:px-[150px] border border-slate-800 shadow-[0_12px_45px_rgba(0,0,0,0.035)] relative overflow-hidden text-center animate-fade-up"
+      >
         {/* Inner Card Container */}
         <div className="w-full rounded-[8px] bg-white border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.02)] relative z-10 p-5 sm:p-8 md:p-10 lg:p-[40px_50px]">
-          
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 bg-[#005CE6]/10 border border-[#005CE6]/20 text-[#005CE6] rounded-full px-5 py-2 text-[10px] font-black uppercase tracking-widest mb-6 select-none shadow-sm">
             <TinyLightningIcon /> GET A FREE ESTIMATE <TinyLightningIcon />
@@ -93,27 +97,41 @@ export function CTASection() {
               marginBottom: "22px",
             }}
           >
-            Fill out the form below and one of our licensed electricians will contact you within 24 hours to discuss your project.
+            Fill out the form below and one of our licensed electricians will
+            contact you within 24 hours to discuss your project.
           </p>
 
           {isSubmitted ? (
             <div className="flex flex-col justify-center items-center text-center w-full py-12 space-y-4">
               <div className="bg-[#005CE6]/10 text-[#005CE6] p-4 rounded-full animate-bounce">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                <svg
+                  className="w-8 h-8"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
               </div>
               <h3 className="text-xl font-extrabold text-neutral-900">
                 Thank You for Reaching Out!
               </h3>
               <p className="text-sm text-slate-500 max-w-md">
-                We have received your message and our team will get in touch with you within 24 hours.
+                We have received your message and our team will get in touch
+                with you within 24 hours.
               </p>
             </div>
           ) : (
             /* Contact Form */
-            <form className="w-full space-y-4 text-left" onSubmit={handleSubmit}>
-
+            <form
+              className="w-full space-y-4 text-left"
+              onSubmit={handleSubmit}
+            >
               {/* Row 1: Name and Phone */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
@@ -200,11 +218,9 @@ export function CTASection() {
               >
                 {isSubmitting ? "Submitting..." : "Get Free Estimate"}
               </button>
-
             </form>
           )}
         </div>
-
       </section>
     </div>
   );

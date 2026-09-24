@@ -24,7 +24,7 @@ import {
   Quote,
   Zap,
   Sliders,
-  UserCheck
+  UserCheck,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
@@ -37,40 +37,40 @@ export function IndoorAirQualityPageDetail() {
   const includedServices = [
     {
       title: "Air Duct Cleaning",
-      desc: "HEPA negative-pressure extraction with before/after photos. Residential and commercial across Tomball, Cypress, Katy, and Houston."
+      desc: "HEPA negative-pressure extraction with before/after photos. Residential and commercial across Tomball, Cypress, Katy, and Houston.",
     },
     {
       title: "Whole-Home Air Purifiers",
-      desc: "Reme Halo, Aprilaire, and iWave systems integrated directly with your existing HVAC for whole-house air purification."
+      desc: "Reme Halo, Aprilaire, and iWave systems integrated directly with your existing HVAC for whole-house air purification.",
     },
     {
       title: "UV Light Systems",
-      desc: "Single and dual-lamp UV-C systems mounted directly on the evaporator coil to stop mold & bacterial regrowth at the source."
+      desc: "Single and dual-lamp UV-C systems mounted directly on the evaporator coil to stop mold & bacterial regrowth at the source.",
     },
     {
       title: "Whole-Home Humidifiers",
-      desc: "Bypass, fan-powered, and steam humidifier installation matched to your HVAC system and smart thermostat."
+      desc: "Bypass, fan-powered, and steam humidifier installation matched to your HVAC system and smart thermostat.",
     },
     {
       title: "Whole-Home Dehumidifiers",
-      desc: "Properly sized standalone dehumidifiers that work with your HVAC — not against it — to control Houston moisture."
+      desc: "Properly sized standalone dehumidifiers that work with your HVAC — not against it — to control Houston moisture.",
     },
     {
       title: "Filtration Upgrades",
-      desc: "1-inch to 4–5-inch media filter upgrades, MERV 11–16 duct-integrated systems, and housing retrofits."
+      desc: "1-inch to 4–5-inch media filter upgrades, MERV 11–16 duct-integrated systems, and housing retrofits.",
     },
     {
       title: "IAQ Testing & Assessment",
-      desc: "Particulate counts, VOC screening, CO2, humidity, and mold spore sampling — with written, prioritized findings."
+      desc: "Particulate counts, VOC screening, CO2, humidity, and mold spore sampling — with written, prioritized findings.",
     },
     {
       title: "HVAC Odor & Mold Removal",
-      desc: "Coil cleaning, duct sanitization, and UV treatment to eliminate musty, burning, or chemical smells."
+      desc: "Coil cleaning, duct sanitization, and UV treatment to eliminate musty, burning, or chemical smells.",
     },
     {
       title: "Ongoing IAQ Maintenance",
-      desc: "UV lamp replacement, media filter changes, humidifier pad service, and dehumidifier drain checks on schedule."
-    }
+      desc: "UV lamp replacement, media filter changes, humidifier pad service, and dehumidifier drain checks on schedule.",
+    },
   ];
 
   const iaqSigns = [
@@ -81,81 +81,108 @@ export function IndoorAirQualityPageDetail() {
     "Some rooms feel stale, dry, or inconsistent in temperature",
     "Frequent headaches, throat irritation, or fatigue indoors",
     "Visible dust or soot blowing from vents upon startup",
-    "Kids coughing or sneezing more frequently at night"
+    "Kids coughing or sneezing more frequently at night",
   ];
 
   const whyChooseUs = [
     {
       title: "Diagnose Before Recommend",
-      desc: "We inspect ductwork, measure humidity, and check filtration before quoting a single piece of equipment."
+      desc: "We inspect ductwork, measure humidity, and check filtration before quoting a single piece of equipment.",
     },
     {
       title: "10+ Years in Houston Homes",
-      desc: "Deep experience with Bridgeland, Towne Lake, Fairfield, and homes along FM 2920 and SH 249."
+      desc: "Deep experience with Bridgeland, Towne Lake, Fairfield, and homes along FM 2920 and SH 249.",
     },
     {
       title: "EPA & Texas Licensed",
-      desc: "EPA Section 608 certified, licensed Texas HVAC contractors (TACLA133609C), fully insured."
+      desc: "EPA Section 608 certified, licensed Texas HVAC contractors (TACLA133609C), fully insured.",
     },
     {
       title: "Honest, Itemized Pricing",
-      desc: "Workmanship warranty, no bundle pricing, no upsells on equipment that won't make a difference."
-    }
+      desc: "Workmanship warranty, no bundle pricing, no upsells on equipment that won't make a difference.",
+    },
   ];
 
   const localCoverage = [
-    { name: "Tomball, TX (77375, 77377)", desc: "Residential neighborhoods along FM 2920, SH 249 and surrounding subdivisions." },
-    { name: "Cypress, TX (77433, 77429)", desc: "Bridgeland, Towne Lake, Fairfield, Copper Lakes and Cy-Fair communities." },
-    { name: "Houston, TX", desc: "North Houston, West Houston, Energy Corridor and surrounding metro areas." },
-    { name: "Katy, TX", desc: "Rapidly growing western suburbs with high residential and commercial HVAC demand." },
-    { name: "The Woodlands, TX", desc: "Master-planned communities with diverse residential and commercial system types." },
-    { name: "Spring, TX (77373, 77379)", desc: "Established neighborhoods with varied system ages and maintenance needs." },
-    { name: "Magnolia, TX", desc: "Rural residential, custom homes and acreage properties." },
-    { name: "Sugar Land, TX", desc: "Southwest Houston suburbs — residential and commercial." },
-    { name: "Greater Houston Metro", desc: "Same-day commercial HVAC service across the metro." }
+    {
+      name: "Tomball, TX (77375, 77377)",
+      desc: "Residential neighborhoods along FM 2920, SH 249 and surrounding subdivisions.",
+    },
+    {
+      name: "Cypress, TX (77433, 77429)",
+      desc: "Bridgeland, Towne Lake, Fairfield, Copper Lakes and Cy-Fair communities.",
+    },
+    {
+      name: "Houston, TX",
+      desc: "North Houston, West Houston, Energy Corridor and surrounding metro areas.",
+    },
+    {
+      name: "Katy, TX",
+      desc: "Rapidly growing western suburbs with high residential and commercial HVAC demand.",
+    },
+    {
+      name: "The Woodlands, TX",
+      desc: "Master-planned communities with diverse residential and commercial system types.",
+    },
+    {
+      name: "Spring, TX (77373, 77379)",
+      desc: "Established neighborhoods with varied system ages and maintenance needs.",
+    },
+    {
+      name: "Magnolia, TX",
+      desc: "Rural residential, custom homes and acreage properties.",
+    },
+    {
+      name: "Sugar Land, TX",
+      desc: "Southwest Houston suburbs — residential and commercial.",
+    },
+    {
+      name: "Greater Houston Metro",
+      desc: "Same-day commercial HVAC service across the metro.",
+    },
   ];
 
   const faqs = [
     {
       q: "What causes poor indoor air quality in Houston-area homes?",
-      a: "The most common causes are mold growth on HVAC coils and inside ductwork (driven by high humidity), inadequate filtration, duct leaks pulling contaminated attic air into living spaces, and insufficient fresh-air ventilation in tightly constructed homes."
+      a: "The most common causes are mold growth on HVAC coils and inside ductwork (driven by high humidity), inadequate filtration, duct leaks pulling contaminated attic air into living spaces, and insufficient fresh-air ventilation in tightly constructed homes.",
     },
     {
       q: "How do I know if I need indoor air quality service in Tomball or Cypress?",
-      a: "Warning signs include musty odors when your AC starts, dust accumulating quickly on surfaces, stubborn allergy or asthma symptoms indoors, and humidity staying above 60%."
+      a: "Warning signs include musty odors when your AC starts, dust accumulating quickly on surfaces, stubborn allergy or asthma symptoms indoors, and humidity staying above 60%.",
     },
     {
       q: "Is duct cleaning worth it in Houston, TX?",
-      a: "Yes, especially if your ducts haven't been cleaned in 5+ years, if you've done home renovations, or if you suspect mold/dust buildup inside the attic duct runs."
+      a: "Yes, especially if your ducts haven't been cleaned in 5+ years, if you've done home renovations, or if you suspect mold/dust buildup inside the attic duct runs.",
     },
     {
       q: "How often should air ducts be cleaned in Texas?",
-      a: "Air ducts should typically be inspected every 2–3 years and deep cleaned every 4–5 years."
+      a: "Air ducts should typically be inspected every 2–3 years and deep cleaned every 4–5 years.",
     },
     {
       q: "Does an HVAC system improve indoor air quality?",
-      a: "Standard filters catch large dust particles, but whole-home purifiers, MERV 11–16 media filters, and UV-C lamps actively kill bacteria, virus particles, and mold spores."
+      a: "Standard filters catch large dust particles, but whole-home purifiers, MERV 11–16 media filters, and UV-C lamps actively kill bacteria, virus particles, and mold spores.",
     },
     {
       q: "What does a whole-home air purifier do that a regular filter doesn't?",
-      a: "Regular filters only capture what passes directly through them. Air purifiers like Reme Halo send ionized purifiers into living spaces to neutralize odors, VOCs, and surface contaminants."
+      a: "Regular filters only capture what passes directly through them. Air purifiers like Reme Halo send ionized purifiers into living spaces to neutralize odors, VOCs, and surface contaminants.",
     },
     {
       q: "How much does indoor air quality service cost in Houston, TX?",
-      a: "Services range from $250 for high-efficiency media filter retrofits up to $1,500–$3,000 for whole-home UV purifiers and dedicated dehumidifier installations."
+      a: "Services range from $250 for high-efficiency media filter retrofits up to $1,500–$3,000 for whole-home UV purifiers and dedicated dehumidifier installations.",
     },
     {
       q: "What is UV light for HVAC, and is it worth it?",
-      a: "UV-C germicidal lamps shine on the evaporator coil to prevent algae and mold spores from reproducing in moist coil drain pans, keeping airflow clean and odor-free."
+      a: "UV-C germicidal lamps shine on the evaporator coil to prevent algae and mold spores from reproducing in moist coil drain pans, keeping airflow clean and odor-free.",
     },
     {
       q: "Can HVAC improve allergy and asthma symptoms indoors?",
-      a: "Yes. High-MERV filtration, humidity control below 55%, and coil UV treatment drastically reduce airborne pollen, dust mites, and fungal spores."
+      a: "Yes. High-MERV filtration, humidity control below 55%, and coil UV treatment drastically reduce airborne pollen, dust mites, and fungal spores.",
     },
     {
       q: "Can you fix the musty smell from my AC vents?",
-      a: "Yes. Musty smells ('Dirty Sock Syndrome') are resolved by coil cleaning, drain line flush, and installing a UV germicidal lamp."
-    }
+      a: "Yes. Musty smells ('Dirty Sock Syndrome') are resolved by coil cleaning, drain line flush, and installing a UV germicidal lamp.",
+    },
   ];
 
   const specializations = [
@@ -167,12 +194,11 @@ export function IndoorAirQualityPageDetail() {
     "Indoor Air Quality Evaluations",
     "Ultraviolet Air Treatment System",
     "Indoor Home Health Consultation",
-    "HVAC Replacement"
+    "HVAC Replacement",
   ];
 
   return (
     <div className="w-full bg-[#F8FAFC] text-slate-900 overflow-hidden select-none font-sans">
-      
       {/* ── PAGE HEADER ────────────────────────────────────── */}
       <PageHeader
         eyebrow="Indoor Air Quality · Tomball & Cypress, TX"
@@ -186,7 +212,6 @@ export function IndoorAirQualityPageDetail() {
         <div className="absolute bottom-0 left-10 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10 text-left">
-          
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
@@ -205,7 +230,6 @@ export function IndoorAirQualityPageDetail() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-            
             <div className="lg:col-span-7 space-y-6">
               <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 Eliminate Mold, Dust & Allergens with{" "}
@@ -215,7 +239,9 @@ export function IndoorAirQualityPageDetail() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
-                Gulf Coast humidity and tightly sealed Texas construction trap airborne contaminants. We assess your ductwork, static pressure, and air quality to deliver real allergen relief.
+                Gulf Coast humidity and tightly sealed Texas construction trap
+                airborne contaminants. We assess your ductwork, static pressure,
+                and air quality to deliver real allergen relief.
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -246,23 +272,22 @@ export function IndoorAirQualityPageDetail() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-white/80 shadow-xl text-left">
-                  <span className="block text-base font-black text-slate-900">Indoor Air Quality Specialists</span>
+                  <span className="block text-base font-black text-slate-900">
+                    Indoor Air Quality Specialists
+                  </span>
                   <span className="text-xs font-bold text-[#005CE6] block mt-0.5">
                     Tomball, Cypress, Katy & Greater Houston
                   </span>
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 1: WHY IAQ MATTERS IN HOUSTON ──────────── */}
       <section className="py-16 lg:py-20 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-10">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Why IAQ Matters in Houston
@@ -275,31 +300,44 @@ export function IndoorAirQualityPageDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
             <div className="space-y-4 rounded-3xl bg-white p-7 border border-slate-200/90 shadow-sm">
               <p>
-                Indoor air quality (IAQ) is the condition of the air inside your home as it relates to the health and comfort of the people living there. It covers pollutant levels, humidity balance, airflow, and biological contaminants like mold, bacteria, and allergens.
+                Indoor air quality (IAQ) is the condition of the air inside your
+                home as it relates to the health and comfort of the people
+                living there. It covers pollutant levels, humidity balance,
+                airflow, and biological contaminants like mold, bacteria, and
+                allergens.
               </p>
               <p>
-                In most of the country, IAQ is a seasonal concern. In Houston, Tomball, and Cypress, TX, it’s a year-round reality. Gulf Coast humidity fuels mold growth on coils and inside ducts. Year-round HVAC operation recirculates the same air for months.
+                In most of the country, IAQ is a seasonal concern. In Houston,
+                Tomball, and Cypress, TX, it’s a year-round reality. Gulf Coast
+                humidity fuels mold growth on coils and inside ducts. Year-round
+                HVAC operation recirculates the same air for months.
               </p>
             </div>
 
             <div className="space-y-4 rounded-3xl bg-white p-7 border border-slate-200/90 shadow-sm flex flex-col justify-between">
               <p>
-                Newer master-planned homes in Bridgeland, Towne Lake, and Fairfield are sealed tight — efficient, but they trap pollutants. Older homes near Tomball and Magnolia have aging ductwork full of accumulated dust. The result: stuffy homes, worsening allergy symptoms, and mystery odors on startup.
+                Newer master-planned homes in Bridgeland, Towne Lake, and
+                Fairfield are sealed tight — efficient, but they trap
+                pollutants. Older homes near Tomball and Magnolia have aging
+                ductwork full of accumulated dust. The result: stuffy homes,
+                worsening allergy symptoms, and mystery odors on startup.
               </p>
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs font-black text-[#005CE6] uppercase">No Packages — Just What You Need</span>
-                <span className="text-xs font-black text-slate-900">TACLA133609C</span>
+                <span className="text-xs font-black text-[#005CE6] uppercase">
+                  No Packages — Just What You Need
+                </span>
+                <span className="text-xs font-black text-slate-900">
+                  TACLA133609C
+                </span>
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 2: WHAT'S INCLUDED ──────────────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               WHAT'S INCLUDED
@@ -308,7 +346,8 @@ export function IndoorAirQualityPageDetail() {
               Our Indoor Air Quality Services
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-3 font-medium">
-              We assess first and recommend only what your home actually needs — no bundled packages.
+              We assess first and recommend only what your home actually needs —
+              no bundled packages.
             </p>
           </div>
 
@@ -336,14 +375,12 @@ export function IndoorAirQualityPageDetail() {
               </motion.div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 3: MULTI-POINT SERVICE - IAQ SIGNS ─────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Multi-Point Service
@@ -358,20 +395,23 @@ export function IndoorAirQualityPageDetail() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {iaqSigns.map((sign, idx) => (
-              <div key={idx} className="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-sm flex items-start gap-3">
+              <div
+                key={idx}
+                className="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-sm flex items-start gap-3"
+              >
                 <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm font-bold text-slate-800 leading-snug">{sign}</span>
+                <span className="text-xs sm:text-sm font-bold text-slate-800 leading-snug">
+                  {sign}
+                </span>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 4: SCOPE & WHY CHOOSE US ───────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Scope & Quality
@@ -383,25 +423,30 @@ export function IndoorAirQualityPageDetail() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyChooseUs.map((w, idx) => (
-              <div key={idx} className="rounded-3xl bg-[#F8FAFC] border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+              <div
+                key={idx}
+                className="rounded-3xl bg-[#F8FAFC] border border-slate-200 p-6 shadow-sm flex flex-col justify-between"
+              >
                 <div>
                   <div className="w-10 h-10 rounded-xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center font-black text-xs mb-4">
                     0{idx + 1}
                   </div>
-                  <h3 className="text-base font-extrabold text-slate-900">{w.title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 mt-2 font-medium leading-relaxed">{w.desc}</p>
+                  <h3 className="text-base font-extrabold text-slate-900">
+                    {w.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-2 font-medium leading-relaxed">
+                    {w.desc}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 5: CUSTOMER VOICES & LOCAL CASE STUDY ──── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Customer Voices
@@ -420,11 +465,17 @@ export function IndoorAirQualityPageDetail() {
                   ))}
                 </div>
                 <p className="text-sm text-slate-700 italic font-bold leading-relaxed">
-                  “I have been reaching out to Allen for years, almost a decade and he has never let me down. Even after the warranty company sends someone and the techs do not find anything – I reach out to Allen and he will find the issue. Very honest and flexible.”
+                  “I have been reaching out to Allen for years, almost a decade
+                  and he has never let me down. Even after the warranty company
+                  sends someone and the techs do not find anything – I reach out
+                  to Allen and he will find the issue. Very honest and
+                  flexible.”
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-slate-100 text-xs">
-                <span className="font-black text-[#005CE6] block">Homeowner in Tomball, TX</span>
+                <span className="font-black text-[#005CE6] block">
+                  Homeowner in Tomball, TX
+                </span>
               </div>
             </div>
 
@@ -436,11 +487,17 @@ export function IndoorAirQualityPageDetail() {
                   ))}
                 </div>
                 <p className="text-sm text-slate-700 italic font-bold leading-relaxed">
-                  “Allen has been our service tech for many moons. He has always been reliable, fair, upfront, and honest. He communicates well, does extremely solid work and super friendly. Its hard to find someone who treats you like family and does such amazing work.”
+                  “Allen has been our service tech for many moons. He has always
+                  been reliable, fair, upfront, and honest. He communicates
+                  well, does extremely solid work and super friendly. Its hard
+                  to find someone who treats you like family and does such
+                  amazing work.”
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-slate-100 text-xs">
-                <span className="font-black text-[#005CE6] block">Rental Property Owner</span>
+                <span className="font-black text-[#005CE6] block">
+                  Rental Property Owner
+                </span>
               </div>
             </div>
           </div>
@@ -457,35 +514,46 @@ export function IndoorAirQualityPageDetail() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
-                <h4 className="text-sm font-black text-red-600 uppercase tracking-wider mb-2">The Problem</h4>
+                <h4 className="text-sm font-black text-red-600 uppercase tracking-wider mb-2">
+                  The Problem
+                </h4>
                 <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                  A family near FM 2920 noticed their daughter's asthma worsened over two summers. The HVAC ran fine, but indoor air clearly wasn't right. Found biological coil fouling, MERV 4 filter, and 67% humidity.
+                  A family near FM 2920 noticed their daughter's asthma worsened
+                  over two summers. The HVAC ran fine, but indoor air clearly
+                  wasn't right. Found biological coil fouling, MERV 4 filter,
+                  and 67% humidity.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
-                <h4 className="text-sm font-black text-[#005CE6] uppercase tracking-wider mb-2">The Solution</h4>
+                <h4 className="text-sm font-black text-[#005CE6] uppercase tracking-wider mb-2">
+                  The Solution
+                </h4>
                 <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                  Completed full duct cleaning, treated and cleaned coil, installed coil UV-C lamp, upgraded to a 4-inch MERV 11 media filter, and installed a whole-home dehumidifier.
+                  Completed full duct cleaning, treated and cleaned coil,
+                  installed coil UV-C lamp, upgraded to a 4-inch MERV 11 media
+                  filter, and installed a whole-home dehumidifier.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200/80">
-                <h4 className="text-sm font-black text-emerald-700 uppercase tracking-wider mb-2">The Result</h4>
+                <h4 className="text-sm font-black text-emerald-700 uppercase tracking-wider mb-2">
+                  The Result
+                </h4>
                 <p className="text-xs text-slate-700 font-bold leading-relaxed">
-                  Noticeable improvement within two weeks. Indoor asthma symptoms significantly reduced and the home held humidity below 55%.
+                  Noticeable improvement within two weeks. Indoor asthma
+                  symptoms significantly reduced and the home held humidity
+                  below 55%.
                 </p>
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 6: LOCAL COVERAGE ───────────────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Local Coverage
@@ -494,7 +562,8 @@ export function IndoorAirQualityPageDetail() {
               Service areas across Greater Houston
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-2 font-medium">
-              Family-owned and locally rooted — we serve the communities we live in.
+              Family-owned and locally rooted — we serve the communities we live
+              in.
             </p>
           </div>
 
@@ -506,20 +575,22 @@ export function IndoorAirQualityPageDetail() {
               >
                 <MapPin className="w-5 h-5 text-[#005CE6] shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-sm font-extrabold text-slate-900">{loc.name}</h3>
-                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">{loc.desc}</p>
+                  <h3 className="text-sm font-extrabold text-slate-900">
+                    {loc.name}
+                  </h3>
+                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">
+                    {loc.desc}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 7: FREQUENTLY ASKED QUESTIONS ─────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Frequently Asked Questions
@@ -542,7 +613,9 @@ export function IndoorAirQualityPageDetail() {
                     className="w-full flex items-center justify-between p-6 text-left text-slate-900 font-extrabold text-base hover:text-[#005CE6] transition-colors"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown
+                      className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
                   <AnimatePresence>
                     {isOpen && (
@@ -560,14 +633,12 @@ export function IndoorAirQualityPageDetail() {
               );
             })}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 8: SPECIALIZATIONS ─────────────────────── */}
       <section className="py-14 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="flex flex-wrap items-center justify-center gap-3 text-center max-w-4xl mx-auto">
             <span className="text-xs font-black uppercase tracking-widest text-slate-400 w-full mb-2">
               We Specialize In
@@ -581,7 +652,6 @@ export function IndoorAirQualityPageDetail() {
               </span>
             ))}
           </div>
-
         </div>
       </section>
 
@@ -591,7 +661,9 @@ export function IndoorAirQualityPageDetail() {
           <div className="max-w-3xl mx-auto space-y-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-cyan-500/20 border border-cyan-500/40 px-4 py-1 text-xs font-black uppercase tracking-widest text-cyan-300">
               <PhoneCall className="h-3.5 w-3.5 text-cyan-300" />
-              <span>Book Your Indoor Air Quality Service in Cypress & Tomball Today</span>
+              <span>
+                Book Your Indoor Air Quality Service in Cypress & Tomball Today
+              </span>
             </span>
 
             <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
@@ -599,7 +671,9 @@ export function IndoorAirQualityPageDetail() {
             </h2>
 
             <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed font-medium">
-              Upfront AC has been serving Houston-area homeowners for more than 10 years. 100% upfront pricing, EPA-certified technicians, and guaranteed solutions.
+              Upfront AC has been serving Houston-area homeowners for more than
+              10 years. 100% upfront pricing, EPA-certified technicians, and
+              guaranteed solutions.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -622,7 +696,6 @@ export function IndoorAirQualityPageDetail() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }

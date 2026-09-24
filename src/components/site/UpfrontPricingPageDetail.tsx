@@ -20,7 +20,7 @@ import {
   Send,
   HelpCircle,
   TrendingUp,
-  AlertCircle
+  AlertCircle,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
@@ -33,7 +33,12 @@ export function UpfrontPricingPageDetail() {
   const { settings, phoneTel } = useSiteSettings();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("all");
-  const [formData, setFormData] = useState({ name: "", phone: "", service: "", date: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    service: "",
+    date: "",
+  });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -49,13 +54,17 @@ export function UpfrontPricingPageDetail() {
         phone: formData.phone.trim(),
         service: formData.service || "Flat-Rate Service Booking",
         message: `Preferred Date: ${formData.date || "ASAP"}. Service Category: ${formData.service || "Standard Diagnostic"}`,
-        source: "Upfront Pricing Page (/upfront-pricing)"
+        source: "Upfront Pricing Page (/upfront-pricing)",
       });
       setSubmitted(true);
-      toast.success("Service booked! We will confirm your appointment shortly.");
+      toast.success(
+        "Service booked! We will confirm your appointment shortly.",
+      );
       setFormData({ name: "", phone: "", service: "", date: "" });
     } catch {
-      toast.error(`Failed to submit request. Please call ${settings.officePhone || "(713) 819-7908"}.`);
+      toast.error(
+        `Failed to submit request. Please call ${settings.officePhone || "(713) 819-7908"}.`,
+      );
     } finally {
       setSubmitting(false);
     }
@@ -68,15 +77,47 @@ export function UpfrontPricingPageDetail() {
       icon: Clock,
       warranty: "Upfront Fixed Rates",
       items: [
-        { name: "Residential Service Call", price: "$89", note: "Diagnostic fee applied toward repair" },
-        { name: "After Hours / Weekends Service Call", price: "$185", note: "Evenings & Saturday/Sunday dispatch" },
-        { name: "After 9 PM Service Call", price: "$260", note: "Credit card processed prior to dispatch" },
-        { name: "Commercial Service Call", price: "$179", note: "Commercial RTUs & office systems" },
-        { name: "Industrial (Chiller) Service Call", price: "$196", note: "Chillers & heavy commercial plants" },
-        { name: "Residential Hourly Labor Rate", price: "$159 / hr", note: "Standard diagnostic labor rate" },
-        { name: "Commercial Hourly Labor Rate", price: "$189 / hr", note: "Commercial system labor rate" },
-        { name: "Industrial Hourly Rate (Chiller)", price: "$209 / hr", note: "Industrial equipment rate" }
-      ]
+        {
+          name: "Residential Service Call",
+          price: "$89",
+          note: "Diagnostic fee applied toward repair",
+        },
+        {
+          name: "After Hours / Weekends Service Call",
+          price: "$185",
+          note: "Evenings & Saturday/Sunday dispatch",
+        },
+        {
+          name: "After 9 PM Service Call",
+          price: "$260",
+          note: "Credit card processed prior to dispatch",
+        },
+        {
+          name: "Commercial Service Call",
+          price: "$179",
+          note: "Commercial RTUs & office systems",
+        },
+        {
+          name: "Industrial (Chiller) Service Call",
+          price: "$196",
+          note: "Chillers & heavy commercial plants",
+        },
+        {
+          name: "Residential Hourly Labor Rate",
+          price: "$159 / hr",
+          note: "Standard diagnostic labor rate",
+        },
+        {
+          name: "Commercial Hourly Labor Rate",
+          price: "$189 / hr",
+          note: "Commercial system labor rate",
+        },
+        {
+          name: "Industrial Hourly Rate (Chiller)",
+          price: "$209 / hr",
+          note: "Industrial equipment rate",
+        },
+      ],
     },
     {
       id: "capacitors",
@@ -84,18 +125,62 @@ export function UpfrontPricingPageDetail() {
       icon: Zap,
       warranty: "180 Day to 5 YR Warranty",
       items: [
-        { name: "Single Capacitor (3 - 10 MFD)", price: "$189", note: "180 Day Warranty" },
-        { name: "Single Capacitor (2.5 - 30 MFD)", price: "$209", note: "180 Day Warranty" },
-        { name: "Single Capacitor (35 - 80 MFD)", price: "$243", note: "180 Day Warranty" },
-        { name: "Dual Capacitor (30 - 60 MFD)", price: "$259", note: "180 Day Warranty" },
-        { name: "Dual Capacitor (60 - 80 MFD)", price: "$276", note: "180 Day Warranty" },
-        { name: "Turbo Capacitor 200 Mini (2.5 - 15 MFD)", price: "$237", note: "5 Year Warranty" },
-        { name: "Turbo Capacitor 200 (2.5 - 67.5 MFD)", price: "$361", note: "5 Year Warranty" },
-        { name: "Turbo Capacitor 200X (5 - 97.5 MFD)", price: "$398", note: "5 Year Warranty" },
-        { name: "5-2-1 Hard Start Kit (1 - 3 Ton)", price: "$259", note: "3 Year Warranty" },
-        { name: "5-2-1 Hard Start Kit (3.5 - 4.5 Ton)", price: "$289", note: "3 Year Warranty" },
-        { name: "5-2-1 Hard Start Kit (4 - 5 Ton)", price: "$319", note: "3 Year Warranty" }
-      ]
+        {
+          name: "Single Capacitor (3 - 10 MFD)",
+          price: "$189",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "Single Capacitor (2.5 - 30 MFD)",
+          price: "$209",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "Single Capacitor (35 - 80 MFD)",
+          price: "$243",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "Dual Capacitor (30 - 60 MFD)",
+          price: "$259",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "Dual Capacitor (60 - 80 MFD)",
+          price: "$276",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "Turbo Capacitor 200 Mini (2.5 - 15 MFD)",
+          price: "$237",
+          note: "5 Year Warranty",
+        },
+        {
+          name: "Turbo Capacitor 200 (2.5 - 67.5 MFD)",
+          price: "$361",
+          note: "5 Year Warranty",
+        },
+        {
+          name: "Turbo Capacitor 200X (5 - 97.5 MFD)",
+          price: "$398",
+          note: "5 Year Warranty",
+        },
+        {
+          name: "5-2-1 Hard Start Kit (1 - 3 Ton)",
+          price: "$259",
+          note: "3 Year Warranty",
+        },
+        {
+          name: "5-2-1 Hard Start Kit (3.5 - 4.5 Ton)",
+          price: "$289",
+          note: "3 Year Warranty",
+        },
+        {
+          name: "5-2-1 Hard Start Kit (4 - 5 Ton)",
+          price: "$319",
+          note: "3 Year Warranty",
+        },
+      ],
     },
     {
       id: "electrical",
@@ -103,16 +188,40 @@ export function UpfrontPricingPageDetail() {
       icon: Sliders,
       warranty: "180 Day Warranty",
       items: [
-        { name: "Contactor (1.5 Pole)", price: "$209", note: "180 Day Warranty" },
+        {
+          name: "Contactor (1.5 Pole)",
+          price: "$209",
+          note: "180 Day Warranty",
+        },
         { name: "Contactor (2 Pole)", price: "$229", note: "180 Day Warranty" },
         { name: "Contactor (3 Pole)", price: "$334", note: "180 Day Warranty" },
-        { name: "Transformer 40VA (Standard)", price: "$235", note: "180 Day Warranty" },
+        {
+          name: "Transformer 40VA (Standard)",
+          price: "$235",
+          note: "180 Day Warranty",
+        },
         { name: "Transformer 75VA", price: "$389", note: "180 Day Warranty" },
-        { name: "Relays / Sequencers / Rollouts (Aftermarket)", price: "$252", note: "180 Day Warranty" },
-        { name: "Relays / Sequencers / Rollouts (OEM)", price: "Part Cost + $159/hr", note: "Factory original components" },
-        { name: "Furnace / Air Handler Board (Aftermarket/Universal)", price: "$891", note: "180 Day Warranty" },
-        { name: "Furnace / Air Handler Board (OEM)", price: "Part Cost + $159/hr", note: "Factory replacement board" }
-      ]
+        {
+          name: "Relays / Sequencers / Rollouts (Aftermarket)",
+          price: "$252",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "Relays / Sequencers / Rollouts (OEM)",
+          price: "Part Cost + $159/hr",
+          note: "Factory original components",
+        },
+        {
+          name: "Furnace / Air Handler Board (Aftermarket/Universal)",
+          price: "$891",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "Furnace / Air Handler Board (OEM)",
+          price: "Part Cost + $159/hr",
+          note: "Factory replacement board",
+        },
+      ],
     },
     {
       id: "freon",
@@ -120,20 +229,72 @@ export function UpfrontPricingPageDetail() {
       icon: Snowflake,
       warranty: "No Warranty on Freon",
       items: [
-        { name: "R-22 Freon (Per LB)", price: "$207 / lb", note: "Legacy refrigerant" },
-        { name: "R-410A Freon (Per LB)", price: "$71 / lb", note: "Standard modern refrigerant" },
-        { name: "Misc Refrigerant (Per LB)", price: "$199 – $255 / lb", note: "Specialized blends" },
-        { name: "TXV Valve (OEM) Replacement", price: "$1,489 – $1,889", note: "Includes new filter drier" },
-        { name: "Schrader Core Replacement", price: "$105", note: "Valve core service" },
-        { name: "Brass Schrader Cap (Each)", price: "$5", note: "Heavy-duty brass cap" },
-        { name: "Filter Drier Replacement", price: "$888", note: "Liquid line drier installation" },
-        { name: "Freon Leak Check (< 1 HR)", price: "$128", note: "Electronic leak detection" },
-        { name: "Freon Leak Check (> 1 HR)", price: "$211", note: "Comprehensive system isolation" },
-        { name: "Refrigerant Leak Repair", price: "$662 and up", note: "Braze & pressure test" },
-        { name: "Refrigerant Leak Seal (50/50 Chance)", price: "$284", note: "System sealant injection" },
-        { name: "UV Dye Leak Search", price: "$382", note: "Fluorescent dye & UV light inspection" },
-        { name: "UV Armor Flex Insulation", price: "$12 / ft", note: "UV resistant line insulation" }
-      ]
+        {
+          name: "R-22 Freon (Per LB)",
+          price: "$207 / lb",
+          note: "Legacy refrigerant",
+        },
+        {
+          name: "R-410A Freon (Per LB)",
+          price: "$71 / lb",
+          note: "Standard modern refrigerant",
+        },
+        {
+          name: "Misc Refrigerant (Per LB)",
+          price: "$199 – $255 / lb",
+          note: "Specialized blends",
+        },
+        {
+          name: "TXV Valve (OEM) Replacement",
+          price: "$1,489 – $1,889",
+          note: "Includes new filter drier",
+        },
+        {
+          name: "Schrader Core Replacement",
+          price: "$105",
+          note: "Valve core service",
+        },
+        {
+          name: "Brass Schrader Cap (Each)",
+          price: "$5",
+          note: "Heavy-duty brass cap",
+        },
+        {
+          name: "Filter Drier Replacement",
+          price: "$888",
+          note: "Liquid line drier installation",
+        },
+        {
+          name: "Freon Leak Check (< 1 HR)",
+          price: "$128",
+          note: "Electronic leak detection",
+        },
+        {
+          name: "Freon Leak Check (> 1 HR)",
+          price: "$211",
+          note: "Comprehensive system isolation",
+        },
+        {
+          name: "Refrigerant Leak Repair",
+          price: "$662 and up",
+          note: "Braze & pressure test",
+        },
+        {
+          name: "Refrigerant Leak Seal (50/50 Chance)",
+          price: "$284",
+          note: "System sealant injection",
+        },
+        {
+          name: "UV Dye Leak Search",
+          price: "$382",
+          note: "Fluorescent dye & UV light inspection",
+        },
+        {
+          name: "UV Armor Flex Insulation",
+          price: "$12 / ft",
+          note: "UV resistant line insulation",
+        },
+      ],
     },
     {
       id: "water",
@@ -141,15 +302,47 @@ export function UpfrontPricingPageDetail() {
       icon: Wrench,
       warranty: "No Warranty on Drain Clearing",
       items: [
-        { name: "Clear Primary Drain Restriction", price: "$172", note: "Includes ball valve if needed" },
-        { name: "Clear Restriction Bundle (w/ Aqua Guard Protection)", price: "$282", note: "Includes overflow pan safety switch" },
-        { name: "PVC Drain Reconfigure (1 - 5 FT)", price: "$147", note: "Drain line correction" },
-        { name: "PVC Drain Reconfigure (6 - 10 FT)", price: "$185", note: "Mid-length line rerun" },
-        { name: "PVC Drain Reconfigure (11 - 20 FT)", price: "$215", note: "Long drain line replacement" },
-        { name: "PVC Drain Reconfigure (20+ FT)", price: "$305 + $5/FT", note: "Over 20 feet extension" },
-        { name: "Condition Primary Drain Line w/ Blue", price: "$48", note: "Anti-clog treatment" },
-        { name: "Armor Flex for Condensate Line", price: "$8 / ft", note: "Thermal insulation" }
-      ]
+        {
+          name: "Clear Primary Drain Restriction",
+          price: "$172",
+          note: "Includes ball valve if needed",
+        },
+        {
+          name: "Clear Restriction Bundle (w/ Aqua Guard Protection)",
+          price: "$282",
+          note: "Includes overflow pan safety switch",
+        },
+        {
+          name: "PVC Drain Reconfigure (1 - 5 FT)",
+          price: "$147",
+          note: "Drain line correction",
+        },
+        {
+          name: "PVC Drain Reconfigure (6 - 10 FT)",
+          price: "$185",
+          note: "Mid-length line rerun",
+        },
+        {
+          name: "PVC Drain Reconfigure (11 - 20 FT)",
+          price: "$215",
+          note: "Long drain line replacement",
+        },
+        {
+          name: "PVC Drain Reconfigure (20+ FT)",
+          price: "$305 + $5/FT",
+          note: "Over 20 feet extension",
+        },
+        {
+          name: "Condition Primary Drain Line w/ Blue",
+          price: "$48",
+          note: "Anti-clog treatment",
+        },
+        {
+          name: "Armor Flex for Condensate Line",
+          price: "$8 / ft",
+          note: "Thermal insulation",
+        },
+      ],
     },
     {
       id: "motors",
@@ -157,15 +350,47 @@ export function UpfrontPricingPageDetail() {
       icon: Flame,
       warranty: "1 YR Warranty",
       items: [
-        { name: "Condenser Fan Motor (Aftermarket PSC)", price: "$743", note: "1 Year Warranty" },
-        { name: "Condenser Fan Motor (OEM)", price: "Part Cost + $159/hr", note: "Factory replacement motor" },
-        { name: "Blower Motor (Aftermarket PSC)", price: "$894", note: "1 Year Warranty" },
-        { name: "Blower Motor (Aftermarket / Rescue ECM)", price: "$1,233", note: "High efficiency ECM motor" },
-        { name: "Blower Motor (OEM)", price: "Part Cost + $159/hr", note: "Factory ECM/PSC assembly" },
-        { name: "Power Distribution Kit (1 - 3 Ton)", price: "$575", note: "180 Day Warranty" },
-        { name: "Power Distribution Kit (3.5 - 4 Ton)", price: "$598", note: "180 Day Warranty" },
-        { name: "Power Distribution Kit (5 Ton)", price: "$631", note: "180 Day Warranty" }
-      ]
+        {
+          name: "Condenser Fan Motor (Aftermarket PSC)",
+          price: "$743",
+          note: "1 Year Warranty",
+        },
+        {
+          name: "Condenser Fan Motor (OEM)",
+          price: "Part Cost + $159/hr",
+          note: "Factory replacement motor",
+        },
+        {
+          name: "Blower Motor (Aftermarket PSC)",
+          price: "$894",
+          note: "1 Year Warranty",
+        },
+        {
+          name: "Blower Motor (Aftermarket / Rescue ECM)",
+          price: "$1,233",
+          note: "High efficiency ECM motor",
+        },
+        {
+          name: "Blower Motor (OEM)",
+          price: "Part Cost + $159/hr",
+          note: "Factory ECM/PSC assembly",
+        },
+        {
+          name: "Power Distribution Kit (1 - 3 Ton)",
+          price: "$575",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "Power Distribution Kit (3.5 - 4 Ton)",
+          price: "$598",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "Power Distribution Kit (5 Ton)",
+          price: "$631",
+          note: "180 Day Warranty",
+        },
+      ],
     },
     {
       id: "controls",
@@ -173,19 +398,67 @@ export function UpfrontPricingPageDetail() {
       icon: Sliders,
       warranty: "2 YR to 5 YR Warranty",
       items: [
-        { name: "Honeywell T4 Thermostat", price: "$294", note: "5 Year Warranty" },
-        { name: "Honeywell T6 Wi-Fi Smart Thermostat", price: "$386", note: "5 Year Warranty" },
-        { name: "Honeywell T10 Pro Smart Thermostat", price: "$492", note: "5 Year Warranty" },
-        { name: "Customer-Supplied Thermostat Install", price: "$205", note: "No warranty on customer equipment" },
-        { name: "Aqua Guard Overflow Safety Switch", price: "$164", note: "180 Day Warranty" },
-        { name: "SS1 Float Switch (T-Style)", price: "$229", note: "180 Day Warranty" },
-        { name: "SS2 Float Switch (90-Style)", price: "$229", note: "180 Day Warranty" },
-        { name: "Intermatic AG3000 Surge Protector", price: "$434", note: "2 Year Warranty" },
-        { name: "Micro-Air Soft Start Kit", price: "$783", note: "2 Year Warranty" },
-        { name: "3 Amp Fuse Replacement", price: "$72", note: "Low voltage fuse" },
-        { name: "Low Voltage 2-Wire Repair", price: "$139 and up", note: "Thermostat wire repair" },
-        { name: "High Voltage Wiring Repair", price: "$171 and up", note: "Electrical line repair" }
-      ]
+        {
+          name: "Honeywell T4 Thermostat",
+          price: "$294",
+          note: "5 Year Warranty",
+        },
+        {
+          name: "Honeywell T6 Wi-Fi Smart Thermostat",
+          price: "$386",
+          note: "5 Year Warranty",
+        },
+        {
+          name: "Honeywell T10 Pro Smart Thermostat",
+          price: "$492",
+          note: "5 Year Warranty",
+        },
+        {
+          name: "Customer-Supplied Thermostat Install",
+          price: "$205",
+          note: "No warranty on customer equipment",
+        },
+        {
+          name: "Aqua Guard Overflow Safety Switch",
+          price: "$164",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "SS1 Float Switch (T-Style)",
+          price: "$229",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "SS2 Float Switch (90-Style)",
+          price: "$229",
+          note: "180 Day Warranty",
+        },
+        {
+          name: "Intermatic AG3000 Surge Protector",
+          price: "$434",
+          note: "2 Year Warranty",
+        },
+        {
+          name: "Micro-Air Soft Start Kit",
+          price: "$783",
+          note: "2 Year Warranty",
+        },
+        {
+          name: "3 Amp Fuse Replacement",
+          price: "$72",
+          note: "Low voltage fuse",
+        },
+        {
+          name: "Low Voltage 2-Wire Repair",
+          price: "$139 and up",
+          note: "Thermostat wire repair",
+        },
+        {
+          name: "High Voltage Wiring Repair",
+          price: "$171 and up",
+          note: "Electrical line repair",
+        },
+      ],
     },
     {
       id: "maintenance",
@@ -193,14 +466,42 @@ export function UpfrontPricingPageDetail() {
       icon: CheckCircle2,
       warranty: "Preventive Care",
       items: [
-        { name: "Spring / Fall Maintenance Combo", price: "$189", note: "One trip per year (Full Tune-Up)" },
-        { name: "Additional Maintenance Unit", price: "$119 ea", note: "Same location multi-unit discount" },
-        { name: "Condenser Coil Cleaning (Non-Chemical)", price: "$85", note: "Water pressure coil wash" },
-        { name: "Condenser Coil Cleaning (Chemical)", price: "$128", note: "Deep foam chemical wash" },
-        { name: "Evaporator Coil Cleaning (In-Place)", price: "$689", note: "Without coil removal" },
-        { name: "Evaporator Coil Cleaning (Pulled & Cleaned)", price: "$1,089", note: "Full coil pump-down & pull" },
-        { name: "Blower Motor Assembly Cleaning", price: "$145", note: "Wheel & housing cleaning" }
-      ]
+        {
+          name: "Spring / Fall Maintenance Combo",
+          price: "$189",
+          note: "One trip per year (Full Tune-Up)",
+        },
+        {
+          name: "Additional Maintenance Unit",
+          price: "$119 ea",
+          note: "Same location multi-unit discount",
+        },
+        {
+          name: "Condenser Coil Cleaning (Non-Chemical)",
+          price: "$85",
+          note: "Water pressure coil wash",
+        },
+        {
+          name: "Condenser Coil Cleaning (Chemical)",
+          price: "$128",
+          note: "Deep foam chemical wash",
+        },
+        {
+          name: "Evaporator Coil Cleaning (In-Place)",
+          price: "$689",
+          note: "Without coil removal",
+        },
+        {
+          name: "Evaporator Coil Cleaning (Pulled & Cleaned)",
+          price: "$1,089",
+          note: "Full coil pump-down & pull",
+        },
+        {
+          name: "Blower Motor Assembly Cleaning",
+          price: "$145",
+          note: "Wheel & housing cleaning",
+        },
+      ],
     },
     {
       id: "iaq",
@@ -208,33 +509,62 @@ export function UpfrontPricingPageDetail() {
       icon: Sparkles,
       warranty: "Whole-Home Purification",
       items: [
-        { name: "High-Efficiency Media Filter Cabinet", price: "$802", note: "4-5 inch media filter housing" },
-        { name: "Reme Halo LED Whole-Home Air Purifier", price: "$1,361", note: "Active LED air purification" },
-        { name: "Reme Halo LED Replacement Cell Bulb", price: "$528", note: "Replacement cell" },
-        { name: "Return Air Plenum Replacement", price: "$983", note: "Insulated return box" },
-        { name: "Supply Air Plenum Replacement", price: "$1,361", note: "Custom transition duct" },
-        { name: "R8 Flex Duct Replacement (Per Drop)", price: "$467", note: "High R-value flex duct run" },
-        { name: "Add Return Air Duct (Under 25 FT)", price: "$969", note: "Includes ceiling grill & transition" }
-      ]
-    }
+        {
+          name: "High-Efficiency Media Filter Cabinet",
+          price: "$802",
+          note: "4-5 inch media filter housing",
+        },
+        {
+          name: "Reme Halo LED Whole-Home Air Purifier",
+          price: "$1,361",
+          note: "Active LED air purification",
+        },
+        {
+          name: "Reme Halo LED Replacement Cell Bulb",
+          price: "$528",
+          note: "Replacement cell",
+        },
+        {
+          name: "Return Air Plenum Replacement",
+          price: "$983",
+          note: "Insulated return box",
+        },
+        {
+          name: "Supply Air Plenum Replacement",
+          price: "$1,361",
+          note: "Custom transition duct",
+        },
+        {
+          name: "R8 Flex Duct Replacement (Per Drop)",
+          price: "$467",
+          note: "High R-value flex duct run",
+        },
+        {
+          name: "Add Return Air Duct (Under 25 FT)",
+          price: "$969",
+          note: "Includes ceiling grill & transition",
+        },
+      ],
+    },
   ];
 
-  const filteredCategories = pricingCategories.map((cat) => {
-    if (activeTab !== "all" && cat.id !== activeTab) {
-      return null;
-    }
-    const matchingItems = cat.items.filter(
-      (item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.note.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    if (matchingItems.length === 0) return null;
-    return { ...cat, items: matchingItems };
-  }).filter(Boolean);
+  const filteredCategories = pricingCategories
+    .map((cat) => {
+      if (activeTab !== "all" && cat.id !== activeTab) {
+        return null;
+      }
+      const matchingItems = cat.items.filter(
+        (item) =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.note.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+      if (matchingItems.length === 0) return null;
+      return { ...cat, items: matchingItems };
+    })
+    .filter(Boolean);
 
   return (
     <div className="w-full bg-[#F8FAFC] text-slate-900 overflow-hidden select-none font-sans">
-      
       {/* ── PAGE HEADER ────────────────────────────────────── */}
       <PageHeader
         eyebrow="Flat-Rate Transparency · Upfront AC"
@@ -248,7 +578,6 @@ export function UpfrontPricingPageDetail() {
         <div className="absolute bottom-0 left-10 w-[450px] h-[450px] bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10 text-left">
-          
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <DollarSign className="h-3.5 w-3.5 text-[#005CE6]" />
@@ -276,7 +605,9 @@ export function UpfrontPricingPageDetail() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
-                We publish our flat-rate repair menu so Houston homeowners know exactly what to expect. No hourly inflation, no surprise charges after work begins, and no pressure.
+                We publish our flat-rate repair menu so Houston homeowners know
+                exactly what to expect. No hourly inflation, no surprise charges
+                after work begins, and no pressure.
               </p>
             </div>
 
@@ -286,10 +617,13 @@ export function UpfrontPricingPageDetail() {
               </span>
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl font-black text-white">$89</span>
-                <span className="text-xs text-slate-400 font-bold">/ Diagnostic Trip Fee</span>
+                <span className="text-xs text-slate-400 font-bold">
+                  / Diagnostic Trip Fee
+                </span>
               </div>
               <p className="text-xs text-slate-300 font-medium leading-relaxed">
-                Applied directly toward your repair when service is approved. Same-day emergency scheduling available.
+                Applied directly toward your repair when service is approved.
+                Same-day emergency scheduling available.
               </p>
               <a
                 href={`tel:${phoneTel}`}
@@ -328,7 +662,7 @@ export function UpfrontPricingPageDetail() {
                 { id: "motors", label: "Fan & Blower Motors" },
                 { id: "controls", label: "Thermostats & Switches" },
                 { id: "maintenance", label: "Maintenance" },
-                { id: "iaq", label: "Air Quality & Ductwork" }
+                { id: "iaq", label: "Air Quality & Ductwork" },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -344,19 +678,21 @@ export function UpfrontPricingPageDetail() {
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── PRICING TABLES SECTION ─────────────────────────── */}
       <section className="py-16 lg:py-20 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left space-y-12">
-          
           {filteredCategories.length === 0 ? (
             <div className="p-12 text-center bg-white rounded-3xl border border-slate-200">
               <AlertCircle className="w-12 h-12 text-amber-500 mx-auto mb-3" />
-              <h3 className="text-lg font-black text-slate-900">No matching pricing items found</h3>
-              <p className="text-xs text-slate-500 font-medium mt-1">Try searching a different keyword or select "All Categories".</p>
+              <h3 className="text-lg font-black text-slate-900">
+                No matching pricing items found
+              </h3>
+              <p className="text-xs text-slate-500 font-medium mt-1">
+                Try searching a different keyword or select "All Categories".
+              </p>
             </div>
           ) : (
             filteredCategories.map((cat: any) => {
@@ -372,8 +708,12 @@ export function UpfrontPricingPageDetail() {
                         <Icon className="w-5 h-5" />
                       </div>
                       <div>
-                        <h2 className="text-lg sm:text-xl font-extrabold text-white">{cat.title}</h2>
-                        <span className="text-xs font-bold text-cyan-300 block">{cat.warranty}</span>
+                        <h2 className="text-lg sm:text-xl font-extrabold text-white">
+                          {cat.title}
+                        </h2>
+                        <span className="text-xs font-bold text-cyan-300 block">
+                          {cat.warranty}
+                        </span>
                       </div>
                     </div>
 
@@ -404,16 +744,13 @@ export function UpfrontPricingPageDetail() {
               );
             })
           )}
-
         </div>
       </section>
 
       {/* ── MAP & SERVICE RADIUS SECTION ────────────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
             <div className="lg:col-span-5 space-y-6">
               <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
                 UPFRONT AC SERVICE RADIUS
@@ -422,23 +759,34 @@ export function UpfrontPricingPageDetail() {
                 Tomball Base, Fast Metro Dispatch
               </h2>
               <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
-                All pricing applies equally across our primary service corridor: Tomball, Cypress, Katy, Spring, Magnolia, Sugar Land, and Greater Houston.
+                All pricing applies equally across our primary service corridor:
+                Tomball, Cypress, Katy, Spring, Magnolia, Sugar Land, and
+                Greater Houston.
               </p>
 
               <div className="space-y-4 pt-2">
                 <div className="flex items-start gap-4 p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200">
                   <MapPin className="w-5 h-5 text-[#005CE6] shrink-0 mt-1" />
                   <div>
-                    <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">Headquarters</span>
-                    <span className="text-sm font-extrabold text-slate-900">Northpointe, Tomball, TX 77377</span>
+                    <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">
+                      Headquarters
+                    </span>
+                    <span className="text-sm font-extrabold text-slate-900">
+                      Northpointe, Tomball, TX 77377
+                    </span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4 p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200">
                   <PhoneCall className="w-5 h-5 text-[#005CE6] shrink-0 mt-1" />
                   <div>
-                    <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">Direct Phone</span>
-                    <a href={`tel:${phoneTel}`} className="text-sm font-extrabold text-[#005CE6] hover:underline">
+                    <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">
+                      Direct Phone
+                    </span>
+                    <a
+                      href={`tel:${phoneTel}`}
+                      className="text-sm font-extrabold text-[#005CE6] hover:underline"
+                    >
                       {settings.officePhone || "(713) 819-7908"}
                     </a>
                   </div>
@@ -447,9 +795,15 @@ export function UpfrontPricingPageDetail() {
                 <div className="flex items-start gap-4 p-4 rounded-2xl bg-[#F8FAFC] border border-slate-200">
                   <Clock className="w-5 h-5 text-[#005CE6] shrink-0 mt-1" />
                   <div>
-                    <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">Hours & Emergency Dispatch</span>
-                    <span className="text-sm font-extrabold text-slate-900">M-F: {settings.weekdays || "7:00 AM - 5:00 PM"}</span>
-                    <span className="text-xs font-bold text-emerald-600 block mt-0.5">Sat & Sun: {settings.saturdays || "Emergency Calls Only"}</span>
+                    <span className="text-xs font-black text-slate-400 uppercase tracking-wider block">
+                      Hours & Emergency Dispatch
+                    </span>
+                    <span className="text-sm font-extrabold text-slate-900">
+                      M-F: {settings.weekdays || "7:00 AM - 5:00 PM"}
+                    </span>
+                    <span className="text-xs font-bold text-emerald-600 block mt-0.5">
+                      Sat & Sun: {settings.saturdays || "Emergency Calls Only"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -470,16 +824,13 @@ export function UpfrontPricingPageDetail() {
                 />
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── BOOKING FORM & DIRECT CONTACT ───────────────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               BOOK AT PUBLISHED RATES
@@ -488,12 +839,12 @@ export function UpfrontPricingPageDetail() {
               Request Your Upfront Priced Service
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-2 font-medium">
-              Schedule your service call or repair today. A certified technician will confirm your pricing before any work begins.
+              Schedule your service call or repair today. A certified technician
+              will confirm your pricing before any work begins.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            
             {/* Form */}
             <div className="lg:col-span-7 bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
               {submitted ? (
@@ -505,20 +856,29 @@ export function UpfrontPricingPageDetail() {
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-2">
                       Booking Confirmed
                     </span>
-                    <h3 className="text-2xl font-black text-emerald-950">Service Request Received!</h3>
+                    <h3 className="text-2xl font-black text-emerald-950">
+                      Service Request Received!
+                    </h3>
                     <p className="text-xs sm:text-sm text-emerald-800 font-semibold max-w-md mx-auto mt-2 leading-relaxed">
-                      Thank you! Your flat-rate service booking has been scheduled. A dispatch coordinator will call you within 15–30 minutes to verify technician arrival.
+                      Thank you! Your flat-rate service booking has been
+                      scheduled. A dispatch coordinator will call you within
+                      15–30 minutes to verify technician arrival.
                     </p>
                   </div>
 
                   <div className="bg-white/80 rounded-xl p-4 border border-emerald-200 text-left space-y-2 max-w-sm mx-auto">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                       <span className="text-slate-500">Service:</span>
-                      <span className="text-slate-900">{formData.service || "Standard Diagnostic"}</span>
+                      <span className="text-slate-900">
+                        {formData.service || "Standard Diagnostic"}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                       <span className="text-slate-500">Emergency Line:</span>
-                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] hover:underline font-extrabold">
+                      <a
+                        href={`tel:${phoneTel}`}
+                        className="text-[#005CE6] hover:underline font-extrabold"
+                      >
                         {settings.officePhone || "(713) 819-7908"}
                       </a>
                     </div>
@@ -528,7 +888,12 @@ export function UpfrontPricingPageDetail() {
                     type="button"
                     onClick={() => {
                       setSubmitted(false);
-                      setFormData({ name: "", phone: "", service: "", date: "" });
+                      setFormData({
+                        name: "",
+                        phone: "",
+                        service: "",
+                        date: "",
+                      });
                     }}
                     className="mt-2 text-xs font-bold text-[#005CE6] hover:underline cursor-pointer"
                   >
@@ -547,7 +912,9 @@ export function UpfrontPricingPageDetail() {
                         required
                         placeholder="Your Full Name"
                         value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-[#F8FAFC] px-4 py-3 text-sm text-slate-900 focus:border-[#005CE6] focus:bg-white focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -561,7 +928,9 @@ export function UpfrontPricingPageDetail() {
                         required
                         placeholder="Phone Number"
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-[#F8FAFC] px-4 py-3 text-sm text-slate-900 focus:border-[#005CE6] focus:bg-white focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -575,17 +944,33 @@ export function UpfrontPricingPageDetail() {
                       <select
                         required
                         value={formData.service}
-                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, service: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-[#F8FAFC] px-4 py-3 text-sm text-slate-900 focus:border-[#005CE6] focus:bg-white focus:outline-none transition-all font-medium"
                       >
                         <option value="">Choose a Service</option>
-                        <option value="Residential Service Call ($89)">Residential Service Call ($89)</option>
-                        <option value="Capacitor Replacement">Capacitor Replacement</option>
-                        <option value="Freon Leak Check / Recharge">Freon Leak Check / Recharge</option>
-                        <option value="Drain Line Clearing">Drain Line Clearing</option>
-                        <option value="Thermostat Installation">Thermostat Installation</option>
-                        <option value="Spring/Fall Tune-Up Combo">Spring/Fall Tune-Up Combo</option>
-                        <option value="Commercial HVAC Service">Commercial HVAC Service</option>
+                        <option value="Residential Service Call ($89)">
+                          Residential Service Call ($89)
+                        </option>
+                        <option value="Capacitor Replacement">
+                          Capacitor Replacement
+                        </option>
+                        <option value="Freon Leak Check / Recharge">
+                          Freon Leak Check / Recharge
+                        </option>
+                        <option value="Drain Line Clearing">
+                          Drain Line Clearing
+                        </option>
+                        <option value="Thermostat Installation">
+                          Thermostat Installation
+                        </option>
+                        <option value="Spring/Fall Tune-Up Combo">
+                          Spring/Fall Tune-Up Combo
+                        </option>
+                        <option value="Commercial HVAC Service">
+                          Commercial HVAC Service
+                        </option>
                       </select>
                     </div>
 
@@ -597,7 +982,9 @@ export function UpfrontPricingPageDetail() {
                         type="date"
                         required
                         value={formData.date}
-                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, date: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-[#F8FAFC] px-4 py-3 text-sm text-slate-900 focus:border-[#005CE6] focus:bg-white focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -630,9 +1017,13 @@ export function UpfrontPricingPageDetail() {
                 <span className="text-xs font-black uppercase tracking-widest text-cyan-400 block mb-2">
                   OUR GUARANTEE TO YOU
                 </span>
-                <h3 className="text-2xl font-black text-white">100% Upfront Pricing Policy</h3>
+                <h3 className="text-2xl font-black text-white">
+                  100% Upfront Pricing Policy
+                </h3>
                 <p className="text-xs text-slate-300 mt-3 font-medium leading-relaxed">
-                  We state the full repair cost before starting any work. If we find additional pre-existing issues during service, we explain them first — no surprises on your bill.
+                  We state the full repair cost before starting any work. If we
+                  find additional pre-existing issues during service, we explain
+                  them first — no surprises on your bill.
                 </p>
 
                 <div className="space-y-4 pt-6 border-t border-slate-800/80">
@@ -652,20 +1043,21 @@ export function UpfrontPricingPageDetail() {
               </div>
 
               <div className="p-4 rounded-2xl bg-white/10 border border-white/10 text-center">
-                <a href={`tel:${phoneTel}`} className="text-xs font-black text-cyan-300 block hover:underline">
+                <a
+                  href={`tel:${phoneTel}`}
+                  className="text-xs font-black text-cyan-300 block hover:underline"
+                >
                   Call Direct: {settings.officePhone || "(713) 819-7908"}
                 </a>
                 <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">
-                  M-F {settings.weekdays || "7:00 AM - 5:00 PM"} • Sat & Sun Emergency Calls Only
+                  M-F {settings.weekdays || "7:00 AM - 5:00 PM"} • Sat & Sun
+                  Emergency Calls Only
                 </span>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
-
     </div>
   );
 }

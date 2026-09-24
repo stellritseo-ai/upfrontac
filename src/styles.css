@@ -71,23 +71,23 @@
 :root {
   --radius: 1rem;
   /* Brand palette: Electric Orange #005CE6, Navy #0F172A, Blue #2563EB, BG #F8FAFC, Text #111827 */
-  --background: oklch(0.984 0.005 247);            /* #F8FAFC */
-  --foreground: oklch(0.205 0.02 264);             /* #111827 */
+  --background: oklch(0.984 0.005 247); /* #F8FAFC */
+  --foreground: oklch(0.205 0.02 264); /* #111827 */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.205 0.02 264);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.205 0.02 264);
-  --primary: oklch(0.71 0.205 47);                  /* electric orange #005CE6 */
+  --primary: oklch(0.71 0.205 47); /* electric orange #005CE6 */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.21 0.045 265);               /* navy #0F172A */
+  --secondary: oklch(0.21 0.045 265); /* navy #0F172A */
   --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.96 0.005 247);
   --muted-foreground: oklch(0.5 0.02 264);
-  --accent: oklch(0.58 0.21 265);                   /* electric blue #2563EB */
+  --accent: oklch(0.58 0.21 265); /* electric blue #2563EB */
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.6 0.24 27);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.92 0.008 255);                  /* #E5E7EB */
+  --border: oklch(0.92 0.008 255); /* #E5E7EB */
   --input: oklch(0.92 0.008 255);
   --ring: oklch(0.71 0.205 47);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -105,14 +105,24 @@
   --sidebar-ring: oklch(0.704 0.04 256.788);
 
   /* Brand tokens */
-  --brand-orange: #005CE6;
-  --brand-orange-soft: #FF8A33;
-  --brand-navy: #0F172A;
-  --brand-navy-2: #1E293B;
-  --brand-blue: #2563EB;
-  --gradient-orange: linear-gradient(135deg, #005CE6 0%, #FF9A3C 100%);
-  --gradient-navy: linear-gradient(135deg, #0F172A 0%, #1E293B 60%, #0F172A 100%);
-  --gradient-hero-overlay: linear-gradient(120deg, rgba(15,23,42,0.92) 0%, rgba(15,23,42,0.55) 60%, rgba(15,23,42,0.35) 100%);
+  --brand-orange: #005ce6;
+  --brand-orange-soft: #ff8a33;
+  --brand-navy: #0f172a;
+  --brand-navy-2: #1e293b;
+  --brand-blue: #2563eb;
+  --gradient-orange: linear-gradient(135deg, #005ce6 0%, #ff9a3c 100%);
+  --gradient-navy: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #1e293b 60%,
+    #0f172a 100%
+  );
+  --gradient-hero-overlay: linear-gradient(
+    120deg,
+    rgba(15, 23, 42, 0.92) 0%,
+    rgba(15, 23, 42, 0.55) 60%,
+    rgba(15, 23, 42, 0.35) 100%
+  );
   --shadow-elegant: 0 20px 50px -20px rgba(15, 23, 42, 0.25);
   --shadow-glow: 0 0 60px -10px rgba(255, 107, 0, 0.55);
   --shadow-card: 0 10px 30px -12px rgba(15, 23, 42, 0.18);
@@ -176,7 +186,13 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6, .font-display {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-display {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
@@ -218,21 +234,44 @@
 }
 
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-14px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 40px -10px rgba(255, 107, 0, 0.5); }
-  50% { box-shadow: 0 0 80px -10px rgba(255, 107, 0, 0.85); }
+  0%,
+  100% {
+    box-shadow: 0 0 40px -10px rgba(255, 107, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 80px -10px rgba(255, 107, 0, 0.85);
+  }
 }
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes blob {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  33% { transform: translate3d(30px, -20px, 0) scale(1.08); }
-  66% { transform: translate3d(-20px, 20px, 0) scale(0.96); }
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(30px, -20px, 0) scale(1.08);
+  }
+  66% {
+    transform: translate3d(-20px, 20px, 0) scale(0.96);
+  }
 }
 
 @utility animate-blob {
@@ -245,7 +284,8 @@
   animation: float-slow 5s ease-in-out infinite;
 }
 @keyframes welcome-float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg) scale(1.35);
   }
   35% {
@@ -266,8 +306,12 @@
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @utility animate-marquee {

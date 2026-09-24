@@ -20,15 +20,32 @@ import { Toaster } from "@/components/ui/sonner";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Upfront AC & Heating | Tomball & Cypress TX HVAC Repair & Install" },
-      { name: "description", content: "Upfront AC & Heating delivers honest, high-efficiency HVAC repair, system replacement, and maintenance in Tomball, Cypress, and Greater NW Houston. TACLA133609C licensed. Call (713) 819-7908." },
-      { name: "keywords", content: "ac repair tomball tx, ac repair cypress tx, hvac contractor tomball, emergency ac repair houston, air conditioning install cypress, upfront pricing ac" },
-      { property: "og:title", content: "Upfront AC & Heating | Tomball & Cypress TX HVAC Repair & Install" },
-      { property: "og:description", content: "Upfront AC & Heating: 7 AM - 5 PM M-F & emergency weekend dispatch. Honest HVAC service, transparent pricing, TACLA133609C licensed." },
+      {
+        title:
+          "Upfront AC & Heating | Tomball & Cypress TX HVAC Repair & Install",
+      },
+      {
+        name: "description",
+        content:
+          "Upfront AC & Heating delivers honest, high-efficiency HVAC repair, system replacement, and maintenance in Tomball, Cypress, and Greater NW Houston. TACLA133609C licensed. Call (713) 819-7908.",
+      },
+      {
+        name: "keywords",
+        content:
+          "ac repair tomball tx, ac repair cypress tx, hvac contractor tomball, emergency ac repair houston, air conditioning install cypress, upfront pricing ac",
+      },
+      {
+        property: "og:title",
+        content:
+          "Upfront AC & Heating | Tomball & Cypress TX HVAC Repair & Install",
+      },
+      {
+        property: "og:description",
+        content:
+          "Upfront AC & Heating: 7 AM - 5 PM M-F & emergency weekend dispatch. Honest HVAC service, transparent pricing, TACLA133609C licensed.",
+      },
     ],
-    links: [
-      { rel: "canonical", href: "https://upfrontac.com/" }
-    ],
+    links: [{ rel: "canonical", href: "https://upfrontac.com/" }],
   }),
   component: Index,
 });
@@ -37,46 +54,42 @@ function Index() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "HVACBusiness",
-    "name": "Upfront AC & Heating",
-    "image": "https://upfrontac.com/assets/logo.png",
+    name: "Upfront AC & Heating",
+    image: "https://upfrontac.com/assets/logo.png",
     "@id": "https://upfrontac.com/#organization",
-    "url": "https://upfrontac.com",
-    "telephone": "+17138197908",
-    "priceRange": "$$",
-    "address": {
+    url: "https://upfrontac.com",
+    telephone: "+17138197908",
+    priceRange: "$$",
+    address: {
       "@type": "PostalAddress",
-      "streetAddress": "Serving Tomball, Cypress, and Greater NW Houston",
-      "addressLocality": "Tomball",
-      "addressRegion": "TX",
-      "postalCode": "77375",
-      "addressCountry": "US"
+      streetAddress: "Serving Tomball, Cypress, and Greater NW Houston",
+      addressLocality: "Tomball",
+      addressRegion: "TX",
+      postalCode: "77375",
+      addressCountry: "US",
     },
-    "geo": {
+    geo: {
       "@type": "GeoCoordinates",
-      "latitude": "30.0972",
-      "longitude": "-95.6161"
+      latitude: "30.0972",
+      longitude: "-95.6161",
     },
-    "openingHoursSpecification": [
+    openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
-        ],
-        "opens": "07:00",
-        "closes": "17:00"
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "07:00",
+        closes: "17:00",
       },
       {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Saturday", "Sunday"
-        ],
-        "description": "Emergency Calls Only"
-      }
+        dayOfWeek: ["Saturday", "Sunday"],
+        description: "Emergency Calls Only",
+      },
     ],
-    "sameAs": [
+    sameAs: [
       "https://www.facebook.com/upfrontac",
-      "https://www.instagram.com/upfrontac/"
-    ]
+      "https://www.instagram.com/upfrontac/",
+    ],
   };
 
   return (

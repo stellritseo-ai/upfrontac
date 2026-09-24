@@ -24,7 +24,7 @@ import {
   DollarSign,
   Heart,
   UserCheck,
-  Check
+  Check,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
@@ -40,34 +40,34 @@ export function AcRepairTomballPageDetail() {
     "Skilled in diagnostics for compressors, coils, contactors, thermostats, drain systems, and electrical faults",
     "Clear recommendations for repair, maintenance, or AC replacement in Tomball",
     "Support for both Residential HVAC Services and Commercial HVAC Services in Tomball",
-    "Familiar with local comfort demands near Old Town Tomball, Historic Depot, and Hooks Airport"
+    "Familiar with local comfort demands near Old Town Tomball, Historic Depot, and Hooks Airport",
   ];
 
   const includedServices = [
     {
       title: "Full System Operating Check",
-      desc: "Complete testing of thermostat response, indoor air handler, outdoor condenser, and safety controls."
+      desc: "Complete testing of thermostat response, indoor air handler, outdoor condenser, and safety controls.",
     },
     {
       title: "Temperature Split & Airflow Testing",
-      desc: "Measuring temperature drop across evaporator coils and checking register airflow balance."
+      desc: "Measuring temperature drop across evaporator coils and checking register airflow balance.",
     },
     {
       title: "Electrical & Capacitor Testing",
-      desc: "Testing motor running amps, dual-run capacitors, contactor pitting, and breaker safety."
+      desc: "Testing motor running amps, dual-run capacitors, contactor pitting, and breaker safety.",
     },
     {
       title: "Condensate Drain Line Review",
-      desc: "Clearing algae blockages, inspecting primary/secondary drain pans, and testing safety float switches."
+      desc: "Clearing algae blockages, inspecting primary/secondary drain pans, and testing safety float switches.",
     },
     {
       title: "Refrigerant & Pressure Check",
-      desc: "Electronic leak detection, checking AC pressure sensors, and precision R-410A factory charge."
+      desc: "Electronic leak detection, checking AC pressure sensors, and precision R-410A factory charge.",
     },
     {
       title: "Mini-Split & Ductless Diagnostics",
-      desc: "Evaluating ductless mini split systems in Tomball additions, garages, and historic homes."
-    }
+      desc: "Evaluating ductless mini split systems in Tomball additions, garages, and historic homes.",
+    },
   ];
 
   const benefits = [
@@ -78,7 +78,7 @@ export function AcRepairTomballPageDetail() {
     "Protects sensitive components like the AC sensor, contactor, and blower motor",
     "Supports better indoor air quality when airflow and filtration improve",
     "Extends system lifespan when combined with routine AC maintenance",
-    "Helps you decide whether repair, replacement, or new installation is the smarter move"
+    "Helps you decide whether repair, replacement, or new installation is the smarter move",
   ];
 
   const technicianRequirements = [
@@ -86,73 +86,94 @@ export function AcRepairTomballPageDetail() {
     "Background and drug screening – every technician passes a thorough check",
     "Registered with the State of Texas as a Licensed HVAC Technician",
     "EPA Universal Certification – qualified to handle all types of refrigerants",
-    "Customer-first mindset – friendly, respectful, and focused on your comfort"
+    "Customer-first mindset – friendly, respectful, and focused on your comfort",
   ];
 
   const localCoverage = [
-    { name: "Tomball & Magnolia, TX", desc: "Hometown team serving Old Town Tomball, FM 2920, SH 249, and Magnolia custom homes." },
-    { name: "Cypress, TX (77433, 77429)", desc: "Bridgeland, Towne Lake, Fairfield, and Cy-Fair master-planned communities." },
-    { name: "Katy, TX", desc: "Cinco Ranch, Seven Meadows, Firethorne, and western suburb residential corridors." },
-    { name: "Houston, TX", desc: "The Heights, Memorial, Westchase, Energy Corridor, and Central Houston." },
-    { name: "The Woodlands & Spring (77373, 77379)", desc: "Carlton Woods, Grogan’s Mill, and established Spring neighborhoods." },
-    { name: "Sugar Land, TX", desc: "Comprehensive HVAC maintenance for First Colony, Greatwood, and southwest suburbs." }
+    {
+      name: "Tomball & Magnolia, TX",
+      desc: "Hometown team serving Old Town Tomball, FM 2920, SH 249, and Magnolia custom homes.",
+    },
+    {
+      name: "Cypress, TX (77433, 77429)",
+      desc: "Bridgeland, Towne Lake, Fairfield, and Cy-Fair master-planned communities.",
+    },
+    {
+      name: "Katy, TX",
+      desc: "Cinco Ranch, Seven Meadows, Firethorne, and western suburb residential corridors.",
+    },
+    {
+      name: "Houston, TX",
+      desc: "The Heights, Memorial, Westchase, Energy Corridor, and Central Houston.",
+    },
+    {
+      name: "The Woodlands & Spring (77373, 77379)",
+      desc: "Carlton Woods, Grogan’s Mill, and established Spring neighborhoods.",
+    },
+    {
+      name: "Sugar Land, TX",
+      desc: "Comprehensive HVAC maintenance for First Colony, Greatwood, and southwest suburbs.",
+    },
   ];
 
   const testimonials = [
     {
-      quote: "Allen responded quickly to our urgent a/c problem and was very professional and respectful of our property. His shoes came off as soon as he stepped inside. Allen inspected the area and explained the procedure to resolve the problem along with pictures of the problem to show us what was happening. Mission accomplished.",
+      quote:
+        "Allen responded quickly to our urgent a/c problem and was very professional and respectful of our property. His shoes came off as soon as he stepped inside. Allen inspected the area and explained the procedure to resolve the problem along with pictures of the problem to show us what was happening. Mission accomplished.",
       author: "M.A. Williams",
-      role: "Homeowner in Tomball, TX"
+      role: "Homeowner in Tomball, TX",
     },
     {
-      quote: "I have been reaching out to Allen for years, almost a decade and he has never let me down. Even after the warranty company sends someone and the techs do not find anything - I reach out to Allen and he will find the issue. Very honest and flexible.",
+      quote:
+        "I have been reaching out to Allen for years, almost a decade and he has never let me down. Even after the warranty company sends someone and the techs do not find anything - I reach out to Allen and he will find the issue. Very honest and flexible.",
       author: "Priscilla Garcia",
-      role: "Property Owner in Tomball"
+      role: "Property Owner in Tomball",
     },
     {
-      quote: "Very knowledgeable & gave upfront pricing. No surprises. Explained recommendations for upgrades to the builder grade materials on my 20yr old system. New AC is great & cleanliness is a plus.",
+      quote:
+        "Very knowledgeable & gave upfront pricing. No surprises. Explained recommendations for upgrades to the builder grade materials on my 20yr old system. New AC is great & cleanliness is a plus.",
       author: "Lance Vincent",
-      role: "Homeowner in Tomball, TX"
-    }
+      role: "Homeowner in Tomball, TX",
+    },
   ];
 
   const faqs = [
     {
       q: "What is AC repair Tomball?",
-      a: "AC repair Tomball means diagnosing and fixing cooling problems in homes or businesses in the Tomball area. That can include thermostat issues, low airflow, frozen coils, electrical faults, drain line problems, or worn parts to restore reliable cooling."
+      a: "AC repair Tomball means diagnosing and fixing cooling problems in homes or businesses in the Tomball area. That can include thermostat issues, low airflow, frozen coils, electrical faults, drain line problems, or worn parts to restore reliable cooling.",
     },
     {
       q: "How fast can I get air conditioning repair Tomball?",
-      a: "We offer same-day priority dispatch across Tomball, Old Town Tomball, and surrounding 77375/77377 neighborhoods."
+      a: "We offer same-day priority dispatch across Tomball, Old Town Tomball, and surrounding 77375/77377 neighborhoods.",
     },
     {
       q: "Why is my air conditioner Tomball home not cooling evenly?",
-      a: "Uneven cooling is often caused by leaky attic ductwork, undersized return air vents, dirty filters, or low refrigerant levels."
+      a: "Uneven cooling is often caused by leaky attic ductwork, undersized return air vents, dirty filters, or low refrigerant levels.",
     },
     {
       q: "What causes AC failure most often?",
-      a: "In Tomball, continuous summer run times, high humidity corroding contactors, failed capacitors, and clogged condensate drain lines are the primary causes of AC failure."
+      a: "In Tomball, continuous summer run times, high humidity corroding contactors, failed capacitors, and clogged condensate drain lines are the primary causes of AC failure.",
     },
     {
       q: "What is the $5000 rule for AC?",
-      a: "The $5,000 rule states that if you multiply the age of your AC system by the estimated cost of repair, and the total exceeds $5,000, replacement is generally more financial sense than repair."
+      a: "The $5,000 rule states that if you multiply the age of your AC system by the estimated cost of repair, and the total exceeds $5,000, replacement is generally more financial sense than repair.",
     },
     {
       q: "What is the 3 minute rule for air conditioners?",
-      a: "The 3-minute rule is a built-in thermostat delay that protects the compressor from short cycling and pressure imbalances when the unit turns on and off."
+      a: "The 3-minute rule is a built-in thermostat delay that protects the compressor from short cycling and pressure imbalances when the unit turns on and off.",
     },
     {
       q: "Why is AC so expensive to fix sometimes?",
-      a: "Major component costs (compressors, evaporator coils, R-410A refrigerant) and hard-to-access attic setups require specialized labor and EPA-certified handling."
+      a: "Major component costs (compressors, evaporator coils, R-410A refrigerant) and hard-to-access attic setups require specialized labor and EPA-certified handling.",
     },
     {
       q: "Do you offer Emergency AC Repair and heating help?",
-      a: "Yes. Upfront AC provides 24/7 emergency repair response across Tomball with no hidden fees."
+      a: "Yes. Upfront AC provides 24/7 emergency repair response across Tomball with no hidden fees.",
     },
     {
       q: "Should I repair or replace my system?",
-      a: "If your system is under 10 years old with minor component wear, repair is recommended. If it is 12+ years old, uses R-22, or requires major compressor work, replacement is usually smarter."
-    }
+      a: "If your system is under 10 years old with minor component wear, repair is recommended. If it is 12+ years old, uses R-22, or requires major compressor work, replacement is usually smarter.",
+    },
   ];
 
   const specializations = [
@@ -164,12 +185,11 @@ export function AcRepairTomballPageDetail() {
     "Indoor Air Quality Evaluations",
     "Ultrviolet Air Treatment System",
     "Indoor Home Health Consultation",
-    "HVAC Replacement"
+    "HVAC Replacement",
   ];
 
   return (
     <div className="w-full bg-[#F8FAFC] text-slate-900 overflow-hidden select-none font-sans">
-      
       {/* ── PAGE HEADER ────────────────────────────────────── */}
       <PageHeader
         eyebrow="Emergency AC Repair Services in Tomball, TX"
@@ -183,7 +203,6 @@ export function AcRepairTomballPageDetail() {
         <div className="absolute bottom-0 left-10 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10 text-left">
-          
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
@@ -202,7 +221,6 @@ export function AcRepairTomballPageDetail() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-            
             <div className="lg:col-span-7 space-y-6">
               <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 Repair-First AC Service in Tomball with{" "}
@@ -212,7 +230,10 @@ export function AcRepairTomballPageDetail() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
-                From Old Town Tomball to homes near the Historic Depot and Hooks Airport, Upfront AC focuses on real fixes, not guesswork. Repair-first service, clear recommendations, and long-term value.
+                From Old Town Tomball to homes near the Historic Depot and Hooks
+                Airport, Upfront AC focuses on real fixes, not guesswork.
+                Repair-first service, clear recommendations, and long-term
+                value.
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -243,23 +264,22 @@ export function AcRepairTomballPageDetail() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-white/80 shadow-xl text-left">
-                  <span className="block text-base font-black text-slate-900">AC Repair Tomball, TX</span>
+                  <span className="block text-base font-black text-slate-900">
+                    AC Repair Tomball, TX
+                  </span>
                   <span className="text-xs font-bold text-[#005CE6] block mt-0.5">
                     Old Town Tomball, SH 249 & FM 2920
                   </span>
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 1: WHAT IS AC REPAIR IN TOMBALL? ────────── */}
       <section className="py-16 lg:py-20 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-10">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Tomball Local Focus
@@ -272,10 +292,18 @@ export function AcRepairTomballPageDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
             <div className="space-y-4 rounded-3xl bg-white p-7 border border-slate-200/90 shadow-sm">
               <p>
-                AC repair is the process of finding and correcting problems that stop your cooling system from working the way it should. That can include faulty capacitors, clogged drain lines, worn contactors, dirty evaporator coils, thermostat issues, low refrigerant, damaged fan motors, or sensor-related shutdowns.
+                AC repair is the process of finding and correcting problems that
+                stop your cooling system from working the way it should. That
+                can include faulty capacitors, clogged drain lines, worn
+                contactors, dirty evaporator coils, thermostat issues, low
+                refrigerant, damaged fan motors, or sensor-related shutdowns.
               </p>
               <p>
-                In Tomball, cooling equipment works hard because the area experiences hot, humid conditions for much of the year. Local landmarks like Old Town Tomball, the Historic Depot, and the Tomball Farmers Market reflect a city with strong community life where reliable HVAC is essential.
+                In Tomball, cooling equipment works hard because the area
+                experiences hot, humid conditions for much of the year. Local
+                landmarks like Old Town Tomball, the Historic Depot, and the
+                Tomball Farmers Market reflect a city with strong community life
+                where reliable HVAC is essential.
               </p>
             </div>
 
@@ -293,14 +321,12 @@ export function AcRepairTomballPageDetail() {
               </ul>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 2: WHAT'S INCLUDED IN TOMBALL AC REPAIR ── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Detailed Diagnostics
@@ -309,7 +335,8 @@ export function AcRepairTomballPageDetail() {
               What’s Included in Our AC Repair in Tomball, TX?
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-3 font-medium">
-              Our Tomball AC repair service is designed to solve the actual cooling problem, not just silence the symptom.
+              Our Tomball AC repair service is designed to solve the actual
+              cooling problem, not just silence the symptom.
             </p>
           </div>
 
@@ -337,14 +364,12 @@ export function AcRepairTomballPageDetail() {
               </motion.div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 3: BENEFITS OF AC REPAIR TOMBALL ──────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Real Advantages
@@ -361,20 +386,19 @@ export function AcRepairTomballPageDetail() {
                 className="rounded-2xl bg-white border border-slate-200/90 p-6 shadow-sm flex items-start gap-3"
               >
                 <CheckCircle2 className="w-5 h-5 text-[#005CE6] shrink-0 mt-0.5" />
-                <p className="text-xs sm:text-sm font-bold text-slate-800 leading-relaxed">{b}</p>
+                <p className="text-xs sm:text-sm font-bold text-slate-800 leading-relaxed">
+                  {b}
+                </p>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 4: TECHNICIAN STANDARDS & WARRANTY ───────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1 text-xs font-black uppercase text-[#005CE6]">
                 <UserCheck className="w-3.5 h-3.5" />
@@ -384,7 +408,10 @@ export function AcRepairTomballPageDetail() {
                 Our Certified HVAC Technicians
               </h2>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
-                At Upfront AC, our Certified HVAC Technicians are held to the highest standards in the industry. We don’t just hire based on experience — we invest in ongoing training and performance to ensure every technician delivers exceptional service.
+                At Upfront AC, our Certified HVAC Technicians are held to the
+                highest standards in the industry. We don’t just hire based on
+                experience — we invest in ongoing training and performance to
+                ensure every technician delivers exceptional service.
               </p>
 
               <div className="space-y-3 pt-2">
@@ -393,7 +420,10 @@ export function AcRepairTomballPageDetail() {
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm font-bold text-slate-800">
                   {technicianRequirements.map((req, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 p-3.5">
+                    <div
+                      key={idx}
+                      className="flex items-start gap-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 p-3.5"
+                    >
                       <CheckCircle2 className="w-4 h-4 text-[#005CE6] shrink-0 mt-0.5" />
                       <span>{req}</span>
                     </div>
@@ -407,9 +437,14 @@ export function AcRepairTomballPageDetail() {
                 <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/30 text-white flex items-center justify-center">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-extrabold">1-Year Repair Warranty</h3>
+                <h3 className="text-2xl font-extrabold">
+                  1-Year Repair Warranty
+                </h3>
                 <p className="text-xs sm:text-sm text-slate-100 leading-relaxed font-medium">
-                  Texas Choice HVAC at Upfront AC has been repairing AC systems for more than 10 years. We want you to be cool and comfortable, and we’ll guarantee any repairs we make through a one-year warranty.
+                  Texas Choice HVAC at Upfront AC has been repairing AC systems
+                  for more than 10 years. We want you to be cool and
+                  comfortable, and we’ll guarantee any repairs we make through a
+                  one-year warranty.
                 </p>
                 <div className="pt-4 border-t border-white/20 flex items-center justify-between text-xs font-bold text-cyan-200">
                   <span>100% Workmanship Guarantee</span>
@@ -417,16 +452,13 @@ export function AcRepairTomballPageDetail() {
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 5: LOCAL COVERAGE & TESTIMONIALS ────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Customer Reviews
@@ -438,7 +470,10 @@ export function AcRepairTomballPageDetail() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
             {testimonials.map((t, idx) => (
-              <div key={idx} className="rounded-3xl bg-white border border-slate-200 p-7 shadow-sm flex flex-col justify-between">
+              <div
+                key={idx}
+                className="rounded-3xl bg-white border border-slate-200 p-7 shadow-sm flex flex-col justify-between"
+              >
                 <div>
                   <div className="flex items-center gap-1 text-amber-500 mb-4">
                     {[...Array(5)].map((_, i) => (
@@ -450,7 +485,9 @@ export function AcRepairTomballPageDetail() {
                   </p>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-100 text-xs">
-                  <span className="font-black text-[#005CE6] block">{t.author}</span>
+                  <span className="font-black text-[#005CE6] block">
+                    {t.author}
+                  </span>
                   <span className="text-slate-500 font-semibold">{t.role}</span>
                 </div>
               </div>
@@ -475,20 +512,22 @@ export function AcRepairTomballPageDetail() {
               >
                 <MapPin className="w-5 h-5 text-[#005CE6] shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-sm font-extrabold text-slate-900">{loc.name}</h3>
-                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">{loc.desc}</p>
+                  <h3 className="text-sm font-extrabold text-slate-900">
+                    {loc.name}
+                  </h3>
+                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">
+                    {loc.desc}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 6: FREQUENTLY ASKED QUESTIONS ─────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Frequently Asked Questions
@@ -511,7 +550,9 @@ export function AcRepairTomballPageDetail() {
                     className="w-full flex items-center justify-between p-6 text-left text-slate-900 font-extrabold text-base hover:text-[#005CE6] transition-colors"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown
+                      className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
                   <AnimatePresence>
                     {isOpen && (
@@ -529,14 +570,12 @@ export function AcRepairTomballPageDetail() {
               );
             })}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 7: SPECIALIZATIONS ─────────────────────── */}
       <section className="py-14 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="flex flex-wrap items-center justify-center gap-3 text-center max-w-4xl mx-auto">
             <span className="text-xs font-black uppercase tracking-widest text-slate-400 w-full mb-2">
               We Specialize In
@@ -550,7 +589,6 @@ export function AcRepairTomballPageDetail() {
               </span>
             ))}
           </div>
-
         </div>
       </section>
 
@@ -568,7 +606,9 @@ export function AcRepairTomballPageDetail() {
             </h2>
 
             <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed font-medium">
-              Upfront AC is ready to help with air conditioning repair, diagnostics, and honest next-step advice across Old Town Tomball, Depot, and surrounding areas.
+              Upfront AC is ready to help with air conditioning repair,
+              diagnostics, and honest next-step advice across Old Town Tomball,
+              Depot, and surrounding areas.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -591,7 +631,6 @@ export function AcRepairTomballPageDetail() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }

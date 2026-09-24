@@ -26,7 +26,7 @@ import {
   ShieldAlert,
   GraduationCap,
   UserCheck,
-  Check
+  Check,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
@@ -42,66 +42,97 @@ export function HvacRepairsPageDetail() {
     "Clogged condensate drain lines (a very common Houston-specific issue)",
     "Dirty filters left too long restrict airflow and cause the system to overheat",
     "Seasonal inactivity allows dust, debris, and pest activity to create internal blockages",
-    "Aging systems that were never sized correctly for local heat and humidity loads"
+    "Aging systems that were never sized correctly for local heat and humidity loads",
   ];
 
   const fullServices = [
     {
       title: "Diagnostic Services",
-      desc: "Every call starts with a full system inspection — electrical, refrigerant, airflow, thermostat and mechanical — before any pricing."
+      desc: "Every call starts with a full system inspection — electrical, refrigerant, airflow, thermostat and mechanical — before any pricing.",
     },
     {
       title: "Cooling System Repair",
-      desc: "Compressor diagnosis, refrigerant leak detection & recharge, coil cleaning, capacitor and contactor replacement."
+      desc: "Compressor diagnosis, refrigerant leak detection & recharge, coil cleaning, capacitor and contactor replacement.",
     },
     {
       title: "Heating System Repair",
-      desc: "Furnace ignition, heat pump performance, blower motor, heat exchanger, gas valve and pressure switch repair."
+      desc: "Furnace ignition, heat pump performance, blower motor, heat exchanger, gas valve and pressure switch repair.",
     },
     {
       title: "Airflow & Duct Repair",
-      desc: "Diagnose uneven temperatures, seal collapsed or leaking attic ductwork, and correct return air restrictions."
+      desc: "Diagnose uneven temperatures, seal collapsed or leaking attic ductwork, and correct return air restrictions.",
     },
     {
       title: "Thermostat & Controls",
-      desc: "Smart thermostat calibration, control board diagnosis, and wiring or communication faults between units."
+      desc: "Smart thermostat calibration, control board diagnosis, and wiring or communication faults between units.",
     },
     {
       title: "24/7 Emergency HVAC Repair",
-      desc: "Same-day priority dispatch in Tomball and Cypress with no after-hours surcharge for most service areas."
-    }
+      desc: "Same-day priority dispatch in Tomball and Cypress with no after-hours surcharge for most service areas.",
+    },
   ];
 
   const symptomList = [
-    { symptom: "HVAC not turning on", cause: "Tripped breaker, failed capacitor, or control board issue" },
-    { symptom: "Blowing hot air", cause: "Low refrigerant, failed compressor, or thermostat miscalibration" },
-    { symptom: "Loud noise or rattling", cause: "Loose components, worn blower motor, or debris in the system" },
-    { symptom: "Leaking water", cause: "Blocked condensate drain or frozen evaporator coil" },
-    { symptom: "Short cycling", cause: "Oversized unit, refrigerant issue, or dirty coil restricting airflow" },
-    { symptom: "Burning smell", cause: "Electrical issue, overheating motor, or debris on heat exchanger" },
-    { symptom: "System freezing up", cause: "Low refrigerant or restricted airflow — needs urgent repair" },
-    { symptom: "Not cooling the house", cause: "Coil fouling, refrigerant loss, or an undersized system" },
-    { symptom: "Thermostat not responding", cause: "Wiring fault, dead thermostat, or communication failure" },
-    { symptom: "Compressor not working", cause: "Electrical failure, hard start issue, or end-of-life compressor" }
+    {
+      symptom: "HVAC not turning on",
+      cause: "Tripped breaker, failed capacitor, or control board issue",
+    },
+    {
+      symptom: "Blowing hot air",
+      cause: "Low refrigerant, failed compressor, or thermostat miscalibration",
+    },
+    {
+      symptom: "Loud noise or rattling",
+      cause: "Loose components, worn blower motor, or debris in the system",
+    },
+    {
+      symptom: "Leaking water",
+      cause: "Blocked condensate drain or frozen evaporator coil",
+    },
+    {
+      symptom: "Short cycling",
+      cause:
+        "Oversized unit, refrigerant issue, or dirty coil restricting airflow",
+    },
+    {
+      symptom: "Burning smell",
+      cause: "Electrical issue, overheating motor, or debris on heat exchanger",
+    },
+    {
+      symptom: "System freezing up",
+      cause: "Low refrigerant or restricted airflow — needs urgent repair",
+    },
+    {
+      symptom: "Not cooling the house",
+      cause: "Coil fouling, refrigerant loss, or an undersized system",
+    },
+    {
+      symptom: "Thermostat not responding",
+      cause: "Wiring fault, dead thermostat, or communication failure",
+    },
+    {
+      symptom: "Compressor not working",
+      cause: "Electrical failure, hard start issue, or end-of-life compressor",
+    },
   ];
 
   const whyChooseUs = [
     {
       title: "10+ Years Local Experience",
-      desc: "Field expertise across Tomball, Cypress, Bridgeland, Fairfield and 77377 / 77375 / 77433 / 77429."
+      desc: "Field expertise across Tomball, Cypress, Bridgeland, Fairfield and 77377 / 77375 / 77433 / 77429.",
     },
     {
       title: "Licensed & EPA-Certified",
-      desc: "Licensed Texas HVAC contractor (TACLA133609C), fully insured with EPA-compliant refrigerant handling."
+      desc: "Licensed Texas HVAC contractor (TACLA133609C), fully insured with EPA-compliant refrigerant handling.",
     },
     {
       title: "No Upselling Model",
-      desc: "Honest assessments only — we don't recommend parts you don't need or push unnecessary replacements."
+      desc: "Honest assessments only — we don't recommend parts you don't need or push unnecessary replacements.",
     },
     {
       title: "Same-Day Service & 1-Yr Warranty",
-      desc: "Service trucks stocked with common parts. Most repairs finish the same visit with a full 1-year repair warranty."
-    }
+      desc: "Service trucks stocked with common parts. Most repairs finish the same visit with a full 1-year repair warranty.",
+    },
   ];
 
   const technicianRequirements = [
@@ -109,58 +140,85 @@ export function HvacRepairsPageDetail() {
     "Background and drug screening — every technician passes a thorough check",
     "Registered with the State of Texas as a Licensed HVAC Technician",
     "EPA Universal Certification — qualified to handle all types of refrigerants",
-    "Customer-first mindset — friendly, respectful, and focused on your comfort"
+    "Customer-first mindset — friendly, respectful, and focused on your comfort",
   ];
 
   const localCoverage = [
-    { name: "Houston, TX", desc: "North, West & Central Houston — Heights, Memorial, Westchase and beyond." },
-    { name: "Tomball, TX (77375, 77377)", desc: "Neighborhoods along FM 2920, SH 249 and surrounding subdivisions." },
-    { name: "Cypress, TX (77433, 77429)", desc: "Bridgeland, Towne Lake, Fairfield, Copper Lakes and Cy-Fair communities." },
-    { name: "Katy, TX", desc: "Fast-growing western suburbs with high residential HVAC demand." },
-    { name: "Sugar Land, TX", desc: "Southwest Houston suburbs — residential and commercial." },
-    { name: "Spring, TX (77373, 77379)", desc: "Established neighborhoods with frequent repair needs." },
-    { name: "Magnolia, TX", desc: "Reliable HVAC dispatch for north-metro residential customers." },
-    { name: "The Woodlands, TX", desc: "Master-planned communities with varied system types." },
-    { name: "Greater Houston Metro", desc: "Emergency commercial HVAC service across the metro." }
+    {
+      name: "Houston, TX",
+      desc: "North, West & Central Houston — Heights, Memorial, Westchase and beyond.",
+    },
+    {
+      name: "Tomball, TX (77375, 77377)",
+      desc: "Neighborhoods along FM 2920, SH 249 and surrounding subdivisions.",
+    },
+    {
+      name: "Cypress, TX (77433, 77429)",
+      desc: "Bridgeland, Towne Lake, Fairfield, Copper Lakes and Cy-Fair communities.",
+    },
+    {
+      name: "Katy, TX",
+      desc: "Fast-growing western suburbs with high residential HVAC demand.",
+    },
+    {
+      name: "Sugar Land, TX",
+      desc: "Southwest Houston suburbs — residential and commercial.",
+    },
+    {
+      name: "Spring, TX (77373, 77379)",
+      desc: "Established neighborhoods with frequent repair needs.",
+    },
+    {
+      name: "Magnolia, TX",
+      desc: "Reliable HVAC dispatch for north-metro residential customers.",
+    },
+    {
+      name: "The Woodlands, TX",
+      desc: "Master-planned communities with varied system types.",
+    },
+    {
+      name: "Greater Houston Metro",
+      desc: "Emergency commercial HVAC service across the metro.",
+    },
   ];
 
   const faqs = [
     {
       q: "Why is my HVAC system not working?",
-      a: "The most common causes are a failed capacitor, tripped breaker, refrigerant loss, clogged filter, or thermostat issue. In Houston's climate, dirty coils and blocked condensate drains are also frequent culprits. A proper diagnosis is the only way to identify the actual cause."
+      a: "The most common causes are a failed capacitor, tripped breaker, refrigerant loss, clogged filter, or thermostat issue. In Houston's climate, dirty coils and blocked condensate drains are also frequent culprits. A proper diagnosis is the only way to identify the actual cause.",
     },
     {
       q: "How much does HVAC repair cost in Houston?",
-      a: "Standard HVAC repairs typically range from $150 to $1,500 depending on the component (capacitors, fan motors, leak repairs, or hard start kits). We provide transparent, upfront quotes before starting any work."
+      a: "Standard HVAC repairs typically range from $150 to $1,500 depending on the component (capacitors, fan motors, leak repairs, or hard start kits). We provide transparent, upfront quotes before starting any work.",
     },
     {
       q: "Can HVAC be repaired the same day in Tomball or Cypress?",
-      a: "Yes. Our service trucks are stocked with common OEM parts so 90%+ of repair calls are resolved during the first visit."
+      a: "Yes. Our service trucks are stocked with common OEM parts so 90%+ of repair calls are resolved during the first visit.",
     },
     {
       q: "What causes HVAC system failure in Houston?",
-      a: "Extended run times during 100°F summers, extreme humidity corroding electrical contactors, clogged condensate lines, and severe seasonal temperature swings."
+      a: "Extended run times during 100°F summers, extreme humidity corroding electrical contactors, clogged condensate lines, and severe seasonal temperature swings.",
     },
     {
       q: "Why is my HVAC blowing hot air?",
-      a: "Blowing warm air usually indicates a loss of refrigerant, a frozen evaporator coil, a bad condenser capacitor, or a compressor failure."
+      a: "Blowing warm air usually indicates a loss of refrigerant, a frozen evaporator coil, a bad condenser capacitor, or a compressor failure.",
     },
     {
       q: "What is emergency HVAC repair, and when do I need it?",
-      a: "Emergency repair is 24/7 priority service when cooling fails during extreme heat advisories, heat stops working during winter freezes, or water leaks threaten ceiling damage."
+      a: "Emergency repair is 24/7 priority service when cooling fails during extreme heat advisories, heat stops working during winter freezes, or water leaks threaten ceiling damage.",
     },
     {
       q: "How long does HVAC repair take?",
-      a: "Most repairs take between 1 to 3 hours once on site."
+      a: "Most repairs take between 1 to 3 hours once on site.",
     },
     {
       q: "Why is my HVAC making a loud noise?",
-      a: "Rattling or buzzing often signals loose fan blades, a failing capacitor, or a worn motor bearing. Screeching indicates a damaged belt or motor."
+      a: "Rattling or buzzing often signals loose fan blades, a failing capacitor, or a worn motor bearing. Screeching indicates a damaged belt or motor.",
     },
     {
       q: "Should I repair or replace my HVAC system?",
-      a: "If your system is under 10 years old and the repair cost is reasonable, repair is recommended. If it is 12+ years old, uses R-22 Freon, or requires major compressor work, replacement is usually more cost-effective."
-    }
+      a: "If your system is under 10 years old and the repair cost is reasonable, repair is recommended. If it is 12+ years old, uses R-22 Freon, or requires major compressor work, replacement is usually more cost-effective.",
+    },
   ];
 
   const specializations = [
@@ -172,12 +230,11 @@ export function HvacRepairsPageDetail() {
     "Indoor Air Quality Evaluations",
     "Ultraviolet Air Treatment System",
     "Indoor Home Health Consultation",
-    "HVAC Replacement"
+    "HVAC Replacement",
   ];
 
   return (
     <div className="w-full bg-[#F8FAFC] text-slate-900 overflow-hidden select-none font-sans">
-      
       {/* ── PAGE HEADER ────────────────────────────────────── */}
       <PageHeader
         eyebrow="Emergency HVAC Repair · Tomball, TX"
@@ -191,7 +248,6 @@ export function HvacRepairsPageDetail() {
         <div className="absolute bottom-0 left-10 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10 text-left">
-          
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
@@ -210,7 +266,6 @@ export function HvacRepairsPageDetail() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-            
             <div className="lg:col-span-7 space-y-6">
               <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 Honest Diagnostics & Same-Day Dispatch with{" "}
@@ -220,7 +275,9 @@ export function HvacRepairsPageDetail() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
-                Upfront AC delivers accurate, root-cause diagnostics and flat-rate pricing before any work begins. Fully stocked service trucks ready to restore cooling or heating immediately.
+                Upfront AC delivers accurate, root-cause diagnostics and
+                flat-rate pricing before any work begins. Fully stocked service
+                trucks ready to restore cooling or heating immediately.
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -251,39 +308,49 @@ export function HvacRepairsPageDetail() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-white/80 shadow-xl text-left">
-                  <span className="block text-base font-black text-slate-900">HVAC Repair Specialists</span>
+                  <span className="block text-base font-black text-slate-900">
+                    HVAC Repair Specialists
+                  </span>
                   <span className="text-xs font-bold text-[#005CE6] block mt-0.5">
                     Tomball, Cypress, Katy & Greater Houston
                   </span>
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 1: WHY HVAC SYSTEMS BREAK DOWN FAST ────── */}
       <section className="py-16 lg:py-20 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-10">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Climate Impact
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight mt-2">
-              Why HVAC systems in Tomball & Cypress break down faster than you'd expect
+              Why HVAC systems in Tomball & Cypress break down faster than you'd
+              expect
             </h2>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
             <div className="space-y-4 rounded-3xl bg-white p-7 border border-slate-200/90 shadow-sm">
               <p>
-                Most homeowners are surprised when their HVAC system develops problems — especially on a unit that’s only a few years old. But if you’ve lived in Northwest Houston, Tomball, or Cypress, you already know the conditions these systems deal with.
+                Most homeowners are surprised when their HVAC system develops
+                problems — especially on a unit that’s only a few years old. But
+                if you’ve lived in Northwest Houston, Tomball, or Cypress, you
+                already know the conditions these systems deal with.
               </p>
               <p>
-                Houston’s climate is one of the most demanding in the country for HVAC equipment. Summers push systems to run nearly non-stop from May through September. Humidity levels stay elevated for months, which accelerates wear on components like the evaporator coil, blower motor, and condensate drain. And when cold fronts roll through in winter — sometimes dropping temperatures 30–40 degrees overnight — heating systems that have been sitting idle suddenly have to work at full capacity.
+                Houston’s climate is one of the most demanding in the country
+                for HVAC equipment. Summers push systems to run nearly non-stop
+                from May through September. Humidity levels stay elevated for
+                months, which accelerates wear on components like the evaporator
+                coil, blower motor, and condensate drain. And when cold fronts
+                roll through in winter — sometimes dropping temperatures 30–40
+                degrees overnight — heating systems that have been sitting idle
+                suddenly have to work at full capacity.
               </p>
             </div>
 
@@ -301,14 +368,12 @@ export function HvacRepairsPageDetail() {
               </ul>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 2: FULL-SERVICE HVAC REPAIR ─────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Full-Service HVAC Repair
@@ -317,7 +382,9 @@ export function HvacRepairsPageDetail() {
               What HVAC repair covers — every system, every problem
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-3 font-medium">
-              From a tripped breaker to a failed compressor, our in-house technicians handle the full range of cooling, heating, airflow and controls work.
+              From a tripped breaker to a failed compressor, our in-house
+              technicians handle the full range of cooling, heating, airflow and
+              controls work.
             </p>
           </div>
 
@@ -345,14 +412,12 @@ export function HvacRepairsPageDetail() {
               </motion.div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 3: COMMON SYMPTOMS DIAGNOSED ────────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Multi-Point Service
@@ -361,7 +426,8 @@ export function HvacRepairsPageDetail() {
               What's actually wrong with your HVAC? Common symptoms we diagnose
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-2 font-medium">
-              Each symptom usually points to a different cause — which is why a real diagnosis matters before any parts are replaced.
+              Each symptom usually points to a different cause — which is why a
+              real diagnosis matters before any parts are replaced.
             </p>
           </div>
 
@@ -372,23 +438,25 @@ export function HvacRepairsPageDetail() {
             </div>
             <div className="divide-y divide-slate-100">
               {symptomList.map((item, i) => (
-                <div key={i} className="grid grid-cols-12 p-4 text-xs sm:text-sm font-semibold text-slate-800 hover:bg-slate-50 transition-colors">
-                  <div className="col-span-5 font-bold text-slate-900">{item.symptom}</div>
+                <div
+                  key={i}
+                  className="grid grid-cols-12 p-4 text-xs sm:text-sm font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
+                >
+                  <div className="col-span-5 font-bold text-slate-900">
+                    {item.symptom}
+                  </div>
                   <div className="col-span-7 text-slate-600">{item.cause}</div>
                 </div>
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 4: TECHNICIAN STANDARDS & WARRANTY ───────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1 text-xs font-black uppercase text-[#005CE6]">
                 <UserCheck className="w-3.5 h-3.5" />
@@ -398,7 +466,10 @@ export function HvacRepairsPageDetail() {
                 Our Certified HVAC Technicians
               </h2>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
-                At Upfront AC, our Certified HVAC Technicians are held to the highest standards in the industry. We don’t just hire based on experience — we invest in ongoing training and performance to ensure every technician delivers exceptional service.
+                At Upfront AC, our Certified HVAC Technicians are held to the
+                highest standards in the industry. We don’t just hire based on
+                experience — we invest in ongoing training and performance to
+                ensure every technician delivers exceptional service.
               </p>
 
               <div className="space-y-3 pt-2">
@@ -407,7 +478,10 @@ export function HvacRepairsPageDetail() {
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm font-bold text-slate-800">
                   {technicianRequirements.map((req, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 p-3.5">
+                    <div
+                      key={idx}
+                      className="flex items-start gap-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 p-3.5"
+                    >
                       <CheckCircle2 className="w-4 h-4 text-[#005CE6] shrink-0 mt-0.5" />
                       <span>{req}</span>
                     </div>
@@ -421,9 +495,14 @@ export function HvacRepairsPageDetail() {
                 <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/30 text-white flex items-center justify-center">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-extrabold">1-Year Repair Guarantee</h3>
+                <h3 className="text-2xl font-extrabold">
+                  1-Year Repair Guarantee
+                </h3>
                 <p className="text-xs sm:text-sm text-slate-100 leading-relaxed font-medium">
-                  Texas Choice HVAC at Upfront AC has been repairing AC systems for more than 10 years. We want you to be cool and comfortable, and we’ll guarantee any repairs we make through a full one-year warranty.
+                  Texas Choice HVAC at Upfront AC has been repairing AC systems
+                  for more than 10 years. We want you to be cool and
+                  comfortable, and we’ll guarantee any repairs we make through a
+                  full one-year warranty.
                 </p>
                 <div className="pt-4 border-t border-white/20 flex items-center justify-between text-xs font-bold text-cyan-200">
                   <span>100% Workmanship Guarantee</span>
@@ -431,16 +510,13 @@ export function HvacRepairsPageDetail() {
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 5: WHY UPFRONT AC & CASE STUDY ──────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Why Upfront AC
@@ -449,19 +525,29 @@ export function HvacRepairsPageDetail() {
               Why Tomball & Cypress homeowners choose Upfront AC
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-2 font-medium">
-              There’s no shortage of HVAC companies in the Houston metro. What’s harder to find is a company that shows up on time, diagnoses accurately, and fixes the problem without inventing additional ones.
+              There’s no shortage of HVAC companies in the Houston metro. What’s
+              harder to find is a company that shows up on time, diagnoses
+              accurately, and fixes the problem without inventing additional
+              ones.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {whyChooseUs.map((w, idx) => (
-              <div key={idx} className="rounded-3xl bg-white border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+              <div
+                key={idx}
+                className="rounded-3xl bg-white border border-slate-200 p-6 shadow-sm flex flex-col justify-between"
+              >
                 <div>
                   <div className="w-10 h-10 rounded-xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center font-black text-xs mb-4">
                     0{idx + 1}
                   </div>
-                  <h3 className="text-base font-extrabold text-slate-900">{w.title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 mt-2 font-medium leading-relaxed">{w.desc}</p>
+                  <h3 className="text-base font-extrabold text-slate-900">
+                    {w.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-2 font-medium leading-relaxed">
+                    {w.desc}
+                  </p>
                 </div>
               </div>
             ))}
@@ -479,35 +565,46 @@ export function HvacRepairsPageDetail() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
-                <h4 className="text-sm font-black text-red-600 uppercase tracking-wider mb-2">The Problem</h4>
+                <h4 className="text-sm font-black text-red-600 uppercase tracking-wider mb-2">
+                  The Problem
+                </h4>
                 <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                  A homeowner called on a Wednesday in July. Their system had been struggling for days — the house wouldn't get below 80°F with the thermostat set to 72. They'd already changed the filter.
+                  A homeowner called on a Wednesday in July. Their system had
+                  been struggling for days — the house wouldn't get below 80°F
+                  with the thermostat set to 72. They'd already changed the
+                  filter.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
-                <h4 className="text-sm font-black text-[#005CE6] uppercase tracking-wider mb-2">The Solution</h4>
+                <h4 className="text-sm font-black text-[#005CE6] uppercase tracking-wider mb-2">
+                  The Solution
+                </h4>
                 <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                  Same-day dispatch. Our technician diagnosed a refrigerant leak and clogged coils, repaired the leak, recharged the system with refrigerant, and completed a full coil cleaning.
+                  Same-day dispatch. Our technician diagnosed a refrigerant leak
+                  and clogged coils, repaired the leak, recharged the system
+                  with refrigerant, and completed a full coil cleaning.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200/80">
-                <h4 className="text-sm font-black text-emerald-700 uppercase tracking-wider mb-2">The Result</h4>
+                <h4 className="text-sm font-black text-emerald-700 uppercase tracking-wider mb-2">
+                  The Result
+                </h4>
                 <p className="text-xs text-slate-700 font-bold leading-relaxed">
-                  Full cooling capacity restored before the technician left — under 3 hours on-site. The homeowner hadn't realized how long the problem had been developing.
+                  Full cooling capacity restored before the technician left —
+                  under 3 hours on-site. The homeowner hadn't realized how long
+                  the problem had been developing.
                 </p>
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 6: LOCAL COVERAGE ───────────────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Local Coverage
@@ -516,7 +613,8 @@ export function HvacRepairsPageDetail() {
               HVAC repair service areas — Tomball, Cypress & Greater Houston
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-2 font-medium">
-              Family-owned and locally rooted — we serve the communities we live in.
+              Family-owned and locally rooted — we serve the communities we live
+              in.
             </p>
           </div>
 
@@ -528,20 +626,22 @@ export function HvacRepairsPageDetail() {
               >
                 <MapPin className="w-5 h-5 text-[#005CE6] shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-sm font-extrabold text-slate-900">{loc.name}</h3>
-                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">{loc.desc}</p>
+                  <h3 className="text-sm font-extrabold text-slate-900">
+                    {loc.name}
+                  </h3>
+                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">
+                    {loc.desc}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 7: FREQUENTLY ASKED QUESTIONS ─────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Frequently Asked Questions
@@ -564,7 +664,9 @@ export function HvacRepairsPageDetail() {
                     className="w-full flex items-center justify-between p-6 text-left text-slate-900 font-extrabold text-base hover:text-[#005CE6] transition-colors"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown
+                      className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
                   <AnimatePresence>
                     {isOpen && (
@@ -582,14 +684,12 @@ export function HvacRepairsPageDetail() {
               );
             })}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 8: SPECIALIZATIONS ─────────────────────── */}
       <section className="py-14 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="flex flex-wrap items-center justify-center gap-3 text-center max-w-4xl mx-auto">
             <span className="text-xs font-black uppercase tracking-widest text-slate-400 w-full mb-2">
               We Specialize In
@@ -603,7 +703,6 @@ export function HvacRepairsPageDetail() {
               </span>
             ))}
           </div>
-
         </div>
       </section>
 
@@ -621,7 +720,9 @@ export function HvacRepairsPageDetail() {
             </h2>
 
             <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed font-medium">
-              Same-day service available · Free diagnostic estimate · Licensed, insured & EPA-certified · No upselling — only what your system actually needs.
+              Same-day service available · Free diagnostic estimate · Licensed,
+              insured & EPA-certified · No upselling — only what your system
+              actually needs.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -644,7 +745,6 @@ export function HvacRepairsPageDetail() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }

@@ -1,11 +1,20 @@
 import { motion } from "framer-motion";
-import { Phone, Users, Star, ShieldCheck, ThermometerSun, MapPin, ArrowRight } from "lucide-react";
+import {
+  Phone,
+  Users,
+  Star,
+  ShieldCheck,
+  ThermometerSun,
+  MapPin,
+  ArrowRight,
+} from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { Link } from "@tanstack/react-router";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
-const HVAC_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599055/hvacwelcome.mp4";
+const HVAC_VIDEO_URL =
+  "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599055/hvacwelcome.mp4";
 
 export function EmergencyCTA() {
   const { t } = useLanguage();
@@ -17,15 +26,18 @@ export function EmergencyCTA() {
       title: t("Hundreds Served Monthly", "Cientos de Clientes Mensuales"),
       desc: t(
         "Homeowners and businesses across the Houston metro trust our team every day.",
-        "Propietarios y empresas en todo el metro de Houston confían en nuestro equipo todos los días."
+        "Propietarios y empresas en todo el metro de Houston confían en nuestro equipo todos los días.",
       ),
     },
     {
       icon: Star,
-      title: t("5-Star Service Standard", "Estándar de Servicio de 5 Estrellas"),
+      title: t(
+        "5-Star Service Standard",
+        "Estándar de Servicio de 5 Estrellas",
+      ),
       desc: t(
         "Consistent quality on residential split systems, commercial units and high-efficiency setups.",
-        "Calidad constante en sistemas divididos residenciales, unidades comerciales y equipos de alta eficiencia."
+        "Calidad constante en sistemas divididos residenciales, unidades comerciales y equipos de alta eficiencia.",
       ),
     },
     {
@@ -33,7 +45,7 @@ export function EmergencyCTA() {
       title: t("In-House Technicians", "Técnicos Internos Especializados"),
       desc: t(
         "EPA-certified specialists — never subcontractors. Trained on every major brand.",
-        "Especialistas certificados por la EPA — nunca subcontratistas. Capacitados en las principales marcas."
+        "Especialistas certificados por la EPA — nunca subcontratistas. Capacitados en las principales marcas.",
       ),
     },
     {
@@ -41,13 +53,16 @@ export function EmergencyCTA() {
       title: t("Built for Houston Heat", "Diseñado para el Calor de Houston"),
       desc: t(
         "Diagnostics and tune-ups designed specifically for Southeast Texas humidity and load.",
-        "Diagnósticos y puestas a punto diseñados específicamente para la humedad y carga del sureste de Texas."
+        "Diagnósticos y puestas a punto diseñados específicamente para la humedad y carga del sureste de Texas.",
       ),
     },
   ];
 
   return (
-    <section className="relative w-full overflow-hidden py-16 lg:py-20 text-white bg-slate-950 border-y border-white/10" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 600px" }}>
+    <section
+      className="relative w-full overflow-hidden py-16 lg:py-20 text-white bg-slate-950 border-y border-white/10"
+      style={{ contentVisibility: "auto", containIntrinsicSize: "1px 600px" }}
+    >
       {/* Background Video with Dark Glass Vignette Overlay */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <AutoPlayVideo
@@ -65,7 +80,6 @@ export function EmergencyCTA() {
 
       <div className="relative z-10 mx-auto w-[92%] max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-12 items-center">
-
           {/* Left Content Column */}
           <div className="lg:col-span-7 space-y-6 text-left">
             {/* Eyebrow Badge */}
@@ -76,7 +90,12 @@ export function EmergencyCTA() {
               className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-cyan-300 shadow-md"
             >
               <MapPin className="h-3.5 w-3.5 text-cyan-400" />
-              <span>{t("TRUSTED Texas HVAC Contractor", "Contratista HVAC de Confianza en Texas")}</span>
+              <span>
+                {t(
+                  "TRUSTED Texas HVAC Contractor",
+                  "Contratista HVAC de Confianza en Texas",
+                )}
+              </span>
             </motion.div>
 
             {/* Main Headline */}
@@ -88,10 +107,16 @@ export function EmergencyCTA() {
               className="text-2xl sm:text-3xl lg:text-[38px] font-extrabold tracking-tight leading-snug text-white"
             >
               <span className="block xl:whitespace-nowrap">
-                {t("Houston’s reliable HVAC partner —", "Socio de HVAC confiable en Houston —")}
+                {t(
+                  "Houston’s reliable HVAC partner —",
+                  "Socio de HVAC confiable en Houston —",
+                )}
               </span>
               <span className="bg-gradient-to-r from-cyan-300 via-[#005CE6] to-cyan-300 bg-clip-text text-transparent drop-shadow-sm block mt-1 xl:whitespace-nowrap">
-                {t("built for Texas climate", "diseñado para el clima de Texas")}
+                {t(
+                  "built for Texas climate",
+                  "diseñado para el clima de Texas",
+                )}
               </span>
             </motion.h2>
 
@@ -105,7 +130,7 @@ export function EmergencyCTA() {
             >
               {t(
                 "Upfront AC serves hundreds of HVAC customers monthly across Houston and nearby suburbs with consistent performance, fast response times, and dependable solutions tailored to local conditions.",
-                "Upfront AC atiende a cientos de clientes de HVAC mensualmente en todo Houston y los suburbios cercanos con un rendimiento constante, tiempos de respuesta rápidos y soluciones confiables adaptadas a las condiciones locales."
+                "Upfront AC atiende a cientos de clientes de HVAC mensualmente en todo Houston y los suburbios cercanos con un rendimiento constante, tiempos de respuesta rápidos y soluciones confiables adaptadas a las condiciones locales.",
               )}
             </motion.p>
 
@@ -187,7 +212,10 @@ export function EmergencyCTA() {
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
               </span>
               <span className="font-extrabold text-white">
-                {t("Technicians active across Houston & Tomball Metro", "Técnicos activos en el metro de Houston y Tomball")}
+                {t(
+                  "Technicians active across Houston & Tomball Metro",
+                  "Técnicos activos en el metro de Houston y Tomball",
+                )}
               </span>
             </div>
 
@@ -199,7 +227,6 @@ export function EmergencyCTA() {
               {t("Book Service Online", "Reservar Servicio en Línea")}
             </Link>
           </motion.div>
-
         </div>
       </div>
     </section>

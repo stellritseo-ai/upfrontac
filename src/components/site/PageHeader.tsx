@@ -1,6 +1,7 @@
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
-const HERO_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599071/herovideo.mp4";
+const HERO_VIDEO_URL =
+  "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599071/herovideo.mp4";
 
 export function PageHeader({
   eyebrow,
@@ -26,7 +27,10 @@ export function PageHeader({
       {/* Glow blobs */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute top-1/4 left-1/4 h-64 w-64 rounded-full bg-[#005CE6]/15 blur-3xl animate-blob" />
-        <div className="absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl animate-blob" style={{ animationDelay: "2s" }} />
+        <div
+          className="absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl animate-blob"
+          style={{ animationDelay: "2s" }}
+        />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">

@@ -5,7 +5,13 @@ interface AutoPlayVideoProps extends React.VideoHTMLAttributes<HTMLVideoElement>
   priority?: boolean;
 }
 
-export function AutoPlayVideo({ src, priority = false, className, style, ...props }: AutoPlayVideoProps) {
+export function AutoPlayVideo({
+  src,
+  priority = false,
+  className,
+  style,
+  ...props
+}: AutoPlayVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [inView, setInView] = useState(priority);
 
@@ -27,7 +33,8 @@ export function AutoPlayVideo({ src, priority = false, className, style, ...prop
     let isIntersecting = priority;
 
     const playVideo = async () => {
-      if (!video || !isIntersecting || document.visibilityState === "hidden") return;
+      if (!video || !isIntersecting || document.visibilityState === "hidden")
+        return;
       try {
         video.muted = true;
         video.defaultMuted = true;
@@ -40,8 +47,14 @@ export function AutoPlayVideo({ src, priority = false, className, style, ...prop
             video.play().catch(() => {});
           }
         };
-        window.addEventListener("touchstart", onFirstInteraction, { once: true, passive: true });
-        window.addEventListener("click", onFirstInteraction, { once: true, passive: true });
+        window.addEventListener("touchstart", onFirstInteraction, {
+          once: true,
+          passive: true,
+        });
+        window.addEventListener("click", onFirstInteraction, {
+          once: true,
+          passive: true,
+        });
       }
     };
 
@@ -66,7 +79,7 @@ export function AutoPlayVideo({ src, priority = false, className, style, ...prop
           }
         });
       },
-      { rootMargin: "150px 0px 150px 0px", threshold: 0.01 }
+      { rootMargin: "150px 0px 150px 0px", threshold: 0.01 },
     );
 
     observer.observe(video);
@@ -123,4 +136,3 @@ export function AutoPlayVideo({ src, priority = false, className, style, ...prop
     </video>
   );
 }
-

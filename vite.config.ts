@@ -27,7 +27,8 @@ export default defineConfig({
           server.middlewares.use(async (req, res, next) => {
             if (req.url && req.url.startsWith("/api/")) {
               try {
-                const { handleNodeApiRequest } = await import("./src/lib/api-handler.server");
+                const { handleNodeApiRequest } =
+                  await import("./src/lib/api-handler.server");
                 const handled = await handleNodeApiRequest(req, res);
                 if (handled) return;
               } catch (err) {
@@ -46,8 +47,8 @@ export default defineConfig({
               const io = new Server(server.httpServer, {
                 cors: {
                   origin: "*",
-                  methods: ["GET", "POST"]
-                }
+                  methods: ["GET", "POST"],
+                },
               });
               (global as any).io = io;
 
@@ -78,7 +79,19 @@ export default defineConfig({
     ],
     build: {
       rollupOptions: {
-        external: ["dns", "aws4", "snappy", "kerberos", "tls", "net", "node:async_hooks", "async_hooks", "crypto", "node:crypto", "socket.io"],
+        external: [
+          "dns",
+          "aws4",
+          "snappy",
+          "kerberos",
+          "tls",
+          "net",
+          "node:async_hooks",
+          "async_hooks",
+          "crypto",
+          "node:crypto",
+          "socket.io",
+        ],
       },
     },
   },

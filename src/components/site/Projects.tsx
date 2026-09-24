@@ -1,5 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { ArrowRight, X, ZoomIn, Sparkles, Image as ImageIcon } from "lucide-react";
+import {
+  ArrowRight,
+  X,
+  ZoomIn,
+  Sparkles,
+  Image as ImageIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Link } from "@tanstack/react-router";
@@ -70,12 +76,18 @@ export function Projects({ isLanding = false }: { isLanding?: boolean }) {
   }, [closeLightbox]);
 
   // Cleanup on unmount
-  useEffect(() => () => {
-    document.body.style.overflow = "";
-  }, []);
+  useEffect(
+    () => () => {
+      document.body.style.overflow = "";
+    },
+    [],
+  );
 
   return (
-    <section id="projects" className="bg-[#F8FAFC] py-16 lg:py-20 border-b border-slate-100 select-none overflow-hidden">
+    <section
+      id="projects"
+      className="bg-[#F8FAFC] py-16 lg:py-20 border-b border-slate-100 select-none overflow-hidden"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
@@ -95,7 +107,7 @@ export function Projects({ isLanding = false }: { isLanding?: boolean }) {
             <p className="text-slate-600 font-medium text-sm sm:text-base leading-relaxed">
               {t(
                 "A showcase of recent air conditioning installations, repairs, and ductwork projects across Tomball, Cypress & Greater Houston.",
-                "Una muestra de instalaciones, reparaciones y proyectos de conductos de aire acondicionado recientes en Tomball, Cypress y Greater Houston."
+                "Una muestra de instalaciones, reparaciones y proyectos de conductos de aire acondicionado recientes en Tomball, Cypress y Greater Houston.",
               )}
             </p>
           </div>
@@ -114,7 +126,10 @@ export function Projects({ isLanding = false }: { isLanding?: boolean }) {
         {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-5">
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="aspect-[4/3] w-full rounded-2xl bg-slate-200/60 animate-pulse" />
+              <div
+                key={i}
+                className="aspect-[4/3] w-full rounded-2xl bg-slate-200/60 animate-pulse"
+              />
             ))}
           </div>
         ) : displayImages.length === 0 ? (
@@ -123,12 +138,15 @@ export function Projects({ isLanding = false }: { isLanding?: boolean }) {
               <ImageIcon className="w-6 h-6" />
             </div>
             <h4 className="text-base font-extrabold text-slate-900 mb-1">
-              {t("Project Photos Coming Soon", "Fotos del Proyecto Próximamente")}
+              {t(
+                "Project Photos Coming Soon",
+                "Fotos del Proyecto Próximamente",
+              )}
             </h4>
             <p className="text-xs text-slate-500 font-medium">
               {t(
                 "Upload field photos in the admin dashboard to instantly showcase live HVAC projects here.",
-                "Suba fotos de campo en el panel de administración para mostrar proyectos de HVAC en vivo aquí."
+                "Suba fotos de campo en el panel de administración para mostrar proyectos de HVAC en vivo aquí.",
               )}
             </p>
           </div>
@@ -170,7 +188,10 @@ export function Projects({ isLanding = false }: { isLanding?: boolean }) {
               <span>
                 {showAll
                   ? t("Show Less Photos", "Mostrar Menos Fotos")
-                  : t(`View All Photos (${allImages.length})`, `Ver Todas las Fotos (${allImages.length})`)}
+                  : t(
+                      `View All Photos (${allImages.length})`,
+                      `Ver Todas las Fotos (${allImages.length})`,
+                    )}
               </span>
             </button>
           </div>

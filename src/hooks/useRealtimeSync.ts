@@ -27,13 +27,28 @@ async function tryGetSocket(): Promise<any | null> {
       timeout: 4000,
     });
     await new Promise<void>((resolve, reject) => {
-      const t = setTimeout(() => { socket.disconnect(); reject(new Error("timeout")); }, 4000);
-      socket.on("connect", () => { clearTimeout(t); socketOk = true; globalSocket = socket; resolve(); });
-      socket.on("connect_error", (e: any) => { clearTimeout(t); socket.disconnect(); reject(e); });
+      const t = setTimeout(() => {
+        socket.disconnect();
+        reject(new Error("timeout"));
+      }, 4000);
+      socket.on("connect", () => {
+        clearTimeout(t);
+        socketOk = true;
+        globalSocket = socket;
+        resolve();
+      });
+      socket.on("connect_error", (e: any) => {
+        clearTimeout(t);
+        socket.disconnect();
+        reject(e);
+      });
     });
     return globalSocket;
   } catch (e) {
-    console.warn("[RealtimeSync] Socket.IO not available, using polling fallback.", (e as Error).message);
+    console.warn(
+      "[RealtimeSync] Socket.IO not available, using polling fallback.",
+      (e as Error).message,
+    );
     socketOk = false;
     return null;
   }
@@ -116,6 +131,6 @@ export function useRealtimeSync({
         socketRef.current = null;
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, joinRoom, pollInterval]);
 }

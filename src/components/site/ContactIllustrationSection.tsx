@@ -1,12 +1,23 @@
 import { motion } from "framer-motion";
-import { ThermometerSun, Wind, Volume2, TrendingUp, AlertTriangle, ShieldAlert, PhoneCall, ArrowRight, Sparkles } from "lucide-react";
+import {
+  ThermometerSun,
+  Wind,
+  Volume2,
+  TrendingUp,
+  AlertTriangle,
+  ShieldAlert,
+  PhoneCall,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguage";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
-const HVAC_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599055/hvacwelcome.mp4";
+const HVAC_VIDEO_URL =
+  "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599055/hvacwelcome.mp4";
 
 export function ContactIllustrationSection() {
   const { t } = useLanguage();
@@ -18,7 +29,7 @@ export function ContactIllustrationSection() {
       title: t("AC blowing warm air", "AC soplando aire caliente"),
       desc: t(
         "In extreme Houston heat — usually low refrigerant, dirty coils or compressor strain.",
-        "En el calor extremo de Houston: generalmente refrigerante bajo, bobinas sucias o fatiga del compresor."
+        "En el calor extremo de Houston: generalmente refrigerante bajo, bobinas sucias o fatiga del compresor.",
       ),
       badge: t("Refrigerant / Coil", "Refrigerante / Bobina"),
       iconColor: "text-amber-400 bg-amber-500/10 border-amber-500/30",
@@ -28,7 +39,7 @@ export function ContactIllustrationSection() {
       title: t("Weak or uneven airflow", "Flujo de aire débil o desigual"),
       desc: t(
         "Some rooms cool, others stay hot — points to ductwork or blower issues.",
-        "Algunas habitaciones se enfrían, otras permanecen calientes: indica problemas en conductos o soplador."
+        "Algunas habitaciones se enfrían, otras permanecen calientes: indica problemas en conductos o soplador.",
       ),
       badge: t("Duct & Blower", "Conductos y Soplador"),
       iconColor: "text-cyan-400 bg-cyan-500/10 border-cyan-500/30",
@@ -38,7 +49,7 @@ export function ContactIllustrationSection() {
       title: t("Unusual noises", "Ruidos inusuales"),
       desc: t(
         "Grinding, buzzing or rattling from your HVAC system signals worn components.",
-        "Ruidos de chirrido, zumbido o traqueteo indican componentes desgastados."
+        "Ruidos de chirrido, zumbido o traqueteo indican componentes desgastados.",
       ),
       badge: t("Mechanical Wear", "Desgaste Mecánico"),
       iconColor: "text-blue-400 bg-blue-500/10 border-blue-500/30",
@@ -48,7 +59,7 @@ export function ContactIllustrationSection() {
       title: t("Sudden energy bill spike", "Aumento repentino en la factura"),
       desc: t(
         "Inefficient operation drives up electricity use — diagnose before it gets worse.",
-        "La operación ineficiente aumenta el consumo de electricidad; diagnostique antes de empeorar."
+        "La operación ineficiente aumenta el consumo de electricidad; diagnostique antes de empeorar.",
       ),
       badge: t("Efficiency Loss", "Pérdida de Eficiencia"),
       iconColor: "text-rose-400 bg-rose-500/10 border-rose-500/30",
@@ -58,7 +69,7 @@ export function ContactIllustrationSection() {
       title: t("Frequent short cycling", "Encendido y apagado frecuente"),
       desc: t(
         "System turning on and off frequently means electrical or sensor problems.",
-        "El sistema que se enciende y apaga con frecuencia indica problemas eléctricos o de sensores."
+        "El sistema que se enciende y apaga con frecuencia indica problemas eléctricos o de sensores.",
       ),
       badge: t("Electrical / Sensor", "Eléctrico / Sensores"),
       iconColor: "text-yellow-400 bg-yellow-500/10 border-yellow-500/30",
@@ -68,7 +79,7 @@ export function ContactIllustrationSection() {
       title: t("Sudden system failure", "Falla repentina del sistema"),
       desc: t(
         "Total breakdowns in summer heat — we prioritize emergency dispatch.",
-        "Averías totales en el calor de verano: priorizamos el despacho de emergencia."
+        "Averías totales en el calor de verano: priorizamos el despacho de emergencia.",
       ),
       badge: t("24/7 Priority", "Prioridad 24/7"),
       iconColor: "text-[#005CE6] bg-[#005CE6]/15 border-[#005CE6]/40",
@@ -76,7 +87,10 @@ export function ContactIllustrationSection() {
   ];
 
   return (
-    <section className="relative py-20 bg-slate-950 text-white overflow-hidden border-y border-white/10 select-none" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 700px" }}>
+    <section
+      className="relative py-20 bg-slate-950 text-white overflow-hidden border-y border-white/10 select-none"
+      style={{ contentVisibility: "auto", containIntrinsicSize: "1px 700px" }}
+    >
       {/* Background Video */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <AutoPlayVideo
@@ -93,7 +107,6 @@ export function ContactIllustrationSection() {
       </div>
 
       <div className="relative z-10 mx-auto w-[90%] max-w-7xl">
-        
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
           <motion.div
@@ -103,7 +116,9 @@ export function ContactIllustrationSection() {
             className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/20 border border-[#005CE6]/40 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-cyan-300 shadow-md backdrop-blur-md"
           >
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{t("When to call Upfront AC", "Cuándo llamar a Upfront AC")}</span>
+            <span>
+              {t("When to call Upfront AC", "Cuándo llamar a Upfront AC")}
+            </span>
           </motion.div>
 
           <motion.h2
@@ -128,7 +143,7 @@ export function ContactIllustrationSection() {
           >
             {t(
               "If you notice any of these warning signs, call Upfront AC for fast, same-day diagnostics across the Houston metro.",
-              "Si nota cualquiera de estas señales de advertencia, llame a Upfront AC para diagnósticos rápidos el mismo día en todo el metro de Houston."
+              "Si nota cualquiera de estas señales de advertencia, llame a Upfront AC para diagnósticos rápidos el mismo día en todo el metro de Houston.",
             )}
           </motion.p>
         </div>
@@ -149,7 +164,9 @@ export function ContactIllustrationSection() {
                 <div>
                   {/* Top Bar: Icon & Category Badge */}
                   <div className="flex items-center justify-between gap-3 mb-5">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-inner ${item.iconColor} group-hover:scale-110 transition-transform duration-300`}>
+                    <div
+                      className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-inner ${item.iconColor} group-hover:scale-110 transition-transform duration-300`}
+                    >
                       <Icon className="w-6 h-6" />
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-wider text-cyan-300 bg-white/10 px-3 py-1 rounded-full border border-white/15">
@@ -194,21 +211,33 @@ export function ContactIllustrationSection() {
         >
           <div className="text-center sm:text-left space-y-2">
             <h4 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-              {t("Recognize any of these HVAC symptoms?", "¿Reconoce alguno de estos síntomas de HVAC?")}
+              {t(
+                "Recognize any of these HVAC symptoms?",
+                "¿Reconoce alguno de estos síntomas de HVAC?",
+              )}
             </h4>
             <p className="text-xs sm:text-sm text-cyan-100 font-medium max-w-xl mx-auto sm:mx-0">
-              {t("Don't let minor issues turn into costly replacements. Get fast, honest repairs today.", "No permita que problemas menores se conviertan en reemplazos costosos.")}
+              {t(
+                "Don't let minor issues turn into costly replacements. Get fast, honest repairs today.",
+                "No permita que problemas menores se conviertan en reemplazos costosos.",
+              )}
             </p>
           </div>
 
-          <Button asChild size="lg" className="w-full sm:w-auto rounded-full font-black px-8 py-6 bg-white hover:bg-slate-100 text-[#005CE6] shadow-xl hover:scale-[1.03] transition-all duration-300 shrink-0 text-sm uppercase tracking-wider">
-            <Link to="/request-free-estimate" className="flex items-center justify-center gap-2">
+          <Button
+            asChild
+            size="lg"
+            className="w-full sm:w-auto rounded-full font-black px-8 py-6 bg-white hover:bg-slate-100 text-[#005CE6] shadow-xl hover:scale-[1.03] transition-all duration-300 shrink-0 text-sm uppercase tracking-wider"
+          >
+            <Link
+              to="/request-free-estimate"
+              className="flex items-center justify-center gap-2"
+            >
               <span>{t("Schedule Diagnostics", "Programar Diagnóstico")}</span>
               <ArrowRight className="w-4 h-4 ml-1" />
             </Link>
           </Button>
         </motion.div>
-
       </div>
     </section>
   );

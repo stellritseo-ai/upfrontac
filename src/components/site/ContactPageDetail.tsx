@@ -14,7 +14,7 @@ import {
   MessageSquare,
   Building2,
   Wrench,
-  User
+  User,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
@@ -31,7 +31,7 @@ export function ContactPageDetail() {
     name: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -48,13 +48,17 @@ export function ContactPageDetail() {
         phone: formData.phone.trim(),
         message: formData.message.trim(),
         service: "Contact Us Inquiry",
-        source: "Contact Page (/contact)"
+        source: "Contact Page (/contact)",
       });
       setSubmitted(true);
-      toast.success("Thank you! Your message has been sent to our dispatch team.");
+      toast.success(
+        "Thank you! Your message has been sent to our dispatch team.",
+      );
       setFormData({ name: "", email: "", phone: "", message: "" });
     } catch {
-      toast.error(`Failed to submit message. Please call our office directly at ${settings.officePhone || "(713) 819-7908"}.`);
+      toast.error(
+        `Failed to submit message. Please call our office directly at ${settings.officePhone || "(713) 819-7908"}.`,
+      );
     } finally {
       setSubmitting(false);
     }
@@ -62,7 +66,6 @@ export function ContactPageDetail() {
 
   return (
     <div className="w-full bg-[#F8FAFC] text-slate-900 overflow-hidden select-none font-sans">
-      
       {/* ── PAGE HEADER ────────────────────────────────────── */}
       <PageHeader
         eyebrow="Get In Touch · Upfront AC"
@@ -76,7 +79,6 @@ export function ContactPageDetail() {
         <div className="absolute bottom-0 left-10 w-[450px] h-[450px] bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10 text-left">
-          
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <PhoneCall className="h-3.5 w-3.5 text-[#005CE6]" />
@@ -95,7 +97,6 @@ export function ContactPageDetail() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-            
             <div className="lg:col-span-7 space-y-6">
               <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 We're Ready to Help Keep Your Home or Business{" "}
@@ -105,7 +106,10 @@ export function ContactPageDetail() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
-                Please call 713-819-7908 or complete our online request form below. For any inquiries, we typically respond within 24 hours. Free estimates provided on all new heating and AC equipment installations!
+                Please call 713-819-7908 or complete our online request form
+                below. For any inquiries, we typically respond within 24 hours.
+                Free estimates provided on all new heating and AC equipment
+                installations!
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -136,63 +140,81 @@ export function ContactPageDetail() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-white/80 shadow-xl text-left">
-                  <span className="block text-base font-black text-slate-900">Upfront AC Contact Center</span>
+                  <span className="block text-base font-black text-slate-900">
+                    Upfront AC Contact Center
+                  </span>
                   <span className="text-xs font-bold text-[#005CE6] block mt-0.5">
                     Northpointe, Tomball, TX 77377
                   </span>
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── 4 CONTACT INFO PILLARS ───────────────────────────── */}
       <section className="py-16 lg:py-20 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
             <div className="rounded-3xl bg-white p-7 border border-slate-200/90 shadow-sm space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center">
                 <MapPin className="w-6 h-6" />
               </div>
-              <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">Address</span>
+              <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">
+                Address
+              </span>
               <span className="text-sm font-extrabold text-slate-900 block">
                 Northpointe, Tomball, Tx. 77377
               </span>
-              <span className="text-xs text-slate-500 font-medium block">Harris & Montgomery County Hub</span>
+              <span className="text-xs text-slate-500 font-medium block">
+                Harris & Montgomery County Hub
+              </span>
             </div>
 
             <div className="rounded-3xl bg-white p-7 border border-slate-200/90 shadow-sm space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center">
                 <Mail className="w-6 h-6" />
               </div>
-              <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">Email</span>
-              <a href={`mailto:${settings.alertEmail || "allen@upfrontac.com"}`} className="text-sm font-extrabold text-[#005CE6] hover:underline block">
+              <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">
+                Email
+              </span>
+              <a
+                href={`mailto:${settings.alertEmail || "allen@upfrontac.com"}`}
+                className="text-sm font-extrabold text-[#005CE6] hover:underline block"
+              >
                 {settings.alertEmail || "allen@upfrontac.com"}
               </a>
-              <span className="text-xs text-slate-500 font-medium block">24-hour response guarantee</span>
+              <span className="text-xs text-slate-500 font-medium block">
+                24-hour response guarantee
+              </span>
             </div>
 
             <div className="rounded-3xl bg-white p-7 border border-slate-200/90 shadow-sm space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center">
                 <PhoneCall className="w-6 h-6" />
               </div>
-              <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">Phone</span>
-              <a href={`tel:${phoneTel}`} className="text-sm font-extrabold text-slate-900 hover:text-[#005CE6] block">
+              <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">
+                Phone
+              </span>
+              <a
+                href={`tel:${phoneTel}`}
+                className="text-sm font-extrabold text-slate-900 hover:text-[#005CE6] block"
+              >
                 {settings.officePhone || "(713) 819-7908"}
               </a>
-              <span className="text-xs text-emerald-600 font-bold block">24/7 Emergency Dispatch</span>
+              <span className="text-xs text-emerald-600 font-bold block">
+                24/7 Emergency Dispatch
+              </span>
             </div>
 
             <div className="rounded-3xl bg-white p-7 border border-slate-200/90 shadow-sm space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center">
                 <Clock className="w-6 h-6" />
               </div>
-              <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">Hours of Operation</span>
+              <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">
+                Hours of Operation
+              </span>
               <span className="text-sm font-extrabold text-slate-900 block leading-tight">
                 M-F: {settings.weekdays || "7:00 AM - 5:00 PM"}
               </span>
@@ -200,16 +222,16 @@ export function ContactPageDetail() {
                 Sat & Sun: {settings.saturdays || "Emergency Calls Only"}
               </span>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── FORM & DIRECT DETAILS SECTION ────────────────────── */}
-      <section id="contact-form" className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
+      <section
+        id="contact-form"
+        className="py-20 lg:py-24 bg-white border-b border-slate-200/80"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               ONLINE REQUEST FORM
@@ -218,12 +240,12 @@ export function ContactPageDetail() {
               Send Us a Message
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-2 font-medium">
-              Complete our online request form below and an HVAC specialist will contact you within 24 hours.
+              Complete our online request form below and an HVAC specialist will
+              contact you within 24 hours.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            
             {/* Form */}
             <div className="lg:col-span-7 bg-[#F8FAFC] rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
               {submitted ? (
@@ -235,16 +257,25 @@ export function ContactPageDetail() {
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-2">
                       Inquiry Received & Dispatched
                     </span>
-                    <h3 className="text-2xl font-black text-emerald-950">Message Sent Successfully!</h3>
+                    <h3 className="text-2xl font-black text-emerald-950">
+                      Message Sent Successfully!
+                    </h3>
                     <p className="text-xs sm:text-sm text-emerald-800 font-semibold max-w-md mx-auto mt-2 leading-relaxed">
-                      Thank you for contacting Upfront AC. Our team will review your message and reach back out to you promptly within 15–30 minutes.
+                      Thank you for contacting Upfront AC. Our team will review
+                      your message and reach back out to you promptly within
+                      15–30 minutes.
                     </p>
                   </div>
 
                   <div className="bg-white/80 rounded-xl p-4 border border-emerald-200 text-left space-y-2 max-w-sm mx-auto">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700">
-                      <span className="text-slate-500">Emergency Dispatch:</span>
-                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] hover:underline font-extrabold">
+                      <span className="text-slate-500">
+                        Emergency Dispatch:
+                      </span>
+                      <a
+                        href={`tel:${phoneTel}`}
+                        className="text-[#005CE6] hover:underline font-extrabold"
+                      >
                         {settings.officePhone || "(713) 819-7908"}
                       </a>
                     </div>
@@ -254,7 +285,12 @@ export function ContactPageDetail() {
                     type="button"
                     onClick={() => {
                       setSubmitted(false);
-                      setFormData({ name: "", email: "", phone: "", message: "" });
+                      setFormData({
+                        name: "",
+                        email: "",
+                        phone: "",
+                        message: "",
+                      });
                     }}
                     className="mt-2 text-xs font-bold text-[#005CE6] hover:underline cursor-pointer"
                   >
@@ -272,7 +308,9 @@ export function ContactPageDetail() {
                       required
                       placeholder="Your Full Name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                     />
                   </div>
@@ -287,7 +325,9 @@ export function ContactPageDetail() {
                         required
                         placeholder="Email Address"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -301,7 +341,9 @@ export function ContactPageDetail() {
                         required
                         placeholder="Phone Number"
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -316,7 +358,9 @@ export function ContactPageDetail() {
                       rows={5}
                       placeholder="Tell us about your AC, heating, or equipment installation needs..."
                       value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
                       className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                     />
                   </div>
@@ -348,9 +392,13 @@ export function ContactPageDetail() {
                 <span className="text-xs font-black uppercase tracking-widest text-cyan-400 block mb-2">
                   UPFRONT AC HEADQUARTERS
                 </span>
-                <h3 className="text-2xl font-black text-white">Local Family-Owned Business</h3>
+                <h3 className="text-2xl font-black text-white">
+                  Local Family-Owned Business
+                </h3>
                 <p className="text-xs text-slate-300 mt-2 font-medium leading-relaxed">
-                  Serving Tomball, Cypress, Katy, The Woodlands, Spring, Magnolia, Sugar Land & Greater Houston with 10+ years of dedicated HVAC excellence.
+                  Serving Tomball, Cypress, Katy, The Woodlands, Spring,
+                  Magnolia, Sugar Land & Greater Houston with 10+ years of
+                  dedicated HVAC excellence.
                 </p>
 
                 <div className="space-y-4 pt-6 border-t border-slate-800/80">
@@ -370,23 +418,27 @@ export function ContactPageDetail() {
               </div>
 
               <div className="p-5 rounded-2xl bg-white/10 border border-white/10 space-y-2">
-                <span className="text-xs font-black text-white block">Call Allen Directly:</span>
-                <a href="tel:+17138197908" className="text-lg font-black text-cyan-300 hover:underline block">
+                <span className="text-xs font-black text-white block">
+                  Call Allen Directly:
+                </span>
+                <a
+                  href="tel:+17138197908"
+                  className="text-lg font-black text-cyan-300 hover:underline block"
+                >
                   +1 (713) 819-7908
                 </a>
-                <span className="text-[10px] text-slate-400 font-semibold block">Northpointe, Tomball, Tx. 77377</span>
+                <span className="text-[10px] text-slate-400 font-semibold block">
+                  Northpointe, Tomball, Tx. 77377
+                </span>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── MAP SECTION ────────────────────────────────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               OUR LOCATION
@@ -395,7 +447,8 @@ export function ContactPageDetail() {
               Find Us in Tomball, TX
             </h2>
             <p className="text-sm text-slate-600 mt-2 font-medium">
-              Located in Northpointe, Tomball, TX 77377 — servicing all surrounding Northwest Houston communities.
+              Located in Northpointe, Tomball, TX 77377 — servicing all
+              surrounding Northwest Houston communities.
             </p>
           </div>
 
@@ -412,10 +465,8 @@ export function ContactPageDetail() {
               className="w-full h-full"
             />
           </div>
-
         </div>
       </section>
-
     </div>
   );
 }

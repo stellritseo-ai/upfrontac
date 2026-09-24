@@ -39,21 +39,26 @@ function StarRating({ count }: { count: number }) {
   return (
     <div className="flex gap-0.5">
       {Array.from({ length: count }).map((_, i) => (
-        <Star
-          key={i}
-          className="w-4 h-4 fill-[#FBBF24] text-[#FBBF24]"
-        />
+        <Star key={i} className="w-4 h-4 fill-[#FBBF24] text-[#FBBF24]" />
       ))}
     </div>
   );
 }
 
-function TestimonialCard({ review, isGrid = false }: { review: Review; isGrid?: boolean }) {
+function TestimonialCard({
+  review,
+  isGrid = false,
+}: {
+  review: Review;
+  isGrid?: boolean;
+}) {
   return (
-    <div className={cn(
-      "relative bg-white border border-slate-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.05)] rounded-2xl p-6 flex flex-col justify-between gap-4 group hover:shadow-[0_10px_35px_rgba(0,0,0,0.10)] hover:border-[#005CE6]/30 transition-all duration-300 text-left select-none",
-      isGrid ? "w-full" : "flex-shrink-0 w-[340px] sm:w-[380px] mx-3"
-    )}>
+    <div
+      className={cn(
+        "relative bg-white border border-slate-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.05)] rounded-2xl p-6 flex flex-col justify-between gap-4 group hover:shadow-[0_10px_35px_rgba(0,0,0,0.10)] hover:border-[#005CE6]/30 transition-all duration-300 text-left select-none",
+        isGrid ? "w-full" : "flex-shrink-0 w-[340px] sm:w-[380px] mx-3",
+      )}
+    >
       <div className="space-y-3">
         {/* Top Header: Rating & Verified Google Badge */}
         <div className="flex items-center justify-between gap-2">
@@ -85,7 +90,9 @@ function TestimonialCard({ review, isGrid = false }: { review: Review; isGrid?: 
             </p>
             <CheckCircle2 className="w-3.5 h-3.5 text-[#005CE6] shrink-0" />
           </div>
-          <p className="text-slate-400 text-xs mt-0.5 font-medium truncate">{review.role}</p>
+          <p className="text-slate-400 text-xs mt-0.5 font-medium truncate">
+            {review.role}
+          </p>
         </div>
       </div>
     </div>
@@ -561,11 +568,15 @@ export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
 
       {/* Section Header */}
       <div className="mx-auto w-[90%] max-w-7xl text-center mb-12 relative z-10">
-        
         {/* Top Google Verified Badge */}
         <div className="inline-flex items-center gap-2 bg-white border border-slate-200/90 rounded-full px-4 py-1.5 text-xs font-bold text-slate-700 uppercase tracking-widest mb-4 shadow-sm">
           <GoogleIcon className="w-4 h-4" />
-          <span>{t("All Reviews Verified on Google", "Todas las Reseñas Verificadas en Google")}</span>
+          <span>
+            {t(
+              "All Reviews Verified on Google",
+              "Todas las Reseñas Verificadas en Google",
+            )}
+          </span>
         </div>
 
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
@@ -579,7 +590,7 @@ export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
         <p className="mx-auto max-w-2xl text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
           {t(
             "100% verified 5-star Google reviews. Real experiences from real homeowners across Houston and surrounding suburbs. See why homeowners trust Upfront AC every time.",
-            "Reseñas de Google de 5 estrellas 100% verificadas. Experiencias reales de propietarios en Houston y suburbios cercanos."
+            "Reseñas de Google de 5 estrellas 100% verificadas. Experiencias reales de propietarios en Houston y suburbios cercanos.",
           )}
         </p>
 
@@ -592,7 +603,9 @@ export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
             className="inline-flex items-center gap-2.5 rounded-full bg-white border border-slate-300 hover:border-[#005CE6] px-6 py-3 text-xs font-extrabold text-slate-800 uppercase tracking-widest shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
           >
             <GoogleIcon className="w-4 h-4" />
-            <span>{t("Leave a Review on Google", "Dejar una Reseña en Google")}</span>
+            <span>
+              {t("Leave a Review on Google", "Dejar una Reseña en Google")}
+            </span>
             <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
           </a>
         </div>

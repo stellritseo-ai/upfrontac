@@ -2,10 +2,19 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
-import { Zap, CheckCircle2, ShieldCheck, Clock, Award, PhoneCall, Sparkles } from "lucide-react";
+import {
+  Zap,
+  CheckCircle2,
+  ShieldCheck,
+  Clock,
+  Award,
+  PhoneCall,
+  Sparkles,
+} from "lucide-react";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
-const WHY_CHOOSE_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599054/videowhychooseus.mp4";
+const WHY_CHOOSE_VIDEO_URL =
+  "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599054/videowhychooseus.mp4";
 
 export function WhyChooseUs() {
   const { t } = useLanguage();
@@ -17,15 +26,18 @@ export function WhyChooseUs() {
       title: t("Same-day HVAC service", "Servicio HVAC el mismo día"),
       desc: t(
         "In extreme Houston heat — usually low refrigerant, dirty coils or compressor strain.",
-        "En el calor extremo de Houston — generalmente por bajo refrigerante, bobinas sucias o esfuerzo del compresor."
+        "En el calor extremo de Houston — generalmente por bajo refrigerante, bobinas sucias o esfuerzo del compresor.",
       ),
     },
     {
       icon: Award,
-      title: t("EPA-certified in-house techs", "Técnicos internos certificados por la EPA"),
+      title: t(
+        "EPA-certified in-house techs",
+        "Técnicos internos certificados por la EPA",
+      ),
       desc: t(
         "Real employees — never subcontractors. Trained, vetted and accountable.",
-        "Empleados reales — nunca subcontratistas. Capacitados, evaluados y responsables."
+        "Empleados reales — nunca subcontratistas. Capacitados, evaluados y responsables.",
       ),
     },
     {
@@ -33,7 +45,7 @@ export function WhyChooseUs() {
       title: t("Transparent pricing", "Precios transparentes"),
       desc: t(
         "Upfront quotes before any work begins. No surprises, no hidden fees.",
-        "Cotizaciones por adelantado antes de comenzar cualquier trabajo. Sin sorpresas ni tarifas ocultas."
+        "Cotizaciones por adelantado antes de comenzar cualquier trabajo. Sin sorpresas ni tarifas ocultas.",
       ),
     },
     {
@@ -41,7 +53,7 @@ export function WhyChooseUs() {
       title: t("24/7 emergency response", "Respuesta de emergencia 24/7"),
       desc: t(
         "Around-the-clock dispatch across the Houston metro for urgent breakdowns.",
-        "Despacho las 24 horas en todo el metro de Houston para averías urgentes."
+        "Despacho las 24 horas en todo el metro de Houston para averías urgentes.",
       ),
     },
     {
@@ -49,7 +61,7 @@ export function WhyChooseUs() {
       title: t("No upselling, ever", "Sin ventas adicionales, nunca"),
       desc: t(
         "We diagnose and fix what’s broken — only necessary repairs, every time.",
-        "Diagnosticamos y reparamos lo que está roto — solo reparaciones necesarias, siempre."
+        "Diagnosticamos y reparamos lo que está roto — solo reparaciones necesarias, siempre.",
       ),
     },
     {
@@ -57,16 +69,19 @@ export function WhyChooseUs() {
       title: t("Workmanship warranty", "Garantía de mano de obra"),
       desc: t(
         "Every repair is backed by a workmanship guarantee for total peace of mind.",
-        "Cada reparación está respaldada por una garantía de mano de obra para total tranquilidad."
+        "Cada reparación está respaldada por una garantía de mano de obra para total tranquilidad.",
       ),
     },
   ];
 
   return (
-    <section id="why-choose-us" className="py-20 bg-white border-b border-slate-100 overflow-hidden" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 700px" }}>
+    <section
+      id="why-choose-us"
+      className="py-20 bg-white border-b border-slate-100 overflow-hidden"
+      style={{ contentVisibility: "auto", containIntrinsicSize: "1px 700px" }}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16 items-center">
-
           {/* Left Content Block */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -76,7 +91,6 @@ export function WhyChooseUs() {
             className="flex flex-col justify-center h-full w-full order-2 lg:order-1"
           >
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full">
-              
               {/* Eyebrow Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#005CE6]/20 bg-[#005CE6]/5 text-[#005CE6] text-[11px] font-black uppercase tracking-widest mb-5 shadow-sm select-none">
                 <span className="flex h-2 w-2 relative">
@@ -90,7 +104,10 @@ export function WhyChooseUs() {
               <h2 className="leading-[1.2] text-[#0F172A] tracking-tight font-extrabold text-2xl sm:text-3xl lg:text-4xl mb-6">
                 {t("Why Upfront AC is ", "Por qué Upfront AC es ")}
                 <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-500 bg-clip-text text-transparent">
-                  {t("better than other HVAC companies", "mejor que otras empresas de HVAC")}
+                  {t(
+                    "better than other HVAC companies",
+                    "mejor que otras empresas de HVAC",
+                  )}
                 </span>
                 {t(" in Houston", " en Houston")}
               </h2>
@@ -133,7 +150,7 @@ export function WhyChooseUs() {
                 >
                   {t("Explore Services", "Explorar Servicios")}
                 </Link>
-                
+
                 <a
                   href={`tel:${phoneTel}`}
                   className="inline-flex items-center justify-center gap-2 bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs font-extrabold uppercase tracking-widest rounded-full px-7 py-3.5 transition-all duration-300 shadow-lg shadow-[#005CE6]/30 hover:scale-[1.03] active:scale-[0.97]"
@@ -170,7 +187,10 @@ export function WhyChooseUs() {
                     {t("Upfront Quality", "Calidad Upfront")}
                   </p>
                   <p className="text-xs sm:text-sm font-extrabold text-white mt-0.5">
-                    {t("EPA-Certified Texas HVAC Techs", "Técnicos HVAC Certificados por EPA en Texas")}
+                    {t(
+                      "EPA-Certified Texas HVAC Techs",
+                      "Técnicos HVAC Certificados por EPA en Texas",
+                    )}
                   </p>
                 </div>
 
@@ -181,7 +201,6 @@ export function WhyChooseUs() {
               </div>
             </motion.div>
           </div>
-
         </div>
       </div>
     </section>

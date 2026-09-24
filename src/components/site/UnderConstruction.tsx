@@ -11,18 +11,17 @@ export function UnderConstruction() {
 
   return (
     <div className="min-h-screen w-full bg-[#080E1E] relative flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden font-sans text-white select-none">
-      
       {/* ── AMBIENT GLOWS & BACKGROUND GRID ─────────────────── */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#005CE6]/15 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-10 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Subtle Dot Matrix Pattern */}
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none opacity-40"
         style={{
           backgroundImage: "radial-gradient(#3b82f6 1px, transparent 1px)",
-          backgroundSize: "28px 28px"
+          backgroundSize: "28px 28px",
         }}
       />
 
@@ -33,12 +32,11 @@ export function UnderConstruction() {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-10 max-w-[640px] w-full bg-[#0E172A]/90 backdrop-blur-2xl border border-white/[0.09] rounded-[36px] sm:rounded-[44px] p-7 sm:p-12 md:p-14 text-center shadow-[0_30px_100px_rgba(0,0,0,0.7)] flex flex-col items-center gap-6 sm:gap-7"
       >
-        
         {/* Glowing Lightning/Power Badge */}
         <div className="relative flex items-center justify-center">
           {/* Ambient pulse ring */}
           <div className="absolute inset-0 rounded-full bg-[#005CE6]/30 blur-xl animate-pulse" />
-          
+
           <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#132244] border border-[#005CE6]/40 flex items-center justify-center shadow-[inset_0_2px_12px_rgba(0,92,230,0.4)]">
             <Zap className="w-11 h-11 sm:w-13 sm:h-13 text-[#005CE6] fill-[#005CE6] drop-shadow-[0_0_16px_rgba(0,92,230,0.8)]" />
           </div>
@@ -55,10 +53,14 @@ export function UnderConstruction() {
         {/* Title & Description */}
         <div className="space-y-2.5">
           <h1 className="text-2xl sm:text-3xl md:text-[34px] font-black tracking-tight text-white leading-tight">
-            Under <span className="text-[#005CE6] drop-shadow-[0_0_20px_rgba(0,92,230,0.35)]">Construction</span>
+            Under{" "}
+            <span className="text-[#005CE6] drop-shadow-[0_0_20px_rgba(0,92,230,0.35)]">
+              Construction
+            </span>
           </h1>
           <p className="text-slate-300 text-xs sm:text-sm font-medium leading-relaxed max-w-md mx-auto">
-            We are currently optimizing Upfront Air Conditioning &amp; Heating's portal to serve you better. We'll be back online shortly.
+            We are currently optimizing Upfront Air Conditioning &amp; Heating's
+            portal to serve you better. We'll be back online shortly.
           </p>
         </div>
 
@@ -94,7 +96,9 @@ export function UnderConstruction() {
             <div className="w-7 h-7 rounded-lg bg-[#005CE6]/15 border border-[#005CE6]/30 flex items-center justify-center text-[#38BDF8] group-hover:scale-105 transition-transform">
               <Mail className="w-3.5 h-3.5" />
             </div>
-            <span className="truncate max-w-[240px] sm:max-w-none">{emailDisplay}</span>
+            <span className="truncate max-w-[240px] sm:max-w-none">
+              {emailDisplay}
+            </span>
           </a>
 
           <div className="flex items-center gap-2 text-slate-300">
@@ -104,13 +108,13 @@ export function UnderConstruction() {
             <span>Licensed &amp; Insured</span>
           </div>
         </div>
-
       </motion.div>
 
       {/* ── COPYRIGHT & ADMIN PORTAL LINK ───────────────────── */}
       <div className="relative z-10 mt-8 flex flex-col items-center gap-2">
         <span className="text-[10px] sm:text-[11px] uppercase font-bold tracking-[0.2em] text-slate-400 text-center">
-          &copy; {new Date().getFullYear()} Upfront Air Conditioning &amp; Heating LLC. All rights reserved.
+          &copy; {new Date().getFullYear()} Upfront Air Conditioning &amp;
+          Heating LLC. All rights reserved.
         </span>
         <Link
           to="/dashboard"
@@ -120,7 +124,6 @@ export function UnderConstruction() {
           <span>Admin Portal Access</span>
         </Link>
       </div>
-
     </div>
   );
 }

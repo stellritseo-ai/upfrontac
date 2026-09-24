@@ -21,7 +21,7 @@ import {
   Award,
   Layers,
   Sparkles,
-  MapPin
+  MapPin,
 } from "lucide-react";
 import { toast } from "sonner";
 import { loginAdmin, verifyAdminToken } from "@/lib/leads-store";
@@ -33,8 +33,9 @@ export const Route = createFileRoute("/dashboard/login")({
       { title: "Upfront A/C & Heating — Business Command Portal" },
       {
         name: "description",
-        content: "Secure executive portal for Upfront A/C & Heating management, dispatch, leads, reviews, and media."
-      }
+        content:
+          "Secure executive portal for Upfront A/C & Heating management, dispatch, leads, reviews, and media.",
+      },
     ],
   }),
   component: LoginPage,
@@ -89,7 +90,9 @@ function LoginPage() {
       }
     } catch (err: any) {
       console.error("Login failed:", err);
-      setErrorMsg(err.message || "Invalid username or password. Please try again.");
+      setErrorMsg(
+        err.message || "Invalid username or password. Please try again.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -107,8 +110,12 @@ function LoginPage() {
             </div>
           </div>
           <div className="text-center">
-            <p className="text-sm font-bold text-white tracking-wider uppercase">Authenticating Portal</p>
-            <p className="text-xs text-slate-400 font-medium mt-1">Verifying encrypted security token...</p>
+            <p className="text-sm font-bold text-white tracking-wider uppercase">
+              Authenticating Portal
+            </p>
+            <p className="text-xs text-slate-400 font-medium mt-1">
+              Verifying encrypted security token...
+            </p>
           </div>
         </div>
       </div>
@@ -156,7 +163,6 @@ function LoginPage() {
       {/* Main Two-Column Layout */}
       <main className="w-full max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex-1 flex items-center relative z-10">
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-
           {/* ── LEFT SIDE: BRANDING, VALUE PROPOSITION & SYSTEM METRICS ── */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -192,7 +198,9 @@ function LoginPage() {
                 </span>
               </h1>
               <p className="text-sm sm:text-base text-slate-300 font-normal mt-3.5 max-w-xl leading-relaxed">
-                Centralized management hub for real-time customer repair requests, live dispatch coordination, verified reviews, project gallery showcases, and website settings across Greater Houston.
+                Centralized management hub for real-time customer repair
+                requests, live dispatch coordination, verified reviews, project
+                gallery showcases, and website settings across Greater Houston.
               </p>
             </div>
 
@@ -203,9 +211,12 @@ function LoginPage() {
                   <Zap className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-black uppercase tracking-wider text-white">Instant Lead Routing</h4>
+                  <h4 className="text-xs font-black uppercase tracking-wider text-white">
+                    Instant Lead Routing
+                  </h4>
                   <p className="text-[11px] text-slate-400 font-medium leading-normal mt-0.5">
-                    Live capture for AC repair, heat maintenance, and emergency calls.
+                    Live capture for AC repair, heat maintenance, and emergency
+                    calls.
                   </p>
                 </div>
               </div>
@@ -215,9 +226,12 @@ function LoginPage() {
                   <Activity className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-black uppercase tracking-wider text-white">Operations Analytics</h4>
+                  <h4 className="text-xs font-black uppercase tracking-wider text-white">
+                    Operations Analytics
+                  </h4>
                   <p className="text-[11px] text-slate-400 font-medium leading-normal mt-0.5">
-                    Conversion tracking, revenue metrics, and technician job logs.
+                    Conversion tracking, revenue metrics, and technician job
+                    logs.
                   </p>
                 </div>
               </div>
@@ -227,7 +241,9 @@ function LoginPage() {
                   <ShieldCheck className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-black uppercase tracking-wider text-white">Encrypted Sync</h4>
+                  <h4 className="text-xs font-black uppercase tracking-wider text-white">
+                    Encrypted Sync
+                  </h4>
                   <p className="text-[11px] text-slate-400 font-medium leading-normal mt-0.5">
                     MongoDB Atlas high-availability cluster with end-to-end TLS.
                   </p>
@@ -239,9 +255,12 @@ function LoginPage() {
                   <Cloud className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-black uppercase tracking-wider text-white">Media Cloud</h4>
+                  <h4 className="text-xs font-black uppercase tracking-wider text-white">
+                    Media Cloud
+                  </h4>
                   <p className="text-[11px] text-slate-400 font-medium leading-normal mt-0.5">
-                    Direct Cloudinary asset CDN for before/after installation photos.
+                    Direct Cloudinary asset CDN for before/after installation
+                    photos.
                   </p>
                 </div>
               </div>
@@ -251,15 +270,18 @@ function LoginPage() {
             <div className="p-3.5 rounded-2xl bg-[#0B1528]/80 border border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-2 text-slate-300">
                 <MapPin className="w-4 h-4 text-cyan-400 shrink-0" />
-                <span>Cypress, Tomball, Spring, Katy & Greater Houston Metro</span>
+                <span>
+                  Cypress, Tomball, Spring, Katy & Greater Houston Metro
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                <span className="text-emerald-400 font-bold text-[11px] uppercase tracking-wider">System Live</span>
+                <span className="text-emerald-400 font-bold text-[11px] uppercase tracking-wider">
+                  System Live
+                </span>
               </div>
             </div>
           </motion.div>
-
 
           {/* ── RIGHT SIDE: THE LOGIN FORM ── */}
           <motion.div
@@ -270,7 +292,6 @@ function LoginPage() {
           >
             {/* Main Glassmorphic Portal Card */}
             <div className="relative rounded-3xl bg-[#0B1528]/90 backdrop-blur-2xl border border-white/10 shadow-[0_25px_80px_-15px_rgba(0,92,230,0.35)] p-7 sm:p-9 overflow-hidden">
-
               {/* Top Accent Gradient Border */}
               <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#005CE6] via-cyan-400 to-[#005CE6]" />
 
@@ -353,7 +374,11 @@ function LoginPage() {
                       tabIndex={-1}
                       className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-cyan-300 focus:outline-none transition-colors"
                     >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -385,37 +410,51 @@ function LoginPage() {
               <div className="mt-7 pt-5 border-t border-white/10 grid grid-cols-3 gap-2 text-center">
                 <div className="flex flex-col items-center gap-1 p-2 rounded-xl bg-white/[0.02] border border-white/5">
                   <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <span className="text-[9px] font-bold text-slate-300">256-Bit SSL</span>
-                  <span className="text-[8px] text-slate-500 font-medium">Encrypted</span>
+                  <span className="text-[9px] font-bold text-slate-300">
+                    256-Bit SSL
+                  </span>
+                  <span className="text-[8px] text-slate-500 font-medium">
+                    Encrypted
+                  </span>
                 </div>
 
                 <div className="flex flex-col items-center gap-1 p-2 rounded-xl bg-white/[0.02] border border-white/5">
                   <Server className="w-4 h-4 text-cyan-400" />
-                  <span className="text-[9px] font-bold text-slate-300">MongoDB Atlas</span>
-                  <span className="text-[8px] text-slate-500 font-medium">Sync Ready</span>
+                  <span className="text-[9px] font-bold text-slate-300">
+                    MongoDB Atlas
+                  </span>
+                  <span className="text-[8px] text-slate-500 font-medium">
+                    Sync Ready
+                  </span>
                 </div>
 
                 <div className="flex flex-col items-center gap-1 p-2 rounded-xl bg-white/[0.02] border border-white/5">
                   <Cloud className="w-4 h-4 text-[#005CE6]" />
-                  <span className="text-[9px] font-bold text-slate-300">Cloudinary</span>
-                  <span className="text-[8px] text-slate-500 font-medium">Media Active</span>
+                  <span className="text-[9px] font-bold text-slate-300">
+                    Cloudinary
+                  </span>
+                  <span className="text-[8px] text-slate-500 font-medium">
+                    Media Active
+                  </span>
                 </div>
               </div>
-
             </div>
           </motion.div>
-
         </div>
       </main>
 
       {/* Footer Details */}
       <footer className="w-full max-w-7xl mx-auto px-4 py-6 text-center relative z-10">
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2 text-[10px] text-slate-500 font-medium tracking-wide">
-          <span>© {new Date().getFullYear()} Upfront Air Conditioning & Heating Inc.</span>
+          <span>
+            © {new Date().getFullYear()} Upfront Air Conditioning & Heating Inc.
+          </span>
           <span className="hidden sm:inline text-slate-700">•</span>
           <span>TACLA #121344E Regulated by TDLR</span>
           <span className="hidden sm:inline text-slate-700">•</span>
-          <span className="text-slate-400 font-semibold">Design and Developed By StellR IT LLC</span>
+          <span className="text-slate-400 font-semibold">
+            Design and Developed By StellR IT LLC
+          </span>
         </div>
       </footer>
     </div>

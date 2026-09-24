@@ -1,7 +1,26 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { MessageCircle, X, Send, Phone, Calendar, CheckCircle2, Lock, RotateCcw, User, Mail, Sparkles, MessageSquare } from "lucide-react";
+import {
+  MessageCircle,
+  X,
+  Send,
+  Phone,
+  Calendar,
+  CheckCircle2,
+  Lock,
+  RotateCcw,
+  User,
+  Mail,
+  Sparkles,
+  MessageSquare,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { createChatSession, sendChatMessage, getChatSessionById, dedupeChatMessages, ChatMessage } from "@/lib/leads-store";
+import {
+  createChatSession,
+  sendChatMessage,
+  getChatSessionById,
+  dedupeChatMessages,
+  ChatMessage,
+} from "@/lib/leads-store";
 import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 import { toast } from "sonner";
 import logoImg from "@/assets/logo.png";
@@ -25,7 +44,8 @@ export function FloatingChat() {
   // Play audio chime when admin replies
   const playChime = useCallback(() => {
     try {
-      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContext =
+        window.AudioContext || (window as any).webkitAudioContext;
       if (AudioContext) {
         const ctx = new AudioContext();
         const osc = ctx.createOscillator();
@@ -63,7 +83,9 @@ export function FloatingChat() {
             setIsClosed(false);
           }
           if (Array.isArray(session.messages) && session.messages.length > 0) {
-            setMessages((prev) => dedupeChatMessages([...prev, ...session.messages]));
+            setMessages((prev) =>
+              dedupeChatMessages([...prev, ...session.messages]),
+            );
           }
         }
       });
@@ -84,7 +106,9 @@ export function FloatingChat() {
             setIsClosed(true);
           }
           if (Array.isArray(session.messages) && session.messages.length > 0) {
-            setMessages((prev) => dedupeChatMessages([...prev, ...session.messages]));
+            setMessages((prev) =>
+              dedupeChatMessages([...prev, ...session.messages]),
+            );
           }
         }
       } catch {
@@ -96,7 +120,8 @@ export function FloatingChat() {
         if (sessionId && msg.sessionId === sessionId) {
           setMessages((prev) => {
             const updated = dedupeChatMessages([...prev, msg]);
-            if (updated.length > prev.length && msg.sender === "admin") playChime();
+            if (updated.length > prev.length && msg.sender === "admin")
+              playChime();
             return updated;
           });
         }
@@ -105,7 +130,8 @@ export function FloatingChat() {
         if (sessionId && msg.sessionId === sessionId) {
           setMessages((prev) => {
             const updated = dedupeChatMessages([...prev, msg]);
-            if (updated.length > prev.length && msg.sender === "admin") playChime();
+            if (updated.length > prev.length && msg.sender === "admin")
+              playChime();
             return updated;
           });
         }
@@ -113,7 +139,10 @@ export function FloatingChat() {
       "session-status": (data: any) => {
         if (sessionId && data.sessionId === sessionId) {
           setIsClosed(Boolean(data.isClosed));
-          if (data.isClosed) toast.info("This chat session has been marked resolved and closed by support.");
+          if (data.isClosed)
+            toast.info(
+              "This chat session has been marked resolved and closed by support.",
+            );
         }
       },
       "session-status-changed": (data: any) => {
@@ -127,15 +156,23 @@ export function FloatingChat() {
   // Custom DOM events (cross-tab)
   useEffect(() => {
     const handleCustomEvent = (e: any) => {
-      if (e.detail && sessionId && (e.detail.id === sessionId || e.detail === sessionId)) {
-        if (e.detail.isClosed !== undefined) setIsClosed(Boolean(e.detail.isClosed));
+      if (
+        e.detail &&
+        sessionId &&
+        (e.detail.id === sessionId || e.detail === sessionId)
+      ) {
+        if (e.detail.isClosed !== undefined)
+          setIsClosed(Boolean(e.detail.isClosed));
         if (Array.isArray(e.detail.messages) && e.detail.messages.length > 0) {
-          setMessages((prev) => dedupeChatMessages([...prev, ...e.detail.messages]));
+          setMessages((prev) =>
+            dedupeChatMessages([...prev, ...e.detail.messages]),
+          );
         }
       }
     };
     window.addEventListener("upfront-chats-updated", handleCustomEvent);
-    return () => window.removeEventListener("upfront-chats-updated", handleCustomEvent);
+    return () =>
+      window.removeEventListener("upfront-chats-updated", handleCustomEvent);
   }, [sessionId]);
 
   // 3. Scroll to bottom dynamically
@@ -170,18 +207,25 @@ export function FloatingChat() {
     }
 
     setIsSubmitting(true);
-    const msgId = "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
+    const msgId =
+      "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
     const time = new Date().toISOString();
 
     const optimisticMsg: ChatMessage = {
       id: msgId,
       sender: "client",
       text: trimmedMsg,
-      timestamp: time
+      timestamp: time,
     };
 
     try {
-      const session = await createChatSession(trimmedName, "Tomball, TX", trimmedEmail, trimmedPhone, trimmedMsg);
+      const session = await createChatSession(
+        trimmedName,
+        "Tomball, TX",
+        trimmedEmail,
+        trimmedPhone,
+        trimmedMsg,
+      );
       const activeId = session.id;
       setSessionId(activeId);
       setName(trimmedName);
@@ -193,7 +237,8 @@ export function FloatingChat() {
       localStorage.setItem("upfront-chat-session-id", activeId);
       localStorage.setItem("upfront-chat-client-name", trimmedName);
       localStorage.setItem("upfront-chat-client-email", trimmedEmail);
-      if (trimmedPhone) localStorage.setItem("upfront-chat-client-phone", trimmedPhone);
+      if (trimmedPhone)
+        localStorage.setItem("upfront-chat-client-phone", trimmedPhone);
 
       if (socketRef.current) {
         socketRef.current.emit("join-session", activeId);
@@ -202,18 +247,22 @@ export function FloatingChat() {
           clientName: trimmedName,
           clientEmail: trimmedEmail,
           clientPhone: trimmedPhone,
-          firstMessage: trimmedMsg
+          firstMessage: trimmedMsg,
         });
         socketRef.current.emit("send-message", {
           ...optimisticMsg,
           sessionId: activeId,
-          clientName: trimmedName
+          clientName: trimmedName,
         });
       }
-      toast.success("Chat connected! Our support team is reviewing your message.");
+      toast.success(
+        "Chat connected! Our support team is reviewing your message.",
+      );
     } catch (err) {
       console.error("Failed to start chat session:", err);
-      toast.error("Failed to start chat. Please try again or call our hotline.");
+      toast.error(
+        "Failed to start chat. Please try again or call our hotline.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -223,21 +272,24 @@ export function FloatingChat() {
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isClosed) {
-      toast.error("This chat session has been closed. Please start a new chat.");
+      toast.error(
+        "This chat session has been closed. Please start a new chat.",
+      );
       return;
     }
 
     const textToSend = message.trim();
     if (!textToSend || !sessionId) return;
 
-    const msgId = "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
+    const msgId =
+      "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
     const time = new Date().toISOString();
 
     const optimisticMsg: ChatMessage = {
       id: msgId,
       sender: "client",
       text: textToSend,
-      timestamp: time
+      timestamp: time,
     };
 
     setMessage("");
@@ -250,10 +302,19 @@ export function FloatingChat() {
           sessionId,
           clientName: name,
           clientEmail: email,
-          clientPhone: phone
+          clientPhone: phone,
         });
       }
-      await sendChatMessage(sessionId, "client", textToSend, msgId, time, name, email, phone);
+      await sendChatMessage(
+        sessionId,
+        "client",
+        textToSend,
+        msgId,
+        time,
+        name,
+        email,
+        phone,
+      );
     } catch (err) {
       console.error("Failed to send chat message:", err);
     }
@@ -277,7 +338,7 @@ export function FloatingChat() {
     "❄️ AC Not Cooling Properly",
     "🔥 Heating / Furnace Repair",
     "📋 Free System Replacement Estimate",
-    "🛠️ 21-Point Maintenance Tune-Up"
+    "🛠️ 21-Point Maintenance Tune-Up",
   ];
 
   return (
@@ -296,12 +357,18 @@ export function FloatingChat() {
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center select-none overflow-hidden p-1 border border-slate-100 shadow-sm">
-                    <img src={logoImg} alt="Upfront AC Logo" className="w-full h-full object-contain" />
+                    <img
+                      src={logoImg}
+                      alt="Upfront AC Logo"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-400 border-2 border-[#005CE6] animate-pulse" />
                 </div>
                 <div className="flex flex-col text-left">
-                  <span className="font-extrabold text-sm tracking-wide">Upfront AC Support</span>
+                  <span className="font-extrabold text-sm tracking-wide">
+                    Upfront AC Support
+                  </span>
                   <span className="text-[10px] text-cyan-200 font-bold uppercase tracking-wider flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
                     Online · 24/7 Live Dispatch
@@ -338,12 +405,21 @@ export function FloatingChat() {
                       <Sparkles className="w-3.5 h-3.5" />
                     </div>
                     <div className="text-left">
-                      <p className="text-xs font-bold text-slate-800">Direct Technician Chat</p>
-                      <p className="text-[11px] text-slate-500 font-medium leading-tight">Enter your name & email to connect live with our Tomball & Cypress team.</p>
+                      <p className="text-xs font-bold text-slate-800">
+                        Direct Technician Chat
+                      </p>
+                      <p className="text-[11px] text-slate-500 font-medium leading-tight">
+                        Enter your name & email to connect live with our Tomball
+                        & Cypress team.
+                      </p>
                     </div>
                   </div>
 
-                  <form onSubmit={handleStartChat} id="start-chat-form" className="space-y-3">
+                  <form
+                    onSubmit={handleStartChat}
+                    id="start-chat-form"
+                    className="space-y-3"
+                  >
                     <div>
                       <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider text-left mb-1">
                         Your Full Name <span className="text-red-500">*</span>
@@ -380,7 +456,10 @@ export function FloatingChat() {
 
                     <div>
                       <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider text-left mb-1">
-                        Phone Number <span className="text-slate-400 text-[10px] lowercase">(optional)</span>
+                        Phone Number{" "}
+                        <span className="text-slate-400 text-[10px] lowercase">
+                          (optional)
+                        </span>
                       </label>
                       <div className="relative">
                         <Phone className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
@@ -410,13 +489,17 @@ export function FloatingChat() {
 
                     {/* Quick Suggestion Pills */}
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-left mb-1.5">Common Topics:</p>
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-left mb-1.5">
+                        Common Topics:
+                      </p>
                       <div className="flex flex-wrap gap-1.5">
                         {quickPrompts.map((prompt) => (
                           <button
                             key={prompt}
                             type="button"
-                            onClick={() => setMessage(prompt.replace(/^[^\s]+\s/, ""))}
+                            onClick={() =>
+                              setMessage(prompt.replace(/^[^\s]+\s/, ""))
+                            }
                             className="text-[10px] font-semibold bg-slate-100 hover:bg-blue-50 hover:text-[#005CE6] hover:border-[#005CE6]/30 border border-slate-200/80 rounded-lg px-2 py-1 transition cursor-pointer text-slate-600"
                           >
                             {prompt}
@@ -431,7 +514,9 @@ export function FloatingChat() {
                       className="w-full py-2.5 px-4 bg-gradient-to-r from-[#005CE6] to-[#0047B3] hover:from-[#004BB8] hover:to-[#00388A] text-white rounded-xl text-xs font-bold tracking-wide uppercase shadow-md hover:shadow-lg transition cursor-pointer flex items-center justify-center gap-2 mt-3 disabled:opacity-50"
                     >
                       <MessageSquare className="w-3.5 h-3.5" />
-                      <span>{isSubmitting ? "Connecting..." : "Start Live Chat Now"}</span>
+                      <span>
+                        {isSubmitting ? "Connecting..." : "Start Live Chat Now"}
+                      </span>
                     </button>
                   </form>
                 </div>
@@ -455,11 +540,17 @@ export function FloatingChat() {
                   {/* Default Greeting */}
                   <div className="flex gap-2.5 items-start">
                     <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center select-none shrink-0 overflow-hidden p-0.5 border border-slate-100 shadow-sm">
-                      <img src={logoImg} alt="Upfront AC Logo" className="w-full h-full object-contain" />
+                      <img
+                        src={logoImg}
+                        alt="Upfront AC Logo"
+                        className="w-full h-full object-contain"
+                      />
                     </div>
                     <div className="bg-white border border-slate-100 rounded-2xl rounded-tl-none p-3 shadow-sm text-left max-w-[85%]">
                       <p className="text-xs text-slate-800 font-semibold leading-relaxed">
-                        Hi {name || "there"}! Thanks for connecting. An Upfront AC specialist is actively monitoring this chat. How can we assist with your HVAC today?
+                        Hi {name || "there"}! Thanks for connecting. An Upfront
+                        AC specialist is actively monitoring this chat. How can
+                        we assist with your HVAC today?
                       </p>
                     </div>
                   </div>
@@ -474,7 +565,11 @@ export function FloatingChat() {
                       >
                         {isAdmin ? (
                           <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center select-none shrink-0 overflow-hidden p-0.5 border border-slate-100 shadow-sm">
-                            <img src={logoImg} alt="Upfront AC Logo" className="w-full h-full object-contain" />
+                            <img
+                              src={logoImg}
+                              alt="Upfront AC Logo"
+                              className="w-full h-full object-contain"
+                            />
                           </div>
                         ) : (
                           <div className="w-7 h-7 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center select-none shrink-0 text-[10px] font-bold text-slate-700 capitalize shadow-sm">
@@ -488,7 +583,9 @@ export function FloatingChat() {
                               : "bg-[#005CE6] text-white border-[#005CE6] rounded-tr-none"
                           }`}
                         >
-                          <p className="text-xs font-semibold leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                          <p className="text-xs font-semibold leading-relaxed whitespace-pre-wrap">
+                            {msg.text}
+                          </p>
                         </div>
                       </div>
                     );
@@ -505,7 +602,8 @@ export function FloatingChat() {
                         <span>Chat Resolved & Closed</span>
                       </div>
                       <p className="text-[11px] text-slate-500 font-semibold leading-relaxed">
-                        This inquiry has been completed. If you have additional questions, start a new chat below.
+                        This inquiry has been completed. If you have additional
+                        questions, start a new chat below.
                       </p>
                       <div className="flex items-center justify-center gap-2 pt-1">
                         <button
@@ -567,7 +665,11 @@ export function FloatingChat() {
           <X className="h-6 w-6 sm:h-7 sm:w-7" />
         ) : (
           <div className="h-10 w-10 sm:h-12 sm:w-12 bg-white rounded-full flex items-center justify-center p-1.5 shadow-inner">
-            <img src={logoImg} alt="Chat Logo" className="w-full h-full object-contain" />
+            <img
+              src={logoImg}
+              alt="Chat Logo"
+              className="w-full h-full object-contain"
+            />
           </div>
         )}
       </motion.button>

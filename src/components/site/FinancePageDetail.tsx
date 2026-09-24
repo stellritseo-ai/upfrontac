@@ -20,7 +20,7 @@ import {
   Check,
   ChevronDown,
   Building2,
-  Calendar
+  Calendar,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
@@ -40,7 +40,7 @@ export function FinancePageDetail() {
     name: "",
     phone: "",
     budget: "",
-    service: ""
+    service: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
@@ -58,10 +58,12 @@ export function FinancePageDetail() {
         phone: formData.phone.trim(),
         service: `Financing Application: ${formData.service || "HVAC System Replacement"}`,
         message: `Estimated Budget: ${formData.budget || "Not Specified"}\nSystem / Service: ${formData.service || "HVAC Replacement Financing"}`,
-        source: "Financing Page (/finance)"
+        source: "Financing Page (/finance)",
       });
       setSubmitted(true);
-      toast.success("Financing inquiry received! A specialist will contact you shortly.");
+      toast.success(
+        "Financing inquiry received! A specialist will contact you shortly.",
+      );
     } catch (err) {
       toast.error("Failed to submit request. Please call (713) 819-7908.");
     } finally {
@@ -73,23 +75,23 @@ export function FinancePageDetail() {
     {
       icon: Sparkles,
       title: "Temperature Consistency",
-      desc: "Through the HVAC installation in South Texas, you can maintain temperature consistency. Enjoy the same comfortable temperature in every area of your house without hot or cold spots."
+      desc: "Through the HVAC installation in South Texas, you can maintain temperature consistency. Enjoy the same comfortable temperature in every area of your house without hot or cold spots.",
     },
     {
       icon: Clock,
       title: "Quick & Simple Approval",
-      desc: "Getting started is fast and hassle-free. With our quick credit approval process, you’ll know your financing options in no time: no long waits or complicated paperwork."
+      desc: "Getting started is fast and hassle-free. With our quick credit approval process, you’ll know your financing options in no time: no long waits or complicated paperwork.",
     },
     {
       icon: DollarSign,
       title: "Zero Down Payment Options",
-      desc: "Don’t want to pay anything upfront? No problem! We offer zero-down payment plans, so you can get the comfort you need today and pay later."
+      desc: "Don’t want to pay anything upfront? No problem! We offer zero-down payment plans, so you can get the comfort you need today and pay later.",
     },
     {
       icon: CreditCard,
       title: "Revolving Credit Line",
-      desc: "Enjoy the convenience of a revolving credit line you can use whenever you need it. Perfect for future tune-ups, repairs, or upgrades. Rest comfortably knowing we’re always there when you need us."
-    }
+      desc: "Enjoy the convenience of a revolving credit line you can use whenever you need it. Perfect for future tune-ups, repairs, or upgrades. Rest comfortably knowing we’re always there when you need us.",
+    },
   ];
 
   const locations = [
@@ -100,35 +102,34 @@ export function FinancePageDetail() {
     { name: "The Woodlands, TX, USA", zip: "77380, 77381", img: tomballImg },
     { name: "Spring, TX 77373, USA", zip: "77373, 77379", img: cypressImg },
     { name: "Magnolia, TX, USA", zip: "77354, 77355", img: hvacImg },
-    { name: "Sugar Land, TX, USA", zip: "77478, 77479", img: installImg }
+    { name: "Sugar Land, TX, USA", zip: "77478, 77479", img: installImg },
   ];
 
   const faqs = [
     {
       q: "How does HVAC financing work with Upfront AC?",
-      a: "It’s simple! We partnered with two of the best lenders out there — Synchrony and Microf — to offer flexible payment options that fit your budget. Once you’ve gone through the quick online application process, you can then choose the plan that works for you and get your project moving."
+      a: "It’s simple! We partnered with two of the best lenders out there — Synchrony and Microf — to offer flexible payment options that fit your budget. Once you’ve gone through the quick online application process, you can then choose the plan that works for you and get your project moving.",
     },
     {
       q: "What credit score do I need to qualify for financing?",
-      a: "We offer programs for a wide range of credit scores (580+ FICO for prime loans, plus no-credit-check lease-to-own options via Microf). Approval decisions are fast and tailored to your situation."
+      a: "We offer programs for a wide range of credit scores (580+ FICO for prime loans, plus no-credit-check lease-to-own options via Microf). Approval decisions are fast and tailored to your situation.",
     },
     {
       q: "Can I finance both installation and equipment costs?",
-      a: "Yes! Financing covers the full scope of your project — new HVAC equipment, indoor air quality upgrades, ductwork modifications, electrical, permits, and professional installation labor into one single monthly payment."
+      a: "Yes! Financing covers the full scope of your project — new HVAC equipment, indoor air quality upgrades, ductwork modifications, electrical, permits, and professional installation labor into one single monthly payment.",
     },
     {
       q: "Are there any pre-payment penalties if I pay early?",
-      a: "No. All of our financing options allow you to pay off your balance early at any time with zero pre-payment penalties or hidden interest charges."
+      a: "No. All of our financing options allow you to pay off your balance early at any time with zero pre-payment penalties or hidden interest charges.",
     },
     {
       q: "How fast can I get approved for new system financing?",
-      a: "Most credit applications take less than 3 minutes online or over the phone, giving you instant credit decisions on the spot."
-    }
+      a: "Most credit applications take less than 3 minutes online or over the phone, giving you instant credit decisions on the spot.",
+    },
   ];
 
   return (
     <div className="w-full bg-[#F8FAFC] text-slate-900 overflow-hidden select-none font-sans">
-      
       {/* ── PAGE HEADER ────────────────────────────────────── */}
       <PageHeader
         eyebrow="Air Conditioning & Heating Financing"
@@ -142,7 +143,6 @@ export function FinancePageDetail() {
         <div className="absolute bottom-0 left-10 w-[450px] h-[450px] bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10 text-left">
-          
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Percent className="h-3.5 w-3.5 text-[#005CE6]" />
@@ -161,7 +161,6 @@ export function FinancePageDetail() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-            
             <div className="lg:col-span-7 space-y-6">
               <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 Get Your New AC Today, Pay Over Time with{" "}
@@ -171,7 +170,10 @@ export function FinancePageDetail() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
-                You don’t have to let a tight budget keep you from big home comfort projects. Whether you're fixing an emergency breakdown or replacing an aging unit, Upfront AC helps you find a payment plan that fits your lifestyle.
+                You don’t have to let a tight budget keep you from big home
+                comfort projects. Whether you're fixing an emergency breakdown
+                or replacing an aging unit, Upfront AC helps you find a payment
+                plan that fits your lifestyle.
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -202,23 +204,22 @@ export function FinancePageDetail() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-white/80 shadow-xl text-left">
-                  <span className="block text-base font-black text-slate-900">HVAC Financing Specialists</span>
+                  <span className="block text-base font-black text-slate-900">
+                    HVAC Financing Specialists
+                  </span>
                   <span className="text-xs font-bold text-[#005CE6] block mt-0.5">
                     Synchrony · Microf · JBFin · Acorn Finance
                   </span>
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── CORE FINANCING BENEFITS ─────────────────────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               FINANCING ADVANTAGES
@@ -240,23 +241,24 @@ export function FinancePageDetail() {
                     <div className="w-12 h-12 rounded-2xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center mb-5">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <h3 className="text-lg font-extrabold text-slate-900 mb-2">{benefit.title}</h3>
-                    <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">{benefit.desc}</p>
+                    <h3 className="text-lg font-extrabold text-slate-900 mb-2">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+                      {benefit.desc}
+                    </p>
                   </div>
                 </div>
               );
             })}
           </div>
-
         </div>
       </section>
 
       {/* ── HOME COMFORT WITHOUT FINANCIAL STRESS ───────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
             <div className="lg:col-span-6 space-y-6">
               <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
                 BUDGET-FRIENDLY UPGRADES
@@ -265,10 +267,19 @@ export function FinancePageDetail() {
                 Home Comfort Without Financial Stress
               </h2>
               <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-semibold">
-                You don’t have to let a small budget keep you from your big projects. That’s why at Upfront AC, we offer flexible financing options to help you get the upgrades you need, when you need them.
+                You don’t have to let a small budget keep you from your big
+                projects. That’s why at Upfront AC, we offer flexible financing
+                options to help you get the upgrades you need, when you need
+                them.
               </p>
               <p className="text-sm text-slate-600 leading-relaxed font-medium">
-                Whether you’re looking to fix your AC unit, install a new HVAC system, or make other energy-efficient home improvements, we’re here to help you find a payment plan that fits your budget. With simple terms, quick approvals, and payment plans that fit your budget, you can focus on enjoying your space instead of worrying about the price. Ask your Upfront AC advisor about our financing options today.
+                Whether you’re looking to fix your AC unit, install a new HVAC
+                system, or make other energy-efficient home improvements, we’re
+                here to help you find a payment plan that fits your budget. With
+                simple terms, quick approvals, and payment plans that fit your
+                budget, you can focus on enjoying your space instead of worrying
+                about the price. Ask your Upfront AC advisor about our financing
+                options today.
               </p>
 
               <div className="pt-2 flex items-center gap-4">
@@ -287,9 +298,12 @@ export function FinancePageDetail() {
                 <span className="text-xs font-black uppercase tracking-widest text-cyan-400 block">
                   FAST CREDIT PRE-QUALIFICATION
                 </span>
-                <h3 className="text-2xl font-black text-white">Soft Credit Check Available</h3>
+                <h3 className="text-2xl font-black text-white">
+                  Soft Credit Check Available
+                </h3>
                 <p className="text-xs text-slate-300 font-medium leading-relaxed">
-                  Checking your pre-qualification options takes less than 2 minutes and won't affect your credit score.
+                  Checking your pre-qualification options takes less than 2
+                  minutes and won't affect your credit score.
                 </p>
 
                 <div className="space-y-3 pt-4 border-t border-slate-800">
@@ -308,16 +322,13 @@ export function FinancePageDetail() {
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── TRUSTED FINANCING PARTNERS ──────────────────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               OUR TRUSTED LENDERS
@@ -328,16 +339,19 @@ export function FinancePageDetail() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            
             {/* JBFin Card */}
             <div className="rounded-3xl bg-white border border-slate-200 p-8 shadow-sm flex flex-col justify-between space-y-6">
               <div>
                 <span className="text-xs font-black uppercase text-[#005CE6] tracking-wider block mb-2">
                   JBFin Financing Network
                 </span>
-                <h3 className="text-2xl font-black text-slate-900 mb-3">Apply with JBFin</h3>
+                <h3 className="text-2xl font-black text-slate-900 mb-3">
+                  Apply with JBFin
+                </h3>
                 <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
-                  We provide additional lending opportunities through our network of trusted financial institutions. Call a JBFin representative to explore options tailored to your situation.
+                  We provide additional lending opportunities through our
+                  network of trusted financial institutions. Call a JBFin
+                  representative to explore options tailored to your situation.
                 </p>
 
                 <div className="space-y-2.5 pt-4 border-t border-slate-100">
@@ -371,9 +385,14 @@ export function FinancePageDetail() {
                 <span className="text-xs font-black uppercase text-[#005CE6] tracking-wider block mb-2">
                   Acorn Finance Network
                 </span>
-                <h3 className="text-2xl font-black text-slate-900 mb-3">Apply with Acorn</h3>
+                <h3 className="text-2xl font-black text-slate-900 mb-3">
+                  Apply with Acorn
+                </h3>
                 <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
-                  We provide additional lending opportunities through our network of trusted financial institutions. Call an Acorn Finance representative to explore options tailored to your situation.
+                  We provide additional lending opportunities through our
+                  network of trusted financial institutions. Call an Acorn
+                  Finance representative to explore options tailored to your
+                  situation.
                 </p>
 
                 <div className="space-y-2.5 pt-4 border-t border-slate-100">
@@ -400,16 +419,13 @@ export function FinancePageDetail() {
                 <ArrowRight className="w-3.5 h-3.5" />
               </a>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── FREQUENTLY ASKED QUESTIONS ─────────────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               FREQUENTLY ASKED QUESTIONS
@@ -418,7 +434,8 @@ export function FinancePageDetail() {
               Have questions? We’ve got answers!
             </h2>
             <p className="text-sm text-slate-600 mt-2 font-medium">
-              Here are some of the most common questions we receive from homeowners about HVAC financing with Upfront AC.
+              Here are some of the most common questions we receive from
+              homeowners about HVAC financing with Upfront AC.
             </p>
           </div>
 
@@ -435,7 +452,9 @@ export function FinancePageDetail() {
                     className="w-full flex items-center justify-between p-6 text-left text-slate-900 font-extrabold text-base hover:text-[#005CE6] transition-colors"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown
+                      className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
                   <AnimatePresence>
                     {isOpen && (
@@ -453,14 +472,12 @@ export function FinancePageDetail() {
               );
             })}
           </div>
-
         </div>
       </section>
 
       {/* ── MAP & SERVICE LOCATIONS ─────────────────────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               FINANCING COVERAGE
@@ -472,11 +489,18 @@ export function FinancePageDetail() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16">
             {locations.map((loc, i) => (
-              <div key={i} className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-sm flex items-center gap-3">
+              <div
+                key={i}
+                className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-sm flex items-center gap-3"
+              >
                 <MapPin className="w-4 h-4 text-[#005CE6] shrink-0" />
                 <div>
-                  <span className="text-xs font-black text-slate-900 block truncate">{loc.name}</span>
-                  <span className="text-[10px] text-slate-500 font-bold block">{loc.zip}</span>
+                  <span className="text-xs font-black text-slate-900 block truncate">
+                    {loc.name}
+                  </span>
+                  <span className="text-[10px] text-slate-500 font-bold block">
+                    {loc.zip}
+                  </span>
                 </div>
               </div>
             ))}
@@ -496,14 +520,15 @@ export function FinancePageDetail() {
               className="w-full h-full"
             />
           </div>
-
         </div>
       </section>
 
       {/* ── FINANCING CONSULTATION FORM ─────────────────────── */}
-      <section id="finance-form" className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
+      <section
+        id="finance-form"
+        className="py-20 lg:py-24 bg-white border-b border-slate-200/80"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               APPLY NOW
@@ -512,12 +537,12 @@ export function FinancePageDetail() {
               Request Your Financing Pre-Qualification
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-2 font-medium">
-              Fill out the short form below and an Upfront AC financing advisor will walk you through your zero-down and monthly payment options.
+              Fill out the short form below and an Upfront AC financing advisor
+              will walk you through your zero-down and monthly payment options.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            
             {/* Form */}
             <div className="lg:col-span-7 bg-[#F8FAFC] rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
               {submitted ? (
@@ -529,20 +554,29 @@ export function FinancePageDetail() {
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-2">
                       Pre-Qualification Received
                     </span>
-                    <h3 className="text-2xl font-black text-emerald-950">Application Received!</h3>
+                    <h3 className="text-2xl font-black text-emerald-950">
+                      Application Received!
+                    </h3>
                     <p className="text-xs sm:text-sm text-emerald-800 font-semibold max-w-md mx-auto mt-2 leading-relaxed">
-                      Thank you! A financing specialist will call you within 15–30 minutes to review low monthly payment options and pre-qualification plans.
+                      Thank you! A financing specialist will call you within
+                      15–30 minutes to review low monthly payment options and
+                      pre-qualification plans.
                     </p>
                   </div>
 
                   <div className="bg-white/80 rounded-xl p-4 border border-emerald-200 text-left space-y-2 max-w-sm mx-auto">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                       <span className="text-slate-500">Service:</span>
-                      <span className="text-slate-900">{formData.service || "HVAC Replacement"}</span>
+                      <span className="text-slate-900">
+                        {formData.service || "HVAC Replacement"}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                       <span className="text-slate-500">Financing Desk:</span>
-                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] hover:underline font-extrabold">
+                      <a
+                        href={`tel:${phoneTel}`}
+                        className="text-[#005CE6] hover:underline font-extrabold"
+                      >
                         {settings.officePhone || "(713) 819-7908"}
                       </a>
                     </div>
@@ -552,7 +586,12 @@ export function FinancePageDetail() {
                     type="button"
                     onClick={() => {
                       setSubmitted(false);
-                      setFormData({ name: "", phone: "", budget: "", service: "" });
+                      setFormData({
+                        name: "",
+                        phone: "",
+                        budget: "",
+                        service: "",
+                      });
                     }}
                     className="mt-2 text-xs font-bold text-[#005CE6] hover:underline cursor-pointer"
                   >
@@ -571,7 +610,9 @@ export function FinancePageDetail() {
                         required
                         placeholder="Your Full Name"
                         value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -585,7 +626,9 @@ export function FinancePageDetail() {
                         required
                         placeholder="Phone Number"
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -599,14 +642,18 @@ export function FinancePageDetail() {
                       <select
                         required
                         value={formData.budget}
-                        onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, budget: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       >
                         <option value="">Select Monthly Range</option>
                         <option value="Under $100/mo">Under $100 / mo</option>
                         <option value="$100 - $150/mo">$100 – $150 / mo</option>
                         <option value="$150 - $250/mo">$150 – $250 / mo</option>
-                        <option value="0% Promotional APR">0% Promotional APR</option>
+                        <option value="0% Promotional APR">
+                          0% Promotional APR
+                        </option>
                       </select>
                     </div>
 
@@ -617,14 +664,24 @@ export function FinancePageDetail() {
                       <select
                         required
                         value={formData.service}
-                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, service: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       >
                         <option value="">Select Service</option>
-                        <option value="New AC & Heating Replacement">New AC & Heating Replacement</option>
-                        <option value="Emergency System Repair">Emergency System Repair</option>
-                        <option value="Ductless Mini-Split Installation">Ductless Mini-Split Installation</option>
-                        <option value="Whole-Home Dehumidification">Whole-Home Dehumidification</option>
+                        <option value="New AC & Heating Replacement">
+                          New AC & Heating Replacement
+                        </option>
+                        <option value="Emergency System Repair">
+                          Emergency System Repair
+                        </option>
+                        <option value="Ductless Mini-Split Installation">
+                          Ductless Mini-Split Installation
+                        </option>
+                        <option value="Whole-Home Dehumidification">
+                          Whole-Home Dehumidification
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -656,9 +713,13 @@ export function FinancePageDetail() {
                 <span className="text-xs font-black uppercase tracking-widest text-cyan-400 block mb-2">
                   OUR FINANCING PROMISE
                 </span>
-                <h3 className="text-2xl font-black text-white">No Hidden Fees or Penalties</h3>
+                <h3 className="text-2xl font-black text-white">
+                  No Hidden Fees or Penalties
+                </h3>
                 <p className="text-xs text-slate-300 mt-3 font-medium leading-relaxed">
-                  We walk you through all monthly rates, interest terms, and payment schedules upfront. No surprising fine print or hidden fees.
+                  We walk you through all monthly rates, interest terms, and
+                  payment schedules upfront. No surprising fine print or hidden
+                  fees.
                 </p>
 
                 <div className="space-y-4 pt-6 border-t border-slate-800/80">
@@ -678,16 +739,18 @@ export function FinancePageDetail() {
               </div>
 
               <div className="p-4 rounded-2xl bg-white/10 border border-white/10 text-center">
-                <span className="text-xs font-black text-cyan-300 block">Questions? Call (713) 819-7908</span>
-                <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">Monday - Friday 7:00 AM – 5:00 PM • Sat & Sun Emergency Calls Only</span>
+                <span className="text-xs font-black text-cyan-300 block">
+                  Questions? Call (713) 819-7908
+                </span>
+                <span className="text-[10px] text-slate-400 font-semibold block mt-0.5">
+                  Monday - Friday 7:00 AM – 5:00 PM • Sat & Sun Emergency Calls
+                  Only
+                </span>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
-
     </div>
   );
 }

@@ -7,7 +7,13 @@ export interface Lead {
   projectType: string;
   description: string;
   contactTime: string;
-  status: "new" | "contacted" | "consultation_scheduled" | "proposal_sent" | "won" | "lost";
+  status:
+    | "new"
+    | "contacted"
+    | "consultation_scheduled"
+    | "proposal_sent"
+    | "won"
+    | "lost";
   estimatedValue: number;
   notes?: string;
   createdAt: string;
@@ -88,7 +94,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-05-15T10:00:00Z"
+    createdAt: "2026-05-15T10:00:00Z",
   },
   {
     id: "rev-google-2",
@@ -99,7 +105,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-04-18T14:30:00Z"
+    createdAt: "2026-04-18T14:30:00Z",
   },
   {
     id: "rev-google-3",
@@ -110,7 +116,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-06-10T11:15:00Z"
+    createdAt: "2026-06-10T11:15:00Z",
   },
   {
     id: "rev-google-4",
@@ -121,7 +127,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-05-20T16:00:00Z"
+    createdAt: "2026-05-20T16:00:00Z",
   },
   {
     id: "rev-google-5",
@@ -132,7 +138,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-06-12T09:45:00Z"
+    createdAt: "2026-06-12T09:45:00Z",
   },
   {
     id: "rev-google-6",
@@ -143,7 +149,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-06-14T13:20:00Z"
+    createdAt: "2026-06-14T13:20:00Z",
   },
   {
     id: "rev-google-7",
@@ -154,7 +160,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-09-15T15:00:00Z"
+    createdAt: "2025-09-15T15:00:00Z",
   },
   {
     id: "rev-google-8",
@@ -165,7 +171,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-04-22T10:30:00Z"
+    createdAt: "2026-04-22T10:30:00Z",
   },
   {
     id: "rev-google-9",
@@ -176,7 +182,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-11-10T12:00:00Z"
+    createdAt: "2025-11-10T12:00:00Z",
   },
   {
     id: "rev-google-10",
@@ -187,7 +193,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-08-01T14:00:00Z"
+    createdAt: "2025-08-01T14:00:00Z",
   },
   {
     id: "rev-google-11",
@@ -198,7 +204,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-09-20T17:00:00Z"
+    createdAt: "2025-09-20T17:00:00Z",
   },
   {
     id: "rev-google-12",
@@ -209,7 +215,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-07-15T11:00:00Z"
+    createdAt: "2025-07-15T11:00:00Z",
   },
   {
     id: "rev-google-13",
@@ -220,7 +226,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-06-18T08:30:00Z"
+    createdAt: "2026-06-18T08:30:00Z",
   },
   {
     id: "rev-google-14",
@@ -231,7 +237,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-08-10T15:30:00Z"
+    createdAt: "2025-08-10T15:30:00Z",
   },
   {
     id: "rev-google-15",
@@ -242,7 +248,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-09-25T13:45:00Z"
+    createdAt: "2025-09-25T13:45:00Z",
   },
   {
     id: "rev-google-16",
@@ -253,7 +259,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-06-15T12:00:00Z"
+    createdAt: "2025-06-15T12:00:00Z",
   },
   {
     id: "rev-google-17",
@@ -264,7 +270,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-07-20T10:00:00Z"
+    createdAt: "2025-07-20T10:00:00Z",
   },
   {
     id: "rev-google-18",
@@ -275,7 +281,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-06-25T14:15:00Z"
+    createdAt: "2026-06-25T14:15:00Z",
   },
   {
     id: "rev-google-19",
@@ -286,7 +292,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-08-22T09:00:00Z"
+    createdAt: "2025-08-22T09:00:00Z",
   },
   {
     id: "rev-google-20",
@@ -297,7 +303,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-08-30T18:00:00Z"
+    createdAt: "2025-08-30T18:00:00Z",
   },
   {
     id: "rev-google-21",
@@ -308,7 +314,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-07-10T16:20:00Z"
+    createdAt: "2025-07-10T16:20:00Z",
   },
   {
     id: "rev-google-22",
@@ -319,7 +325,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-06-30T11:45:00Z"
+    createdAt: "2025-06-30T11:45:00Z",
   },
   {
     id: "rev-google-23",
@@ -330,7 +336,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-09-12T14:30:00Z"
+    createdAt: "2025-09-12T14:30:00Z",
   },
   {
     id: "rev-google-24",
@@ -341,7 +347,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-10-05T09:15:00Z"
+    createdAt: "2025-10-05T09:15:00Z",
   },
   {
     id: "rev-google-25",
@@ -352,7 +358,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-07-28T12:00:00Z"
+    createdAt: "2025-07-28T12:00:00Z",
   },
   {
     id: "rev-google-26",
@@ -363,7 +369,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-06-20T17:10:00Z"
+    createdAt: "2026-06-20T17:10:00Z",
   },
   {
     id: "rev-google-27",
@@ -374,7 +380,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-08-15T15:00:00Z"
+    createdAt: "2025-08-15T15:00:00Z",
   },
   {
     id: "rev-google-28",
@@ -385,7 +391,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-08-05T13:20:00Z"
+    createdAt: "2025-08-05T13:20:00Z",
   },
   {
     id: "rev-google-29",
@@ -396,7 +402,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-07-12T10:30:00Z"
+    createdAt: "2025-07-12T10:30:00Z",
   },
   {
     id: "rev-google-30",
@@ -407,7 +413,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-10-18T16:00:00Z"
+    createdAt: "2025-10-18T16:00:00Z",
   },
   {
     id: "rev-google-31",
@@ -418,7 +424,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-12-05T11:00:00Z"
+    createdAt: "2025-12-05T11:00:00Z",
   },
   {
     id: "rev-google-32",
@@ -429,7 +435,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-08-20T14:15:00Z"
+    createdAt: "2025-08-20T14:15:00Z",
   },
   {
     id: "rev-google-33",
@@ -440,7 +446,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-09-08T15:45:00Z"
+    createdAt: "2025-09-08T15:45:00Z",
   },
   {
     id: "rev-google-34",
@@ -451,7 +457,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-10-22T12:00:00Z"
+    createdAt: "2025-10-22T12:00:00Z",
   },
   {
     id: "rev-google-35",
@@ -462,7 +468,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-12-14T09:30:00Z"
+    createdAt: "2025-12-14T09:30:00Z",
   },
   {
     id: "rev-google-36",
@@ -473,7 +479,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-07-05T13:00:00Z"
+    createdAt: "2025-07-05T13:00:00Z",
   },
   {
     id: "rev-google-37",
@@ -484,7 +490,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-06-01T10:00:00Z"
+    createdAt: "2026-06-01T10:00:00Z",
   },
   {
     id: "rev-google-38",
@@ -495,7 +501,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-06-08T16:30:00Z"
+    createdAt: "2026-06-08T16:30:00Z",
   },
   {
     id: "rev-google-39",
@@ -506,7 +512,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-05-18T11:20:00Z"
+    createdAt: "2026-05-18T11:20:00Z",
   },
   {
     id: "rev-google-40",
@@ -517,7 +523,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-08-12T14:40:00Z"
+    createdAt: "2025-08-12T14:40:00Z",
   },
   {
     id: "rev-google-41",
@@ -528,7 +534,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-12-20T10:15:00Z"
+    createdAt: "2025-12-20T10:15:00Z",
   },
   {
     id: "rev-google-42",
@@ -539,7 +545,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-07-25T15:10:00Z"
+    createdAt: "2025-07-25T15:10:00Z",
   },
   {
     id: "rev-google-43",
@@ -550,7 +556,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-08-08T12:00:00Z"
+    createdAt: "2025-08-08T12:00:00Z",
   },
   {
     id: "rev-google-44",
@@ -561,7 +567,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-12-18T14:00:00Z"
+    createdAt: "2025-12-18T14:00:00Z",
   },
   {
     id: "rev-google-45",
@@ -572,7 +578,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-09-28T16:00:00Z"
+    createdAt: "2025-09-28T16:00:00Z",
   },
   {
     id: "rev-google-46",
@@ -583,7 +589,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2025-08-16T11:00:00Z"
+    createdAt: "2025-08-16T11:00:00Z",
   },
   {
     id: "rev-google-47",
@@ -594,7 +600,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-08-14T10:00:00Z"
+    createdAt: "2026-08-14T10:00:00Z",
   },
   {
     id: "rev-google-48",
@@ -605,7 +611,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-08-14T14:30:00Z"
+    createdAt: "2026-08-14T14:30:00Z",
   },
   {
     id: "rev-google-49",
@@ -616,7 +622,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-07-28T16:00:00Z"
+    createdAt: "2026-07-28T16:00:00Z",
   },
   {
     id: "rev-google-50",
@@ -627,7 +633,7 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-07-15T12:00:00Z"
+    createdAt: "2026-07-15T12:00:00Z",
   },
   {
     id: "rev-google-51",
@@ -638,8 +644,8 @@ export const INITIAL_REVIEWS: Review[] = [
     rating: 5,
     featured: true,
     source: "google",
-    createdAt: "2026-06-15T10:00:00Z"
-  }
+    createdAt: "2026-06-15T10:00:00Z",
+  },
 ];
 
 export const INITIAL_CHATS: ChatSession[] = [];
@@ -699,8 +705,14 @@ async function apiCall<T>(url: string, method: string, body?: any): Promise<T> {
         }
       } catch {
         if (text) {
-          const cleanText = text.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-          errorMsg = cleanText.length > 200 ? cleanText.substring(0, 200) + "..." : cleanText;
+          const cleanText = text
+            .replace(/<[^>]*>/g, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+          errorMsg =
+            cleanText.length > 200
+              ? cleanText.substring(0, 200) + "..."
+              : cleanText;
         }
       }
     } catch {
@@ -714,7 +726,9 @@ async function apiCall<T>(url: string, method: string, body?: any): Promise<T> {
 // ── LEADS ──
 export const getLeads = async (): Promise<Lead[]> => {
   const localLeads = getStorageItem<Lead[]>("electrical-leads", []);
-  const deletedIds = new Set(getStorageItem<string[]>("upfront-deleted-leads", []));
+  const deletedIds = new Set(
+    getStorageItem<string[]>("upfront-deleted-leads", []),
+  );
 
   try {
     const leads = await apiCall<Lead[]>("/api/leads?t=" + Date.now(), "GET");
@@ -737,11 +751,15 @@ export const getLeads = async (): Promise<Lead[]> => {
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage leads:", err);
   }
-  const filteredLocal = localLeads.filter((l) => l?.id && !deletedIds.has(l.id));
+  const filteredLocal = localLeads.filter(
+    (l) => l?.id && !deletedIds.has(l.id),
+  );
   return filteredLocal;
 };
 
-export const addLead = async (leadData: Omit<Lead, "id" | "status" | "estimatedValue" | "createdAt">): Promise<Lead> => {
+export const addLead = async (
+  leadData: Omit<Lead, "id" | "status" | "estimatedValue" | "createdAt">,
+): Promise<Lead> => {
   try {
     return await apiCall<Lead>("/api/leads", "POST", { leadData });
   } catch (err) {
@@ -749,15 +767,33 @@ export const addLead = async (leadData: Omit<Lead, "id" | "status" | "estimatedV
     const leads = await getLeads();
     let estimatedValue = 2500;
     switch (leadData.projectType) {
-      case "panel-upgrades": estimatedValue = 3500; break;
-      case "ev-charger": estimatedValue = 1200; break;
-      case "generator": estimatedValue = 14500; break;
-      case "commercial": estimatedValue = 32000; break;
-      case "residential": estimatedValue = 2500; break;
-      case "industrial": estimatedValue = 54000; break;
-      case "emergency": estimatedValue = 450; break;
-      case "wiring-rewiring": estimatedValue = 8500; break;
-      case "security-systems": estimatedValue = 6500; break;
+      case "panel-upgrades":
+        estimatedValue = 3500;
+        break;
+      case "ev-charger":
+        estimatedValue = 1200;
+        break;
+      case "generator":
+        estimatedValue = 14500;
+        break;
+      case "commercial":
+        estimatedValue = 32000;
+        break;
+      case "residential":
+        estimatedValue = 2500;
+        break;
+      case "industrial":
+        estimatedValue = 54000;
+        break;
+      case "emergency":
+        estimatedValue = 450;
+        break;
+      case "wiring-rewiring":
+        estimatedValue = 8500;
+        break;
+      case "security-systems":
+        estimatedValue = 6500;
+        break;
     }
     const newLead: Lead = {
       ...leadData,
@@ -765,7 +801,7 @@ export const addLead = async (leadData: Omit<Lead, "id" | "status" | "estimatedV
       status: "new",
       estimatedValue,
       createdAt: new Date().toISOString(),
-      photos: []
+      photos: [],
     };
     leads.push(newLead);
     setStorageItem("electrical-leads", leads);
@@ -773,7 +809,9 @@ export const addLead = async (leadData: Omit<Lead, "id" | "status" | "estimatedV
   }
 };
 
-export const addCustomLead = async (lead: Omit<Lead, "id" | "createdAt">): Promise<Lead> => {
+export const addCustomLead = async (
+  lead: Omit<Lead, "id" | "createdAt">,
+): Promise<Lead> => {
   try {
     return await apiCall<Lead>("/api/leads", "POST", { custom: true, lead });
   } catch (err) {
@@ -782,7 +820,7 @@ export const addCustomLead = async (lead: Omit<Lead, "id" | "createdAt">): Promi
     const newLead: Lead = {
       ...lead,
       id: "lead-" + Math.random().toString(36).substr(2, 9),
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
     leads.push(newLead);
     setStorageItem("electrical-leads", leads);
@@ -790,9 +828,15 @@ export const addCustomLead = async (lead: Omit<Lead, "id" | "createdAt">): Promi
   }
 };
 
-export const updateLeadStatus = async (id: string, status: Lead["status"]): Promise<Lead[] | null> => {
+export const updateLeadStatus = async (
+  id: string,
+  status: Lead["status"],
+): Promise<Lead[] | null> => {
   try {
-    const updated = await apiCall<Lead[]>("/api/leads", "PUT", { id, updates: { status } });
+    const updated = await apiCall<Lead[]>("/api/leads", "PUT", {
+      id,
+      updates: { status },
+    });
     if (Array.isArray(updated)) {
       setStorageItem("electrical-leads", updated);
       if (typeof window !== "undefined") {
@@ -804,7 +848,7 @@ export const updateLeadStatus = async (id: string, status: Lead["status"]): Prom
     console.warn("MongoDB offline, falling back to local storage:", err);
   }
   const leads = await getLeads();
-  const updated = leads.map(l => l.id === id ? { ...l, status } : l);
+  const updated = leads.map((l) => (l.id === id ? { ...l, status } : l));
   setStorageItem("electrical-leads", updated);
   if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent("upfront-leads-updated"));
@@ -812,7 +856,10 @@ export const updateLeadStatus = async (id: string, status: Lead["status"]): Prom
   return updated;
 };
 
-export const updateLeadDetails = async (id: string, updates: Partial<Omit<Lead, "id" | "createdAt">>): Promise<Lead[] | null> => {
+export const updateLeadDetails = async (
+  id: string,
+  updates: Partial<Omit<Lead, "id" | "createdAt">>,
+): Promise<Lead[] | null> => {
   try {
     const updated = await apiCall<Lead[]>("/api/leads", "PUT", { id, updates });
     if (Array.isArray(updated)) {
@@ -826,7 +873,7 @@ export const updateLeadDetails = async (id: string, updates: Partial<Omit<Lead, 
     console.warn("MongoDB offline, falling back to local storage:", err);
   }
   const leads = await getLeads();
-  const updated = leads.map(l => l.id === id ? { ...l, ...updates } : l);
+  const updated = leads.map((l) => (l.id === id ? { ...l, ...updates } : l));
   setStorageItem("electrical-leads", updated);
   if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent("upfront-leads-updated"));
@@ -851,7 +898,9 @@ export const deleteLead = async (id: string): Promise<Lead[]> => {
   try {
     const updated = await apiCall<Lead[]>("/api/leads", "DELETE", { id });
     if (Array.isArray(updated)) {
-      const cleaned = updated.filter((l) => l.id !== id && !deleted.includes(l.id));
+      const cleaned = updated.filter(
+        (l) => l.id !== id && !deleted.includes(l.id),
+      );
       setStorageItem("electrical-leads", cleaned);
       if (typeof window !== "undefined") {
         window.dispatchEvent(new CustomEvent("upfront-leads-updated"));
@@ -868,9 +917,15 @@ export const deleteLead = async (id: string): Promise<Lead[]> => {
   return filtered;
 };
 
-export const uploadLeadPhoto = async (leadId: string, base64Photo: string): Promise<Lead[]> => {
+export const uploadLeadPhoto = async (
+  leadId: string,
+  base64Photo: string,
+): Promise<Lead[]> => {
   try {
-    const updated = await apiCall<Lead[]>("/api/leads/photos", "POST", { leadId, base64Photo });
+    const updated = await apiCall<Lead[]>("/api/leads/photos", "POST", {
+      leadId,
+      base64Photo,
+    });
     if (Array.isArray(updated)) {
       setStorageItem("electrical-leads", updated);
       if (typeof window !== "undefined") {
@@ -882,7 +937,7 @@ export const uploadLeadPhoto = async (leadId: string, base64Photo: string): Prom
     console.warn("MongoDB offline, falling back to local storage:", err);
   }
   const leads = await getLeads();
-  const updated = leads.map(l => {
+  const updated = leads.map((l) => {
     if (l.id === leadId) {
       const photos = l.photos || [];
       return { ...l, photos: [...photos, base64Photo] };
@@ -896,13 +951,19 @@ export const uploadLeadPhoto = async (leadId: string, base64Photo: string): Prom
   return updated;
 };
 
-export const removeLeadPhoto = async (leadId: string, photoIndex: number): Promise<Lead[]> => {
+export const removeLeadPhoto = async (
+  leadId: string,
+  photoIndex: number,
+): Promise<Lead[]> => {
   try {
-    return await apiCall<Lead[]>("/api/leads/photos", "DELETE", { leadId, photoIndex });
+    return await apiCall<Lead[]>("/api/leads/photos", "DELETE", {
+      leadId,
+      photoIndex,
+    });
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage:", err);
     const leads = await getLeads();
-    const updated = leads.map(l => {
+    const updated = leads.map((l) => {
       if (l.id === leadId && l.photos) {
         const photos = [...l.photos];
         photos.splice(photoIndex, 1);
@@ -927,7 +988,12 @@ export const getReviews = async (): Promise<Review[]> => {
     const merged = [...INITIAL_REVIEWS];
     if (Array.isArray(reviews)) {
       for (const r of reviews) {
-        if (!merged.some(m => m.id === r.id || (m.author === r.author && m.text === r.text))) {
+        if (
+          !merged.some(
+            (m) =>
+              m.id === r.id || (m.author === r.author && m.text === r.text),
+          )
+        ) {
           merged.unshift(r);
         }
       }
@@ -936,7 +1002,10 @@ export const getReviews = async (): Promise<Review[]> => {
     return merged;
   } catch (err) {
     console.warn("MongoDB offline, loading all verified Google reviews:", err);
-    const local = getStorageItem<Review[]>("upfront-reviews-v2", INITIAL_REVIEWS);
+    const local = getStorageItem<Review[]>(
+      "upfront-reviews-v2",
+      INITIAL_REVIEWS,
+    );
     if (!local || local.length < INITIAL_REVIEWS.length) {
       setStorageItem("upfront-reviews-v2", INITIAL_REVIEWS);
       return INITIAL_REVIEWS;
@@ -945,7 +1014,11 @@ export const getReviews = async (): Promise<Review[]> => {
   }
 };
 
-export const addReview = async (reviewData: Omit<Review, "id" | "featured" | "createdAt"> & { newReviewPhoto?: string }): Promise<Review> => {
+export const addReview = async (
+  reviewData: Omit<Review, "id" | "featured" | "createdAt"> & {
+    newReviewPhoto?: string;
+  },
+): Promise<Review> => {
   try {
     return await apiCall<Review>("/api/reviews", "POST", reviewData);
   } catch (err) {
@@ -960,7 +1033,7 @@ export const addReview = async (reviewData: Omit<Review, "id" | "featured" | "cr
       id: "review-" + Math.random().toString(36).substr(2, 9),
       featured: true,
       createdAt: new Date().toISOString(),
-      photos
+      photos,
     };
     reviews.unshift(newReview);
     setStorageItem("upfront-reviews-v2", reviews);
@@ -970,23 +1043,35 @@ export const addReview = async (reviewData: Omit<Review, "id" | "featured" | "cr
 
 export const toggleReviewFeatured = async (id: string): Promise<Review[]> => {
   try {
-    return await apiCall<Review[]>("/api/reviews", "PUT", { id, action: "featured" });
+    return await apiCall<Review[]>("/api/reviews", "PUT", {
+      id,
+      action: "featured",
+    });
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage:", err);
     const reviews = await getReviews();
-    const updated = reviews.map(r => r.id === id ? { ...r, featured: !r.featured } : r);
+    const updated = reviews.map((r) =>
+      r.id === id ? { ...r, featured: !r.featured } : r,
+    );
     setStorageItem("upfront-reviews-v2", updated);
     return updated;
   }
 };
 
-export const replyToReview = async (id: string, replyText: string): Promise<Review[]> => {
+export const replyToReview = async (
+  id: string,
+  replyText: string,
+): Promise<Review[]> => {
   try {
-    return await apiCall<Review[]>("/api/reviews", "PUT", { id, replyText, action: "reply" });
+    return await apiCall<Review[]>("/api/reviews", "PUT", {
+      id,
+      replyText,
+      action: "reply",
+    });
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage:", err);
     const reviews = await getReviews();
-    const updated = reviews.map(r => r.id === id ? { ...r, replyText } : r);
+    const updated = reviews.map((r) => (r.id === id ? { ...r, replyText } : r));
     setStorageItem("upfront-reviews-v2", updated);
     return updated;
   }
@@ -998,7 +1083,7 @@ export const deleteReview = async (id: string): Promise<Review[]> => {
   } catch (err) {
     console.warn("MongoDB offline, falling back to local storage:", err);
     const reviews = await getReviews();
-    const updated = reviews.filter(r => r.id !== id);
+    const updated = reviews.filter((r) => r.id !== id);
     setStorageItem("upfront-reviews-v2", updated);
     return updated;
   }
@@ -1006,14 +1091,20 @@ export const deleteReview = async (id: string): Promise<Review[]> => {
 
 export const syncGooglePlacesReviews = async (
   apiKey?: string,
-  placeId?: string
-): Promise<{ success: boolean; reviews: Review[]; count: number; message?: string }> => {
+  placeId?: string,
+): Promise<{
+  success: boolean;
+  reviews: Review[];
+  count: number;
+  message?: string;
+}> => {
   try {
-    const res = await apiCall<{ success: boolean; reviews: Review[]; count: number; message?: string }>(
-      "/api/reviews",
-      "POST",
-      { action: "sync_google", apiKey, placeId }
-    );
+    const res = await apiCall<{
+      success: boolean;
+      reviews: Review[];
+      count: number;
+      message?: string;
+    }>("/api/reviews", "POST", { action: "sync_google", apiKey, placeId });
     if (res && res.reviews) {
       setStorageItem("electrical-reviews", res.reviews);
     }
@@ -1027,10 +1118,15 @@ export const syncGooglePlacesReviews = async (
 // ── CHATS ──
 export const getChatSessions = async (): Promise<ChatSession[]> => {
   const localChats = getStorageItem<ChatSession[]>("upfront-chats-v2", []);
-  const deletedIds = new Set(getStorageItem<string[]>("upfront-deleted-chats", []));
+  const deletedIds = new Set(
+    getStorageItem<string[]>("upfront-deleted-chats", []),
+  );
 
   try {
-    const chats = await apiCall<ChatSession[]>("/api/chats?t=" + Date.now(), "GET");
+    const chats = await apiCall<ChatSession[]>(
+      "/api/chats?t=" + Date.now(),
+      "GET",
+    );
     if (Array.isArray(chats)) {
       const mergedMap = new Map<string, ChatSession>();
       localChats.forEach((c) => {
@@ -1040,7 +1136,10 @@ export const getChatSessions = async (): Promise<ChatSession[]> => {
         if (c?.id && !deletedIds.has(c.id)) {
           const local = mergedMap.get(c.id);
           if (local) {
-            const messages = dedupeChatMessages([...(local.messages || []), ...(c.messages || [])]);
+            const messages = dedupeChatMessages([
+              ...(local.messages || []),
+              ...(c.messages || []),
+            ]);
             const clientName =
               local.clientName && local.clientName !== "Website Visitor"
                 ? local.clientName
@@ -1057,7 +1156,7 @@ export const getChatSessions = async (): Promise<ChatSession[]> => {
               messages,
               lastMessage: c.lastMessage || local.lastMessage,
               lastMessageTime: c.lastMessageTime || local.lastMessageTime,
-              unread: c.unread !== undefined ? c.unread : local.unread
+              unread: c.unread !== undefined ? c.unread : local.unread,
             });
           } else {
             mergedMap.set(c.id, c);
@@ -1065,7 +1164,9 @@ export const getChatSessions = async (): Promise<ChatSession[]> => {
         }
       });
       const sorted = Array.from(mergedMap.values()).sort(
-        (a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()
+        (a, b) =>
+          new Date(b.lastMessageTime).getTime() -
+          new Date(a.lastMessageTime).getTime(),
       );
       setStorageItem("upfront-chats-v2", sorted);
       return sorted;
@@ -1073,13 +1174,19 @@ export const getChatSessions = async (): Promise<ChatSession[]> => {
   } catch (err) {
     console.warn("MongoDB/API offline, checking local storage chats:", err);
   }
-  const filteredLocal = localChats.filter((c) => c?.id && !deletedIds.has(c.id));
+  const filteredLocal = localChats.filter(
+    (c) => c?.id && !deletedIds.has(c.id),
+  );
   return filteredLocal.sort(
-    (a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()
+    (a, b) =>
+      new Date(b.lastMessageTime).getTime() -
+      new Date(a.lastMessageTime).getTime(),
   );
 };
 
-export const getChatSessionById = async (sessionId: string): Promise<ChatSession | null> => {
+export const getChatSessionById = async (
+  sessionId: string,
+): Promise<ChatSession | null> => {
   const chats = await getChatSessions();
   return chats.find((c) => c.id === sessionId) || null;
 };
@@ -1089,17 +1196,18 @@ export const createChatSession = async (
   clientCity: string = "Tomball, TX",
   clientEmail?: string,
   clientPhone?: string,
-  initialMessage?: string
+  initialMessage?: string,
 ): Promise<ChatSession> => {
   const customId = "session-" + Math.random().toString(36).substr(2, 9);
   const initialMessages: ChatMessage[] = initialMessage
     ? [
         {
-          id: "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6),
+          id:
+            "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6),
           sender: "client",
           text: initialMessage,
-          timestamp: new Date().toISOString()
-        }
+          timestamp: new Date().toISOString(),
+        },
       ]
     : [];
 
@@ -1112,7 +1220,7 @@ export const createChatSession = async (
     lastMessage: initialMessage || "Chat session initialized",
     lastMessageTime: new Date().toISOString(),
     unread: true,
-    messages: initialMessages
+    messages: initialMessages,
   };
 
   try {
@@ -1123,7 +1231,7 @@ export const createChatSession = async (
       clientCity,
       clientEmail,
       clientPhone,
-      firstMessage: initialMessage
+      firstMessage: initialMessage,
     });
     if (session) {
       const chats = await getChatSessions();
@@ -1135,7 +1243,9 @@ export const createChatSession = async (
       }
       setStorageItem("upfront-chats-v2", chats);
       if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: session }));
+        window.dispatchEvent(
+          new CustomEvent("upfront-chats-updated", { detail: session }),
+        );
       }
       return session;
     }
@@ -1147,7 +1257,9 @@ export const createChatSession = async (
   chats.unshift(newSessionFallback);
   setStorageItem("upfront-chats-v2", chats);
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: newSessionFallback }));
+    window.dispatchEvent(
+      new CustomEvent("upfront-chats-updated", { detail: newSessionFallback }),
+    );
   }
   return newSessionFallback;
 };
@@ -1163,14 +1275,19 @@ export const dedupeChatMessages = (messages: ChatMessage[]): ChatMessage[] => {
       (existing) =>
         existing.sender === m.sender &&
         existing.text.trim() === m.text.trim() &&
-        Math.abs(new Date(existing.timestamp).getTime() - new Date(m.timestamp).getTime()) < 3000
+        Math.abs(
+          new Date(existing.timestamp).getTime() -
+            new Date(m.timestamp).getTime(),
+        ) < 3000,
     );
     if (isDuplicate) continue;
     if (m.id) seenIds.add(m.id);
     result.push(m);
   }
   // Guarantee strict chronological order (oldest at top -> newest at bottom)
-  return result.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+  return result.sort(
+    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
+  );
 };
 
 export const sendChatMessage = async (
@@ -1181,16 +1298,18 @@ export const sendChatMessage = async (
   timestamp?: string,
   clientName?: string,
   clientEmail?: string,
-  clientPhone?: string
+  clientPhone?: string,
 ): Promise<ChatSession | null> => {
-  const msgId = messageId || "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
+  const msgId =
+    messageId ||
+    "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
   const time = timestamp || new Date().toISOString();
 
   const newMsg: ChatMessage = {
     id: msgId,
     sender,
     text,
-    timestamp: time
+    timestamp: time,
   };
 
   // 1. Immediately update local storage non-destructively so zero messages are lost
@@ -1201,13 +1320,16 @@ export const sendChatMessage = async (
       const messages = dedupeChatMessages([...(c.messages || []), newMsg]);
       updatedSession = {
         ...c,
-        clientName: clientName && clientName !== "Website Visitor" ? clientName : c.clientName,
+        clientName:
+          clientName && clientName !== "Website Visitor"
+            ? clientName
+            : c.clientName,
         clientEmail: clientEmail || c.clientEmail,
         clientPhone: clientPhone || c.clientPhone,
         messages,
         lastMessage: text,
         lastMessageTime: time,
-        unread: sender === "client"
+        unread: sender === "client",
       };
       return updatedSession;
     }
@@ -1224,14 +1346,16 @@ export const sendChatMessage = async (
       messages: [newMsg],
       lastMessage: text,
       lastMessageTime: time,
-      unread: sender === "client"
+      unread: sender === "client",
     };
     localUpdatedChats.unshift(updatedSession);
   }
 
   setStorageItem("upfront-chats-v2", localUpdatedChats);
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updatedSession }));
+    window.dispatchEvent(
+      new CustomEvent("upfront-chats-updated", { detail: updatedSession }),
+    );
   }
 
   // 2. Persist to API with cumulative message history so stateless lambdas never truncate chat
@@ -1246,13 +1370,18 @@ export const sendChatMessage = async (
       clientName: updatedSession.clientName,
       clientEmail: updatedSession.clientEmail,
       clientPhone: updatedSession.clientPhone,
-      allMessages: updatedSession.messages
+      allMessages: updatedSession.messages,
     });
     if (updated) {
-      const mergedMsgs = dedupeChatMessages([...(updatedSession.messages || []), ...(updated.messages || [])]);
+      const mergedMsgs = dedupeChatMessages([
+        ...(updatedSession.messages || []),
+        ...(updated.messages || []),
+      ]);
       updated.messages = mergedMsgs;
       const latestChats = getStorageItem<ChatSession[]>("upfront-chats-v2", []);
-      const finalChats = latestChats.map((c) => (c.id === sessionId ? { ...c, ...updated, messages: mergedMsgs } : c));
+      const finalChats = latestChats.map((c) =>
+        c.id === sessionId ? { ...c, ...updated, messages: mergedMsgs } : c,
+      );
       setStorageItem("upfront-chats-v2", finalChats);
       return { ...updatedSession, ...updated, messages: mergedMsgs };
     }
@@ -1263,13 +1392,20 @@ export const sendChatMessage = async (
   return updatedSession;
 };
 
-export const markChatAsRead = async (sessionId: string): Promise<ChatSession[]> => {
+export const markChatAsRead = async (
+  sessionId: string,
+): Promise<ChatSession[]> => {
   const current = getStorageItem<ChatSession[]>("upfront-chats-v2", []);
-  const updatedLocal = current.map((c) => (c.id === sessionId ? { ...c, unread: false } : c));
+  const updatedLocal = current.map((c) =>
+    c.id === sessionId ? { ...c, unread: false } : c,
+  );
   setStorageItem("upfront-chats-v2", updatedLocal);
 
   try {
-    apiCall<ChatSession[]>("/api/chats", "POST", { action: "read", sessionId }).catch(() => {});
+    apiCall<ChatSession[]>("/api/chats", "POST", {
+      action: "read",
+      sessionId,
+    }).catch(() => {});
   } catch (err) {
     console.warn("MongoDB offline, marking read in local storage:", err);
   }
@@ -1292,12 +1428,19 @@ export const deleteChatSession = async (id: string): Promise<ChatSession[]> => {
   setStorageItem("upfront-chats-v2", filtered);
 
   try {
-    const chats = await apiCall<ChatSession[]>("/api/chats?id=" + encodeURIComponent(id), "DELETE");
+    const chats = await apiCall<ChatSession[]>(
+      "/api/chats?id=" + encodeURIComponent(id),
+      "DELETE",
+    );
     if (Array.isArray(chats)) {
-      const cleaned = chats.filter((c) => c.id !== id && !deleted.includes(c.id));
+      const cleaned = chats.filter(
+        (c) => c.id !== id && !deleted.includes(c.id),
+      );
       setStorageItem("upfront-chats-v2", cleaned);
       if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: id }));
+        window.dispatchEvent(
+          new CustomEvent("upfront-chats-updated", { detail: id }),
+        );
       }
       return cleaned;
     }
@@ -1306,20 +1449,29 @@ export const deleteChatSession = async (id: string): Promise<ChatSession[]> => {
   }
 
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: id }));
+    window.dispatchEvent(
+      new CustomEvent("upfront-chats-updated", { detail: id }),
+    );
   }
   return filtered;
 };
 
-export const closeChatSession = async (sessionId: string): Promise<ChatSession | null> => {
+export const closeChatSession = async (
+  sessionId: string,
+): Promise<ChatSession | null> => {
   try {
-    const updated = await apiCall<ChatSession | null>("/api/chats", "POST", { action: "close", sessionId });
+    const updated = await apiCall<ChatSession | null>("/api/chats", "POST", {
+      action: "close",
+      sessionId,
+    });
     if (updated) {
       const chats = await getChatSessions();
-      const updatedChats = chats.map(c => c.id === sessionId ? updated : c);
+      const updatedChats = chats.map((c) => (c.id === sessionId ? updated : c));
       setStorageItem("upfront-chats-v2", updatedChats);
       if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updated }));
+        window.dispatchEvent(
+          new CustomEvent("upfront-chats-updated", { detail: updated }),
+        );
       }
       return updated;
     }
@@ -1328,13 +1480,13 @@ export const closeChatSession = async (sessionId: string): Promise<ChatSession |
   }
   const chats = await getChatSessions();
   let updatedSession: ChatSession | null = null;
-  const updatedChats = chats.map(c => {
+  const updatedChats = chats.map((c) => {
     if (c.id === sessionId) {
       updatedSession = {
         ...c,
         status: "closed",
         isClosed: true,
-        closedAt: new Date().toISOString()
+        closedAt: new Date().toISOString(),
       };
       return updatedSession;
     }
@@ -1342,20 +1494,29 @@ export const closeChatSession = async (sessionId: string): Promise<ChatSession |
   });
   setStorageItem("upfront-chats-v2", updatedChats);
   if (typeof window !== "undefined" && updatedSession) {
-    window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updatedSession }));
+    window.dispatchEvent(
+      new CustomEvent("upfront-chats-updated", { detail: updatedSession }),
+    );
   }
   return updatedSession;
 };
 
-export const reopenChatSession = async (sessionId: string): Promise<ChatSession | null> => {
+export const reopenChatSession = async (
+  sessionId: string,
+): Promise<ChatSession | null> => {
   try {
-    const updated = await apiCall<ChatSession | null>("/api/chats", "POST", { action: "reopen", sessionId });
+    const updated = await apiCall<ChatSession | null>("/api/chats", "POST", {
+      action: "reopen",
+      sessionId,
+    });
     if (updated) {
       const chats = await getChatSessions();
-      const updatedChats = chats.map(c => c.id === sessionId ? updated : c);
+      const updatedChats = chats.map((c) => (c.id === sessionId ? updated : c));
       setStorageItem("upfront-chats-v2", updatedChats);
       if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updated }));
+        window.dispatchEvent(
+          new CustomEvent("upfront-chats-updated", { detail: updated }),
+        );
       }
       return updated;
     }
@@ -1364,13 +1525,13 @@ export const reopenChatSession = async (sessionId: string): Promise<ChatSession 
   }
   const chats = await getChatSessions();
   let updatedSession: ChatSession | null = null;
-  const updatedChats = chats.map(c => {
+  const updatedChats = chats.map((c) => {
     if (c.id === sessionId) {
       updatedSession = {
         ...c,
         status: "active",
         isClosed: false,
-        closedAt: undefined
+        closedAt: undefined,
       };
       return updatedSession;
     }
@@ -1378,7 +1539,9 @@ export const reopenChatSession = async (sessionId: string): Promise<ChatSession 
   });
   setStorageItem("upfront-chats-v2", updatedChats);
   if (typeof window !== "undefined" && updatedSession) {
-    window.dispatchEvent(new CustomEvent("upfront-chats-updated", { detail: updatedSession }));
+    window.dispatchEvent(
+      new CustomEvent("upfront-chats-updated", { detail: updatedSession }),
+    );
   }
   return updatedSession;
 };
@@ -1386,10 +1549,15 @@ export const reopenChatSession = async (sessionId: string): Promise<ChatSession 
 // ── EMAILS / WEB INQUIRIES ──
 export const getWebEmails = async (): Promise<WebEmail[]> => {
   const localEmails = getStorageItem<WebEmail[]>("upfront-emails-v2", []);
-  const deletedIds = new Set(getStorageItem<string[]>("upfront-deleted-emails", []));
+  const deletedIds = new Set(
+    getStorageItem<string[]>("upfront-deleted-emails", []),
+  );
 
   try {
-    const emails = await apiCall<WebEmail[]>("/api/emails?t=" + Date.now(), "GET");
+    const emails = await apiCall<WebEmail[]>(
+      "/api/emails?t=" + Date.now(),
+      "GET",
+    );
     if (Array.isArray(emails)) {
       const mergedMap = new Map<string, WebEmail>();
       localEmails.forEach((e) => {
@@ -1399,7 +1567,8 @@ export const getWebEmails = async (): Promise<WebEmail[]> => {
         if (e?.id && !deletedIds.has(e.id)) mergedMap.set(e.id, e);
       });
       const sorted = Array.from(mergedMap.values()).sort(
-        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
       setStorageItem("upfront-emails-v2", sorted);
       return sorted;
@@ -1407,32 +1576,63 @@ export const getWebEmails = async (): Promise<WebEmail[]> => {
   } catch (err) {
     console.warn("MongoDB/API offline, reading local storage emails:", err);
   }
-  const filteredLocal = localEmails.filter((e) => e?.id && !deletedIds.has(e.id));
+  const filteredLocal = localEmails.filter(
+    (e) => e?.id && !deletedIds.has(e.id),
+  );
   return filteredLocal.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
 };
 
-export const addWebEmail = async (emailData: Omit<WebEmail, "id" | "createdAt">): Promise<WebEmail> => {
+export const addWebEmail = async (
+  emailData: Omit<WebEmail, "id" | "createdAt">,
+): Promise<WebEmail> => {
   let projectType: Lead["projectType"] = "residential";
   let estimatedValue = 450;
-  const srvLower = ((emailData.service || "") + " " + (emailData.message || "")).toLowerCase();
-  if (srvLower.includes("install") || srvLower.includes("replacement") || srvLower.includes("system") || srvLower.includes("heat pump")) {
+  const srvLower = (
+    (emailData.service || "") +
+    " " +
+    (emailData.message || "")
+  ).toLowerCase();
+  if (
+    srvLower.includes("install") ||
+    srvLower.includes("replacement") ||
+    srvLower.includes("system") ||
+    srvLower.includes("heat pump")
+  ) {
     projectType = "install";
     estimatedValue = 8500;
-  } else if (srvLower.includes("furnace") || srvLower.includes("heating") || srvLower.includes("heater")) {
+  } else if (
+    srvLower.includes("furnace") ||
+    srvLower.includes("heating") ||
+    srvLower.includes("heater")
+  ) {
     projectType = "heating";
     estimatedValue = 650;
-  } else if (srvLower.includes("tune-up") || srvLower.includes("tuneup") || srvLower.includes("maintenance") || srvLower.includes("checkup")) {
+  } else if (
+    srvLower.includes("tune-up") ||
+    srvLower.includes("tuneup") ||
+    srvLower.includes("maintenance") ||
+    srvLower.includes("checkup")
+  ) {
     projectType = "maintenance";
     estimatedValue = 189;
   } else if (srvLower.includes("commercial") || srvLower.includes("rooftop")) {
     projectType = "commercial";
     estimatedValue = 3500;
-  } else if (srvLower.includes("air quality") || srvLower.includes("iaq") || srvLower.includes("purification") || srvLower.includes("duct")) {
+  } else if (
+    srvLower.includes("air quality") ||
+    srvLower.includes("iaq") ||
+    srvLower.includes("purification") ||
+    srvLower.includes("duct")
+  ) {
     projectType = "indoor_air_quality";
     estimatedValue = 1200;
-  } else if (srvLower.includes("emergency") || srvLower.includes("urgent") || srvLower.includes("24/7")) {
+  } else if (
+    srvLower.includes("emergency") ||
+    srvLower.includes("urgent") ||
+    srvLower.includes("24/7")
+  ) {
     projectType = "emergency";
     estimatedValue = 550;
   }
@@ -1442,14 +1642,18 @@ export const addWebEmail = async (emailData: Omit<WebEmail, "id" | "createdAt">)
     name: emailData.name || "Website Prospect",
     email: emailData.email || "",
     phone: emailData.phone || "",
-    address: (emailData as any).address || `${emailData.source || "Website Inquiry"} · Houston / Cypress, TX`,
+    address:
+      (emailData as any).address ||
+      `${emailData.source || "Website Inquiry"} · Houston / Cypress, TX`,
     projectType,
-    description: emailData.message || `Customer inquiry received from ${emailData.source || "Website Form"} (${emailData.service || "General Request"})`,
+    description:
+      emailData.message ||
+      `Customer inquiry received from ${emailData.source || "Website Form"} (${emailData.service || "General Request"})`,
     contactTime: "anytime",
     status: "new",
     estimatedValue,
     createdAt: new Date().toISOString(),
-    photos: []
+    photos: [],
   };
 
   try {
@@ -1463,32 +1667,39 @@ export const addWebEmail = async (emailData: Omit<WebEmail, "id" | "createdAt">)
         service: res.service || emailData.service,
         message: res.message || emailData.message,
         source: res.source || emailData.source,
-        createdAt: res.createdAt || new Date().toISOString()
+        createdAt: res.createdAt || new Date().toISOString(),
       };
       const savedLead: Lead = res.lead || newLeadFallback;
 
       // Update client emails cache
       const emails = await getWebEmails();
-      if (!emails.some(e => e.id === savedEmail.id)) {
+      if (!emails.some((e) => e.id === savedEmail.id)) {
         emails.unshift(savedEmail);
         setStorageItem("upfront-emails-v2", emails);
       }
 
       // Update client leads cache
       const leads = await getLeads();
-      if (!leads.some(l => l.id === savedLead.id)) {
+      if (!leads.some((l) => l.id === savedLead.id)) {
         leads.unshift(savedLead);
         setStorageItem("electrical-leads", leads);
       }
 
       if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-emails-updated", { detail: savedEmail }));
-        window.dispatchEvent(new CustomEvent("upfront-leads-updated", { detail: savedLead }));
+        window.dispatchEvent(
+          new CustomEvent("upfront-emails-updated", { detail: savedEmail }),
+        );
+        window.dispatchEvent(
+          new CustomEvent("upfront-leads-updated", { detail: savedLead }),
+        );
       }
       return savedEmail;
     }
   } catch (err) {
-    console.warn("MongoDB offline, saving email and lead to local storage:", err);
+    console.warn(
+      "MongoDB offline, saving email and lead to local storage:",
+      err,
+    );
   }
 
   // Local storage fallback
@@ -1496,7 +1707,7 @@ export const addWebEmail = async (emailData: Omit<WebEmail, "id" | "createdAt">)
   const newEmail: WebEmail = {
     ...emailData,
     id: "email-" + Math.random().toString(36).substr(2, 9),
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   };
   emails.unshift(newEmail);
   setStorageItem("upfront-emails-v2", emails);
@@ -1506,8 +1717,12 @@ export const addWebEmail = async (emailData: Omit<WebEmail, "id" | "createdAt">)
   setStorageItem("electrical-leads", leads);
 
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("upfront-emails-updated", { detail: newEmail }));
-    window.dispatchEvent(new CustomEvent("upfront-leads-updated", { detail: newLeadFallback }));
+    window.dispatchEvent(
+      new CustomEvent("upfront-emails-updated", { detail: newEmail }),
+    );
+    window.dispatchEvent(
+      new CustomEvent("upfront-leads-updated", { detail: newLeadFallback }),
+    );
   }
   return newEmail;
 };
@@ -1529,10 +1744,14 @@ export const deleteWebEmail = async (id: string): Promise<WebEmail[]> => {
   try {
     const updated = await apiCall<WebEmail[]>("/api/emails", "DELETE", { id });
     if (Array.isArray(updated)) {
-      const cleaned = updated.filter((e) => e.id !== id && !deleted.includes(e.id));
+      const cleaned = updated.filter(
+        (e) => e.id !== id && !deleted.includes(e.id),
+      );
       setStorageItem("upfront-emails-v2", cleaned);
       if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-emails-updated", { detail: id }));
+        window.dispatchEvent(
+          new CustomEvent("upfront-emails-updated", { detail: id }),
+        );
       }
       return cleaned;
     }
@@ -1541,7 +1760,9 @@ export const deleteWebEmail = async (id: string): Promise<WebEmail[]> => {
   }
 
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("upfront-emails-updated", { detail: id }));
+    window.dispatchEvent(
+      new CustomEvent("upfront-emails-updated", { detail: id }),
+    );
   }
   return filtered;
 };
@@ -1592,17 +1813,21 @@ export async function optimizeImageForUpload(file: File): Promise<Blob | File> {
         canvas.toBlob(
           (blob) => {
             if (blob && blob.size < file.size) {
-              const optimizedFile = new File([blob], file.name.replace(/\.[^/.]+$/, ".jpg"), {
-                type: "image/jpeg",
-                lastModified: Date.now()
-              });
+              const optimizedFile = new File(
+                [blob],
+                file.name.replace(/\.[^/.]+$/, ".jpg"),
+                {
+                  type: "image/jpeg",
+                  lastModified: Date.now(),
+                },
+              );
               resolve(optimizedFile);
             } else {
               resolve(file);
             }
           },
           "image/jpeg",
-          0.88
+          0.88,
         );
       };
       img.onerror = () => resolve(file);
@@ -1626,7 +1851,11 @@ export const getGalleryPhotos = async (): Promise<GalleryPhoto[]> => {
   return getStorageItem<GalleryPhoto[]>("upfront-gallery-photos-v2", []);
 };
 
-export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?: string, title?: string): Promise<GalleryPhoto[]> => {
+export const uploadGalleryPhoto = async (
+  fileOrBase64: string | File,
+  category?: string,
+  title?: string,
+): Promise<GalleryPhoto[]> => {
   let secureUrl = "";
   try {
     const folder = `upfrontac/${category && category !== "all" ? category : "gallery"}`;
@@ -1637,9 +1866,13 @@ export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?:
     }
 
     // Step 1: Get a signed upload token from the server
-    const signRes = await apiCall<{ signature: string; timestamp: number; apiKey: string; cloudName: string; folder: string }>(
-      "/api/sign-upload", "POST", { folder }
-    );
+    const signRes = await apiCall<{
+      signature: string;
+      timestamp: number;
+      apiKey: string;
+      cloudName: string;
+      folder: string;
+    }>("/api/sign-upload", "POST", { folder });
 
     // Step 2: Build FormData for direct Cloudinary upload (supports high-res images)
     const formData = new FormData();
@@ -1652,7 +1885,7 @@ export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?:
     // Step 3: Upload directly to Cloudinary CDN
     const uploadRes = await fetch(
       `https://api.cloudinary.com/v1_1/${signRes.cloudName}/auto/upload`,
-      { method: "POST", body: formData }
+      { method: "POST", body: formData },
     );
     if (!uploadRes.ok) {
       const err = await uploadRes.text();
@@ -1662,11 +1895,17 @@ export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?:
     secureUrl = uploadData.secure_url;
 
     // Step 4: Save the URL & metadata to our database
-    const updated = await apiCall<GalleryPhoto[]>("/api/gallery", "POST", { url: secureUrl, category, title });
+    const updated = await apiCall<GalleryPhoto[]>("/api/gallery", "POST", {
+      url: secureUrl,
+      category,
+      title,
+    });
     if (Array.isArray(updated)) {
       setStorageItem("upfront-gallery-photos-v2", updated);
       if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-gallery-updated", { detail: updated }));
+        window.dispatchEvent(
+          new CustomEvent("upfront-gallery-updated", { detail: updated }),
+        );
       }
       return updated;
     }
@@ -1681,10 +1920,10 @@ export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?:
     url: secureUrl || (typeof fileOrBase64 === "string" ? fileOrBase64 : ""),
     category: category || "residential",
     title: title || "HVAC Project",
-    uploadedAt: new Date().toISOString()
+    uploadedAt: new Date().toISOString(),
   };
   if (newPhoto.url) {
-    const existingIndex = photos.findIndex(p => p.url === newPhoto.url);
+    const existingIndex = photos.findIndex((p) => p.url === newPhoto.url);
     if (existingIndex >= 0) {
       photos[existingIndex] = newPhoto;
     } else {
@@ -1693,18 +1932,27 @@ export const uploadGalleryPhoto = async (fileOrBase64: string | File, category?:
   }
   setStorageItem("upfront-gallery-photos-v2", photos);
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("upfront-gallery-updated", { detail: photos }));
+    window.dispatchEvent(
+      new CustomEvent("upfront-gallery-updated", { detail: photos }),
+    );
   }
   return photos;
 };
 
-export const removeGalleryPhoto = async (id: string): Promise<GalleryPhoto[]> => {
+export const removeGalleryPhoto = async (
+  id: string,
+): Promise<GalleryPhoto[]> => {
   try {
-    const updated = await apiCall<GalleryPhoto[]>(`/api/gallery?id=${id}`, "DELETE");
+    const updated = await apiCall<GalleryPhoto[]>(
+      `/api/gallery?id=${id}`,
+      "DELETE",
+    );
     if (Array.isArray(updated)) {
       setStorageItem("upfront-gallery-photos-v2", updated);
       if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-gallery-updated", { detail: updated }));
+        window.dispatchEvent(
+          new CustomEvent("upfront-gallery-updated", { detail: updated }),
+        );
       }
       return updated;
     }
@@ -1712,31 +1960,51 @@ export const removeGalleryPhoto = async (id: string): Promise<GalleryPhoto[]> =>
     console.warn("MongoDB offline, falling back to local storage:", err);
   }
   const photos = await getGalleryPhotos();
-  const filtered = photos.filter(p => p.id !== id);
+  const filtered = photos.filter((p) => p.id !== id);
   setStorageItem("upfront-gallery-photos-v2", filtered);
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("upfront-gallery-updated", { detail: filtered }));
+    window.dispatchEvent(
+      new CustomEvent("upfront-gallery-updated", { detail: filtered }),
+    );
   }
   return filtered;
 };
 
 // ── PORTAL SECURITY & AUTH ──
-export const loginAdmin = async (username: string, password: string): Promise<{ success: boolean; token: string }> => {
+export const loginAdmin = async (
+  username: string,
+  password: string,
+): Promise<{ success: boolean; token: string }> => {
   try {
-    const res = await apiCall<{ success: boolean; user: any }>("/api/users", "POST", { action: "login", username, password });
+    const res = await apiCall<{ success: boolean; user: any }>(
+      "/api/users",
+      "POST",
+      { action: "login", username, password },
+    );
     if (res && res.success && res.user && typeof window !== "undefined") {
-      const token = "token-" + res.user.id + "-" + Math.random().toString(36).substr(2, 9);
+      const token =
+        "token-" + res.user.id + "-" + Math.random().toString(36).substr(2, 9);
       localStorage.setItem("electrical-session-token", token);
       localStorage.setItem("electrical-session-user", JSON.stringify(res.user));
       return { success: true, token };
     }
     throw new Error("Invalid username or password.");
   } catch (err: any) {
-    throw new Error(err.message || "Invalid username or password. Please verify your credentials.");
+    throw new Error(
+      err.message ||
+        "Invalid username or password. Please verify your credentials.",
+    );
   }
 };
 
-export const verifyAdminToken = async (token: string): Promise<{ valid: boolean; id?: string; username?: string; role?: string }> => {
+export const verifyAdminToken = async (
+  token: string,
+): Promise<{
+  valid: boolean;
+  id?: string;
+  username?: string;
+  role?: string;
+}> => {
   if (typeof window === "undefined") return { valid: false };
   const activeToken = localStorage.getItem("electrical-session-token");
   const storedUser = localStorage.getItem("electrical-session-user");
@@ -1764,16 +2032,44 @@ export const getPortalUsers = async (): Promise<PortalUser[]> => {
   }
 };
 
-export const createPortalUser = async (username: string, password: string, role: string): Promise<{ success: boolean; id: string; username: string; role: string }> => {
-  return await apiCall<{ success: boolean; id: string; username: string; role: string }>("/api/users", "POST", { action: "create", username, password, role });
+export const createPortalUser = async (
+  username: string,
+  password: string,
+  role: string,
+): Promise<{
+  success: boolean;
+  id: string;
+  username: string;
+  role: string;
+}> => {
+  return await apiCall<{
+    success: boolean;
+    id: string;
+    username: string;
+    role: string;
+  }>("/api/users", "POST", { action: "create", username, password, role });
 };
 
-export const deletePortalUser = async (userId: string): Promise<{ success: boolean }> => {
-  return await apiCall<{ success: boolean }>("/api/users", "POST", { action: "delete", userId });
+export const deletePortalUser = async (
+  userId: string,
+): Promise<{ success: boolean }> => {
+  return await apiCall<{ success: boolean }>("/api/users", "POST", {
+    action: "delete",
+    userId,
+  });
 };
 
-export const updateUserCredentials = async (userId: string, username?: string, password?: string, role?: string): Promise<{ success: boolean; username: string }> => {
-  const res = await apiCall<{ success: boolean; username: string }>("/api/users", "POST", { action: "update", userId, username, password, role });
+export const updateUserCredentials = async (
+  userId: string,
+  username?: string,
+  password?: string,
+  role?: string,
+): Promise<{ success: boolean; username: string }> => {
+  const res = await apiCall<{ success: boolean; username: string }>(
+    "/api/users",
+    "POST",
+    { action: "update", userId, username, password, role },
+  );
   if (res && res.success && typeof window !== "undefined") {
     const storedUser = localStorage.getItem("electrical-session-user");
     if (storedUser) {
@@ -1792,32 +2088,53 @@ export const updateUserCredentials = async (userId: string, username?: string, p
 
 // Analytics calculator helper
 export const getAnalyticsData = (leads: Lead[], reviews: Review[]) => {
-  const totalValue = leads.reduce((acc, curr) => curr.status !== "lost" ? acc + curr.estimatedValue : acc, 0);
-  const activeCount = leads.filter(l => ["new", "contacted", "consultation_scheduled", "proposal_sent"].includes(l.status)).length;
-  
-  const wonLeads = leads.filter(l => l.status === "won");
-  const lostLeads = leads.filter(l => l.status === "lost");
+  const totalValue = leads.reduce(
+    (acc, curr) => (curr.status !== "lost" ? acc + curr.estimatedValue : acc),
+    0,
+  );
+  const activeCount = leads.filter((l) =>
+    ["new", "contacted", "consultation_scheduled", "proposal_sent"].includes(
+      l.status,
+    ),
+  ).length;
+
+  const wonLeads = leads.filter((l) => l.status === "won");
+  const lostLeads = leads.filter((l) => l.status === "lost");
   const wonValue = wonLeads.reduce((acc, curr) => acc + curr.estimatedValue, 0);
   const totalClosed = wonLeads.length + lostLeads.length;
-  const winRate = totalClosed > 0 ? Math.round((wonLeads.length / totalClosed) * 100) : (leads.length > 0 ? Math.round((wonLeads.length / leads.length) * 100) : 0);
-  
-  const averageValue = leads.length > 0 ? Math.round(leads.reduce((acc, curr) => acc + curr.estimatedValue, 0) / leads.length) : 0;
+  const winRate =
+    totalClosed > 0
+      ? Math.round((wonLeads.length / totalClosed) * 100)
+      : leads.length > 0
+        ? Math.round((wonLeads.length / leads.length) * 100)
+        : 0;
+
+  const averageValue =
+    leads.length > 0
+      ? Math.round(
+          leads.reduce((acc, curr) => acc + curr.estimatedValue, 0) /
+            leads.length,
+        )
+      : 0;
 
   // 1. Project type distribution
   const typeCounts: Record<string, { count: number; value: number }> = {};
-  leads.forEach(l => {
+  leads.forEach((l) => {
     const pType = l.projectType || "residential";
     if (!typeCounts[pType]) {
       typeCounts[pType] = { count: 0, value: 0 };
     }
     typeCounts[pType].count += 1;
-    typeCounts[pType].value += (l.estimatedValue || 0);
+    typeCounts[pType].value += l.estimatedValue || 0;
   });
 
   const projectTypesChart = Object.entries(typeCounts).map(([name, data]) => ({
-    name: name.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" "),
+    name: name
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" "),
     value: data.count,
-    amount: data.value
+    amount: data.value,
   }));
 
   // 2. Status distribution
@@ -1827,31 +2144,31 @@ export const getAnalyticsData = (leads: Lead[], reviews: Review[]) => {
     consultation_scheduled: "Consultation Scheduled",
     proposal_sent: "Proposal Sent",
     won: "Contract Won",
-    lost: "Lost / Closed"
+    lost: "Lost / Closed",
   };
 
   const statusCounts: Record<string, number> = {
     "New Lead": 0,
-    "Contacted": 0,
+    Contacted: 0,
     "Consultation Scheduled": 0,
     "Proposal Sent": 0,
     "Contract Won": 0,
-    "Lost / Closed": 0
+    "Lost / Closed": 0,
   };
 
-  leads.forEach(l => {
+  leads.forEach((l) => {
     const label = statusLabels[l.status] || "New Lead";
     statusCounts[label] = (statusCounts[label] || 0) + 1;
   });
 
   const statusChart = Object.entries(statusCounts).map(([name, value]) => ({
     name,
-    value
+    value,
   }));
 
   // 3. Regional distribution (Texas territory)
   const cityCounts: Record<string, number> = {};
-  leads.forEach(l => {
+  leads.forEach((l) => {
     const addressStr = l.address || "Cypress, TX";
     const parts = addressStr.split(",");
     let city = "Cypress";
@@ -1869,24 +2186,24 @@ export const getAnalyticsData = (leads: Lead[], reviews: Review[]) => {
   // 4. Growth monthly timeline
   const monthsList = ["Mar", "Apr", "May", "Jun", "Jul", "Aug"];
   const monthlyData: Record<string, { count: number; value: number }> = {
-    "Mar": { count: 4, value: 4500 },
-    "Apr": { count: 8, value: 9200 },
-    "May": { count: 14, value: 16800 },
-    "Jun": { count: 18, value: 24500 },
-    "Jul": { count: 22, value: 31200 },
-    "Aug": { count: 0, value: 0 }
+    Mar: { count: 4, value: 4500 },
+    Apr: { count: 8, value: 9200 },
+    May: { count: 14, value: 16800 },
+    Jun: { count: 18, value: 24500 },
+    Jul: { count: 22, value: 31200 },
+    Aug: { count: 0, value: 0 },
   };
 
-  leads.forEach(l => {
+  leads.forEach((l) => {
     if (!l.createdAt) return;
     const date = new Date(l.createdAt);
     if (isNaN(date.getTime())) return;
     const month = date.toLocaleString("en-US", { month: "short" });
     if (monthlyData[month]) {
       monthlyData[month].count += 1;
-      monthlyData[month].value += (l.estimatedValue || 0);
+      monthlyData[month].value += l.estimatedValue || 0;
     } else {
-      monthlyData[month] = { count: 1, value: (l.estimatedValue || 0) };
+      monthlyData[month] = { count: 1, value: l.estimatedValue || 0 };
     }
   });
 
@@ -1895,7 +2212,7 @@ export const getAnalyticsData = (leads: Lead[], reviews: Review[]) => {
     month: month,
     leads: data.count,
     revenue: data.value,
-    value: data.value
+    value: data.value,
   }));
 
   return {
@@ -1911,7 +2228,7 @@ export const getAnalyticsData = (leads: Lead[], reviews: Review[]) => {
     statusChart,
     regionChart,
     timelineChart,
-    monthlyTrends: timelineChart
+    monthlyTrends: timelineChart,
   };
 };
 
@@ -1932,43 +2249,64 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   maintenanceMode: false,
   weekdays: "7:00 AM - 5:00 PM",
   saturdays: "Emergency Calls Only",
-  sundays: "Emergency Calls Only"
+  sundays: "Emergency Calls Only",
 };
 
 export const getSiteSettings = async (): Promise<SiteSettings> => {
   try {
-    const data = await apiCall<SiteSettings>("/api/settings?t=" + Date.now(), "GET");
+    const data = await apiCall<SiteSettings>(
+      "/api/settings?t=" + Date.now(),
+      "GET",
+    );
     if (data && typeof data === "object") {
       const merged: SiteSettings = {
         alertEmail: data.alertEmail || DEFAULT_SITE_SETTINGS.alertEmail,
         officePhone: data.officePhone || DEFAULT_SITE_SETTINGS.officePhone,
-        emailAlert: data.emailAlert !== undefined ? Boolean(data.emailAlert) : true,
-        maintenanceMode: data.maintenanceMode !== undefined ? Boolean(data.maintenanceMode) : false,
+        emailAlert:
+          data.emailAlert !== undefined ? Boolean(data.emailAlert) : true,
+        maintenanceMode:
+          data.maintenanceMode !== undefined
+            ? Boolean(data.maintenanceMode)
+            : false,
         weekdays: data.weekdays || DEFAULT_SITE_SETTINGS.weekdays,
         saturdays: data.saturdays || DEFAULT_SITE_SETTINGS.saturdays,
-        sundays: data.sundays || DEFAULT_SITE_SETTINGS.sundays
+        sundays: data.sundays || DEFAULT_SITE_SETTINGS.sundays,
       };
       setStorageItem("upfront_site_settings_v2", merged);
       return merged;
     }
   } catch (err) {
-    console.warn("MongoDB/API offline, reading local storage site settings:", err);
+    console.warn(
+      "MongoDB/API offline, reading local storage site settings:",
+      err,
+    );
   }
 
-  const stored = getStorageItem<SiteSettings>("upfront_site_settings_v2", DEFAULT_SITE_SETTINGS);
+  const stored = getStorageItem<SiteSettings>(
+    "upfront_site_settings_v2",
+    DEFAULT_SITE_SETTINGS,
+  );
   return {
     ...DEFAULT_SITE_SETTINGS,
-    ...stored
+    ...stored,
   };
 };
 
-export const saveSiteSettings = async (settings: Partial<SiteSettings>): Promise<SiteSettings> => {
+export const saveSiteSettings = async (
+  settings: Partial<SiteSettings>,
+): Promise<SiteSettings> => {
   try {
-    const saved = await apiCall<SiteSettings>("/api/settings", "POST", settings);
+    const saved = await apiCall<SiteSettings>(
+      "/api/settings",
+      "POST",
+      settings,
+    );
     if (saved) {
       setStorageItem("upfront_site_settings_v2", saved);
       if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent("upfront-settings-updated", { detail: saved }));
+        window.dispatchEvent(
+          new CustomEvent("upfront-settings-updated", { detail: saved }),
+        );
       }
       return saved;
     }
@@ -1979,11 +2317,13 @@ export const saveSiteSettings = async (settings: Partial<SiteSettings>): Promise
   const current = await getSiteSettings();
   const updated: SiteSettings = {
     ...current,
-    ...settings
+    ...settings,
   };
   setStorageItem("upfront_site_settings_v2", updated);
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("upfront-settings-updated", { detail: updated }));
+    window.dispatchEvent(
+      new CustomEvent("upfront-settings-updated", { detail: updated }),
+    );
   }
   return updated;
 };
@@ -2009,30 +2349,47 @@ export const getNotifications = async (): Promise<DashboardNotification[]> => {
   }
 };
 
-export const markNotificationRead = async (id: string): Promise<DashboardNotification[]> => {
+export const markNotificationRead = async (
+  id: string,
+): Promise<DashboardNotification[]> => {
   try {
-    return await apiCall<DashboardNotification[]>("/api/notifications", "POST", { action: "read", id });
+    return await apiCall<DashboardNotification[]>(
+      "/api/notifications",
+      "POST",
+      { action: "read", id },
+    );
   } catch (err) {
     console.warn("Error marking notification read:", err);
     return [];
   }
 };
 
-export const markAllNotificationsRead = async (): Promise<DashboardNotification[]> => {
+export const markAllNotificationsRead = async (): Promise<
+  DashboardNotification[]
+> => {
   try {
-    return await apiCall<DashboardNotification[]>("/api/notifications", "POST", { action: "read-all" });
+    return await apiCall<DashboardNotification[]>(
+      "/api/notifications",
+      "POST",
+      { action: "read-all" },
+    );
   } catch (err) {
     console.warn("Error marking all read:", err);
     return [];
   }
 };
 
-export const clearAllNotifications = async (): Promise<DashboardNotification[]> => {
+export const clearAllNotifications = async (): Promise<
+  DashboardNotification[]
+> => {
   try {
-    return await apiCall<DashboardNotification[]>("/api/notifications", "POST", { action: "clear-all" });
+    return await apiCall<DashboardNotification[]>(
+      "/api/notifications",
+      "POST",
+      { action: "clear-all" },
+    );
   } catch (err) {
     console.warn("Error clearing notifications:", err);
     return [];
   }
 };
-

@@ -1,10 +1,34 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  Menu, Phone, X, Mail, MapPin, Facebook, Instagram, Clock,
-  ChevronDown, Home, Building2, Factory, Zap, BatteryCharging,
-  ShieldAlert, Cable, Shield, AlertTriangle, Video, Wrench,
-  Snowflake, Flame, Wind, Sparkles, Activity, CheckCircle2, User, Info,
+  Menu,
+  Phone,
+  X,
+  Mail,
+  MapPin,
+  Facebook,
+  Instagram,
+  Clock,
+  ChevronDown,
+  Home,
+  Building2,
+  Factory,
+  Zap,
+  BatteryCharging,
+  ShieldAlert,
+  Cable,
+  Shield,
+  AlertTriangle,
+  Video,
+  Wrench,
+  Snowflake,
+  Flame,
+  Wind,
+  Sparkles,
+  Activity,
+  CheckCircle2,
+  User,
+  Info,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logoImg from "@/assets/logo.png";
@@ -21,27 +45,129 @@ export function Header() {
     { to: "#services", label: t("Services", "Servicios") },
     { to: "/projects", label: t("Projects", "Proyectos") },
     { to: "/service-areas", label: t("Service Areas", "Áreas de Servicio") },
-    { to: "/upfront-pricing", label: t("Upfront Pricing", "Precios Transparentes") },
+    {
+      to: "/upfront-pricing",
+      label: t("Upfront Pricing", "Precios Transparentes"),
+    },
     { to: "/finance", label: t("Finance", "Financiamiento") },
     { to: "/contact", label: t("Contact Us", "Contáctenos") },
   ];
 
   const serviceLinks = [
-    { to: "/services/hvac-install", l: t("HVAC Install Service in Houston, TX", "Servicio de Instalación HVAC en Houston, TX"), desc: t("Professional heating & cooling system installation", "Instalación profesional de calefacción y aire acondicionado"), icon: Wrench },
-    { to: "/services/air-conditioning", l: t("Air Conditioning", "Aire Acondicionado"), desc: t("Complete AC solutions, cooling design & installation", "Soluciones completas de AC, diseño y instalación"), icon: Snowflake },
-    { to: "/services/hvac-repairs", l: t("HVAC Repairs", "Reparaciones HVAC"), desc: t("Fast & reliable emergency HVAC repair services", "Servicios de reparación rápida de HVAC"), icon: Activity },
-    { to: "/services/ac-repair-cypress", l: t("AC Repair Services Cypress", "Reparación de AC Cypress"), desc: t("Local AC repair & maintenance in Cypress, TX", "Reparación local de AC en Cypress, TX"), icon: MapPin },
-    { to: "/services/ac-repair-tomball", l: t("AC Repair Tomball", "Reparación de AC Tomball"), desc: t("Trusted AC repair technicians in Tomball, TX", "Técnicos de reparación de AC en Tomball, TX"), icon: MapPin },
-    { to: "/services/heating", l: t("Heating", "Calefacción"), desc: t("Furnace & heating system repairs & installation", "Reparación e instalación de sistemas de calefacción"), icon: Flame },
-    { to: "/services/hvac-maintenance", l: t("HVAC Maintenance", "Mantenimiento HVAC"), desc: t("Preventative tune-ups & system maintenance", "Puesta a punto y mantenimiento preventivo"), icon: CheckCircle2 },
-    { to: "/services/indoor-air-quality", l: t("Indoor Air Quality", "Calidad del Aire Interior"), desc: t("Air filtration, purifiers & humidity control", "Filtración de aire, purificadores y control de humedad"), icon: Sparkles },
-    { to: "/services/commercial-hvac", l: t("Commercial HVAC Services", "Servicios HVAC Comerciales"), desc: t("Commercial heating, cooling & rooftop units", "Calefacción, refrigeración y unidades comerciales"), icon: Building2 },
-    { to: "/services/residential-hvac", l: t("Residential HVAC Services", "Servicios HVAC Residenciales"), desc: t("Home heating & cooling solutions", "Soluciones de calefacción y refrigeración para el hogar"), icon: Home },
+    {
+      to: "/services/hvac-install",
+      l: t(
+        "HVAC Install Service in Houston, TX",
+        "Servicio de Instalación HVAC en Houston, TX",
+      ),
+      desc: t(
+        "Professional heating & cooling system installation",
+        "Instalación profesional de calefacción y aire acondicionado",
+      ),
+      icon: Wrench,
+    },
+    {
+      to: "/services/air-conditioning",
+      l: t("Air Conditioning", "Aire Acondicionado"),
+      desc: t(
+        "Complete AC solutions, cooling design & installation",
+        "Soluciones completas de AC, diseño y instalación",
+      ),
+      icon: Snowflake,
+    },
+    {
+      to: "/services/hvac-repairs",
+      l: t("HVAC Repairs", "Reparaciones HVAC"),
+      desc: t(
+        "Fast & reliable emergency HVAC repair services",
+        "Servicios de reparación rápida de HVAC",
+      ),
+      icon: Activity,
+    },
+    {
+      to: "/services/ac-repair-cypress",
+      l: t("AC Repair Services Cypress", "Reparación de AC Cypress"),
+      desc: t(
+        "Local AC repair & maintenance in Cypress, TX",
+        "Reparación local de AC en Cypress, TX",
+      ),
+      icon: MapPin,
+    },
+    {
+      to: "/services/ac-repair-tomball",
+      l: t("AC Repair Tomball", "Reparación de AC Tomball"),
+      desc: t(
+        "Trusted AC repair technicians in Tomball, TX",
+        "Técnicos de reparación de AC en Tomball, TX",
+      ),
+      icon: MapPin,
+    },
+    {
+      to: "/services/heating",
+      l: t("Heating", "Calefacción"),
+      desc: t(
+        "Furnace & heating system repairs & installation",
+        "Reparación e instalación de sistemas de calefacción",
+      ),
+      icon: Flame,
+    },
+    {
+      to: "/services/hvac-maintenance",
+      l: t("HVAC Maintenance", "Mantenimiento HVAC"),
+      desc: t(
+        "Preventative tune-ups & system maintenance",
+        "Puesta a punto y mantenimiento preventivo",
+      ),
+      icon: CheckCircle2,
+    },
+    {
+      to: "/services/indoor-air-quality",
+      l: t("Indoor Air Quality", "Calidad del Aire Interior"),
+      desc: t(
+        "Air filtration, purifiers & humidity control",
+        "Filtración de aire, purificadores y control de humedad",
+      ),
+      icon: Sparkles,
+    },
+    {
+      to: "/services/commercial-hvac",
+      l: t("Commercial HVAC Services", "Servicios HVAC Comerciales"),
+      desc: t(
+        "Commercial heating, cooling & rooftop units",
+        "Calefacción, refrigeración y unidades comerciales",
+      ),
+      icon: Building2,
+    },
+    {
+      to: "/services/residential-hvac",
+      l: t("Residential HVAC Services", "Servicios HVAC Residenciales"),
+      desc: t(
+        "Home heating & cooling solutions",
+        "Soluciones de calefacción y refrigeración para el hogar",
+      ),
+      icon: Home,
+    },
   ];
 
   const aboutLinks = [
-    { to: "/about", l: t("About Us", "Sobre Nosotros"), desc: t("History, advantages, values & services", "Historia, ventajas, valores y servicios"), icon: Info },
-    { to: "/about-owner", l: t("About The Owner", "Sobre El Propietario"), desc: t("Meet the leadership & expert behind Upfront AC", "Conozca al líder y experto detrás de Upfront AC"), icon: User },
+    {
+      to: "/about",
+      l: t("About Us", "Sobre Nosotros"),
+      desc: t(
+        "History, advantages, values & services",
+        "Historia, ventajas, valores y servicios",
+      ),
+      icon: Info,
+    },
+    {
+      to: "/about-owner",
+      l: t("About The Owner", "Sobre El Propietario"),
+      desc: t(
+        "Meet the leadership & expert behind Upfront AC",
+        "Conozca al líder y experto detrás de Upfront AC",
+      ),
+      icon: User,
+    },
   ];
 
   const [scrolled, setScrolled] = useState(false);
@@ -67,17 +193,20 @@ export function Header() {
   // Lock body scroll when drawer is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex flex-col w-full bg-transparent pointer-events-none">
-
       {/* ── TOP BAR ──────────────────────────────────────────── */}
       <div
         className={cn(
           "w-full bg-[#F8F9FA] border-b border-gray-200/80 px-4 sm:px-6 lg:px-8 pointer-events-auto transition-all duration-300 origin-top overflow-hidden",
-          scrolled ? "max-h-0 py-0 opacity-0 border-none" : "max-h-20 py-2 opacity-100"
+          scrolled
+            ? "max-h-0 py-0 opacity-0 border-none"
+            : "max-h-20 py-2 opacity-100",
         )}
       >
         <div className="mx-auto max-w-7xl flex flex-row justify-between items-center w-full gap-2">
@@ -93,7 +222,10 @@ export function Header() {
             {/* Email */}
             <div className="hidden sm:flex items-center gap-1.5 shrink-0">
               <Mail className="h-3.5 w-3.5 text-[#005CE6] shrink-0" />
-              <a href="mailto:allen@upfrontac.com" className="text-[9px] sm:text-[10px] font-bold tracking-wider leading-tight hover:text-[#005CE6] transition lowercase">
+              <a
+                href="mailto:allen@upfrontac.com"
+                className="text-[9px] sm:text-[10px] font-bold tracking-wider leading-tight hover:text-[#005CE6] transition lowercase"
+              >
                 allen@upfrontac.com
               </a>
             </div>
@@ -122,7 +254,9 @@ export function Header() {
                 onClick={() => setLanguage("en")}
                 className={cn(
                   "flex items-center gap-1 transition font-bold cursor-pointer select-none",
-                  language === "en" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
+                  language === "en"
+                    ? "text-[#1E293B]"
+                    : "text-gray-400 hover:text-[#005CE6]",
                 )}
               >
                 <span className="text-sm leading-none">🇺🇸</span>
@@ -132,7 +266,9 @@ export function Header() {
                 onClick={() => setLanguage("es")}
                 className={cn(
                   "flex items-center gap-1 transition font-bold cursor-pointer select-none",
-                  language === "es" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
+                  language === "es"
+                    ? "text-[#1E293B]"
+                    : "text-gray-400 hover:text-[#005CE6]",
                 )}
               >
                 <span className="text-sm leading-none">🇪🇸</span>
@@ -147,13 +283,19 @@ export function Header() {
       <div
         className={cn(
           "w-full bg-white px-4 sm:px-6 lg:px-8 border-b border-gray-100 pointer-events-auto transition-all duration-300 origin-top overflow-hidden hidden md:block",
-          scrolled ? "max-h-0 py-0 opacity-0 border-none" : "max-h-28 py-3 opacity-100"
+          scrolled
+            ? "max-h-0 py-0 opacity-0 border-none"
+            : "max-h-28 py-3 opacity-100",
         )}
       >
         <div className="mx-auto max-w-7xl flex justify-between items-center w-full gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0">
-            <img src={logoImg} alt="R&E Electrical Contractor Corp Logo" className="h-12 lg:h-14 w-auto object-contain" />
+            <img
+              src={logoImg}
+              alt="R&E Electrical Contractor Corp Logo"
+              className="h-12 lg:h-14 w-auto object-contain"
+            />
           </Link>
 
           {/* Contact cards */}
@@ -164,9 +306,14 @@ export function Header() {
                 <Shield className="h-4 w-4" />
               </div>
               <div className="flex flex-col text-left leading-tight">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("Certified", "Certificados")}</span>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                  {t("Certified", "Certificados")}
+                </span>
                 <span className="text-[13px] font-bold text-[#1E293B] leading-tight">
-                  {t("We Are Certified Technicians!", "¡Somos Técnicos Certificados!")}
+                  {t(
+                    "We Are Certified Technicians!",
+                    "¡Somos Técnicos Certificados!",
+                  )}
                 </span>
               </div>
             </div>
@@ -177,9 +324,14 @@ export function Header() {
                 <Clock className="h-4 w-4" />
               </div>
               <div className="flex flex-col text-left leading-tight">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("Emergency", "Emergencia")}</span>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                  {t("Emergency", "Emergencia")}
+                </span>
                 <span className="text-[13px] font-bold text-[#1E293B] leading-tight">
-                  {t("24/7 Emergency HVAC Service", "Servicio HVAC de Emergencia 24/7")}
+                  {t(
+                    "24/7 Emergency HVAC Service",
+                    "Servicio HVAC de Emergencia 24/7",
+                  )}
                 </span>
               </div>
             </div>
@@ -187,10 +339,22 @@ export function Header() {
 
           {/* Social icons */}
           <div className="flex items-center gap-2 shrink-0">
-            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition">
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition"
+            >
               <Facebook className="h-3.5 w-3.5" />
             </a>
-            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition">
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition"
+            >
               <Instagram className="h-3.5 w-3.5" />
             </a>
           </div>
@@ -203,15 +367,18 @@ export function Header() {
           "w-full transition-all duration-300 px-0 md:px-4 lg:px-8 pointer-events-auto",
           scrolled
             ? "py-0 md:py-2 bg-white/95 backdrop-blur-md shadow-none md:shadow-md md:border-b md:border-gray-100"
-            : "py-0 md:py-3 bg-transparent md:bg-[linear-gradient(to_bottom,#ffffff_50%,transparent_50%)] md:absolute md:top-full md:left-0 md:z-40"
+            : "py-0 md:py-3 bg-transparent md:bg-[linear-gradient(to_bottom,#ffffff_50%,transparent_50%)] md:absolute md:top-full md:left-0 md:z-40",
         )}
       >
         <div className="mx-auto max-w-7xl flex items-center justify-between w-full gap-3">
-
           {/* ── MOBILE: Full-Width Clean Header (Logo + Call + Menu) ──────── */}
           <div className="flex items-center justify-between w-full md:hidden bg-white px-3.5 sm:px-4 py-2.5 border-none shadow-none select-none">
             <Link to="/" className="flex items-center shrink-0">
-              <img src={logoImg} alt="Upfront AC Logo" className="h-12 sm:h-14 w-auto object-contain scale-115 origin-left my-[-2px]" />
+              <img
+                src={logoImg}
+                alt="Upfront AC Logo"
+                className="h-12 sm:h-14 w-auto object-contain scale-115 origin-left my-[-2px]"
+              />
             </Link>
 
             {/* Right: Free Estimate + Phone Call Pill + Hamburger */}
@@ -237,7 +404,11 @@ export function Header() {
                 onClick={() => setOpen((v) => !v)}
                 className="grid h-9 w-9 place-items-center rounded-xl border border-gray-200 bg-white text-slate-800 shadow-sm transition hover:border-[#005CE6] hover:text-[#005CE6] active:scale-95 shrink-0"
               >
-                {open ? <X className="h-4.5 w-4.5" /> : <Menu className="h-4.5 w-4.5 stroke-[2.2]" />}
+                {open ? (
+                  <X className="h-4.5 w-4.5" />
+                ) : (
+                  <Menu className="h-4.5 w-4.5 stroke-[2.2]" />
+                )}
               </button>
             </div>
           </div>
@@ -250,7 +421,7 @@ export function Header() {
                 "rounded-full px-3 lg:px-6 py-2.5 flex items-center gap-0.5 lg:gap-1.5 shadow-sm border transition-colors",
                 scrolled
                   ? "bg-[#F1F3F5] border-gray-200/60"
-                  : "bg-white/90 backdrop-blur-md border-white/40"
+                  : "bg-white/90 backdrop-blur-md border-white/40",
               )}
             >
               {navItems.map((item) => {
@@ -261,7 +432,8 @@ export function Header() {
                         to="/about"
                         className="flex items-center gap-1 rounded-full px-2.5 lg:px-3.5 py-2 text-[10px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap text-[#1E293B] hover:text-[#005CE6]"
                       >
-                        {t("About Us", "Sobre Nosotros")} <ChevronDown className="h-3 w-3" />
+                        {t("About Us", "Sobre Nosotros")}{" "}
+                        <ChevronDown className="h-3 w-3" />
                       </Link>
                       <div className="absolute left-0 top-full z-50 pt-2 opacity-0 invisible pointer-events-none group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:pointer-events-auto transition-all duration-200">
                         <div className="w-[280px] bg-white border border-gray-100 rounded-2xl shadow-[0_20px_50px_-12px_rgba(15,23,42,0.14)] p-3 flex flex-col gap-1">
@@ -275,8 +447,12 @@ export function Header() {
                                 <ab.icon className="h-4 w-4" />
                               </div>
                               <div className="flex flex-col text-left">
-                                <span className="text-[12px] font-bold text-gray-900 group-hover/item:text-[#005CE6] transition-colors leading-tight">{ab.l}</span>
-                                <span className="text-[10px] text-gray-500 leading-tight mt-0.5 line-clamp-1">{ab.desc}</span>
+                                <span className="text-[12px] font-bold text-gray-900 group-hover/item:text-[#005CE6] transition-colors leading-tight">
+                                  {ab.l}
+                                </span>
+                                <span className="text-[10px] text-gray-500 leading-tight mt-0.5 line-clamp-1">
+                                  {ab.desc}
+                                </span>
                               </div>
                             </Link>
                           ))}
@@ -293,14 +469,25 @@ export function Header() {
                         to="/services"
                         className="flex items-center gap-1 rounded-full px-2.5 lg:px-3.5 py-2 text-[10px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap text-[#1E293B] hover:text-[#005CE6]"
                       >
-                        {t("Services", "Servicios")} <ChevronDown className="h-3 w-3" />
+                        {t("Services", "Servicios")}{" "}
+                        <ChevronDown className="h-3 w-3" />
                       </Link>
                       {/* Dropdown — pt-2 creates a transparent bridge so hover stays active */}
                       <div className="absolute left-0 top-full z-50 pt-2 opacity-0 invisible pointer-events-none group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:pointer-events-auto transition-all duration-200">
                         <div className="w-[580px] max-w-[90vw] bg-white border border-gray-100 rounded-3xl shadow-[0_20px_50px_-12px_rgba(15,23,42,0.14)] p-5 flex flex-col gap-3">
                           <div className="flex justify-between items-center border-b border-gray-100 pb-2">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("Our HVAC Services", "Nuestros Servicios de HVAC")}</span>
-                            <Link to="/services" className="text-[10px] font-black uppercase text-[#005CE6] tracking-wider hover:underline">{t("View All →", "Ver Todos →")}</Link>
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                              {t(
+                                "Our HVAC Services",
+                                "Nuestros Servicios de HVAC",
+                              )}
+                            </span>
+                            <Link
+                              to="/services"
+                              className="text-[10px] font-black uppercase text-[#005CE6] tracking-wider hover:underline"
+                            >
+                              {t("View All →", "Ver Todos →")}
+                            </Link>
                           </div>
                           <div className="grid grid-cols-2 gap-1.5">
                             {serviceLinks.map((srv) => (
@@ -313,8 +500,12 @@ export function Header() {
                                   <srv.icon className="h-4 w-4" />
                                 </div>
                                 <div className="flex flex-col text-left">
-                                  <span className="text-[11px] font-bold text-gray-900 group-hover/item:text-[#005CE6] transition-colors leading-tight">{srv.l}</span>
-                                  <span className="text-[10px] text-gray-500 leading-tight mt-0.5 line-clamp-1">{srv.desc}</span>
+                                  <span className="text-[11px] font-bold text-gray-900 group-hover/item:text-[#005CE6] transition-colors leading-tight">
+                                    {srv.l}
+                                  </span>
+                                  <span className="text-[10px] text-gray-500 leading-tight mt-0.5 line-clamp-1">
+                                    {srv.desc}
+                                  </span>
                                 </div>
                               </Link>
                             ))}
@@ -326,8 +517,18 @@ export function Header() {
                                 <AlertTriangle className="h-4 w-4 animate-pulse" />
                               </div>
                               <div className="flex flex-col text-left">
-                                <span className="text-[11px] font-bold text-gray-900">{t("Need Immediate Assistance?", "¿Necesita Ayuda Inmediata?")}</span>
-                                <span className="text-[10px] text-gray-500">{t("24/7 Rapid Response", "Respuesta Rápida 24/7")}</span>
+                                <span className="text-[11px] font-bold text-gray-900">
+                                  {t(
+                                    "Need Immediate Assistance?",
+                                    "¿Necesita Ayuda Inmediata?",
+                                  )}
+                                </span>
+                                <span className="text-[10px] text-gray-500">
+                                  {t(
+                                    "24/7 Rapid Response",
+                                    "Respuesta Rápida 24/7",
+                                  )}
+                                </span>
                               </div>
                             </div>
                             <a
@@ -365,8 +566,12 @@ export function Header() {
                 <Phone className="h-3.5 w-3.5 lg:h-4 lg:w-4 fill-white text-white" />
               </div>
               <div className="flex flex-col text-left leading-none">
-                <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-wider text-white/90">{t("Call Us Now", "Llámenos Ahora")}</span>
-                <span className="text-xs lg:text-sm xl:text-base font-extrabold text-white mt-0.5">{settings.officePhone || "(713) 819-7908"}</span>
+                <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-wider text-white/90">
+                  {t("Call Us Now", "Llámenos Ahora")}
+                </span>
+                <span className="text-xs lg:text-sm xl:text-base font-extrabold text-white mt-0.5">
+                  {settings.officePhone || "(713) 819-7908"}
+                </span>
               </div>
             </a>
           </div>
@@ -379,13 +584,12 @@ export function Header() {
           "md:hidden w-full transition-all duration-300 ease-in-out pointer-events-auto overflow-hidden bg-[#0F172A]",
           open
             ? "max-h-[calc(100vh-60px)] opacity-100 border-t border-slate-800 shadow-2xl"
-            : "max-h-0 opacity-0"
+            : "max-h-0 opacity-0",
         )}
       >
         {/* Semi-transparent Dark Glass Canvas */}
         <div className="w-full bg-[#0F172A] text-white max-h-[calc(100vh-70px)] overflow-y-auto custom-scrollbar">
           <div className="px-4 py-5 flex flex-col gap-5">
-
             {/* Top Quick Actions Bar: Direct Call + Language Toggle */}
             <div className="grid grid-cols-2 gap-3 p-2 rounded-2xl bg-slate-900/80 border border-slate-800">
               <a
@@ -404,7 +608,7 @@ export function Header() {
                     "flex-1 py-1.5 rounded-lg text-[11px] font-extrabold uppercase transition-all flex items-center justify-center gap-1.5",
                     language === "en"
                       ? "bg-[#005CE6] text-white shadow-sm"
-                      : "text-slate-400 hover:text-white"
+                      : "text-slate-400 hover:text-white",
                   )}
                 >
                   <span className="text-xs leading-none">🇺🇸</span>
@@ -416,7 +620,7 @@ export function Header() {
                     "flex-1 py-1.5 rounded-lg text-[11px] font-extrabold uppercase transition-all flex items-center justify-center gap-1.5",
                     language === "es"
                       ? "bg-[#005CE6] text-white shadow-sm"
-                      : "text-slate-400 hover:text-white"
+                      : "text-slate-400 hover:text-white",
                   )}
                 >
                   <span className="text-xs leading-none">🇪🇸</span>
@@ -430,7 +634,10 @@ export function Header() {
               {navItems.map((item) => {
                 if (item.label === t("About Us", "Sobre Nosotros")) {
                   return (
-                    <div key="about-mobile" className="rounded-2xl bg-slate-900/60 border border-slate-800/80 overflow-hidden">
+                    <div
+                      key="about-mobile"
+                      className="rounded-2xl bg-slate-900/60 border border-slate-800/80 overflow-hidden"
+                    >
                       <button
                         onClick={() => setAboutOpen((v) => !v)}
                         className="w-full flex items-center justify-between px-4 py-3.5 text-xs font-black uppercase tracking-wider text-slate-100 hover:text-[#005CE6] transition-colors"
@@ -441,7 +648,12 @@ export function Header() {
                           </div>
                           <span>{t("About Us", "Sobre Nosotros")}</span>
                         </div>
-                        <ChevronDown className={cn("h-4 w-4 text-slate-400 transition-transform duration-300", aboutOpen && "rotate-180 text-[#005CE6]")} />
+                        <ChevronDown
+                          className={cn(
+                            "h-4 w-4 text-slate-400 transition-transform duration-300",
+                            aboutOpen && "rotate-180 text-[#005CE6]",
+                          )}
+                        />
                       </button>
 
                       {aboutOpen && (
@@ -457,8 +669,12 @@ export function Header() {
                                 <ab.icon className="h-3.5 w-3.5" />
                               </div>
                               <div className="flex flex-col text-left">
-                                <span className="text-xs font-bold text-slate-200">{ab.l}</span>
-                                <span className="text-[10px] text-slate-400 leading-tight">{ab.desc}</span>
+                                <span className="text-xs font-bold text-slate-200">
+                                  {ab.l}
+                                </span>
+                                <span className="text-[10px] text-slate-400 leading-tight">
+                                  {ab.desc}
+                                </span>
                               </div>
                             </Link>
                           ))}
@@ -470,7 +686,10 @@ export function Header() {
 
                 if (item.label === t("Services", "Servicios")) {
                   return (
-                    <div key="services-mobile" className="rounded-2xl bg-slate-900/60 border border-slate-800/80 overflow-hidden">
+                    <div
+                      key="services-mobile"
+                      className="rounded-2xl bg-slate-900/60 border border-slate-800/80 overflow-hidden"
+                    >
                       <button
                         onClick={() => setServicesOpen((v) => !v)}
                         className="w-full flex items-center justify-between px-4 py-3.5 text-xs font-black uppercase tracking-wider text-slate-100 hover:text-[#005CE6] transition-colors"
@@ -481,7 +700,12 @@ export function Header() {
                           </div>
                           <span>{t("Services", "Servicios")}</span>
                         </div>
-                        <ChevronDown className={cn("h-4 w-4 text-slate-400 transition-transform duration-300", servicesOpen && "rotate-180 text-[#005CE6]")} />
+                        <ChevronDown
+                          className={cn(
+                            "h-4 w-4 text-slate-400 transition-transform duration-300",
+                            servicesOpen && "rotate-180 text-[#005CE6]",
+                          )}
+                        />
                       </button>
 
                       {servicesOpen && (
@@ -497,8 +721,12 @@ export function Header() {
                                 <srv.icon className="h-3.5 w-3.5" />
                               </div>
                               <div className="flex flex-col text-left">
-                                <span className="text-xs font-bold text-slate-200">{srv.l}</span>
-                                <span className="text-[10px] text-slate-400 leading-tight line-clamp-1">{srv.desc}</span>
+                                <span className="text-xs font-bold text-slate-200">
+                                  {srv.l}
+                                </span>
+                                <span className="text-[10px] text-slate-400 leading-tight line-clamp-1">
+                                  {srv.desc}
+                                </span>
                               </div>
                             </Link>
                           ))}
@@ -508,7 +736,12 @@ export function Header() {
                             className="flex items-center gap-2.5 rounded-xl bg-red-500/10 border border-red-500/20 p-2.5 text-xs font-extrabold text-red-400 hover:bg-red-500/20 transition-colors mt-1"
                           >
                             <AlertTriangle className="h-4 w-4 text-red-400 shrink-0" />
-                            <span>{t("Emergency Service 24/7", "Servicio de Emergencia 24/7")}</span>
+                            <span>
+                              {t(
+                                "Emergency Service 24/7",
+                                "Servicio de Emergencia 24/7",
+                              )}
+                            </span>
                           </a>
                         </div>
                       )}
@@ -524,7 +757,9 @@ export function Header() {
                     className="flex items-center justify-between rounded-xl px-4 py-3 text-xs font-black uppercase tracking-wider text-slate-200 hover:text-[#005CE6] hover:bg-slate-900/80 transition-all border border-transparent hover:border-slate-800"
                   >
                     <span>{item.label}</span>
-                    <span className="text-[#005CE6] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                    <span className="text-[#005CE6] opacity-0 group-hover:opacity-100 transition-opacity">
+                      →
+                    </span>
                   </a>
                 );
               })}
@@ -541,11 +776,9 @@ export function Header() {
                 24/7 Active
               </span>
             </div>
-
           </div>
         </div>
       </div>
-
     </header>
   );
 }

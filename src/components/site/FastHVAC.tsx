@@ -1,18 +1,31 @@
 import { motion } from "framer-motion";
-import { PhoneCall, Zap, Clock, ShieldCheck, ArrowRight, MapPin, Sparkles } from "lucide-react";
+import {
+  PhoneCall,
+  Zap,
+  Clock,
+  ShieldCheck,
+  ArrowRight,
+  MapPin,
+  Sparkles,
+} from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { AutoPlayVideo } from "@/components/ui/AutoPlayVideo";
 
-const HVAC_VIDEO_URL = "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599055/hvacwelcome.mp4";
+const HVAC_VIDEO_URL =
+  "https://res.cloudinary.com/swvkivle/video/upload/f_auto,q_auto/v1787599055/hvacwelcome.mp4";
 
 export function FastHVAC() {
   const { t } = useLanguage();
   const { settings, phoneTel } = useSiteSettings();
 
   return (
-    <section id="fast-hvac" className="relative w-full overflow-hidden py-[20px] text-white bg-slate-950 border-y border-white/10 select-none" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 500px" }}>
+    <section
+      id="fast-hvac"
+      className="relative w-full overflow-hidden py-[20px] text-white bg-slate-950 border-y border-white/10 select-none"
+      style={{ contentVisibility: "auto", containIntrinsicSize: "1px 500px" }}
+    >
       {/* Background Video */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none overflow-hidden translate-z-0">
         <AutoPlayVideo
@@ -31,10 +44,8 @@ export function FastHVAC() {
       <div className="relative z-10 mx-auto w-[92%] max-w-7xl">
         <div className="rounded-3xl bg-white/10 backdrop-blur-2xl border border-white/20 p-8 sm:p-10 lg:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
           <div className="grid gap-8 lg:grid-cols-12 items-center">
-
             {/* Left Column: Headline & Content */}
             <div className="lg:col-span-8 space-y-5 text-left">
-              
               {/* Eyebrow Pill */}
               <div className="flex flex-wrap items-center gap-2.5">
                 <motion.div
@@ -47,7 +58,9 @@ export function FastHVAC() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-red-400"></span>
                   </span>
-                  <span>{t("Immediate Dispatch Ready", "Despacho Inmediato Listo")}</span>
+                  <span>
+                    {t("Immediate Dispatch Ready", "Despacho Inmediato Listo")}
+                  </span>
                 </motion.div>
 
                 <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-3.5 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-cyan-300">
@@ -64,9 +77,15 @@ export function FastHVAC() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-snug text-white"
               >
-                {t("Need fast HVAC service in Houston, TX? ", "¿Necesita servicio HVAC rápido en Houston, TX? ")}
+                {t(
+                  "Need fast HVAC service in Houston, TX? ",
+                  "¿Necesita servicio HVAC rápido en Houston, TX? ",
+                )}
                 <span className="bg-gradient-to-r from-cyan-300 via-blue-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-sm">
-                  {t("We’re ready for immediate dispatch.", "Estamos listos para despacho inmediato.")}
+                  {t(
+                    "We’re ready for immediate dispatch.",
+                    "Estamos listos para despacho inmediato.",
+                  )}
                 </span>
               </motion.h2>
 
@@ -80,7 +99,7 @@ export function FastHVAC() {
               >
                 {t(
                   "If your AC or heating system has stopped working, don’t wait. Same-day repair, free estimates and 24/7 emergency service across Houston and nearby suburbs.",
-                  "Si su sistema de aire acondicionado o calefacción dejó de funcionar, no espere. Reparación el mismo día, presupuestos gratuitos y servicio de emergencia 24/7 en Houston y suburbios cercanos."
+                  "Si su sistema de aire acondicionado o calefacción dejó de funcionar, no espere. Reparación el mismo día, presupuestos gratuitos y servicio de emergencia 24/7 en Houston y suburbios cercanos.",
                 )}
               </motion.p>
 
@@ -98,10 +117,11 @@ export function FastHVAC() {
                 <span className="text-white/30 hidden sm:inline">•</span>
                 <div className="flex items-center gap-2 text-xs font-extrabold text-cyan-300">
                   <Clock className="w-4 h-4 text-cyan-400" />
-                  <span>{t("24/7 Emergency Service", "Servicio de Emergencia 24/7")}</span>
+                  <span>
+                    {t("24/7 Emergency Service", "Servicio de Emergencia 24/7")}
+                  </span>
                 </div>
               </div>
-
             </div>
 
             {/* Right Column: CTA Buttons */}
@@ -136,11 +156,12 @@ export function FastHVAC() {
                 className="inline-flex items-center justify-center gap-2 rounded-2xl font-extrabold py-4 px-6 bg-white/15 hover:bg-white/25 border border-white/30 backdrop-blur-md text-white shadow-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full text-center text-xs uppercase tracking-widest"
               >
                 <Sparkles className="w-4 h-4 text-cyan-300" />
-                <span>{t("Request a free quote", "Solicitar un presupuesto gratis")}</span>
+                <span>
+                  {t("Request a free quote", "Solicitar un presupuesto gratis")}
+                </span>
                 <ArrowRight className="w-4 h-4 ml-1" />
               </Link>
             </motion.div>
-
           </div>
         </div>
       </div>

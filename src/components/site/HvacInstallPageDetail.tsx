@@ -23,7 +23,7 @@ import {
   Quote,
   TrendingUp,
   Sliders,
-  DollarSign
+  DollarSign,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
@@ -36,127 +36,209 @@ export function HvacInstallPageDetail() {
   const includedServices = [
     {
       title: "Manual Load Calculation",
-      desc: "Industry-standard sizing based on your actual home — insulation, layout, ceiling height, and sun exposure — not just square footage."
+      desc: "Industry-standard sizing based on your actual home — insulation, layout, ceiling height, and sun exposure — not just square footage.",
     },
     {
       title: "Central Split System Installation",
-      desc: "Carrier, Trane, Lennox, Goodman, Rheem, American Standard. Clear SEER2 explanation and matched equipment."
+      desc: "Carrier, Trane, Lennox, Goodman, Rheem, American Standard. Clear SEER2 explanation and matched equipment.",
     },
     {
       title: "Heat Pump Systems",
-      desc: "High-efficiency year-round comfort — ideal for Cypress and Houston's mild winters and brutal summers."
+      desc: "High-efficiency year-round comfort — ideal for Cypress and Houston's mild winters and brutal summers.",
     },
     {
       title: "Ductless Mini-Split Installation",
-      desc: "Perfect for additions, garages, sunrooms, and rooms without existing ductwork."
+      desc: "Perfect for additions, garages, sunrooms, and rooms without existing ductwork.",
     },
     {
       title: "Package & Multi-Zone Systems",
-      desc: "Package units for homes without interior air handler space; dual-zone setups for two-story and large properties."
+      desc: "Package units for homes without interior air handler space; dual-zone setups for two-story and large properties.",
     },
     {
       title: "Ductwork Inspection & Modification",
-      desc: "Addressed before the system goes in — not after. Rebalancing, sealing, and dedicated returns where needed."
+      desc: "Addressed before the system goes in — not after. Rebalancing, sealing, and dedicated returns where needed.",
     },
     {
       title: "Old System Removal & Disposal",
-      desc: "Clean teardown of your existing system, proper refrigerant recovery, and full haul-away."
+      desc: "Clean teardown of your existing system, proper refrigerant recovery, and full haul-away.",
     },
     {
       title: "Thermostat Setup & Smart Controls",
-      desc: "Standard, programmable, or smart Wi-Fi thermostats — installed, configured, and paired to your phone."
+      desc: "Standard, programmable, or smart Wi-Fi thermostats — installed, configured, and paired to your phone.",
     },
     {
       title: "Startup, Testing & Commissioning",
-      desc: "Refrigerant charge verification, airflow measured at each register, temperature differential testing."
+      desc: "Refrigerant charge verification, airflow measured at each register, temperature differential testing.",
     },
     {
       title: "Permits & Code Compliance",
-      desc: "Fully compliant Harris County permits, safety shutoffs, and strict code adherence."
+      desc: "Fully compliant Harris County permits, safety shutoffs, and strict code adherence.",
     },
     {
       title: "Itemized Pricing & Financing",
-      desc: "Equipment, labor, permits, and ductwork separated. Flexible financing with 0% promotional periods."
+      desc: "Equipment, labor, permits, and ductwork separated. Flexible financing with 0% promotional periods.",
     },
     {
       title: "New Construction HVAC Design",
-      desc: "Full system design and installation for new builds in Cypress, Tomball, Katy, and surrounding areas."
-    }
+      desc: "Full system design and installation for new builds in Cypress, Tomball, Katy, and surrounding areas.",
+    },
   ];
 
   const pricingSystems = [
-    { name: "Central Split System (AC + Furnace)", target: "Most Cypress homes 1,500–4,000 sq ft", price: "$4,500 – $10,000+" },
-    { name: "Heat Pump System", target: "Homes prioritizing year-round energy efficiency", price: "$4,000 – $9,500+" },
-    { name: "Ductless Mini-Split", target: "Additions, garages, and rooms without existing ducts", price: "$2,500 – $6,500" },
-    { name: "Package Unit", target: "Homes without interior space for an air handler", price: "$3,500 – $8,000" },
-    { name: "Dual-Zone or Multi-Zone Systems", target: "Two-story homes and larger properties", price: "$7,000 – $16,000+" },
-    { name: "New Construction HVAC", target: "New builds in Cypress, Tomball, and surrounding areas", price: "Project-based quote" }
+    {
+      name: "Central Split System (AC + Furnace)",
+      target: "Most Cypress homes 1,500–4,000 sq ft",
+      price: "$4,500 – $10,000+",
+    },
+    {
+      name: "Heat Pump System",
+      target: "Homes prioritizing year-round energy efficiency",
+      price: "$4,000 – $9,500+",
+    },
+    {
+      name: "Ductless Mini-Split",
+      target: "Additions, garages, and rooms without existing ducts",
+      price: "$2,500 – $6,500",
+    },
+    {
+      name: "Package Unit",
+      target: "Homes without interior space for an air handler",
+      price: "$3,500 – $8,000",
+    },
+    {
+      name: "Dual-Zone or Multi-Zone Systems",
+      target: "Two-story homes and larger properties",
+      price: "$7,000 – $16,000+",
+    },
+    {
+      name: "New Construction HVAC",
+      target: "New builds in Cypress, Tomball, and surrounding areas",
+      price: "Project-based quote",
+    },
   ];
 
   const sizingGuides = [
-    { range: "1,200–1,800 sq ft", tons: "2 – 2.5 Ton", note: "Adjust for insulation quality and floor plan layout." },
-    { range: "1,800–2,500 sq ft", tons: "2.5 – 3.5 Ton", note: "Two-story factor and duct condition matter." },
-    { range: "2,500–3,500 sq ft", tons: "3.5 – 4 Ton", note: "Open floor plans and high ceilings change the math." },
-    { range: "3,500+ sq ft", tons: "4 – 5 Ton / Dual", note: "Multi-zone strongly recommended for larger homes." }
+    {
+      range: "1,200–1,800 sq ft",
+      tons: "2 – 2.5 Ton",
+      note: "Adjust for insulation quality and floor plan layout.",
+    },
+    {
+      range: "1,800–2,500 sq ft",
+      tons: "2.5 – 3.5 Ton",
+      note: "Two-story factor and duct condition matter.",
+    },
+    {
+      range: "2,500–3,500 sq ft",
+      tons: "3.5 – 4 Ton",
+      note: "Open floor plans and high ceilings change the math.",
+    },
+    {
+      range: "3,500+ sq ft",
+      tons: "4 – 5 Ton / Dual",
+      note: "Multi-zone strongly recommended for larger homes.",
+    },
   ];
 
   const whyChooseUs = [
-    { title: "10+ Years Local Field Experience", desc: "We've installed and serviced systems across Cypress, Tomball, and Houston — and we know what fails when corners get cut." },
-    { title: "Manual Load Calc — Every Time", desc: "Most contractors size by square footage or what was there before. We don't. Correctly sized systems last longer and dehumidify properly." },
-    { title: "Transparent, Itemized Pricing", desc: "Equipment, labor, permits, and ductwork listed separately. If anything changes mid-install, we stop and tell you first." },
-    { title: "EPA Certified · Licensed · Insured", desc: "EPA Section 608 certified, licensed Texas HVAC contractor (TACLA133609C), fully insured with liability and workers' comp." },
-    { title: "Dedicated Family First Integrity", desc: "Owner Allen Swindell double-checks installations personally to ensure your family gets long-term reliability." }
+    {
+      title: "10+ Years Local Field Experience",
+      desc: "We've installed and serviced systems across Cypress, Tomball, and Houston — and we know what fails when corners get cut.",
+    },
+    {
+      title: "Manual Load Calc — Every Time",
+      desc: "Most contractors size by square footage or what was there before. We don't. Correctly sized systems last longer and dehumidify properly.",
+    },
+    {
+      title: "Transparent, Itemized Pricing",
+      desc: "Equipment, labor, permits, and ductwork listed separately. If anything changes mid-install, we stop and tell you first.",
+    },
+    {
+      title: "EPA Certified · Licensed · Insured",
+      desc: "EPA Section 608 certified, licensed Texas HVAC contractor (TACLA133609C), fully insured with liability and workers' comp.",
+    },
+    {
+      title: "Dedicated Family First Integrity",
+      desc: "Owner Allen Swindell double-checks installations personally to ensure your family gets long-term reliability.",
+    },
   ];
 
   const localCoverage = [
-    { name: "Tomball, TX (77375, 77377)", desc: "Residential neighborhoods along FM 2920, SH 249 and surrounding subdivisions." },
-    { name: "Cypress, TX (77433, 77429)", desc: "Bridgeland, Towne Lake, Fairfield, Copper Lakes and Cy-Fair communities." },
-    { name: "Houston, TX", desc: "North Houston, West Houston, Energy Corridor and surrounding metro areas." },
-    { name: "Katy, TX", desc: "Rapidly growing western suburbs with high residential and commercial HVAC demand." },
-    { name: "The Woodlands, TX", desc: "Master-planned communities with diverse residential and commercial system types." },
-    { name: "Spring, TX (77373, 77379)", desc: "Established neighborhoods with varied system ages and maintenance needs." },
-    { name: "Magnolia, TX", desc: "Rural residential, custom homes and acreage properties." },
-    { name: "Sugar Land, TX", desc: "Southwest Houston suburbs — residential and commercial." },
-    { name: "Greater Houston Metro", desc: "Same-day commercial & residential HVAC service across the metro." }
+    {
+      name: "Tomball, TX (77375, 77377)",
+      desc: "Residential neighborhoods along FM 2920, SH 249 and surrounding subdivisions.",
+    },
+    {
+      name: "Cypress, TX (77433, 77429)",
+      desc: "Bridgeland, Towne Lake, Fairfield, Copper Lakes and Cy-Fair communities.",
+    },
+    {
+      name: "Houston, TX",
+      desc: "North Houston, West Houston, Energy Corridor and surrounding metro areas.",
+    },
+    {
+      name: "Katy, TX",
+      desc: "Rapidly growing western suburbs with high residential and commercial HVAC demand.",
+    },
+    {
+      name: "The Woodlands, TX",
+      desc: "Master-planned communities with diverse residential and commercial system types.",
+    },
+    {
+      name: "Spring, TX (77373, 77379)",
+      desc: "Established neighborhoods with varied system ages and maintenance needs.",
+    },
+    {
+      name: "Magnolia, TX",
+      desc: "Rural residential, custom homes and acreage properties.",
+    },
+    {
+      name: "Sugar Land, TX",
+      desc: "Southwest Houston suburbs — residential and commercial.",
+    },
+    {
+      name: "Greater Houston Metro",
+      desc: "Same-day commercial & residential HVAC service across the metro.",
+    },
   ];
 
   const faqs = [
     {
       q: "How much does HVAC installation cost in Cypress, TX?",
-      a: "For most residential homes in Cypress and the surrounding Houston metro, HVAC installation typically ranges from $4,500 to $12,000+. A standard central split system for a 2,000 sq ft home usually falls between $5,500 and $8,500 installed, including equipment, labor, and permits. Larger homes, multi-zone systems, or homes needing significant ductwork run higher. Every quote is itemized so you see exactly what goes into the price."
+      a: "For most residential homes in Cypress and the surrounding Houston metro, HVAC installation typically ranges from $4,500 to $12,000+. A standard central split system for a 2,000 sq ft home usually falls between $5,500 and $8,500 installed, including equipment, labor, and permits. Larger homes, multi-zone systems, or homes needing significant ductwork run higher. Every quote is itemized so you see exactly what goes into the price.",
     },
     {
       q: "How long does HVAC installation take in Texas?",
-      a: "Most standard residential HVAC replacements in Cypress are completed in 1 full day (6 to 9 hours). Complex multi-zone systems, new ductwork installations, or custom new construction builds may take 2 to 3 days."
+      a: "Most standard residential HVAC replacements in Cypress are completed in 1 full day (6 to 9 hours). Complex multi-zone systems, new ductwork installations, or custom new construction builds may take 2 to 3 days.",
     },
     {
       q: "What size HVAC system do I need for my home in Cypress, TX?",
-      a: "System size is determined by a Manual J load calculation taking into account square footage, window placement, ceiling height, insulation, and Texas sun exposure. As a general rule, Cypress homes need 1 ton for every 500–700 sq ft, but an exact calculation is performed before recommending tonnage."
+      a: "System size is determined by a Manual J load calculation taking into account square footage, window placement, ceiling height, insulation, and Texas sun exposure. As a general rule, Cypress homes need 1 ton for every 500–700 sq ft, but an exact calculation is performed before recommending tonnage.",
     },
     {
       q: "What HVAC system is best for Texas weather?",
-      a: "A high-efficiency central split system (16+ SEER2) or a dual-fuel heat pump system with variable-speed compressors offers the best combination of humidity control, rapid cooling, and low monthly energy bills."
+      a: "A high-efficiency central split system (16+ SEER2) or a dual-fuel heat pump system with variable-speed compressors offers the best combination of humidity control, rapid cooling, and low monthly energy bills.",
     },
     {
       q: "Is it worth replacing my HVAC before summer in Texas?",
-      a: "Yes. Replacing your system before summer avoids peak emergency wait times, prevents mid-summer breakdowns when temperatures exceed 95°F, and lowers summer electric bills immediately."
+      a: "Yes. Replacing your system before summer avoids peak emergency wait times, prevents mid-summer breakdowns when temperatures exceed 95°F, and lowers summer electric bills immediately.",
     },
     {
       q: "Do you pull permits for HVAC installation in Harris County?",
-      a: "Yes. Upfront AC pulls all required municipal and Harris County permits and ensures strict code compliance on every installation."
+      a: "Yes. Upfront AC pulls all required municipal and Harris County permits and ensures strict code compliance on every installation.",
     },
     {
       q: "Can I finance a new HVAC system in Cypress, TX?",
-      a: "Yes. We offer flexible financing options with promotional 0% APR terms on qualifying systems, allowing you to pay in low monthly installments."
+      a: "Yes. We offer flexible financing options with promotional 0% APR terms on qualifying systems, allowing you to pay in low monthly installments.",
     },
     {
       q: "What HVAC brands do you install in Cypress and Houston?",
-      a: "We install all major leading brands including Carrier, Trane, Lennox, Goodman, Rheem, American Standard, and Daikin."
+      a: "We install all major leading brands including Carrier, Trane, Lennox, Goodman, Rheem, American Standard, and Daikin.",
     },
     {
       q: "How do I know if my ductwork needs replacement when I install a new system?",
-      a: "During our pre-install inspection, we measure static pressure and check for duct leaks. If ductwork is undersized, leaking, or collapsing in the attic, we modify or seal it before connecting the new unit."
-    }
+      a: "During our pre-install inspection, we measure static pressure and check for duct leaks. If ductwork is undersized, leaking, or collapsing in the attic, we modify or seal it before connecting the new unit.",
+    },
   ];
 
   const specializations = [
@@ -168,12 +250,11 @@ export function HvacInstallPageDetail() {
     "Indoor Air Quality Evaluations",
     "Ultraviolet Air Treatment System",
     "Indoor Home Health Consultation",
-    "HVAC Replacement"
+    "HVAC Replacement",
   ];
 
   return (
     <div className="w-full bg-[#F8FAFC] text-slate-900 overflow-hidden select-none font-sans">
-      
       {/* ── PAGE HEADER ────────────────────────────────────── */}
       <PageHeader
         eyebrow="Emergency HVAC Installation · Cypress, TX"
@@ -187,7 +268,6 @@ export function HvacInstallPageDetail() {
         <div className="absolute bottom-0 left-10 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10 text-left">
-          
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
@@ -206,7 +286,6 @@ export function HvacInstallPageDetail() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-            
             <div className="lg:col-span-7 space-y-6">
               <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 Engineered for Texas Climate with{" "}
@@ -216,7 +295,10 @@ export function HvacInstallPageDetail() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
-                From load calculations to final commissioning, Upfront AC installs HVAC systems engineered for Houston’s harsh summers and sudden winter freezes. Properly sized equipment, sealed ducts, and warranties you can trust.
+                From load calculations to final commissioning, Upfront AC
+                installs HVAC systems engineered for Houston’s harsh summers and
+                sudden winter freezes. Properly sized equipment, sealed ducts,
+                and warranties you can trust.
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -247,59 +329,89 @@ export function HvacInstallPageDetail() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-white/80 shadow-xl text-left">
-                  <span className="block text-base font-black text-slate-900">HVAC Installation & Replacement</span>
+                  <span className="block text-base font-black text-slate-900">
+                    HVAC Installation & Replacement
+                  </span>
                   <span className="text-xs font-bold text-[#005CE6] block mt-0.5">
                     Cypress, Tomball & Greater Houston Metro
                   </span>
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 1: WHY INSTALLATION QUALITY MATTERS ─────── */}
       <section className="py-16 lg:py-20 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-10">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Why Installation Quality Matters
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight mt-2">
-              What HVAC installation actually involves — and why it's different in Cypress
+              What HVAC installation actually involves — and why it's different
+              in Cypress
             </h2>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
             <div className="space-y-4 rounded-3xl bg-white p-7 border border-slate-200/90 shadow-sm">
               <p>
-                If you’re planning a new HVAC installation in Cypress, TX, you already know one thing: doing it halfway isn’t an option when summer arrives and the Texas heat shows up uninvited. Whether you’re putting in a system for the first time, replacing an aging unit, or building from scratch, how the system gets installed determines how efficiently it runs, how long it lasts, and how much it costs you year after year.
+                If you’re planning a new HVAC installation in Cypress, TX, you
+                already know one thing: doing it halfway isn’t an option when
+                summer arrives and the Texas heat shows up uninvited. Whether
+                you’re putting in a system for the first time, replacing an
+                aging unit, or building from scratch, how the system gets
+                installed determines how efficiently it runs, how long it lasts,
+                and how much it costs you year after year.
               </p>
               <p>
-                At Upfront AC, we’ve been doing HVAC installations across Cypress and the broader Houston metro for over a decade. We work with homeowners in Bridgeland, Towne Lake, and Fairfield, commercial property owners along Highway 290, and builders putting up new homes between Cypress and Tomball. Every installation is treated the same way: sized correctly, sealed tightly, and tested before we leave.
+                At Upfront AC, we’ve been doing HVAC installations across
+                Cypress and the broader Houston metro for over a decade. We work
+                with homeowners in Bridgeland, Towne Lake, and Fairfield,
+                commercial property owners along Highway 290, and builders
+                putting up new homes between Cypress and Tomball. Every
+                installation is treated the same way: sized correctly, sealed
+                tightly, and tested before we leave.
               </p>
             </div>
 
             <div className="space-y-4 rounded-3xl bg-white p-7 border border-slate-200/90 shadow-sm">
               <p>
-                <strong className="text-slate-900 font-extrabold">The Cypress climate factor.</strong> Summers routinely hit 95–100°F, humidity stays elevated for months, and even winters bring cold fronts that drop temperatures 40 degrees overnight. Systems here don’t get a break — they run harder, longer, and under more stress than units in drier regions. That means your system must be sized for actual local conditions, not just square footage. A proper Manual J load calculation — not a guess — is the only way to get this right.
+                <strong className="text-slate-900 font-extrabold">
+                  The Cypress climate factor.
+                </strong>{" "}
+                Summers routinely hit 95–100°F, humidity stays elevated for
+                months, and even winters bring cold fronts that drop
+                temperatures 40 degrees overnight. Systems here don’t get a
+                break — they run harder, longer, and under more stress than
+                units in drier regions. That means your system must be sized for
+                actual local conditions, not just square footage. A proper
+                Manual J load calculation — not a guess — is the only way to get
+                this right.
               </p>
               <p>
-                <strong className="text-slate-900 font-extrabold">Cypress housing.</strong> New construction runs heavily toward larger two-story homes between 2,000 and 4,500 sq ft, often requiring multi-zone or dual-system setups. Older homes in 77433 and 77429 frequently have outdated ductwork that will undercut even a brand-new system if it isn’t addressed during installation. For additions, sunrooms, and converted garages, a ductless mini-split is often the better answer. We assess the actual space before recommending anything.
+                <strong className="text-slate-900 font-extrabold">
+                  Cypress housing.
+                </strong>{" "}
+                New construction runs heavily toward larger two-story homes
+                between 2,000 and 4,500 sq ft, often requiring multi-zone or
+                dual-system setups. Older homes in 77433 and 77429 frequently
+                have outdated ductwork that will undercut even a brand-new
+                system if it isn’t addressed during installation. For additions,
+                sunrooms, and converted garages, a ductless mini-split is often
+                the better answer. We assess the actual space before
+                recommending anything.
               </p>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 2: WHAT'S INCLUDED IN OUR SERVICES ──────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               WHAT'S INCLUDED IN OUR HVAC INSTALL SERVICES
@@ -308,7 +420,8 @@ export function HvacInstallPageDetail() {
               What's included in an Upfront AC installation
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-3 font-medium">
-              Every installation follows a structured process — from load calculation through commissioning and homeowner walkthrough.
+              Every installation follows a structured process — from load
+              calculation through commissioning and homeowner walkthrough.
             </p>
           </div>
 
@@ -336,14 +449,12 @@ export function HvacInstallPageDetail() {
               </motion.div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 3: SYSTEM PRICING & SIZING GUIDE ────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Multi-Point Service
@@ -352,7 +463,9 @@ export function HvacInstallPageDetail() {
               HVAC systems we install in Cypress & Houston metro
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-3 font-medium">
-              Pricing varies by system size, efficiency level, brand, ductwork condition, and permits. Every Upfront AC quote is itemized — you see exactly what you’re paying for.
+              Pricing varies by system size, efficiency level, brand, ductwork
+              condition, and permits. Every Upfront AC quote is itemized — you
+              see exactly what you’re paying for.
             </p>
           </div>
 
@@ -368,12 +481,20 @@ export function HvacInstallPageDetail() {
                     <DollarSign className="w-3 h-3" />
                     <span>Itemized Quote</span>
                   </div>
-                  <h3 className="text-lg font-extrabold text-slate-900">{item.name}</h3>
-                  <p className="text-xs text-slate-500 mt-1.5 font-medium">{item.target}</p>
+                  <h3 className="text-lg font-extrabold text-slate-900">
+                    {item.name}
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1.5 font-medium">
+                    {item.target}
+                  </p>
                 </div>
                 <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-400">Estimated Range</span>
-                  <span className="text-base font-black text-[#005CE6]">{item.price}</span>
+                  <span className="text-xs font-bold text-slate-400">
+                    Estimated Range
+                  </span>
+                  <span className="text-base font-black text-[#005CE6]">
+                    {item.price}
+                  </span>
                 </div>
               </div>
             ))}
@@ -393,24 +514,28 @@ export function HvacInstallPageDetail() {
                 className="rounded-2xl bg-white border border-slate-200/90 p-6 shadow-sm flex flex-col justify-between"
               >
                 <div>
-                  <span className="text-xs font-black uppercase tracking-wider text-slate-400">Square Footage</span>
-                  <h4 className="text-base font-extrabold text-slate-900 mt-1">{guide.range}</h4>
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-400">
+                    Square Footage
+                  </span>
+                  <h4 className="text-base font-extrabold text-slate-900 mt-1">
+                    {guide.range}
+                  </h4>
                   <div className="my-3 inline-block rounded-xl bg-[#005CE6] text-white px-3 py-1.5 text-sm font-black">
                     {guide.tons}
                   </div>
-                  <p className="text-xs text-slate-600 font-medium leading-relaxed">{guide.note}</p>
+                  <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                    {guide.note}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 4: WHY CHOOSE UPFRONT AC ────────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Why Upfront AC
@@ -430,20 +555,22 @@ export function HvacInstallPageDetail() {
                   <div className="w-10 h-10 rounded-xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center font-black text-sm mb-4">
                     <ShieldCheck className="w-5 h-5 text-[#005CE6]" />
                   </div>
-                  <h3 className="text-base font-extrabold text-slate-900">{point.title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed font-medium">{point.desc}</p>
+                  <h3 className="text-base font-extrabold text-slate-900">
+                    {point.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed font-medium">
+                    {point.desc}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 5: CUSTOMER VOICES & LOCAL CASE STUDY ───── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Customer Voices
@@ -462,7 +589,11 @@ export function HvacInstallPageDetail() {
                   ))}
                 </div>
                 <p className="text-sm sm:text-base text-slate-700 italic font-bold leading-relaxed">
-                  “I have been reaching out to Allen for years, almost a decade and he has never let me down. Even after the warranty company sends someone and the techs do not find anything – I reach out to Allen and he will find the issue. Very honest and flexible.”
+                  “I have been reaching out to Allen for years, almost a decade
+                  and he has never let me down. Even after the warranty company
+                  sends someone and the techs do not find anything – I reach out
+                  to Allen and he will find the issue. Very honest and
+                  flexible.”
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-slate-100 text-xs font-black text-[#005CE6]">
@@ -478,7 +609,11 @@ export function HvacInstallPageDetail() {
                   ))}
                 </div>
                 <p className="text-sm sm:text-base text-slate-700 italic font-bold leading-relaxed">
-                  “Allen has been our service tech for many moons. He has always been reliable, fair, upfront, and honest. He communicates well, does extremely solid work and super friendly. Its hard to find someone who treats you like family and does such amazing work.”
+                  “Allen has been our service tech for many moons. He has always
+                  been reliable, fair, upfront, and honest. He communicates
+                  well, does extremely solid work and super friendly. Its hard
+                  to find someone who treats you like family and does such
+                  amazing work.”
                 </p>
               </div>
               <div className="mt-6 pt-4 border-t border-slate-100 text-xs font-black text-[#005CE6]">
@@ -499,35 +634,51 @@ export function HvacInstallPageDetail() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
-                <h4 className="text-sm font-black text-red-600 uppercase tracking-wider mb-2">The Problem</h4>
+                <h4 className="text-sm font-black text-red-600 uppercase tracking-wider mb-2">
+                  The Problem
+                </h4>
                 <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                  A homeowner contacted us in late April. Their 14-year-old 3.5-ton split system was struggling to maintain temperature upstairs, and electric bills had climbed noticeably over the past two summers. System was slightly oversized, return air path was undersized, and attic ductwork had separated in several sections.
+                  A homeowner contacted us in late April. Their 14-year-old
+                  3.5-ton split system was struggling to maintain temperature
+                  upstairs, and electric bills had climbed noticeably over the
+                  past two summers. System was slightly oversized, return air
+                  path was undersized, and attic ductwork had separated in
+                  several sections.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
-                <h4 className="text-sm font-black text-[#005CE6] uppercase tracking-wider mb-2">The Solution</h4>
+                <h4 className="text-sm font-black text-[#005CE6] uppercase tracking-wider mb-2">
+                  The Solution
+                </h4>
                 <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                  Installed a new 3-ton, 18 SEER2 heat pump properly sized to the corrected load calculation. Resealed and rebalanced the attic ductwork, added a dedicated return in the upstairs master bedroom, and installed a smart thermostat the homeowner could control from their phone.
+                  Installed a new 3-ton, 18 SEER2 heat pump properly sized to
+                  the corrected load calculation. Resealed and rebalanced the
+                  attic ductwork, added a dedicated return in the upstairs
+                  master bedroom, and installed a smart thermostat the homeowner
+                  could control from their phone.
                 </p>
               </div>
 
               <div className="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200/80">
-                <h4 className="text-sm font-black text-emerald-700 uppercase tracking-wider mb-2">The Result</h4>
+                <h4 className="text-sm font-black text-emerald-700 uppercase tracking-wider mb-2">
+                  The Result
+                </h4>
                 <p className="text-xs text-slate-700 font-bold leading-relaxed">
-                  Installation completed in one day. Summer was the first in years with consistent temperatures upstairs and downstairs, and energy bills dropped noticeably compared to the previous year.
+                  Installation completed in one day. Summer was the first in
+                  years with consistent temperatures upstairs and downstairs,
+                  and energy bills dropped noticeably compared to the previous
+                  year.
                 </p>
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 6: LOCAL COVERAGE ───────────────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               Local Coverage
@@ -536,7 +687,8 @@ export function HvacInstallPageDetail() {
               Service areas across Cypress, Tomball & Greater Houston
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-2 font-medium">
-              Family-owned and locally rooted — we serve the communities we live in.
+              Family-owned and locally rooted — we serve the communities we live
+              in.
             </p>
           </div>
 
@@ -548,20 +700,22 @@ export function HvacInstallPageDetail() {
               >
                 <MapPin className="w-5 h-5 text-[#005CE6] shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="text-sm font-extrabold text-slate-900">{loc.name}</h3>
-                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">{loc.desc}</p>
+                  <h3 className="text-sm font-extrabold text-slate-900">
+                    {loc.name}
+                  </h3>
+                  <p className="text-xs text-slate-600 mt-1 font-medium leading-relaxed">
+                    {loc.desc}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 7: FREQUENTLY ASKED QUESTIONS ──────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               FAQ
@@ -584,7 +738,9 @@ export function HvacInstallPageDetail() {
                     className="w-full flex items-center justify-between p-6 text-left text-slate-900 font-extrabold text-base hover:text-[#005CE6] transition-colors"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown
+                      className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
                   <AnimatePresence>
                     {isOpen && (
@@ -602,14 +758,12 @@ export function HvacInstallPageDetail() {
               );
             })}
           </div>
-
         </div>
       </section>
 
       {/* ── SECTION 8: SPECIALIZATIONS ─────────────────────── */}
       <section className="py-14 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="flex flex-wrap items-center justify-center gap-3 text-center max-w-4xl mx-auto">
             <span className="text-xs font-black uppercase tracking-widest text-slate-400 w-full mb-2">
               We Specialize In
@@ -623,7 +777,6 @@ export function HvacInstallPageDetail() {
               </span>
             ))}
           </div>
-
         </div>
       </section>
 
@@ -641,7 +794,8 @@ export function HvacInstallPageDetail() {
             </h2>
 
             <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed font-medium">
-              Trust Upfront AC for fast, honest, professional installation across Katy, Cypress and Houston. Free estimates available.
+              Trust Upfront AC for fast, honest, professional installation
+              across Katy, Cypress and Houston. Free estimates available.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -664,7 +818,6 @@ export function HvacInstallPageDetail() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }

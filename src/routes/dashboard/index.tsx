@@ -65,7 +65,7 @@ import {
   ChevronLeft,
   Copy,
   XCircle,
-  RotateCcw
+  RotateCcw,
 } from "lucide-react";
 
 import {
@@ -80,7 +80,7 @@ import {
   Pie,
   Cell,
   BarChart,
-  Bar
+  Bar,
 } from "recharts";
 
 import {
@@ -130,7 +130,7 @@ import {
   PortalUser,
   DashboardNotification,
   getStorageItem,
-  setStorageItem
+  setStorageItem,
 } from "@/lib/leads-store";
 import { toast } from "sonner";
 import logo from "@/assets/logo.png";
@@ -139,7 +139,11 @@ export const Route = createFileRoute("/dashboard/")({
   head: () => ({
     meta: [
       { title: "Upfront A/C & Heating — Business Command Portal" },
-      { name: "description", content: "Executive operations, HVAC dispatch, and lead management portal." }
+      {
+        name: "description",
+        content:
+          "Executive operations, HVAC dispatch, and lead management portal.",
+      },
     ],
   }),
   component: DashboardPage,
@@ -150,15 +154,25 @@ const CustomChartTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-[#0B1528] border border-slate-700/80 rounded-2xl p-3.5 shadow-2xl backdrop-blur-xl text-xs text-white">
-        <p className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider mb-1.5">{label}</p>
+        <p className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider mb-1.5">
+          {label}
+        </p>
         {payload.map((p: any, idx: number) => (
-          <p key={idx} className="font-semibold text-slate-200 flex items-center justify-between gap-4 mt-1">
+          <p
+            key={idx}
+            className="font-semibold text-slate-200 flex items-center justify-between gap-4 mt-1"
+          >
             <span className="flex items-center gap-1.5 text-slate-400">
-              <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: p.stroke || p.fill || "#005CE6" }} />
+              <span
+                className="w-2 h-2 rounded-full inline-block"
+                style={{ backgroundColor: p.stroke || p.fill || "#005CE6" }}
+              />
               {p.name}:
             </span>
             <span className="font-bold text-white">
-              {typeof p.value === "number" ? `$${p.value.toLocaleString()}` : p.value}
+              {typeof p.value === "number"
+                ? `$${p.value.toLocaleString()}`
+                : p.value}
             </span>
           </p>
         ))}
@@ -183,8 +197,21 @@ const formatChatTime = (timestamp?: string) => {
 function DashboardPage() {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [currentUser, setCurrentUser] = useState<{ id: string; username: string; role: string } | null>(null);
-  const [activeTab, setActiveTab] = useState<"overview" | "leads" | "reviews" | "gallery" | "chat" | "emails" | "settings" | "security">("overview");
+  const [currentUser, setCurrentUser] = useState<{
+    id: string;
+    username: string;
+    role: string;
+  } | null>(null);
+  const [activeTab, setActiveTab] = useState<
+    | "overview"
+    | "leads"
+    | "reviews"
+    | "gallery"
+    | "chat"
+    | "emails"
+    | "settings"
+    | "security"
+  >("overview");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Database / state stores
@@ -195,8 +222,11 @@ function DashboardPage() {
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const [chatSearchQuery, setChatSearchQuery] = useState("");
   const [chatFilterUnread, setChatFilterUnread] = useState(false);
-  const [notifications, setNotifications] = useState<DashboardNotification[]>([]);
-  const [showNotificationsPopover, setShowNotificationsPopover] = useState(false);
+  const [notifications, setNotifications] = useState<DashboardNotification[]>(
+    [],
+  );
+  const [showNotificationsPopover, setShowNotificationsPopover] =
+    useState(false);
   const [adminReplyText, setAdminReplyText] = useState("");
   const [galleryPhotos, setGalleryPhotos] = useState<GalleryPhoto[]>([]);
   const [lightboxPhoto, setLightboxPhoto] = useState<string | null>(null);
@@ -207,7 +237,9 @@ function DashboardPage() {
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [galleryUploadProgress, setGalleryUploadProgress] = useState(0);
   const [galleryFilter, setGalleryFilter] = useState("all");
-  const [selectedGalleryIds, setSelectedGalleryIds] = useState<Set<string>>(new Set());
+  const [selectedGalleryIds, setSelectedGalleryIds] = useState<Set<string>>(
+    new Set(),
+  );
   const [isBulkDeleteMode, setIsBulkDeleteMode] = useState(false);
 
   // Portal Security States
@@ -217,7 +249,9 @@ function DashboardPage() {
   const [updatePasswordConfirm, setUpdatePasswordConfirm] = useState("");
   const [addUsername, setAddUsername] = useState("");
   const [addPassword, setAddPassword] = useState("");
-  const [addRole, setAddRole] = useState<"admin" | "editor" | "viewer">("editor");
+  const [addRole, setAddRole] = useState<"admin" | "editor" | "viewer">(
+    "editor",
+  );
   const [userSearch, setUserSearch] = useState("");
   const [userRoleFilter, setUserRoleFilter] = useState<string>("all");
   const [showAddPassword, setShowAddPassword] = useState(false);
@@ -225,7 +259,9 @@ function DashboardPage() {
   const [editingUser, setEditingUser] = useState<PortalUser | null>(null);
   const [editUserUsername, setEditUserUsername] = useState("");
   const [editUserPassword, setEditUserPassword] = useState("");
-  const [editUserRole, setEditUserRole] = useState<"admin" | "editor" | "viewer">("viewer");
+  const [editUserRole, setEditUserRole] = useState<
+    "admin" | "editor" | "viewer"
+  >("viewer");
   const [showEditPassword, setShowEditPassword] = useState(false);
   const [isSavingUserEdit, setIsSavingUserEdit] = useState(false);
   const [isCreatingUser, setIsCreatingUser] = useState(false);
@@ -275,8 +311,18 @@ function DashboardPage() {
 
   // Google Places Sync States
   const [isSyncingGoogleModal, setIsSyncingGoogleModal] = useState(false);
-  const [googleApiKey, setGoogleApiKey] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_google_api_key") : null) || "");
-  const [googlePlaceId, setGooglePlaceId] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_google_place_id") : null) || "");
+  const [googleApiKey, setGoogleApiKey] = useState(
+    () =>
+      (typeof window !== "undefined"
+        ? localStorage.getItem("upfront_google_api_key")
+        : null) || "",
+  );
+  const [googlePlaceId, setGooglePlaceId] = useState(
+    () =>
+      (typeof window !== "undefined"
+        ? localStorage.getItem("upfront_google_place_id")
+        : null) || "",
+  );
   const [isSyncingGoogle, setIsSyncingGoogle] = useState(false);
 
   // Web Inquiries Filters & Modals
@@ -286,13 +332,46 @@ function DashboardPage() {
   const [emailSourceFilter, setEmailSourceFilter] = useState("all");
 
   // Portal & Site Config States
-  const [alertEmail, setAlertEmail] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_alertEmail") : null) || "allen@upfrontac.com");
-  const [officePhone, setOfficePhone] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_officePhone") : null) || "(713) 819-7908");
-  const [emailAlert, setEmailAlert] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_emailAlert") !== "false" : true));
-  const [maintenanceMode, setMaintenanceMode] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_maintenanceMode") === "true" : false));
-  const [weekdays, setWeekdays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_weekdays") : null) || "7:00 AM - 5:00 PM");
-  const [saturdays, setSaturdays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_saturdays") : null) || "Emergency Calls Only");
-  const [sundays, setSundays] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_sundays") : null) || "Emergency Calls Only");
+  const [alertEmail, setAlertEmail] = useState(
+    () =>
+      (typeof window !== "undefined"
+        ? localStorage.getItem("upfront_settings_alertEmail")
+        : null) || "allen@upfrontac.com",
+  );
+  const [officePhone, setOfficePhone] = useState(
+    () =>
+      (typeof window !== "undefined"
+        ? localStorage.getItem("upfront_settings_officePhone")
+        : null) || "(713) 819-7908",
+  );
+  const [emailAlert, setEmailAlert] = useState(() =>
+    typeof window !== "undefined"
+      ? localStorage.getItem("upfront_settings_emailAlert") !== "false"
+      : true,
+  );
+  const [maintenanceMode, setMaintenanceMode] = useState(() =>
+    typeof window !== "undefined"
+      ? localStorage.getItem("upfront_settings_maintenanceMode") === "true"
+      : false,
+  );
+  const [weekdays, setWeekdays] = useState(
+    () =>
+      (typeof window !== "undefined"
+        ? localStorage.getItem("upfront_settings_weekdays")
+        : null) || "7:00 AM - 5:00 PM",
+  );
+  const [saturdays, setSaturdays] = useState(
+    () =>
+      (typeof window !== "undefined"
+        ? localStorage.getItem("upfront_settings_saturdays")
+        : null) || "Emergency Calls Only",
+  );
+  const [sundays, setSundays] = useState(
+    () =>
+      (typeof window !== "undefined"
+        ? localStorage.getItem("upfront_settings_sundays")
+        : null) || "Emergency Calls Only",
+  );
 
   const [confirmConfig, setConfirmConfig] = useState<{
     title: string;
@@ -326,7 +405,7 @@ function DashboardPage() {
           const activeUser = {
             id: res.id || "",
             username: res.username || "",
-            role: res.role || "admin"
+            role: res.role || "admin",
           };
           setCurrentUser(activeUser);
           setUpdateUsername(activeUser.username);
@@ -353,7 +432,7 @@ function DashboardPage() {
       getChatSessions().then(setChatSessions);
       getGalleryPhotos().then(setGalleryPhotos);
       getNotifications().then(setNotifications);
-      getSiteSettings().then(settings => {
+      getSiteSettings().then((settings) => {
         if (settings) {
           setAlertEmail(settings.alertEmail || "allen@upfrontac.com");
           setOfficePhone(settings.officePhone || "(713) 819-7908");
@@ -412,21 +491,31 @@ function DashboardPage() {
     pollInterval: 5000,
     onPoll: async () => {
       try {
-        const [notifs, latestLeads, latestEmails, latestSessions] = await Promise.allSettled([
-          getNotifications(),
-          getLeads(),
-          getWebEmails(),
-          getChatSessions(),
-        ]);
-        if (notifs.status === "fulfilled" && Array.isArray(notifs.value)) setNotifications(notifs.value);
-        if (latestLeads.status === "fulfilled" && Array.isArray(latestLeads.value)) {
+        const [notifs, latestLeads, latestEmails, latestSessions] =
+          await Promise.allSettled([
+            getNotifications(),
+            getLeads(),
+            getWebEmails(),
+            getChatSessions(),
+          ]);
+        if (notifs.status === "fulfilled" && Array.isArray(notifs.value))
+          setNotifications(notifs.value);
+        if (
+          latestLeads.status === "fulfilled" &&
+          Array.isArray(latestLeads.value)
+        ) {
           setLeads((prev) => {
             const map = new Map<string, Lead>();
             latestLeads.value.forEach((l: Lead) => {
-              if (l?.id && !deletedLeadIdsRef.current.has(l.id)) map.set(l.id, l);
+              if (l?.id && !deletedLeadIdsRef.current.has(l.id))
+                map.set(l.id, l);
             });
             prev.forEach((l) => {
-              if (l?.id && !deletedLeadIdsRef.current.has(l.id) && !map.has(l.id)) {
+              if (
+                l?.id &&
+                !deletedLeadIdsRef.current.has(l.id) &&
+                !map.has(l.id)
+              ) {
                 map.set(l.id, l);
               }
             });
@@ -440,45 +529,78 @@ function DashboardPage() {
             return prevIds === mergedIds ? prev : merged;
           });
         }
-        if (latestEmails.status === "fulfilled" && Array.isArray(latestEmails.value)) {
+        if (
+          latestEmails.status === "fulfilled" &&
+          Array.isArray(latestEmails.value)
+        ) {
           setWebEmails((prev) => {
             const map = new Map<string, WebEmail>();
             latestEmails.value.forEach((e: WebEmail) => {
-              if (e?.id && !deletedEmailIdsRef.current.has(e.id)) map.set(e.id, e);
+              if (e?.id && !deletedEmailIdsRef.current.has(e.id))
+                map.set(e.id, e);
             });
             prev.forEach((e) => {
-              if (e?.id && !deletedEmailIdsRef.current.has(e.id) && !map.has(e.id)) {
+              if (
+                e?.id &&
+                !deletedEmailIdsRef.current.has(e.id) &&
+                !map.has(e.id)
+              ) {
                 map.set(e.id, e);
               }
             });
             const merged = Array.from(map.values()).sort(
-              (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime(),
             );
             const prevIds = prev.map((e) => e.id).join(",");
             const mergedIds = merged.map((e) => e.id).join(",");
             return prevIds === mergedIds ? prev : merged;
           });
         }
-        if (latestSessions.status === "fulfilled" && Array.isArray(latestSessions.value)) {
+        if (
+          latestSessions.status === "fulfilled" &&
+          Array.isArray(latestSessions.value)
+        ) {
           setChatSessions((prev) => {
-            const deleted = new Set(getStorageItem<string[]>("upfront-deleted-chats", []));
+            const deleted = new Set(
+              getStorageItem<string[]>("upfront-deleted-chats", []),
+            );
             const map = new Map<string, ChatSession>();
             latestSessions.value.forEach((s: ChatSession) => {
-              if (s?.id && !deleted.has(s.id) && !deletedChatIdsRef.current.has(s.id)) {
+              if (
+                s?.id &&
+                !deleted.has(s.id) &&
+                !deletedChatIdsRef.current.has(s.id)
+              ) {
                 map.set(s.id, s);
               }
             });
             prev.forEach((s) => {
-              if (s?.id && !deleted.has(s.id) && !deletedChatIdsRef.current.has(s.id)) {
+              if (
+                s?.id &&
+                !deleted.has(s.id) &&
+                !deletedChatIdsRef.current.has(s.id)
+              ) {
                 const existing = map.get(s.id);
                 if (existing) {
-                  const messages = dedupeChatMessages([...(s.messages || []), ...(existing.messages || [])]);
+                  const messages = dedupeChatMessages([
+                    ...(s.messages || []),
+                    ...(existing.messages || []),
+                  ]);
                   const clientName =
-                    existing.clientName && existing.clientName !== "Website Visitor"
+                    existing.clientName &&
+                    existing.clientName !== "Website Visitor"
                       ? existing.clientName
-                      : (s.clientName && s.clientName !== "Website Visitor" ? s.clientName : (existing.clientName || s.clientName || "Website Visitor"));
-                  const clientEmail = existing.clientEmail || s.clientEmail || "";
-                  const clientPhone = existing.clientPhone || s.clientPhone || "";
+                      : s.clientName && s.clientName !== "Website Visitor"
+                        ? s.clientName
+                        : existing.clientName ||
+                          s.clientName ||
+                          "Website Visitor";
+                  const clientEmail =
+                    existing.clientEmail || s.clientEmail || "";
+                  const clientPhone =
+                    existing.clientPhone || s.clientPhone || "";
 
                   map.set(s.id, {
                     ...s,
@@ -488,7 +610,8 @@ function DashboardPage() {
                     clientPhone,
                     messages,
                     lastMessage: existing.lastMessage || s.lastMessage,
-                    lastMessageTime: existing.lastMessageTime || s.lastMessageTime
+                    lastMessageTime:
+                      existing.lastMessageTime || s.lastMessageTime,
                   });
                 } else {
                   map.set(s.id, s);
@@ -496,10 +619,30 @@ function DashboardPage() {
               }
             });
             const merged = Array.from(map.values()).sort(
-              (a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()
+              (a, b) =>
+                new Date(b.lastMessageTime).getTime() -
+                new Date(a.lastMessageTime).getTime(),
             );
-            const prevSummary = prev.map((s) => s.id + "-" + (s.messages?.length || 0) + "-" + s.lastMessageTime).join(",");
-            const mergedSummary = merged.map((s) => s.id + "-" + (s.messages?.length || 0) + "-" + s.lastMessageTime).join(",");
+            const prevSummary = prev
+              .map(
+                (s) =>
+                  s.id +
+                  "-" +
+                  (s.messages?.length || 0) +
+                  "-" +
+                  s.lastMessageTime,
+              )
+              .join(",");
+            const mergedSummary = merged
+              .map(
+                (s) =>
+                  s.id +
+                  "-" +
+                  (s.messages?.length || 0) +
+                  "-" +
+                  s.lastMessageTime,
+              )
+              .join(",");
             return prevSummary === mergedSummary ? prev : merged;
           });
         }
@@ -508,16 +651,36 @@ function DashboardPage() {
       }
     },
     socketHandlers: {
-      "session-created": (data: { sessionId: string; clientName: string; clientEmail?: string; clientPhone?: string; firstMessage?: string }) => {
+      "session-created": (data: {
+        sessionId: string;
+        clientName: string;
+        clientEmail?: string;
+        clientPhone?: string;
+        firstMessage?: string;
+      }) => {
         getChatSessions().then(setChatSessions);
         getNotifications().then(setNotifications);
-        toast.info(`New live chat from ${data.clientName || "Website Visitor"}`);
+        toast.info(
+          `New live chat from ${data.clientName || "Website Visitor"}`,
+        );
       },
-      "new-chat-message": (msg: { sessionId: string; id: string; sender: "client" | "admin"; text: string; timestamp: string; clientName?: string; clientEmail?: string; clientPhone?: string }) => {
+      "new-chat-message": (msg: {
+        sessionId: string;
+        id: string;
+        sender: "client" | "admin";
+        text: string;
+        timestamp: string;
+        clientName?: string;
+        clientEmail?: string;
+        clientPhone?: string;
+      }) => {
         setChatSessions((prev) => {
           const updated = prev.map((session) => {
             if (session.id === msg.sessionId) {
-              const messages = dedupeChatMessages([...(session.messages || []), msg]);
+              const messages = dedupeChatMessages([
+                ...(session.messages || []),
+                msg,
+              ]);
               const clientName =
                 msg.clientName && msg.clientName !== "Website Visitor"
                   ? msg.clientName
@@ -532,15 +695,29 @@ function DashboardPage() {
                 messages,
                 lastMessage: msg.text,
                 lastMessageTime: msg.timestamp,
-                unread: msg.sessionId === activeSessionId ? false : (msg.sender === "client" ? true : session.unread)
+                unread:
+                  msg.sessionId === activeSessionId
+                    ? false
+                    : msg.sender === "client"
+                      ? true
+                      : session.unread,
               };
             }
             return session;
           });
-          return [...updated].sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime());
+          return [...updated].sort(
+            (a, b) =>
+              new Date(b.lastMessageTime).getTime() -
+              new Date(a.lastMessageTime).getTime(),
+          );
         });
-        if (msg.sender === "client" && (msg.sessionId !== activeSessionId || activeTab !== "chat")) {
-          toast.message(`${msg.clientName || "Visitor"} Message Received`, { description: `"${msg.text}"` });
+        if (
+          msg.sender === "client" &&
+          (msg.sessionId !== activeSessionId || activeTab !== "chat")
+        ) {
+          toast.message(`${msg.clientName || "Visitor"} Message Received`, {
+            description: `"${msg.text}"`,
+          });
         }
       },
       "new-lead": (newLead: Lead) => {
@@ -550,11 +727,15 @@ function DashboardPage() {
         });
         toast.success(`⚡ New HVAC Dispatch Lead: ${newLead.name}!`, {
           description: `${newLead.projectType?.toUpperCase()} · $${newLead.estimatedValue?.toLocaleString()} (${newLead.address || "Houston"})`,
-          action: { label: "View Leads", onClick: () => setActiveTab("leads") }
+          action: { label: "View Leads", onClick: () => setActiveTab("leads") },
         });
       },
       "lead-updated": (data: { id: string; updates: any }) => {
-        setLeads((prev) => prev.map((lead) => (lead.id === data.id ? { ...lead, ...data.updates } : lead)));
+        setLeads((prev) =>
+          prev.map((lead) =>
+            lead.id === data.id ? { ...lead, ...data.updates } : lead,
+          ),
+        );
       },
       "lead-deleted": (data: { id: string }) => {
         setLeads((prev) => prev.filter((lead) => lead.id !== data.id));
@@ -566,7 +747,10 @@ function DashboardPage() {
         });
         toast.success(`📬 New Web Inquiry from ${newInquiry.name}!`, {
           description: `${newInquiry.service || "General Request"} (${newInquiry.source || "Website"})`,
-          action: { label: "View Inquiries", onClick: () => setActiveTab("emails") }
+          action: {
+            label: "View Inquiries",
+            onClick: () => setActiveTab("emails"),
+          },
         });
       },
       "new-notification": (notification: DashboardNotification) => {
@@ -574,10 +758,16 @@ function DashboardPage() {
           if (prev.some((n) => n.id === notification.id)) return prev;
           return [notification, ...prev];
         });
-        if (notification.type === "form_submission" || notification.type === "lead") {
+        if (
+          notification.type === "form_submission" ||
+          notification.type === "lead"
+        ) {
           toast.message(notification.title, {
             description: notification.message,
-            action: { label: "View Inquiries", onClick: () => setActiveTab("emails") }
+            action: {
+              label: "View Inquiries",
+              onClick: () => setActiveTab("emails"),
+            },
           });
         }
       },
@@ -585,8 +775,16 @@ function DashboardPage() {
         if (updated) {
           setAlertEmail(updated.alertEmail || "allen@upfrontac.com");
           setOfficePhone(updated.officePhone || "(713) 819-7908");
-          setEmailAlert(updated.emailAlert !== undefined ? Boolean(updated.emailAlert) : true);
-          setMaintenanceMode(updated.maintenanceMode !== undefined ? Boolean(updated.maintenanceMode) : false);
+          setEmailAlert(
+            updated.emailAlert !== undefined
+              ? Boolean(updated.emailAlert)
+              : true,
+          );
+          setMaintenanceMode(
+            updated.maintenanceMode !== undefined
+              ? Boolean(updated.maintenanceMode)
+              : false,
+          );
           setWeekdays(updated.weekdays || "7:00 AM - 5:00 PM");
           setSaturdays(updated.saturdays || "Emergency Calls Only");
           setSundays(updated.sundays || "Emergency Calls Only");
@@ -610,12 +808,13 @@ function DashboardPage() {
     window.addEventListener("upfront-emails-updated", handleInquiriesUpdated);
     window.addEventListener("upfront-leads-updated", handleLeadsUpdated);
     return () => {
-      window.removeEventListener("upfront-emails-updated", handleInquiriesUpdated);
+      window.removeEventListener(
+        "upfront-emails-updated",
+        handleInquiriesUpdated,
+      );
       window.removeEventListener("upfront-leads-updated", handleLeadsUpdated);
     };
   }, []);
-
-
 
   const activeChatSession = useMemo(() => {
     return chatSessions.find((s) => s.id === activeSessionId) || null;
@@ -632,7 +831,9 @@ function DashboardPage() {
     const isNewMessage = currentCount > prevMsgCountRef.current;
 
     if (isNewSession || isNewMessage) {
-      chatEndRef.current?.scrollIntoView({ behavior: isNewSession ? "auto" : "smooth" });
+      chatEndRef.current?.scrollIntoView({
+        behavior: isNewSession ? "auto" : "smooth",
+      });
     }
 
     prevMsgCountRef.current = currentCount;
@@ -646,11 +847,17 @@ function DashboardPage() {
 
   const serviceSplit = useMemo(() => {
     const total = leads.length;
-    const ac = leads.filter((l) => l.projectType === "residential" || l.projectType === "ac").length;
+    const ac = leads.filter(
+      (l) => l.projectType === "residential" || l.projectType === "ac",
+    ).length;
     const heating = leads.filter((l) => l.projectType === "heating").length;
     const install = leads.filter((l) => l.projectType === "install").length;
-    const maintenance = leads.filter((l) => l.projectType === "maintenance").length;
-    const commercial = leads.filter((l) => l.projectType === "commercial").length;
+    const maintenance = leads.filter(
+      (l) => l.projectType === "maintenance",
+    ).length;
+    const commercial = leads.filter(
+      (l) => l.projectType === "commercial",
+    ).length;
 
     const acPct = total > 0 ? Math.round((ac / total) * 100) : 45;
     const heatPct = total > 0 ? Math.round((heating / total) * 100) : 20;
@@ -661,7 +868,7 @@ function DashboardPage() {
       { label: "AC Repair", pct: acPct, color: "#005CE6" },
       { label: "HVAC Install", pct: installPct, color: "#06B6D4" },
       { label: "Heating / Furnace", pct: heatPct, color: "#F59E0B" },
-      { label: "Commercial HVAC", pct: commPct, color: "#10B981" }
+      { label: "Commercial HVAC", pct: commPct, color: "#10B981" },
     ];
   }, [leads]);
 
@@ -679,7 +886,8 @@ function DashboardPage() {
 
       const matchesSource =
         emailSourceFilter === "all" ||
-        (email.source && email.source.toLowerCase().includes(emailSourceFilter.toLowerCase()));
+        (email.source &&
+          email.source.toLowerCase().includes(emailSourceFilter.toLowerCase()));
 
       return matchesSearch && matchesSource;
     });
@@ -702,11 +910,13 @@ function DashboardPage() {
       const res = await updateUserCredentials(
         currentUser.id,
         updateUsername.trim() || undefined,
-        updatePassword.trim() || undefined
+        updatePassword.trim() || undefined,
       );
       if (res.success) {
         toast.success("Security credentials updated successfully!");
-        setCurrentUser((prev) => prev ? { ...prev, username: res.username } : null);
+        setCurrentUser((prev) =>
+          prev ? { ...prev, username: res.username } : null,
+        );
         setUpdatePassword("");
         setUpdatePasswordConfirm("");
       }
@@ -726,17 +936,22 @@ function DashboardPage() {
         maintenanceMode: nextVal,
         weekdays: weekdays.trim(),
         saturdays: saturdays.trim(),
-        sundays: sundays.trim()
+        sundays: sundays.trim(),
       });
       if (saved) {
         setMaintenanceMode(saved.maintenanceMode);
       }
       if (nextVal) {
-        toast.error("🚨 Emergency Maintenance Mode ACTIVATED! Public visitors will now see the Under Construction screen.", {
-          duration: 6000
-        });
+        toast.error(
+          "🚨 Emergency Maintenance Mode ACTIVATED! Public visitors will now see the Under Construction screen.",
+          {
+            duration: 6000,
+          },
+        );
       } else {
-        toast.success("✅ Maintenance Mode DEACTIVATED — Website is Live & Operational!");
+        toast.success(
+          "✅ Maintenance Mode DEACTIVATED — Website is Live & Operational!",
+        );
       }
     } catch {
       setMaintenanceMode(!nextVal);
@@ -755,9 +970,13 @@ function DashboardPage() {
         maintenanceMode,
         weekdays: weekdays.trim(),
         saturdays: saturdays.trim(),
-        sundays: sundays.trim()
+        sundays: sundays.trim(),
       });
-      toast.success(nextVal ? "Instant email notifications enabled" : "Email notifications muted");
+      toast.success(
+        nextVal
+          ? "Instant email notifications enabled"
+          : "Email notifications muted",
+      );
     } catch {
       setEmailAlert(!nextVal);
       toast.error("Failed to update notification settings.");
@@ -777,7 +996,7 @@ function DashboardPage() {
         maintenanceMode,
         weekdays: weekdays.trim(),
         saturdays: saturdays.trim(),
-        sundays: sundays.trim()
+        sundays: sundays.trim(),
       });
       if (saved) {
         setAlertEmail(saved.alertEmail);
@@ -804,7 +1023,11 @@ function DashboardPage() {
     }
     setIsCreatingUser(true);
     try {
-      const res = await createPortalUser(addUsername.trim(), addPassword.trim(), addRole);
+      const res = await createPortalUser(
+        addUsername.trim(),
+        addPassword.trim(),
+        addRole,
+      );
       if (res.success) {
         toast.success(`Team account '${res.username}' created successfully.`);
         setAddUsername("");
@@ -823,7 +1046,7 @@ function DashboardPage() {
     setEditingUser(user);
     setEditUserUsername(user.username);
     setEditUserPassword("");
-    setEditUserRole(user.role as any || "viewer");
+    setEditUserRole((user.role as any) || "viewer");
     setShowEditPassword(false);
   };
 
@@ -836,12 +1059,18 @@ function DashboardPage() {
         editingUser.id,
         editUserUsername.trim() || undefined,
         editUserPassword.trim() || undefined,
-        editUserRole
+        editUserRole,
       );
       if (res.success) {
-        toast.success(`Account '${res.username || editingUser.username}' updated successfully!`);
+        toast.success(
+          `Account '${res.username || editingUser.username}' updated successfully!`,
+        );
         if (currentUser && currentUser.id === editingUser.id) {
-          setCurrentUser(prev => prev ? { ...prev, username: res.username, role: editUserRole } : null);
+          setCurrentUser((prev) =>
+            prev
+              ? { ...prev, username: res.username, role: editUserRole }
+              : null,
+          );
         }
         setEditingUser(null);
         getPortalUsers().then(setPortalUsers);
@@ -876,7 +1105,7 @@ function DashboardPage() {
         } catch {
           toast.error("Failed to delete user.");
         }
-      }
+      },
     });
   };
 
@@ -887,7 +1116,9 @@ function DashboardPage() {
         u.role.toLowerCase().includes(userSearch.toLowerCase()) ||
         (u.id && u.id.toLowerCase().includes(userSearch.toLowerCase()));
       const matchRole =
-        userRoleFilter === "all" ? true : u.role.toLowerCase() === userRoleFilter.toLowerCase();
+        userRoleFilter === "all"
+          ? true
+          : u.role.toLowerCase() === userRoleFilter.toLowerCase();
       return matchSearch && matchRole;
     });
   }, [portalUsers, userSearch, userRoleFilter]);
@@ -919,7 +1150,7 @@ function DashboardPage() {
         estimatedValue: Number(editEstimatedValue) || 0,
         status: editStatus,
         notes: editNotes.trim(),
-        description: editDescription.trim() || selectedLead.description
+        description: editDescription.trim() || selectedLead.description,
       });
       if (updated) {
         setLeads(updated);
@@ -932,12 +1163,17 @@ function DashboardPage() {
     }
   };
 
-  const handleQuickStatusChange = async (leadId: string, newStatus: Lead["status"]) => {
+  const handleQuickStatusChange = async (
+    leadId: string,
+    newStatus: Lead["status"],
+  ) => {
     try {
       const updated = await updateLeadStatus(leadId, newStatus);
       if (updated) {
         setLeads(updated);
-        toast.success(`Lead status updated to ${newStatus.replace("_", " ").toUpperCase()}`);
+        toast.success(
+          `Lead status updated to ${newStatus.replace("_", " ").toUpperCase()}`,
+        );
       }
     } catch {
       toast.error("Failed to update lead status.");
@@ -960,7 +1196,7 @@ function DashboardPage() {
         } catch {
           toast.error("Failed to delete lead.");
         }
-      }
+      },
     });
   };
 
@@ -973,15 +1209,19 @@ function DashboardPage() {
     try {
       const created = await addCustomLead({
         name: newLeadName.trim(),
-        email: newLeadEmail.trim() || `${newLeadName.trim().toLowerCase().replace(/\s+/g, ".")}@client.com`,
+        email:
+          newLeadEmail.trim() ||
+          `${newLeadName.trim().toLowerCase().replace(/\s+/g, ".")}@client.com`,
         phone: newLeadPhone.trim(),
         address: newLeadAddress.trim() || "Cypress, TX",
         projectType: newLeadType,
-        description: newLeadDesc.trim() || "Direct dispatch lead created from admin dashboard.",
+        description:
+          newLeadDesc.trim() ||
+          "Direct dispatch lead created from admin dashboard.",
         status: "new",
         estimatedValue: Number(newLeadVal) || 450,
         contactTime: "anytime",
-        notes: ""
+        notes: "",
       });
       toast.success(`New HVAC dispatch lead for '${newLeadName}' created.`);
       setIsAddingLead(false);
@@ -997,7 +1237,10 @@ function DashboardPage() {
     }
   };
 
-  const handleUploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>, leadId: string) => {
+  const handleUploadPhoto = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    leadId: string,
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
@@ -1006,7 +1249,7 @@ function DashboardPage() {
       try {
         const updated = await uploadLeadPhoto(leadId, base64);
         setLeads(updated);
-        const current = updated.find(l => l.id === leadId);
+        const current = updated.find((l) => l.id === leadId);
         if (current) setSelectedLead(current);
         toast.success("Photo attachment uploaded.");
       } catch {
@@ -1020,7 +1263,7 @@ function DashboardPage() {
     try {
       const updated = await removeLeadPhoto(leadId, index);
       setLeads(updated);
-      const current = updated.find(l => l.id === leadId);
+      const current = updated.find((l) => l.id === leadId);
       if (current) setSelectedLead(current);
       toast.success("Photo removed.");
     } catch {
@@ -1052,7 +1295,7 @@ function DashboardPage() {
         } catch {
           toast.error("Failed to delete review.");
         }
-      }
+      },
     });
   };
 
@@ -1099,14 +1342,21 @@ function DashboardPage() {
     if (e) e.preventDefault();
     setIsSyncingGoogle(true);
     try {
-      if (googleApiKey) localStorage.setItem("upfront_google_api_key", googleApiKey);
-      if (googlePlaceId) localStorage.setItem("upfront_google_place_id", googlePlaceId);
+      if (googleApiKey)
+        localStorage.setItem("upfront_google_api_key", googleApiKey);
+      if (googlePlaceId)
+        localStorage.setItem("upfront_google_place_id", googlePlaceId);
 
-      const res = await syncGooglePlacesReviews(googleApiKey || undefined, googlePlaceId || undefined);
+      const res = await syncGooglePlacesReviews(
+        googleApiKey || undefined,
+        googlePlaceId || undefined,
+      );
       if (res.success) {
         setReviews(res.reviews);
         setIsSyncingGoogleModal(false);
-        toast.success(res.message || `Successfully synced ${res.count} Google reviews!`);
+        toast.success(
+          res.message || `Successfully synced ${res.count} Google reviews!`,
+        );
       } else {
         toast.error(res.message || "Failed to sync Google reviews.");
       }
@@ -1132,14 +1382,16 @@ function DashboardPage() {
         } catch {
           toast.error("Failed to delete inquiry.");
         }
-      }
+      },
     });
   };
 
   // Chat Handlers
   const handleSelectChat = async (id: string) => {
     setActiveSessionId(id);
-    setChatSessions((prev) => prev.map((s) => (s.id === id ? { ...s, unread: false } : s)));
+    setChatSessions((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, unread: false } : s)),
+    );
     markChatAsRead(id);
     if (socketRef.current) {
       socketRef.current.emit("join-session", id);
@@ -1152,13 +1404,14 @@ function DashboardPage() {
     if (!activeSessionId || !textToSend) return;
 
     // 1. INSTANT Optimistic UI Update (0ms latency!)
-    const msgId = "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
+    const msgId =
+      "msg-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6);
     const time = new Date().toISOString();
     const optimisticMsg: ChatMessage = {
       id: msgId,
       sender: "admin",
       text: textToSend,
-      timestamp: time
+      timestamp: time,
     };
 
     setAdminReplyText("");
@@ -1166,24 +1419,31 @@ function DashboardPage() {
     setChatSessions((prev) => {
       const updated = prev.map((s) => {
         if (s.id === activeSessionId) {
-          const messages = dedupeChatMessages([...(s.messages || []), optimisticMsg]);
+          const messages = dedupeChatMessages([
+            ...(s.messages || []),
+            optimisticMsg,
+          ]);
           return {
             ...s,
             messages,
             lastMessage: textToSend,
-            lastMessageTime: time
+            lastMessageTime: time,
           };
         }
         return s;
       });
-      return [...updated].sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime());
+      return [...updated].sort(
+        (a, b) =>
+          new Date(b.lastMessageTime).getTime() -
+          new Date(a.lastMessageTime).getTime(),
+      );
     });
 
     // 2. Broadcast immediately over Socket.io
     if (socketRef.current) {
       socketRef.current.emit("send-message", {
         ...optimisticMsg,
-        sessionId: activeSessionId
+        sessionId: activeSessionId,
       });
     }
 
@@ -1197,7 +1457,7 @@ function DashboardPage() {
         time,
         activeChatSession?.clientName,
         activeChatSession?.clientEmail,
-        activeChatSession?.clientPhone
+        activeChatSession?.clientPhone,
       );
     } catch (err) {
       console.warn("Background chat persist error:", err);
@@ -1222,23 +1482,29 @@ function DashboardPage() {
         } catch {
           toast.error("Failed to delete chat session.");
         }
-      }
+      },
     });
   };
 
   const handleToggleChatStatus = async (id: string, shouldClose: boolean) => {
     try {
-      const updated = shouldClose ? await closeChatSession(id) : await reopenChatSession(id);
+      const updated = shouldClose
+        ? await closeChatSession(id)
+        : await reopenChatSession(id);
       if (updated) {
-        setChatSessions((prev) => prev.map((s) => s.id === id ? updated : s));
+        setChatSessions((prev) => prev.map((s) => (s.id === id ? updated : s)));
         if (socketRef.current) {
           socketRef.current.emit("session-status", {
             sessionId: id,
             isClosed: shouldClose,
-            status: shouldClose ? "closed" : "active"
+            status: shouldClose ? "closed" : "active",
           });
         }
-        toast.success(shouldClose ? "Chat closed. Visitor cannot reply on this chat." : "Chat session reopened.");
+        toast.success(
+          shouldClose
+            ? "Chat closed. Visitor cannot reply on this chat."
+            : "Chat session reopened.",
+        );
       }
     } catch {
       toast.error("Failed to update chat status.");
@@ -1273,7 +1539,10 @@ function DashboardPage() {
         }
         successCount++;
       } catch (uploadErr) {
-        console.error(`Error uploading photo ${i + 1} (${file.name}):`, uploadErr);
+        console.error(
+          `Error uploading photo ${i + 1} (${file.name}):`,
+          uploadErr,
+        );
         failCount++;
       }
 
@@ -1287,18 +1556,25 @@ function DashboardPage() {
     setSelectedGalleryFiles([]);
 
     if (successCount > 0 && failCount === 0) {
-      toast.success(`Successfully uploaded all ${successCount} photos to Cloudinary CDN & live gallery!`);
+      toast.success(
+        `Successfully uploaded all ${successCount} photos to Cloudinary CDN & live gallery!`,
+      );
     } else if (successCount > 0 && failCount > 0) {
-      toast.warning(`Uploaded ${successCount} photos (${failCount} failed to process).`);
+      toast.warning(
+        `Uploaded ${successCount} photos (${failCount} failed to process).`,
+      );
     } else {
-      toast.error("Failed to upload photos. Please check your internet connection and Cloudinary settings.");
+      toast.error(
+        "Failed to upload photos. Please check your internet connection and Cloudinary settings.",
+      );
     }
   };
 
   const handleDeleteGallery = (id: string) => {
     triggerConfirm({
       title: "Delete Showcase Photo",
-      message: "Are you sure you want to remove this photo from the public website gallery?",
+      message:
+        "Are you sure you want to remove this photo from the public website gallery?",
       confirmText: "Remove",
       onConfirm: async () => {
         try {
@@ -1308,7 +1584,7 @@ function DashboardPage() {
         } catch {
           toast.error("Failed to remove photo.");
         }
-      }
+      },
     });
   };
 
@@ -1332,7 +1608,7 @@ function DashboardPage() {
         } catch {
           toast.error("Failed to delete selected photos.");
         }
-      }
+      },
     });
   };
 
@@ -1356,8 +1632,10 @@ function DashboardPage() {
         (lead.phone || "").includes(s) ||
         (lead.description || "").toLowerCase().includes(s) ||
         (lead.notes || "").toLowerCase().includes(s);
-      const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
-      const matchesType = typeFilter === "all" || lead.projectType === typeFilter;
+      const matchesStatus =
+        statusFilter === "all" || lead.status === statusFilter;
+      const matchesType =
+        typeFilter === "all" || lead.projectType === typeFilter;
       return matchesSearch && matchesStatus && matchesType;
     });
   }, [sortedLeads, searchTerm, statusFilter, typeFilter]);
@@ -1375,7 +1653,8 @@ function DashboardPage() {
         (reviewFilter === "featured" && rev.featured) ||
         (reviewFilter === "hidden" && !rev.featured);
       const matchesRating =
-        reviewRatingFilter === "all" || rev.rating === Number(reviewRatingFilter);
+        reviewRatingFilter === "all" ||
+        rev.rating === Number(reviewRatingFilter);
       return matchesSearch && matchesStatus && matchesRating;
     });
   }, [reviews, reviewSearch, reviewFilter, reviewRatingFilter]);
@@ -1388,7 +1667,9 @@ function DashboardPage() {
             <div className="w-12 h-12 border-3 border-[#005CE6]/30 border-t-[#005CE6] border-r-cyan-400 rounded-full animate-spin mx-auto" />
             <ShieldCheck className="w-5 h-5 text-cyan-400 absolute inset-0 m-auto animate-pulse" />
           </div>
-          <p className="text-xs uppercase font-extrabold tracking-widest text-slate-400">Loading Upfront Command Hub...</p>
+          <p className="text-xs uppercase font-extrabold tracking-widest text-slate-400">
+            Loading Upfront Command Hub...
+          </p>
         </div>
       </div>
     );
@@ -1396,7 +1677,6 @@ function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex font-sans text-slate-900 antialiased selection:bg-[#005CE6] selection:text-white">
-      
       {/* ── MOBILE SLIDE-OVER DRAWER ── */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -1423,14 +1703,22 @@ function DashboardPage() {
                 <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
                   <div className="flex items-center gap-3">
                     <div className="bg-white rounded-xl p-1.5 shadow-md flex items-center justify-center">
-                      <img src={logo} alt="Upfront A/C & Heating" className="h-8 w-auto object-contain select-none" />
+                      <img
+                        src={logo}
+                        alt="Upfront A/C & Heating"
+                        className="h-8 w-auto object-contain select-none"
+                      />
                     </div>
                     <div className="flex flex-col text-left">
-                      <span className="text-xs font-black uppercase tracking-wider text-white">Upfront A/C</span>
-                      <span className="text-[10px] font-bold text-cyan-400 tracking-tight">TACLA #121344E</span>
+                      <span className="text-xs font-black uppercase tracking-wider text-white">
+                        Upfront A/C
+                      </span>
+                      <span className="text-[10px] font-bold text-cyan-400 tracking-tight">
+                        TACLA #121344E
+                      </span>
                     </div>
                   </div>
-                  
+
                   <button
                     onClick={() => setMobileMenuOpen(false)}
                     className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-rose-500 text-slate-400 hover:text-white transition-colors cursor-pointer"
@@ -1454,16 +1742,55 @@ function DashboardPage() {
 
                 {/* Navigation Links */}
                 <div className="space-y-1">
-                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 px-3 mb-2">Command Menu</p>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 px-3 mb-2">
+                    Command Menu
+                  </p>
                   {[
-                    { id: "overview", label: "Executive Overview", icon: TrendingUp },
-                    { id: "leads", label: "Leads & Dispatch", icon: Briefcase, badge: leads.filter(l => l.status === "new").length },
-                    { id: "reviews", label: "Reviews Moderator", icon: Star, badge: reviews.length },
-                    { id: "gallery", label: "Photo Showcase", icon: ImageIcon, badge: galleryPhotos.length },
-                    { id: "chat", label: "Live Visitor Chat", icon: MessageCircle, badge: chatSessions.filter(s => s.unread).length },
-                    { id: "emails", label: "Web Inquiries", icon: Mail, badge: webEmails.length },
-                    { id: "settings", label: "Portal Operations", icon: Settings },
-                    { id: "security", label: "Security & Users", icon: Sliders }
+                    {
+                      id: "overview",
+                      label: "Executive Overview",
+                      icon: TrendingUp,
+                    },
+                    {
+                      id: "leads",
+                      label: "Leads & Dispatch",
+                      icon: Briefcase,
+                      badge: leads.filter((l) => l.status === "new").length,
+                    },
+                    {
+                      id: "reviews",
+                      label: "Reviews Moderator",
+                      icon: Star,
+                      badge: reviews.length,
+                    },
+                    {
+                      id: "gallery",
+                      label: "Photo Showcase",
+                      icon: ImageIcon,
+                      badge: galleryPhotos.length,
+                    },
+                    {
+                      id: "chat",
+                      label: "Live Visitor Chat",
+                      icon: MessageCircle,
+                      badge: chatSessions.filter((s) => s.unread).length,
+                    },
+                    {
+                      id: "emails",
+                      label: "Web Inquiries",
+                      icon: Mail,
+                      badge: webEmails.length,
+                    },
+                    {
+                      id: "settings",
+                      label: "Portal Operations",
+                      icon: Settings,
+                    },
+                    {
+                      id: "security",
+                      label: "Security & Users",
+                      icon: Sliders,
+                    },
                   ].map((tab) => {
                     const Icon = tab.icon;
                     const isActive = activeTab === tab.id;
@@ -1481,14 +1808,20 @@ function DashboardPage() {
                         }`}
                       >
                         <span className="flex items-center gap-3">
-                          <Icon className={`w-4 h-4 transition-transform ${isActive ? "text-white" : "text-slate-400 group-hover:text-cyan-400"}`} />
+                          <Icon
+                            className={`w-4 h-4 transition-transform ${isActive ? "text-white" : "text-slate-400 group-hover:text-cyan-400"}`}
+                          />
                           <span>{tab.label}</span>
                         </span>
-                        
+
                         {Boolean(tab.badge && tab.badge > 0) && (
-                          <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
-                            isActive ? "bg-white/20 text-white" : "bg-cyan-500/20 text-cyan-300"
-                          }`}>
+                          <span
+                            className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                              isActive
+                                ? "bg-white/20 text-white"
+                                : "bg-cyan-500/20 text-cyan-300"
+                            }`}
+                          >
                             {tab.badge}
                           </span>
                         )}
@@ -1506,11 +1839,15 @@ function DashboardPage() {
                       {currentUser?.username?.charAt(0).toUpperCase() || "A"}
                     </div>
                     <div className="flex flex-col text-left">
-                      <span className="text-xs font-bold text-white capitalize">{currentUser?.username || "Admin"}</span>
-                      <span className="text-[10px] font-medium text-slate-400 capitalize">{currentUser?.role || "Administrator"}</span>
+                      <span className="text-xs font-bold text-white capitalize">
+                        {currentUser?.username || "Admin"}
+                      </span>
+                      <span className="text-[10px] font-medium text-slate-400 capitalize">
+                        {currentUser?.role || "Administrator"}
+                      </span>
                     </div>
                   </div>
-                  
+
                   <button
                     onClick={handleLogout}
                     title="Sign Out"
@@ -1527,24 +1864,30 @@ function DashboardPage() {
 
       {/* ── DESKTOP LEFT SIDEBAR NAVIGATION ── */}
       <aside className="hidden lg:flex w-72 bg-[#060B18] text-white flex-col justify-between p-5 sticky top-0 h-screen z-40 border-r border-slate-800 shadow-2xl shrink-0 overflow-hidden">
-        
         {/* Glow ambient decoration inside sidebar */}
         <div className="absolute -top-24 -left-24 w-60 h-60 bg-[#005CE6]/20 rounded-full blur-[100px] pointer-events-none" />
-        
+
         <div className="space-y-6 overflow-y-auto pr-1 relative z-10 scrollbar-none">
-          
           {/* Header Branding */}
           <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
             <div className="flex items-center gap-3">
               <div className="bg-white rounded-xl p-1.5 shadow-md flex items-center justify-center">
-                <img src={logo} alt="Upfront A/C & Heating" className="h-8 w-auto object-contain select-none" />
+                <img
+                  src={logo}
+                  alt="Upfront A/C & Heating"
+                  className="h-8 w-auto object-contain select-none"
+                />
               </div>
               <div className="flex flex-col text-left">
-                <span className="text-xs font-black uppercase tracking-wider text-white">Upfront A/C</span>
-                <span className="text-[10px] font-bold text-cyan-400 tracking-tight">TACLA #121344E</span>
+                <span className="text-xs font-black uppercase tracking-wider text-white">
+                  Upfront A/C
+                </span>
+                <span className="text-[10px] font-bold text-cyan-400 tracking-tight">
+                  TACLA #121344E
+                </span>
               </div>
             </div>
-            
+
             <Link
               to="/"
               title="View Live Website"
@@ -1568,16 +1911,43 @@ function DashboardPage() {
 
           {/* Navigation Links */}
           <div className="space-y-1">
-            <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 px-3 mb-2">Command Menu</p>
+            <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 px-3 mb-2">
+              Command Menu
+            </p>
             {[
               { id: "overview", label: "Executive Overview", icon: TrendingUp },
-              { id: "leads", label: "Leads & Dispatch", icon: Briefcase, badge: leads.filter(l => l.status === "new").length },
-              { id: "reviews", label: "Reviews Moderator", icon: Star, badge: reviews.length },
-              { id: "gallery", label: "Photo Showcase", icon: ImageIcon, badge: galleryPhotos.length },
-              { id: "chat", label: "Live Visitor Chat", icon: MessageCircle, badge: chatSessions.filter(s => s.unread).length },
-              { id: "emails", label: "Web Inquiries", icon: Mail, badge: webEmails.length },
+              {
+                id: "leads",
+                label: "Leads & Dispatch",
+                icon: Briefcase,
+                badge: leads.filter((l) => l.status === "new").length,
+              },
+              {
+                id: "reviews",
+                label: "Reviews Moderator",
+                icon: Star,
+                badge: reviews.length,
+              },
+              {
+                id: "gallery",
+                label: "Photo Showcase",
+                icon: ImageIcon,
+                badge: galleryPhotos.length,
+              },
+              {
+                id: "chat",
+                label: "Live Visitor Chat",
+                icon: MessageCircle,
+                badge: chatSessions.filter((s) => s.unread).length,
+              },
+              {
+                id: "emails",
+                label: "Web Inquiries",
+                icon: Mail,
+                badge: webEmails.length,
+              },
               { id: "settings", label: "Portal Operations", icon: Settings },
-              { id: "security", label: "Security & Users", icon: Sliders }
+              { id: "security", label: "Security & Users", icon: Sliders },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -1592,14 +1962,20 @@ function DashboardPage() {
                   }`}
                 >
                   <span className="flex items-center gap-3">
-                    <Icon className={`w-4 h-4 transition-transform ${isActive ? "text-white" : "text-slate-400 group-hover:text-cyan-400"}`} />
+                    <Icon
+                      className={`w-4 h-4 transition-transform ${isActive ? "text-white" : "text-slate-400 group-hover:text-cyan-400"}`}
+                    />
                     <span>{tab.label}</span>
                   </span>
-                  
+
                   {Boolean(tab.badge && tab.badge > 0) && (
-                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
-                      isActive ? "bg-white/20 text-white" : "bg-cyan-500/20 text-cyan-300"
-                    }`}>
+                    <span
+                      className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
+                        isActive
+                          ? "bg-white/20 text-white"
+                          : "bg-cyan-500/20 text-cyan-300"
+                      }`}
+                    >
                       {tab.badge}
                     </span>
                   )}
@@ -1615,7 +1991,9 @@ function DashboardPage() {
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 Live Systems
               </span>
-              <span className="text-[9px] font-bold text-slate-400">Houston HQ</span>
+              <span className="text-[9px] font-bold text-slate-400">
+                Houston HQ
+              </span>
             </div>
 
             <div className="space-y-1.5 text-[11px]">
@@ -1623,25 +2001,31 @@ function DashboardPage() {
                 <span className="flex items-center gap-1.5">
                   <Server className="w-3 h-3 text-cyan-400" /> Atlas Sync
                 </span>
-                <span className="text-[10px] font-bold text-emerald-400">Connected</span>
+                <span className="text-[10px] font-bold text-emerald-400">
+                  Connected
+                </span>
               </div>
 
               <div className="flex items-center justify-between text-slate-300">
                 <span className="flex items-center gap-1.5">
                   <Cloud className="w-3 h-3 text-[#005CE6]" /> Media CDN
                 </span>
-                <span className="text-[10px] font-bold text-emerald-400">Active</span>
+                <span className="text-[10px] font-bold text-emerald-400">
+                  Active
+                </span>
               </div>
 
               <div className="flex items-center justify-between text-slate-300">
                 <span className="flex items-center gap-1.5">
-                  <PhoneCall className="w-3 h-3 text-emerald-400" /> 24/7 Dispatch
+                  <PhoneCall className="w-3 h-3 text-emerald-400" /> 24/7
+                  Dispatch
                 </span>
-                <span className="text-[10px] font-bold text-cyan-300">Online</span>
+                <span className="text-[10px] font-bold text-cyan-300">
+                  Online
+                </span>
               </div>
             </div>
           </div>
-
         </div>
 
         {/* Sidebar Footer: User Info & Logout */}
@@ -1652,11 +2036,15 @@ function DashboardPage() {
                 {currentUser?.username?.charAt(0).toUpperCase() || "A"}
               </div>
               <div className="flex flex-col text-left">
-                <span className="text-xs font-bold text-white capitalize">{currentUser?.username || "Admin"}</span>
-                <span className="text-[10px] font-medium text-slate-400 capitalize">{currentUser?.role || "Administrator"}</span>
+                <span className="text-xs font-bold text-white capitalize">
+                  {currentUser?.username || "Admin"}
+                </span>
+                <span className="text-[10px] font-medium text-slate-400 capitalize">
+                  {currentUser?.role || "Administrator"}
+                </span>
               </div>
             </div>
-            
+
             <button
               onClick={handleLogout}
               title="Sign Out"
@@ -1666,12 +2054,10 @@ function DashboardPage() {
             </button>
           </div>
         </div>
-
       </aside>
 
       {/* ── MAIN WORKSPACE CONTENT ── */}
       <div className="flex-1 min-h-screen overflow-y-auto flex flex-col bg-[#F8FAFC]">
-        
         {/* Top Executive Header Bar */}
         <header className="bg-white/80 backdrop-blur-xl border-b border-slate-200/80 px-4 sm:px-8 py-3.5 sm:py-4 flex items-center justify-between sticky top-0 z-30 shadow-xs">
           <div className="flex items-center gap-3">
@@ -1705,7 +2091,6 @@ function DashboardPage() {
 
           {/* Topbar Right Tools */}
           <div className="flex items-center gap-2 sm:gap-4">
-            
             {/* Search Input */}
             <div className="relative hidden md:block">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
@@ -1728,7 +2113,7 @@ function DashboardPage() {
               }`}
             >
               <MessageSquare className="w-4 h-4" />
-              {chatSessions.some(s => s.unread) && (
+              {chatSessions.some((s) => s.unread) && (
                 <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white animate-pulse" />
               )}
             </button>
@@ -1736,11 +2121,13 @@ function DashboardPage() {
             {/* Notifications Center */}
             <div className="relative">
               <button
-                onClick={() => setShowNotificationsPopover(!showNotificationsPopover)}
+                onClick={() =>
+                  setShowNotificationsPopover(!showNotificationsPopover)
+                }
                 className="p-2.5 rounded-full bg-slate-100 hover:bg-slate-200/80 text-slate-600 border border-slate-200 transition-all relative cursor-pointer"
               >
                 <Bell className="w-4 h-4" />
-                {notifications.some(n => !n.read) && (
+                {notifications.some((n) => !n.read) && (
                   <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white animate-pulse" />
                 )}
               </button>
@@ -1756,7 +2143,9 @@ function DashboardPage() {
                     className="absolute right-0 mt-3 w-80 sm:w-96 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 p-4 overflow-hidden"
                   >
                     <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                      <span className="font-extrabold text-sm text-slate-900">Notifications</span>
+                      <span className="font-extrabold text-sm text-slate-900">
+                        Notifications
+                      </span>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={async () => {
@@ -1792,24 +2181,37 @@ function DashboardPage() {
                             key={notif.id}
                             onClick={async () => {
                               if (!notif.read) {
-                                const updated = await markNotificationRead(notif.id);
+                                const updated = await markNotificationRead(
+                                  notif.id,
+                                );
                                 setNotifications(updated);
                               }
-                              if (notif.type === "form_submission") setActiveTab("emails");
-                              if (notif.type === "chat_start") setActiveTab("chat");
+                              if (notif.type === "form_submission")
+                                setActiveTab("emails");
+                              if (notif.type === "chat_start")
+                                setActiveTab("chat");
                               setShowNotificationsPopover(false);
                             }}
                             className={`p-3 rounded-xl transition cursor-pointer text-left ${
-                              notif.read ? "bg-transparent opacity-70" : "bg-blue-50/60 font-semibold"
+                              notif.read
+                                ? "bg-transparent opacity-70"
+                                : "bg-blue-50/60 font-semibold"
                             }`}
                           >
                             <div className="flex items-start justify-between gap-2">
-                              <span className="text-xs text-slate-900 font-bold">{notif.title}</span>
+                              <span className="text-xs text-slate-900 font-bold">
+                                {notif.title}
+                              </span>
                               <span className="text-[9px] text-slate-400 whitespace-nowrap">
-                                {new Date(notif.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                                {new Date(notif.createdAt).toLocaleTimeString(
+                                  [],
+                                  { hour: "2-digit", minute: "2-digit" },
+                                )}
                               </span>
                             </div>
-                            <p className="text-[11px] text-slate-600 mt-0.5 line-clamp-2">{notif.message}</p>
+                            <p className="text-[11px] text-slate-600 mt-0.5 line-clamp-2">
+                              {notif.message}
+                            </p>
                           </div>
                         ))
                       )}
@@ -1827,13 +2229,11 @@ function DashboardPage() {
               <PhoneCall className="w-3.5 h-3.5" />
               <span>(713) 819-7908</span>
             </a>
-
           </div>
         </header>
 
         {/* ── ACTIVE TAB VIEWPORT ── */}
         <div className="p-6 sm:p-8 space-y-8 flex-1">
-
           {/* ══════════════════════════════════════════════════════════
               TAB 1: EXECUTIVE OVERVIEW & METRICS
              ══════════════════════════════════════════════════════════ */}
@@ -1852,14 +2252,17 @@ function DashboardPage() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="text-lg font-black text-white">Upfront AC Operations Center</h2>
+                      <h2 className="text-lg font-black text-white">
+                        Upfront AC Operations Center
+                      </h2>
                       <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-black px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                         MongoDB Atlas Live
                       </span>
                     </div>
                     <p className="text-xs text-slate-300 font-medium mt-0.5">
-                      Real-time customer dispatch, incoming web inquiries, and automated quote metrics.
+                      Real-time customer dispatch, incoming web inquiries, and
+                      automated quote metrics.
                     </p>
                   </div>
                 </div>
@@ -1887,17 +2290,20 @@ function DashboardPage() {
 
               {/* Top 5 KPI Metric Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
-                
                 {/* Metric 1: Pipeline Value */}
                 <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Total Pipeline</span>
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
+                      Total Pipeline
+                    </span>
                     <div className="w-10 h-10 rounded-2xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center">
                       <DollarSign className="w-5 h-5" />
                     </div>
                   </div>
                   <div className="mt-4">
-                    <span className="text-2xl sm:text-3xl font-black text-slate-900">${analytics.totalValue.toLocaleString()}</span>
+                    <span className="text-2xl sm:text-3xl font-black text-slate-900">
+                      ${analytics.totalValue.toLocaleString()}
+                    </span>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-emerald-600">
                       <span className="flex items-center gap-0.5 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 text-[10px]">
                         <TrendingUp className="w-3 h-3" /> Active Pipeline
@@ -1909,13 +2315,17 @@ function DashboardPage() {
                 {/* Metric 2: New Service Leads */}
                 <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">New Service Leads</span>
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
+                      New Service Leads
+                    </span>
                     <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-600 flex items-center justify-center">
                       <Zap className="w-5 h-5" />
                     </div>
                   </div>
                   <div className="mt-4">
-                    <span className="text-2xl sm:text-3xl font-black text-slate-900">{leads.filter(l => l.status === "new").length}</span>
+                    <span className="text-2xl sm:text-3xl font-black text-slate-900">
+                      {leads.filter((l) => l.status === "new").length}
+                    </span>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-cyan-600">
                       <span className="bg-cyan-50 px-2 py-0.5 rounded-full border border-cyan-200 text-[10px]">
                         {analytics.activeCount} Active Dispatch
@@ -1941,7 +2351,7 @@ function DashboardPage() {
                   <div className="mt-4">
                     <div className="flex items-baseline gap-2">
                       <span className="text-2xl sm:text-3xl font-black text-slate-900">
-                        {chatSessions.filter(s => !s.isClosed).length}
+                        {chatSessions.filter((s) => !s.isClosed).length}
                       </span>
                       <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
@@ -1949,10 +2359,11 @@ function DashboardPage() {
                       </span>
                     </div>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold">
-                      {chatSessions.some(s => s.unread) ? (
+                      {chatSessions.some((s) => s.unread) ? (
                         <span className="bg-rose-50 text-rose-600 px-2 py-0.5 rounded-full border border-rose-200 text-[10px] font-black flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
-                          {chatSessions.filter(s => s.unread).length} Unread Chats
+                          {chatSessions.filter((s) => s.unread).length} Unread
+                          Chats
                         </span>
                       ) : (
                         <span className="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 text-[10px] font-bold">
@@ -1966,16 +2377,21 @@ function DashboardPage() {
                 {/* Metric 4: Closed / Won Jobs */}
                 <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Won Contracts</span>
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
+                      Won Contracts
+                    </span>
                     <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
                   </div>
                   <div className="mt-4">
-                    <span className="text-2xl sm:text-3xl font-black text-slate-900">{analytics.wonCount}</span>
+                    <span className="text-2xl sm:text-3xl font-black text-slate-900">
+                      {analytics.wonCount}
+                    </span>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-slate-500">
                       <span className="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 text-[10px] font-black">
-                        {analytics.conversionRate}% Win · ${analytics.wonValue.toLocaleString()}
+                        {analytics.conversionRate}% Win · $
+                        {analytics.wonValue.toLocaleString()}
                       </span>
                     </div>
                   </div>
@@ -1984,15 +2400,21 @@ function DashboardPage() {
                 {/* Metric 5: Customer Satisfaction */}
                 <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Customer Rating</span>
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
+                      Customer Rating
+                    </span>
                     <div className="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
                       <Star className="w-5 h-5 fill-amber-400" />
                     </div>
                   </div>
                   <div className="mt-4">
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-2xl sm:text-3xl font-black text-slate-900">5.0</span>
-                      <span className="text-sm font-bold text-slate-400">/ 5.0</span>
+                      <span className="text-2xl sm:text-3xl font-black text-slate-900">
+                        5.0
+                      </span>
+                      <span className="text-sm font-bold text-slate-400">
+                        / 5.0
+                      </span>
                     </div>
                     <div className="flex items-center gap-2 mt-2 text-xs font-bold text-amber-600">
                       <span className="bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200 text-[10px]">
@@ -2001,39 +2423,92 @@ function DashboardPage() {
                     </div>
                   </div>
                 </div>
-
               </div>
 
               {/* Middle Section: Revenue Chart & Service Category Breakdown */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                
                 {/* Left: Recharts Pipeline Trend Chart */}
                 <div className="lg:col-span-8 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
                     <div>
-                      <h3 className="text-base font-black text-slate-900">HVAC Service Demand & Pipeline Velocity</h3>
-                      <p className="text-xs text-slate-400 font-medium">Estimated project revenue over time across Houston Metro</p>
+                      <h3 className="text-base font-black text-slate-900">
+                        HVAC Service Demand & Pipeline Velocity
+                      </h3>
+                      <p className="text-xs text-slate-400 font-medium">
+                        Estimated project revenue over time across Houston Metro
+                      </p>
                     </div>
                     <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl text-xs font-bold text-slate-600">
-                      <span className="px-3 py-1 bg-white text-[#005CE6] rounded-lg shadow-xs">Daily Leads</span>
-                      <span className="px-3 py-1 text-slate-400">Houston HQ</span>
+                      <span className="px-3 py-1 bg-white text-[#005CE6] rounded-lg shadow-xs">
+                        Daily Leads
+                      </span>
+                      <span className="px-3 py-1 text-slate-400">
+                        Houston HQ
+                      </span>
                     </div>
                   </div>
 
                   <div className="h-72 w-full">
                     <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={analytics.monthlyTrends} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                      <AreaChart
+                        data={analytics.monthlyTrends}
+                        margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                      >
                         <defs>
-                          <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#005CE6" stopOpacity={0.4} />
-                            <stop offset="95%" stopColor="#005CE6" stopOpacity={0.0} />
+                          <linearGradient
+                            id="colorValue"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="5%"
+                              stopColor="#005CE6"
+                              stopOpacity={0.4}
+                            />
+                            <stop
+                              offset="95%"
+                              stopColor="#005CE6"
+                              stopOpacity={0.0}
+                            />
                           </linearGradient>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
-                        <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#94A3B8", fontSize: 11, fontWeight: 600 }} />
-                        <YAxis axisLine={false} tickLine={false} tick={{ fill: "#94A3B8", fontSize: 11, fontWeight: 600 }} tickFormatter={(val) => `$${val / 1000}k`} />
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          vertical={false}
+                          stroke="#F1F5F9"
+                        />
+                        <XAxis
+                          dataKey="month"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{
+                            fill: "#94A3B8",
+                            fontSize: 11,
+                            fontWeight: 600,
+                          }}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{
+                            fill: "#94A3B8",
+                            fontSize: 11,
+                            fontWeight: 600,
+                          }}
+                          tickFormatter={(val) => `$${val / 1000}k`}
+                        />
                         <RechartsTooltip content={<CustomChartTooltip />} />
-                        <Area type="monotone" dataKey="value" stroke="#005CE6" strokeWidth={3} fillOpacity={1} fill="url(#colorValue)" name="Est. Revenue" />
+                        <Area
+                          type="monotone"
+                          dataKey="value"
+                          stroke="#005CE6"
+                          strokeWidth={3}
+                          fillOpacity={1}
+                          fill="url(#colorValue)"
+                          name="Est. Revenue"
+                        />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
@@ -2042,23 +2517,35 @@ function DashboardPage() {
                 {/* Right: Service Demand Split */}
                 <div className="lg:col-span-4 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs flex flex-col justify-between">
                   <div>
-                    <h3 className="text-base font-black text-slate-900">Service Category Split</h3>
-                    <p className="text-xs text-slate-400 font-medium">Inquiry share by HVAC service specialty</p>
-                    
+                    <h3 className="text-base font-black text-slate-900">
+                      Service Category Split
+                    </h3>
+                    <p className="text-xs text-slate-400 font-medium">
+                      Inquiry share by HVAC service specialty
+                    </p>
+
                     <div className="space-y-4 mt-6">
                       {serviceSplit.map((item, i) => (
                         <div key={i} className="space-y-1.5">
                           <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                             <span className="flex items-center gap-2">
-                              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                              <span
+                                className="w-2.5 h-2.5 rounded-full"
+                                style={{ backgroundColor: item.color }}
+                              />
                               {item.label}
                             </span>
-                            <span className="text-slate-900 font-extrabold">{item.pct}%</span>
+                            <span className="text-slate-900 font-extrabold">
+                              {item.pct}%
+                            </span>
                           </div>
                           <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                             <div
                               className="h-full rounded-full transition-all duration-500"
-                              style={{ width: `${item.pct}%`, backgroundColor: item.color }}
+                              style={{
+                                width: `${item.pct}%`,
+                                backgroundColor: item.color,
+                              }}
                             />
                           </div>
                         </div>
@@ -2067,19 +2554,27 @@ function DashboardPage() {
                   </div>
 
                   <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between text-xs">
-                    <span className="text-slate-400 font-medium">Top Territory:</span>
-                    <span className="font-extrabold text-[#005CE6]">Cypress & Tomball, TX</span>
+                    <span className="text-slate-400 font-medium">
+                      Top Territory:
+                    </span>
+                    <span className="font-extrabold text-[#005CE6]">
+                      Cypress & Tomball, TX
+                    </span>
                   </div>
                 </div>
-
               </div>
 
               {/* Bottom Section: Urgent Dispatch Stream */}
               <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
                 <div className="p-6 border-b border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
-                    <h3 className="text-base font-black text-slate-900">Live Dispatch & Recent Leads</h3>
-                    <p className="text-xs text-slate-400 font-medium">Immediate customer requests requiring technician assignment</p>
+                    <h3 className="text-base font-black text-slate-900">
+                      Live Dispatch & Recent Leads
+                    </h3>
+                    <p className="text-xs text-slate-400 font-medium">
+                      Immediate customer requests requiring technician
+                      assignment
+                    </p>
                   </div>
                   <button
                     onClick={() => setActiveTab("leads")}
@@ -2092,38 +2587,66 @@ function DashboardPage() {
 
                 <div className="divide-y divide-slate-100">
                   {sortedLeads.slice(0, 6).map((lead) => (
-                    <div key={lead.id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors">
+                    <div
+                      key={lead.id}
+                      className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors"
+                    >
                       <div className="flex items-start gap-3.5">
                         <div className="w-10 h-10 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center shrink-0 font-black text-sm">
                           {lead.name ? lead.name.charAt(0).toUpperCase() : "L"}
                         </div>
                         <div>
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-extrabold text-sm text-slate-900">{lead.name}</span>
-                            <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
-                              lead.status === "new" ? "bg-amber-100 text-amber-800" :
-                              lead.status === "won" ? "bg-emerald-100 text-emerald-800" :
-                              lead.status === "lost" ? "bg-rose-100 text-rose-800" :
-                              "bg-blue-100 text-blue-800"
-                            }`}>
+                            <span className="font-extrabold text-sm text-slate-900">
+                              {lead.name}
+                            </span>
+                            <span
+                              className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
+                                lead.status === "new"
+                                  ? "bg-amber-100 text-amber-800"
+                                  : lead.status === "won"
+                                    ? "bg-emerald-100 text-emerald-800"
+                                    : lead.status === "lost"
+                                      ? "bg-rose-100 text-rose-800"
+                                      : "bg-blue-100 text-blue-800"
+                              }`}
+                            >
                               {lead.status.replace("_", " ")}
                             </span>
                             <span className="text-[10px] font-semibold text-slate-400">
-                              {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "Recent"}
+                              {lead.createdAt
+                                ? new Date(lead.createdAt).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                      month: "short",
+                                      day: "numeric",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    },
+                                  )
+                                : "Recent"}
                             </span>
                           </div>
                           <div className="flex items-center gap-3 text-xs text-slate-500 font-medium mt-1 flex-wrap">
                             <span className="flex items-center gap-1">
-                              <MapPin className="w-3.5 h-3.5 text-slate-400" /> {lead.address || "Houston, TX"}
+                              <MapPin className="w-3.5 h-3.5 text-slate-400" />{" "}
+                              {lead.address || "Houston, TX"}
                             </span>
                             <span>•</span>
-                            <span className="text-[#005CE6] font-bold capitalize">{lead.projectType ? lead.projectType.replace("-", " ") : "HVAC"} Service</span>
+                            <span className="text-[#005CE6] font-bold capitalize">
+                              {lead.projectType
+                                ? lead.projectType.replace("-", " ")
+                                : "HVAC"}{" "}
+                              Service
+                            </span>
                           </div>
                         </div>
                       </div>
 
                       <div className="flex items-center gap-3 self-end sm:self-auto">
-                        <span className="text-sm font-black text-slate-900">${(lead.estimatedValue || 0).toLocaleString()}</span>
+                        <span className="text-sm font-black text-slate-900">
+                          ${(lead.estimatedValue || 0).toLocaleString()}
+                        </span>
                         <a
                           href={`tel:${lead.phone}`}
                           className="p-2 rounded-xl bg-slate-100 hover:bg-[#005CE6] text-slate-600 hover:text-white transition-colors"
@@ -2145,15 +2668,17 @@ function DashboardPage() {
                       <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center mb-3">
                         <Users className="w-6 h-6" />
                       </div>
-                      <h4 className="text-sm font-black text-slate-800">No Leads Yet</h4>
+                      <h4 className="text-sm font-black text-slate-800">
+                        No Leads Yet
+                      </h4>
                       <p className="text-xs text-slate-400 mt-1 max-w-sm">
-                        Incoming service requests from your website forms will appear here in real-time as customers submit them.
+                        Incoming service requests from your website forms will
+                        appear here in real-time as customers submit them.
                       </p>
                     </div>
                   )}
                 </div>
               </div>
-
             </motion.div>
           )}
 
@@ -2171,8 +2696,12 @@ function DashboardPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Leads</span>
-                    <p className="text-2xl font-black text-slate-900 mt-1">{leads.length}</p>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      Total Leads
+                    </span>
+                    <p className="text-2xl font-black text-slate-900 mt-1">
+                      {leads.length}
+                    </p>
                   </div>
                   <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#005CE6] flex items-center justify-center">
                     <Briefcase className="w-5 h-5" />
@@ -2181,8 +2710,12 @@ function DashboardPage() {
 
                 <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-amber-600">New Inquiries</span>
-                    <p className="text-2xl font-black text-amber-600 mt-1">{leads.filter(l => l.status === "new").length}</p>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-amber-600">
+                      New Inquiries
+                    </span>
+                    <p className="text-2xl font-black text-amber-600 mt-1">
+                      {leads.filter((l) => l.status === "new").length}
+                    </p>
                   </div>
                   <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
                     <Zap className="w-5 h-5" />
@@ -2191,9 +2724,19 @@ function DashboardPage() {
 
                 <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-600">Active Dispatch</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-600">
+                      Active Dispatch
+                    </span>
                     <p className="text-2xl font-black text-cyan-600 mt-1">
-                      {leads.filter(l => ["contacted", "consultation_scheduled", "proposal_sent"].includes(l.status)).length}
+                      {
+                        leads.filter((l) =>
+                          [
+                            "contacted",
+                            "consultation_scheduled",
+                            "proposal_sent",
+                          ].includes(l.status),
+                        ).length
+                      }
                     </p>
                   </div>
                   <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
@@ -2203,8 +2746,12 @@ function DashboardPage() {
 
                 <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Won Revenue</span>
-                    <p className="text-2xl font-black text-emerald-600 mt-1">${analytics.wonValue.toLocaleString()}</p>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600">
+                      Won Revenue
+                    </span>
+                    <p className="text-2xl font-black text-emerald-600 mt-1">
+                      ${analytics.wonValue.toLocaleString()}
+                    </p>
                   </div>
                   <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                     <DollarSign className="w-5 h-5" />
@@ -2214,7 +2761,6 @@ function DashboardPage() {
 
               {/* Header Controls & Filters */}
               <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                
                 {/* Search & Filter Inputs */}
                 <div className="flex flex-wrap items-center gap-3 w-full md:w-auto flex-1">
                   <div className="relative flex-1 min-w-[200px] sm:max-w-xs">
@@ -2234,12 +2780,35 @@ function DashboardPage() {
                     className="px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-700 focus:bg-white focus:outline-none cursor-pointer"
                   >
                     <option value="all">All Statuses ({leads.length})</option>
-                    <option value="new">New Inquiry ({leads.filter(l => l.status === "new").length})</option>
-                    <option value="contacted">Contacted ({leads.filter(l => l.status === "contacted").length})</option>
-                    <option value="consultation_scheduled">Scheduled ({leads.filter(l => l.status === "consultation_scheduled").length})</option>
-                    <option value="proposal_sent">Proposal Sent ({leads.filter(l => l.status === "proposal_sent").length})</option>
-                    <option value="won">Won Jobs ({leads.filter(l => l.status === "won").length})</option>
-                    <option value="lost">Lost ({leads.filter(l => l.status === "lost").length})</option>
+                    <option value="new">
+                      New Inquiry (
+                      {leads.filter((l) => l.status === "new").length})
+                    </option>
+                    <option value="contacted">
+                      Contacted (
+                      {leads.filter((l) => l.status === "contacted").length})
+                    </option>
+                    <option value="consultation_scheduled">
+                      Scheduled (
+                      {
+                        leads.filter(
+                          (l) => l.status === "consultation_scheduled",
+                        ).length
+                      }
+                      )
+                    </option>
+                    <option value="proposal_sent">
+                      Proposal Sent (
+                      {leads.filter((l) => l.status === "proposal_sent").length}
+                      )
+                    </option>
+                    <option value="won">
+                      Won Jobs ({leads.filter((l) => l.status === "won").length}
+                      )
+                    </option>
+                    <option value="lost">
+                      Lost ({leads.filter((l) => l.status === "lost").length})
+                    </option>
                   </select>
 
                   <select
@@ -2253,7 +2822,9 @@ function DashboardPage() {
                     <option value="heating">Heating / Furnace</option>
                     <option value="maintenance">Seasonal Tune-Up</option>
                     <option value="commercial">Commercial HVAC</option>
-                    <option value="indoor_air_quality">Air Quality / IAQ</option>
+                    <option value="indoor_air_quality">
+                      Air Quality / IAQ
+                    </option>
                     <option value="emergency">24/7 Emergency</option>
                   </select>
                 </div>
@@ -2266,7 +2837,6 @@ function DashboardPage() {
                   <Plus className="w-4 h-4" />
                   <span>Add Dispatch Lead</span>
                 </button>
-
               </div>
 
               {/* Leads Table */}
@@ -2286,30 +2856,48 @@ function DashboardPage() {
                     <tbody className="divide-y divide-slate-100">
                       {filteredLeads.length === 0 ? (
                         <tr>
-                          <td colSpan={6} className="py-12 text-center text-slate-400 font-medium">
-                            No HVAC leads match the current filters or search criteria.
+                          <td
+                            colSpan={6}
+                            className="py-12 text-center text-slate-400 font-medium"
+                          >
+                            No HVAC leads match the current filters or search
+                            criteria.
                           </td>
                         </tr>
                       ) : (
                         filteredLeads.map((lead) => (
-                          <tr key={lead.id} className="hover:bg-slate-50/80 transition-colors">
-                            
+                          <tr
+                            key={lead.id}
+                            className="hover:bg-slate-50/80 transition-colors"
+                          >
                             {/* Client & Address */}
                             <td className="py-4 px-6">
                               <div className="flex items-start gap-3">
                                 <div className="w-9 h-9 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center font-black text-xs shrink-0">
-                                  {lead.name ? lead.name.charAt(0).toUpperCase() : "L"}
+                                  {lead.name
+                                    ? lead.name.charAt(0).toUpperCase()
+                                    : "L"}
                                 </div>
                                 <div>
                                   <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="font-extrabold text-slate-900 block">{lead.name}</span>
+                                    <span className="font-extrabold text-slate-900 block">
+                                      {lead.name}
+                                    </span>
                                     <span className="text-[10px] text-slate-400 font-medium">
-                                      {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : ""}
+                                      {lead.createdAt
+                                        ? new Date(
+                                            lead.createdAt,
+                                          ).toLocaleDateString("en-US", {
+                                            month: "short",
+                                            day: "numeric",
+                                          })
+                                        : ""}
                                     </span>
                                   </div>
                                   <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1 mt-0.5">
                                     <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
-                                    {lead.address || "Houston / Cypress Service Area, TX"}
+                                    {lead.address ||
+                                      "Houston / Cypress Service Area, TX"}
                                   </span>
                                 </div>
                               </div>
@@ -2319,17 +2907,27 @@ function DashboardPage() {
                             <td className="py-4 px-4">
                               <div className="space-y-1">
                                 {lead.phone ? (
-                                  <a href={`tel:${lead.phone}`} className="text-slate-900 font-bold hover:text-[#005CE6] flex items-center gap-1">
+                                  <a
+                                    href={`tel:${lead.phone}`}
+                                    className="text-slate-900 font-bold hover:text-[#005CE6] flex items-center gap-1"
+                                  >
                                     <Phone className="w-3 h-3 text-[#005CE6]" />
                                     <span>{lead.phone}</span>
                                   </a>
                                 ) : (
-                                  <span className="text-slate-400 text-[11px]">No phone</span>
+                                  <span className="text-slate-400 text-[11px]">
+                                    No phone
+                                  </span>
                                 )}
                                 {lead.email && (
-                                  <a href={`mailto:${lead.email}`} className="text-[11px] text-slate-500 hover:underline flex items-center gap-1">
+                                  <a
+                                    href={`mailto:${lead.email}`}
+                                    className="text-[11px] text-slate-500 hover:underline flex items-center gap-1"
+                                  >
                                     <Mail className="w-3 h-3 text-slate-400" />
-                                    <span className="truncate max-w-[150px]">{lead.email}</span>
+                                    <span className="truncate max-w-[150px]">
+                                      {lead.email}
+                                    </span>
                                   </a>
                                 )}
                               </div>
@@ -2337,16 +2935,30 @@ function DashboardPage() {
 
                             {/* Service Type */}
                             <td className="py-4 px-4">
-                              <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider border ${
-                                lead.projectType === "residential" || lead.projectType === "ac" ? "bg-blue-50 text-[#005CE6] border-blue-200" :
-                                lead.projectType === "install" ? "bg-cyan-50 text-cyan-700 border-cyan-200" :
-                                lead.projectType === "heating" ? "bg-amber-50 text-amber-700 border-amber-200" :
-                                lead.projectType === "maintenance" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
-                                lead.projectType === "commercial" ? "bg-purple-50 text-purple-700 border-purple-200" :
-                                lead.projectType === "indoor_air_quality" ? "bg-teal-50 text-teal-700 border-teal-200" :
-                                "bg-slate-100 text-slate-700 border-slate-200"
-                              }`}>
-                                {lead.projectType ? lead.projectType.replace("_", " ").replace("-", " ") : "HVAC"}
+                              <span
+                                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider border ${
+                                  lead.projectType === "residential" ||
+                                  lead.projectType === "ac"
+                                    ? "bg-blue-50 text-[#005CE6] border-blue-200"
+                                    : lead.projectType === "install"
+                                      ? "bg-cyan-50 text-cyan-700 border-cyan-200"
+                                      : lead.projectType === "heating"
+                                        ? "bg-amber-50 text-amber-700 border-amber-200"
+                                        : lead.projectType === "maintenance"
+                                          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                          : lead.projectType === "commercial"
+                                            ? "bg-purple-50 text-purple-700 border-purple-200"
+                                            : lead.projectType ===
+                                                "indoor_air_quality"
+                                              ? "bg-teal-50 text-teal-700 border-teal-200"
+                                              : "bg-slate-100 text-slate-700 border-slate-200"
+                                }`}
+                              >
+                                {lead.projectType
+                                  ? lead.projectType
+                                      .replace("_", " ")
+                                      .replace("-", " ")
+                                  : "HVAC"}
                               </span>
                             </td>
 
@@ -2359,18 +2971,30 @@ function DashboardPage() {
                             <td className="py-4 px-4">
                               <select
                                 value={lead.status}
-                                onChange={(e) => handleQuickStatusChange(lead.id, e.target.value as any)}
+                                onChange={(e) =>
+                                  handleQuickStatusChange(
+                                    lead.id,
+                                    e.target.value as any,
+                                  )
+                                }
                                 className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-full border focus:outline-none cursor-pointer ${
-                                  lead.status === "new" ? "bg-amber-50 text-amber-800 border-amber-200" :
-                                  lead.status === "won" ? "bg-emerald-50 text-emerald-800 border-emerald-200" :
-                                  lead.status === "lost" ? "bg-rose-50 text-rose-800 border-rose-200" :
-                                  "bg-blue-50 text-[#005CE6] border-blue-200"
+                                  lead.status === "new"
+                                    ? "bg-amber-50 text-amber-800 border-amber-200"
+                                    : lead.status === "won"
+                                      ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+                                      : lead.status === "lost"
+                                        ? "bg-rose-50 text-rose-800 border-rose-200"
+                                        : "bg-blue-50 text-[#005CE6] border-blue-200"
                                 }`}
                               >
                                 <option value="new">NEW</option>
                                 <option value="contacted">CONTACTED</option>
-                                <option value="consultation_scheduled">SCHEDULED</option>
-                                <option value="proposal_sent">PROPOSAL SENT</option>
+                                <option value="consultation_scheduled">
+                                  SCHEDULED
+                                </option>
+                                <option value="proposal_sent">
+                                  PROPOSAL SENT
+                                </option>
                                 <option value="won">WON</option>
                                 <option value="lost">LOST</option>
                               </select>
@@ -2394,7 +3018,9 @@ function DashboardPage() {
                                   <Edit2 className="w-3.5 h-3.5" />
                                 </button>
                                 <button
-                                  onClick={() => handleDeleteLead(lead.id, lead.name)}
+                                  onClick={() =>
+                                    handleDeleteLead(lead.id, lead.name)
+                                  }
                                   className="p-1.5 rounded-lg bg-slate-100 hover:bg-rose-500 text-slate-600 hover:text-white transition-colors cursor-pointer"
                                   title="Delete Lead"
                                 >
@@ -2402,7 +3028,6 @@ function DashboardPage() {
                                 </button>
                               </div>
                             </td>
-
                           </tr>
                         ))
                       )}
@@ -2426,25 +3051,45 @@ function DashboardPage() {
               <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-base font-black text-slate-900">Verified Customer Testimonials</h3>
+                    <h3 className="text-base font-black text-slate-900">
+                      Verified Customer Testimonials
+                    </h3>
                     <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black px-2 py-0.5 rounded-full">
                       5.0★ Rating ({reviews.length} Total)
                     </span>
                   </div>
-                  <p className="text-xs text-slate-400 font-medium">Moderate client ratings, respond to feedback, and auto-sync live from your Google Business Profile</p>
+                  <p className="text-xs text-slate-400 font-medium">
+                    Moderate client ratings, respond to feedback, and auto-sync
+                    live from your Google Business Profile
+                  </p>
                 </div>
-                
+
                 <div className="flex items-center gap-2.5 flex-wrap">
                   {/* Automated Google Sync Button */}
                   <button
                     onClick={() => setIsSyncingGoogleModal(true)}
                     className="px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-2xl text-xs font-black shadow-md shadow-blue-500/20 flex items-center gap-2 cursor-pointer transition-all hover:scale-[1.02] active:scale-95"
                   >
-                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
-                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                    <svg
+                      className="w-3.5 h-3.5 fill-current"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                        fill="#4285F4"
+                      />
+                      <path
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                        fill="#34A853"
+                      />
+                      <path
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                        fill="#FBBC05"
+                      />
+                      <path
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+                        fill="#EA4335"
+                      />
                     </svg>
                     <span>Sync Google Places API</span>
                   </button>
@@ -2479,8 +3124,13 @@ function DashboardPage() {
                     className="px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 cursor-pointer"
                   >
                     <option value="all">All Statuses ({reviews.length})</option>
-                    <option value="featured">Featured on Site ({reviews.filter(r => r.featured).length})</option>
-                    <option value="hidden">Hidden ({reviews.filter(r => !r.featured).length})</option>
+                    <option value="featured">
+                      Featured on Site (
+                      {reviews.filter((r) => r.featured).length})
+                    </option>
+                    <option value="hidden">
+                      Hidden ({reviews.filter((r) => !r.featured).length})
+                    </option>
                   </select>
 
                   <select
@@ -2495,7 +3145,11 @@ function DashboardPage() {
                 </div>
 
                 <span className="text-xs font-bold text-slate-400 whitespace-nowrap">
-                  Showing <strong className="text-slate-800">{filteredReviews.length}</strong> of {reviews.length} Reviews
+                  Showing{" "}
+                  <strong className="text-slate-800">
+                    {filteredReviews.length}
+                  </strong>{" "}
+                  of {reviews.length} Reviews
                 </span>
               </div>
 
@@ -2506,90 +3160,128 @@ function DashboardPage() {
                   </div>
                 ) : (
                   filteredReviews.map((rev) => (
-                  <div key={rev.id} className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
-                    <div>
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-0.5 text-amber-400">
-                            {Array.from({ length: rev.rating }).map((_, i) => (
-                              <Star key={i} className="w-4 h-4 fill-amber-400" />
-                            ))}
+                    <div
+                      key={rev.id}
+                      className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow"
+                    >
+                      <div>
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-0.5 text-amber-400">
+                              {Array.from({ length: rev.rating }).map(
+                                (_, i) => (
+                                  <Star
+                                    key={i}
+                                    className="w-4 h-4 fill-amber-400"
+                                  />
+                                ),
+                              )}
+                            </div>
+                            {(rev.source === "google" ||
+                              rev.id.includes("google") ||
+                              rev.title.includes("Google")) && (
+                              <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">
+                                <svg
+                                  className="w-2.5 h-2.5"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                    fill="#4285F4"
+                                  />
+                                  <path
+                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                    fill="#34A853"
+                                  />
+                                  <path
+                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                                    fill="#FBBC05"
+                                  />
+                                  <path
+                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+                                    fill="#EA4335"
+                                  />
+                                </svg>
+                                Google Verified
+                              </span>
+                            )}
                           </div>
-                          {(rev.source === "google" || rev.id.includes("google") || rev.title.includes("Google")) && (
-                            <span className="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">
-                              <svg className="w-2.5 h-2.5" viewBox="0 0 24 24">
-                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
-                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
-                              </svg>
-                              Google Verified
+
+                          <button
+                            onClick={() => handleToggleReviewFeatured(rev.id)}
+                            className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-full transition-colors cursor-pointer ${
+                              rev.featured
+                                ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                                : "bg-slate-100 text-slate-500 border border-slate-200 hover:bg-slate-200"
+                            }`}
+                          >
+                            {rev.featured ? "Featured on Site" : "Hidden"}
+                          </button>
+                        </div>
+
+                        <h4 className="font-extrabold text-sm text-slate-900 mt-3">
+                          {rev.title}
+                        </h4>
+                        <p className="text-xs text-slate-600 font-medium mt-1 leading-relaxed italic">
+                          "{rev.text}"
+                        </p>
+
+                        {rev.replyText && (
+                          <div className="mt-3 bg-blue-50/80 border border-blue-100 rounded-2xl p-3.5 text-xs text-slate-700">
+                            <span className="font-black text-[10px] uppercase tracking-wider text-[#005CE6] block mb-1">
+                              Upfront Owner Response:
                             </span>
-                          )}
-                        </div>
-
-                        <button
-                          onClick={() => handleToggleReviewFeatured(rev.id)}
-                          className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-full transition-colors cursor-pointer ${
-                            rev.featured
-                              ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                              : "bg-slate-100 text-slate-500 border border-slate-200 hover:bg-slate-200"
-                          }`}
-                        >
-                          {rev.featured ? "Featured on Site" : "Hidden"}
-                        </button>
-                      </div>
-
-                      <h4 className="font-extrabold text-sm text-slate-900 mt-3">{rev.title}</h4>
-                      <p className="text-xs text-slate-600 font-medium mt-1 leading-relaxed italic">
-                        "{rev.text}"
-                      </p>
-
-                      {rev.replyText && (
-                        <div className="mt-3 bg-blue-50/80 border border-blue-100 rounded-2xl p-3.5 text-xs text-slate-700">
-                          <span className="font-black text-[10px] uppercase tracking-wider text-[#005CE6] block mb-1">
-                            Upfront Owner Response:
-                          </span>
-                          "{rev.replyText}"
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        {rev.authorPhoto ? (
-                          <img src={rev.authorPhoto} alt={rev.author} className="w-8 h-8 rounded-full object-cover border border-slate-200" />
-                        ) : (
-                          <div className="w-8 h-8 rounded-full bg-blue-100 text-[#005CE6] font-black text-xs flex items-center justify-center">
-                            {rev.author.charAt(0)}
+                            "{rev.replyText}"
                           </div>
                         )}
-                        <div className="flex flex-col text-left">
-                          <span className="font-bold text-xs text-slate-900">{rev.author}</span>
-                          <span className="text-[10px] text-slate-400">{rev.location || "Houston Metro"}</span>
-                        </div>
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => {
-                            setSelectedReview(rev);
-                            setReviewReplyText(rev.replyText || "");
-                          }}
-                          className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-[#005CE6] text-slate-600 hover:text-white text-xs font-bold transition-colors cursor-pointer"
-                        >
-                          {rev.replyText ? "Edit Reply" : "Reply"}
-                        </button>
-                        <button
-                          onClick={() => handleDeleteReview(rev.id, rev.title)}
-                          className="p-1.5 rounded-xl bg-slate-100 hover:bg-rose-500 text-slate-600 hover:text-white transition-colors cursor-pointer"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
+                      <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <div className="flex items-center gap-2.5">
+                          {rev.authorPhoto ? (
+                            <img
+                              src={rev.authorPhoto}
+                              alt={rev.author}
+                              className="w-8 h-8 rounded-full object-cover border border-slate-200"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-blue-100 text-[#005CE6] font-black text-xs flex items-center justify-center">
+                              {rev.author.charAt(0)}
+                            </div>
+                          )}
+                          <div className="flex flex-col text-left">
+                            <span className="font-bold text-xs text-slate-900">
+                              {rev.author}
+                            </span>
+                            <span className="text-[10px] text-slate-400">
+                              {rev.location || "Houston Metro"}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              setSelectedReview(rev);
+                              setReviewReplyText(rev.replyText || "");
+                            }}
+                            className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-[#005CE6] text-slate-600 hover:text-white text-xs font-bold transition-colors cursor-pointer"
+                          >
+                            {rev.replyText ? "Edit Reply" : "Reply"}
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleDeleteReview(rev.id, rev.title)
+                            }
+                            className="p-1.5 rounded-xl bg-slate-100 hover:bg-rose-500 text-slate-600 hover:text-white transition-colors cursor-pointer"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )))}
+                  ))
+                )}
               </div>
             </motion.div>
           )}
@@ -2608,8 +3300,13 @@ function DashboardPage() {
               <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                   <div>
-                    <h3 className="text-base font-black text-slate-900">Cloudinary Media Uploader</h3>
-                    <p className="text-xs text-slate-400 font-medium">Upload high-resolution project photos directly to the live website gallery</p>
+                    <h3 className="text-base font-black text-slate-900">
+                      Cloudinary Media Uploader
+                    </h3>
+                    <p className="text-xs text-slate-400 font-medium">
+                      Upload high-resolution project photos directly to the live
+                      website gallery
+                    </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <select
@@ -2628,9 +3325,13 @@ function DashboardPage() {
                 {/* Upload Drag & Drop Area */}
                 <div className="border-2 border-dashed border-slate-200 hover:border-[#005CE6] rounded-3xl p-8 text-center transition-colors bg-slate-50/50">
                   <Upload className="w-8 h-8 text-[#005CE6] mx-auto mb-2" />
-                  <p className="text-xs font-extrabold text-slate-800">Choose images to upload</p>
-                  <p className="text-[11px] text-slate-400 mt-0.5">JPEG, PNG, WEBP up to 10MB each</p>
-                  
+                  <p className="text-xs font-extrabold text-slate-800">
+                    Choose images to upload
+                  </p>
+                  <p className="text-[11px] text-slate-400 mt-0.5">
+                    JPEG, PNG, WEBP up to 10MB each
+                  </p>
+
                   <input
                     type="file"
                     multiple
@@ -2653,7 +3354,9 @@ function DashboardPage() {
                         disabled={isUploadingGallery}
                         className="px-5 py-2 rounded-full bg-[#005CE6] hover:bg-[#0047B3] text-white text-xs font-extrabold shadow-md shadow-[#005CE6]/30 transition-all cursor-pointer disabled:opacity-50"
                       >
-                        {isUploadingGallery ? `Uploading (${galleryUploadProgress}%)...` : "Start Cloud Upload"}
+                        {isUploadingGallery
+                          ? `Uploading (${galleryUploadProgress}%)...`
+                          : "Start Cloud Upload"}
                       </button>
                     </div>
                   )}
@@ -2663,13 +3366,20 @@ function DashboardPage() {
               {/* Photos Grid */}
               <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs">
                 <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
-                  <h4 className="font-extrabold text-sm text-slate-900">Live Website Gallery ({galleryPhotos.length} Photos)</h4>
-                  <span className="text-xs text-slate-400 font-medium">Instant sync enabled</span>
+                  <h4 className="font-extrabold text-sm text-slate-900">
+                    Live Website Gallery ({galleryPhotos.length} Photos)
+                  </h4>
+                  <span className="text-xs text-slate-400 font-medium">
+                    Instant sync enabled
+                  </span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                   {galleryPhotos.map((photo) => (
-                    <div key={photo.id} className="group relative rounded-2xl overflow-hidden border border-slate-200 aspect-square bg-slate-100">
+                    <div
+                      key={photo.id}
+                      className="group relative rounded-2xl overflow-hidden border border-slate-200 aspect-square bg-slate-100"
+                    >
                       <img
                         src={photo.url}
                         alt="Gallery Project"
@@ -2714,7 +3424,9 @@ function DashboardPage() {
               className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden h-[580px] sm:h-[660px] grid grid-cols-1 md:grid-cols-12"
             >
               {/* Left Pane: Sessions List */}
-              <div className={`md:col-span-4 border-r border-slate-200 flex-col h-full bg-slate-50/50 ${activeChatSession ? "hidden md:flex" : "flex"}`}>
+              <div
+                className={`md:col-span-4 border-r border-slate-200 flex-col h-full bg-slate-50/50 ${activeChatSession ? "hidden md:flex" : "flex"}`}
+              >
                 <div className="p-4 border-b border-slate-200 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="font-extrabold text-xs uppercase tracking-wider text-slate-500">
@@ -2754,17 +3466,21 @@ function DashboardPage() {
 
                 {/* Sessions List */}
                 <div className="overflow-y-auto flex-1 divide-y divide-slate-100">
-                  {chatSessions
-                    .filter((session) => {
-                      if (chatFilterUnread && !session.unread) return false;
-                      if (!chatSearchQuery.trim()) return true;
-                      const q = chatSearchQuery.toLowerCase();
-                      const nameMatch = (session.clientName || "").toLowerCase().includes(q);
-                      const msgMatch = (session.lastMessage || "").toLowerCase().includes(q);
-                      const phoneMatch = (session.clientPhone || "").toLowerCase().includes(q);
-                      return nameMatch || msgMatch || phoneMatch;
-                    })
-                    .length === 0 ? (
+                  {chatSessions.filter((session) => {
+                    if (chatFilterUnread && !session.unread) return false;
+                    if (!chatSearchQuery.trim()) return true;
+                    const q = chatSearchQuery.toLowerCase();
+                    const nameMatch = (session.clientName || "")
+                      .toLowerCase()
+                      .includes(q);
+                    const msgMatch = (session.lastMessage || "")
+                      .toLowerCase()
+                      .includes(q);
+                    const phoneMatch = (session.clientPhone || "")
+                      .toLowerCase()
+                      .includes(q);
+                    return nameMatch || msgMatch || phoneMatch;
+                  }).length === 0 ? (
                     <div className="p-8 text-center text-xs text-slate-400">
                       {chatSessions.length === 0
                         ? "No live chats yet. Visitor chats will automatically pop up here in real time."
@@ -2776,9 +3492,15 @@ function DashboardPage() {
                         if (chatFilterUnread && !session.unread) return false;
                         if (!chatSearchQuery.trim()) return true;
                         const q = chatSearchQuery.toLowerCase();
-                        const nameMatch = (session.clientName || "").toLowerCase().includes(q);
-                        const msgMatch = (session.lastMessage || "").toLowerCase().includes(q);
-                        const phoneMatch = (session.clientPhone || "").toLowerCase().includes(q);
+                        const nameMatch = (session.clientName || "")
+                          .toLowerCase()
+                          .includes(q);
+                        const msgMatch = (session.lastMessage || "")
+                          .toLowerCase()
+                          .includes(q);
+                        const phoneMatch = (session.clientPhone || "")
+                          .toLowerCase()
+                          .includes(q);
                         return nameMatch || msgMatch || phoneMatch;
                       })
                       .map((session) => (
@@ -2830,7 +3552,9 @@ function DashboardPage() {
               </div>
 
               {/* Right Pane: Active Thread */}
-              <div className={`md:col-span-8 flex-col h-full bg-white min-h-0 overflow-hidden ${!activeChatSession ? "hidden md:flex" : "flex"}`}>
+              <div
+                className={`md:col-span-8 flex-col h-full bg-white min-h-0 overflow-hidden ${!activeChatSession ? "hidden md:flex" : "flex"}`}
+              >
                 {activeChatSession ? (
                   <>
                     {/* Active Chat Header */}
@@ -2848,7 +3572,9 @@ function DashboardPage() {
                         </div>
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                            <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">{activeChatSession.clientName}</h4>
+                            <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 truncate">
+                              {activeChatSession.clientName}
+                            </h4>
                             <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 bg-slate-100 px-1.5 sm:px-2 py-0.5 rounded-full">
                               {activeChatSession.clientCity || "Tomball, TX"}
                             </span>
@@ -2890,7 +3616,12 @@ function DashboardPage() {
                         {activeChatSession.isClosed ? (
                           <button
                             type="button"
-                            onClick={() => handleToggleChatStatus(activeChatSession.id, false)}
+                            onClick={() =>
+                              handleToggleChatStatus(
+                                activeChatSession.id,
+                                false,
+                              )
+                            }
                             className="inline-flex items-center gap-1.5 text-xs font-extrabold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-xl transition cursor-pointer shadow-2xs"
                             title="Reopen this chat session"
                           >
@@ -2900,7 +3631,9 @@ function DashboardPage() {
                         ) : (
                           <button
                             type="button"
-                            onClick={() => handleToggleChatStatus(activeChatSession.id, true)}
+                            onClick={() =>
+                              handleToggleChatStatus(activeChatSession.id, true)
+                            }
                             className="inline-flex items-center gap-1.5 text-xs font-extrabold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-1.5 rounded-xl transition cursor-pointer shadow-2xs"
                             title="Close chat session (visitor cannot reply)"
                           >
@@ -2913,37 +3646,44 @@ function DashboardPage() {
 
                     {/* Messages Thread */}
                     <div className="flex-1 min-h-0 p-5 overflow-y-auto space-y-4 bg-slate-50/50 overscroll-contain">
-                      {dedupeChatMessages(activeChatSession.messages || []).map((m) => (
-                        <div
-                          key={m.id}
-                          className={`flex items-end gap-2.5 ${m.sender === "admin" ? "justify-end" : "justify-start"}`}
-                        >
-                          {m.sender === "client" && (
-                            <div className="w-7 h-7 rounded-full bg-slate-200 border border-slate-300 text-slate-700 font-black text-[10px] flex items-center justify-center shrink-0 mb-1 uppercase select-none">
-                              {activeChatSession.clientName?.charAt(0) || "V"}
-                            </div>
-                          )}
-                          <div className={`flex flex-col max-w-[80%] ${m.sender === "admin" ? "items-end" : "items-start"}`}>
+                      {dedupeChatMessages(activeChatSession.messages || []).map(
+                        (m) => (
+                          <div
+                            key={m.id}
+                            className={`flex items-end gap-2.5 ${m.sender === "admin" ? "justify-end" : "justify-start"}`}
+                          >
+                            {m.sender === "client" && (
+                              <div className="w-7 h-7 rounded-full bg-slate-200 border border-slate-300 text-slate-700 font-black text-[10px] flex items-center justify-center shrink-0 mb-1 uppercase select-none">
+                                {activeChatSession.clientName?.charAt(0) || "V"}
+                              </div>
+                            )}
                             <div
-                              className={`px-4 py-2.5 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap break-words ${
-                                m.sender === "admin"
-                                  ? "bg-[#005CE6] text-white rounded-br-xs shadow-sm font-medium"
-                                  : "bg-white text-slate-800 border border-slate-200/80 rounded-bl-xs shadow-xs font-medium"
-                              }`}
+                              className={`flex flex-col max-w-[80%] ${m.sender === "admin" ? "items-end" : "items-start"}`}
                             >
-                              {m.text}
+                              <div
+                                className={`px-4 py-2.5 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap break-words ${
+                                  m.sender === "admin"
+                                    ? "bg-[#005CE6] text-white rounded-br-xs shadow-sm font-medium"
+                                    : "bg-white text-slate-800 border border-slate-200/80 rounded-bl-xs shadow-xs font-medium"
+                                }`}
+                              >
+                                {m.text}
+                              </div>
+                              <span className="text-[10px] text-slate-400 font-semibold mt-1 px-1 select-none">
+                                {m.sender === "admin"
+                                  ? "Upfront AC Dispatch"
+                                  : activeChatSession.clientName}{" "}
+                                · {formatChatTime(m.timestamp)}
+                              </span>
                             </div>
-                            <span className="text-[10px] text-slate-400 font-semibold mt-1 px-1 select-none">
-                              {m.sender === "admin" ? "Upfront AC Dispatch" : activeChatSession.clientName} · {formatChatTime(m.timestamp)}
-                            </span>
+                            {m.sender === "admin" && (
+                              <div className="w-7 h-7 rounded-full bg-[#005CE6] text-white font-black text-[10px] flex items-center justify-center shrink-0 mb-1 select-none">
+                                UA
+                              </div>
+                            )}
                           </div>
-                          {m.sender === "admin" && (
-                            <div className="w-7 h-7 rounded-full bg-[#005CE6] text-white font-black text-[10px] flex items-center justify-center shrink-0 mb-1 select-none">
-                              UA
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                        ),
+                      )}
                       <div ref={chatEndRef} />
                     </div>
 
@@ -2951,11 +3691,16 @@ function DashboardPage() {
                       <div className="shrink-0 p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between gap-3">
                         <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
                           <Lock className="w-4 h-4 text-slate-400 shrink-0" />
-                          <span>This chat has been closed. Visitor cannot send new replies.</span>
+                          <span>
+                            This chat has been closed. Visitor cannot send new
+                            replies.
+                          </span>
                         </div>
                         <button
                           type="button"
-                          onClick={() => handleToggleChatStatus(activeChatSession.id, false)}
+                          onClick={() =>
+                            handleToggleChatStatus(activeChatSession.id, false)
+                          }
                           className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 shrink-0 shadow-sm"
                         >
                           <RotateCcw className="w-3.5 h-3.5" />
@@ -2973,7 +3718,7 @@ function DashboardPage() {
                             "👋 Hi! How can we assist you with your AC today?",
                             "❄️ A technician is available in Tomball/Cypress today.",
                             "🚨 Emergency service available 24/7: (713) 819-7908.",
-                            "📋 Can we get your address to schedule a Free Estimate?"
+                            "📋 Can we get your address to schedule a Free Estimate?",
                           ].map((canned, idx) => (
                             <button
                               key={idx}
@@ -2987,7 +3732,10 @@ function DashboardPage() {
                         </div>
 
                         {/* Chat Input Bar */}
-                        <form onSubmit={handleSendChatReply} className="shrink-0 p-4 border-t border-slate-200 flex gap-3 bg-white">
+                        <form
+                          onSubmit={handleSendChatReply}
+                          className="shrink-0 p-4 border-t border-slate-200 flex gap-3 bg-white"
+                        >
                           <input
                             type="text"
                             placeholder={`Reply to ${activeChatSession.clientName}...`}
@@ -3012,14 +3760,16 @@ function DashboardPage() {
                     <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center mb-3">
                       <MessageCircle className="w-7 h-7" />
                     </div>
-                    <h4 className="text-sm font-black text-slate-800">Live Visitor Chat Console</h4>
+                    <h4 className="text-sm font-black text-slate-800">
+                      Live Visitor Chat Console
+                    </h4>
                     <p className="text-xs text-slate-500 max-w-sm mt-1">
-                      Select an incoming conversation from the left pane to chat live with your website visitors.
+                      Select an incoming conversation from the left pane to chat
+                      live with your website visitors.
                     </p>
                   </div>
                 )}
               </div>
-
             </motion.div>
           )}
 
@@ -3040,10 +3790,13 @@ function DashboardPage() {
                     <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200 text-[#005CE6] flex items-center justify-center">
                       <Mail className="w-4 h-4" />
                     </div>
-                    <h3 className="text-lg font-black text-slate-900 tracking-tight">Web Inquiries & Dedicated Page Leads</h3>
+                    <h3 className="text-lg font-black text-slate-900 tracking-tight">
+                      Web Inquiries & Dedicated Page Leads
+                    </h3>
                   </div>
                   <p className="text-xs text-slate-500 font-medium">
-                    Real-time submissions captured from Contact, Free Estimate, Pricing, Financing, Careers & Service Area forms.
+                    Real-time submissions captured from Contact, Free Estimate,
+                    Pricing, Financing, Careers & Service Area forms.
                   </p>
                 </div>
                 <div className="flex items-center gap-2.5">
@@ -3071,8 +3824,12 @@ function DashboardPage() {
                     <FileText className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">Total Submissions</span>
-                    <span className="text-2xl font-black text-slate-900">{webEmails.length}</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Total Submissions
+                    </span>
+                    <span className="text-2xl font-black text-slate-900">
+                      {webEmails.length}
+                    </span>
                   </div>
                 </div>
 
@@ -3081,9 +3838,15 @@ function DashboardPage() {
                     <PhoneCall className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">Direct Phone Provided</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Direct Phone Provided
+                    </span>
                     <span className="text-2xl font-black text-slate-900">
-                      {webEmails.filter((e) => e.phone && e.phone.trim().length > 0).length}
+                      {
+                        webEmails.filter(
+                          (e) => e.phone && e.phone.trim().length > 0,
+                        ).length
+                      }
                     </span>
                   </div>
                 </div>
@@ -3093,9 +3856,19 @@ function DashboardPage() {
                     <Calendar className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">Free Estimates</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Free Estimates
+                    </span>
                     <span className="text-2xl font-black text-slate-900">
-                      {webEmails.filter((e) => (e.source && e.source.toLowerCase().includes("estimate")) || (e.service && e.service.toLowerCase().includes("estimate"))).length}
+                      {
+                        webEmails.filter(
+                          (e) =>
+                            (e.source &&
+                              e.source.toLowerCase().includes("estimate")) ||
+                            (e.service &&
+                              e.service.toLowerCase().includes("estimate")),
+                        ).length
+                      }
                     </span>
                   </div>
                 </div>
@@ -3129,12 +3902,30 @@ function DashboardPage() {
                   </span>
                   {[
                     { id: "all", label: `All (${webEmails.length})` },
-                    { id: "estimate", label: `Free Estimate (${webEmails.filter(e => e.source?.toLowerCase().includes("estimate")).length})` },
-                    { id: "contact", label: `Contact Form (${webEmails.filter(e => e.source?.toLowerCase().includes("contact")).length})` },
-                    { id: "financ", label: `Financing (${webEmails.filter(e => e.source?.toLowerCase().includes("financ")).length})` },
-                    { id: "career", label: `Careers (${webEmails.filter(e => e.source?.toLowerCase().includes("career")).length})` },
-                    { id: "pricing", label: `Pricing (${webEmails.filter(e => e.source?.toLowerCase().includes("pricing")).length})` },
-                    { id: "area", label: `Service Areas (${webEmails.filter(e => e.source?.toLowerCase().includes("area")).length})` }
+                    {
+                      id: "estimate",
+                      label: `Free Estimate (${webEmails.filter((e) => e.source?.toLowerCase().includes("estimate")).length})`,
+                    },
+                    {
+                      id: "contact",
+                      label: `Contact Form (${webEmails.filter((e) => e.source?.toLowerCase().includes("contact")).length})`,
+                    },
+                    {
+                      id: "financ",
+                      label: `Financing (${webEmails.filter((e) => e.source?.toLowerCase().includes("financ")).length})`,
+                    },
+                    {
+                      id: "career",
+                      label: `Careers (${webEmails.filter((e) => e.source?.toLowerCase().includes("career")).length})`,
+                    },
+                    {
+                      id: "pricing",
+                      label: `Pricing (${webEmails.filter((e) => e.source?.toLowerCase().includes("pricing")).length})`,
+                    },
+                    {
+                      id: "area",
+                      label: `Service Areas (${webEmails.filter((e) => e.source?.toLowerCase().includes("area")).length})`,
+                    },
                   ].map((chip) => (
                     <button
                       key={chip.id}
@@ -3157,7 +3948,9 @@ function DashboardPage() {
                   <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#005CE6] flex items-center justify-center mb-3">
                     <Mail className="w-7 h-7" />
                   </div>
-                  <h4 className="text-sm font-black text-slate-800">No Web Inquiries Found</h4>
+                  <h4 className="text-sm font-black text-slate-800">
+                    No Web Inquiries Found
+                  </h4>
                   <p className="text-xs text-slate-400 mt-1 max-w-sm">
                     {emailSearch || emailSourceFilter !== "all"
                       ? "No submissions matched your search criteria. Try clearing the filter."
@@ -3180,18 +3973,53 @@ function DashboardPage() {
                   {filteredWebEmails.map((email) => {
                     const sourceLower = (email.source || "").toLowerCase();
                     const sourceBadge = sourceLower.includes("estimate")
-                      ? { bg: "bg-blue-50", text: "text-[#005CE6]", border: "border-blue-200", label: email.source || "Free Estimate Page" }
+                      ? {
+                          bg: "bg-blue-50",
+                          text: "text-[#005CE6]",
+                          border: "border-blue-200",
+                          label: email.source || "Free Estimate Page",
+                        }
                       : sourceLower.includes("contact")
-                      ? { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", label: email.source || "Contact Form" }
-                      : sourceLower.includes("career")
-                      ? { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200", label: email.source || "Careers Page" }
-                      : sourceLower.includes("financ")
-                      ? { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200", label: email.source || "Financing Page" }
-                      : sourceLower.includes("pricing")
-                      ? { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200", label: email.source || "Pricing Page" }
-                      : sourceLower.includes("area")
-                      ? { bg: "bg-cyan-50", text: "text-cyan-700", border: "border-cyan-200", label: email.source || "Service Areas" }
-                      : { bg: "bg-slate-50", text: "text-slate-700", border: "border-slate-200", label: email.source || "Website Form" };
+                        ? {
+                            bg: "bg-emerald-50",
+                            text: "text-emerald-700",
+                            border: "border-emerald-200",
+                            label: email.source || "Contact Form",
+                          }
+                        : sourceLower.includes("career")
+                          ? {
+                              bg: "bg-purple-50",
+                              text: "text-purple-700",
+                              border: "border-purple-200",
+                              label: email.source || "Careers Page",
+                            }
+                          : sourceLower.includes("financ")
+                            ? {
+                                bg: "bg-amber-50",
+                                text: "text-amber-700",
+                                border: "border-amber-200",
+                                label: email.source || "Financing Page",
+                              }
+                            : sourceLower.includes("pricing")
+                              ? {
+                                  bg: "bg-indigo-50",
+                                  text: "text-indigo-700",
+                                  border: "border-indigo-200",
+                                  label: email.source || "Pricing Page",
+                                }
+                              : sourceLower.includes("area")
+                                ? {
+                                    bg: "bg-cyan-50",
+                                    text: "text-cyan-700",
+                                    border: "border-cyan-200",
+                                    label: email.source || "Service Areas",
+                                  }
+                                : {
+                                    bg: "bg-slate-50",
+                                    text: "text-slate-700",
+                                    border: "border-slate-200",
+                                    label: email.source || "Website Form",
+                                  };
 
                     return (
                       <div
@@ -3201,12 +4029,20 @@ function DashboardPage() {
                         <div>
                           {/* Top Row: Source Badge & Timestamp */}
                           <div className="flex items-center justify-between gap-2 mb-3">
-                            <span className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border ${sourceBadge.bg} ${sourceBadge.text} ${sourceBadge.border}`}>
+                            <span
+                              className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border ${sourceBadge.bg} ${sourceBadge.text} ${sourceBadge.border}`}
+                            >
                               {sourceBadge.label}
                             </span>
                             <span className="text-[11px] text-slate-400 font-semibold flex items-center gap-1">
                               <Clock className="w-3 h-3 text-slate-300" />
-                              {new Date(email.createdAt).toLocaleDateString()} {new Date(email.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              {new Date(
+                                email.createdAt,
+                              ).toLocaleDateString()}{" "}
+                              {new Date(email.createdAt).toLocaleTimeString(
+                                [],
+                                { hour: "2-digit", minute: "2-digit" },
+                              )}
                             </span>
                           </div>
 
@@ -3277,7 +4113,9 @@ function DashboardPage() {
                               onClick={() => {
                                 const info = `Name: ${email.name}\nPhone: ${email.phone || "N/A"}\nEmail: ${email.email}\nService: ${email.service || "General"}\nSource: ${email.source || "Website"}\nMessage:\n${email.message || ""}`;
                                 navigator.clipboard.writeText(info);
-                                toast.success("Customer inquiry copied to clipboard!");
+                                toast.success(
+                                  "Customer inquiry copied to clipboard!",
+                                );
                               }}
                               className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer"
                               title="Copy Customer Info"
@@ -3327,9 +4165,21 @@ function DashboardPage() {
                             {selectedEmail.name.charAt(0) || "U"}
                           </div>
                           <div>
-                            <h4 className="font-extrabold text-base text-slate-900">{selectedEmail.name}</h4>
+                            <h4 className="font-extrabold text-base text-slate-900">
+                              {selectedEmail.name}
+                            </h4>
                             <span className="text-xs text-slate-400 font-medium">
-                              Received {new Date(selectedEmail.createdAt).toLocaleDateString()} at {new Date(selectedEmail.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              Received{" "}
+                              {new Date(
+                                selectedEmail.createdAt,
+                              ).toLocaleDateString()}{" "}
+                              at{" "}
+                              {new Date(
+                                selectedEmail.createdAt,
+                              ).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
                             </span>
                           </div>
                         </div>
@@ -3347,19 +4197,31 @@ function DashboardPage() {
                       <div className="space-y-3.5 text-xs text-slate-700">
                         <div className="grid grid-cols-2 gap-3">
                           <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block mb-1">Source Page</span>
-                            <span className="font-bold text-[#005CE6]">{selectedEmail.source || "Website Form"}</span>
+                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block mb-1">
+                              Source Page
+                            </span>
+                            <span className="font-bold text-[#005CE6]">
+                              {selectedEmail.source || "Website Form"}
+                            </span>
                           </div>
                           <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block mb-1">Requested Service</span>
-                            <span className="font-bold text-slate-800">{selectedEmail.service || "General HVAC"}</span>
+                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block mb-1">
+                              Requested Service
+                            </span>
+                            <span className="font-bold text-slate-800">
+                              {selectedEmail.service || "General HVAC"}
+                            </span>
                           </div>
                         </div>
 
                         <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
                           <div>
-                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block">Phone Number</span>
-                            <span className="font-bold text-slate-900 text-sm">{selectedEmail.phone || "Not Provided"}</span>
+                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block">
+                              Phone Number
+                            </span>
+                            <span className="font-bold text-slate-900 text-sm">
+                              {selectedEmail.phone || "Not Provided"}
+                            </span>
                           </div>
                           {selectedEmail.phone && (
                             <a
@@ -3373,8 +4235,12 @@ function DashboardPage() {
 
                         <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 flex items-center justify-between">
                           <div>
-                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block">Email Address</span>
-                            <span className="font-bold text-slate-900">{selectedEmail.email || "Not Provided"}</span>
+                            <span className="text-[10px] font-extrabold uppercase text-slate-400 block">
+                              Email Address
+                            </span>
+                            <span className="font-bold text-slate-900">
+                              {selectedEmail.email || "Not Provided"}
+                            </span>
                           </div>
                           {selectedEmail.email && (
                             <a
@@ -3387,9 +4253,12 @@ function DashboardPage() {
                         </div>
 
                         <div>
-                          <span className="text-[10px] font-extrabold uppercase text-slate-400 block mb-1.5">Submitted Notes & Form Details</span>
+                          <span className="text-[10px] font-extrabold uppercase text-slate-400 block mb-1.5">
+                            Submitted Notes & Form Details
+                          </span>
                           <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-xs leading-relaxed whitespace-pre-wrap max-h-52 overflow-y-auto">
-                            {selectedEmail.message || "No additional comments provided."}
+                            {selectedEmail.message ||
+                              "No additional comments provided."}
                           </div>
                         </div>
                       </div>
@@ -3400,7 +4269,9 @@ function DashboardPage() {
                           onClick={() => {
                             const info = `Name: ${selectedEmail.name}\nPhone: ${selectedEmail.phone || "N/A"}\nEmail: ${selectedEmail.email}\nService: ${selectedEmail.service || "General"}\nSource: ${selectedEmail.source || "Website"}\nMessage:\n${selectedEmail.message || ""}`;
                             navigator.clipboard.writeText(info);
-                            toast.success("Customer inquiry copied to clipboard!");
+                            toast.success(
+                              "Customer inquiry copied to clipboard!",
+                            );
                           }}
                           className="px-4 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs inline-flex items-center gap-1.5 transition cursor-pointer"
                         >
@@ -3442,10 +4313,14 @@ function DashboardPage() {
                     <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200 text-[#005CE6] flex items-center justify-center">
                       <Settings className="w-4 h-4" />
                     </div>
-                    <h3 className="text-lg font-black text-slate-900 tracking-tight">HVAC Dispatch & Portal Operations</h3>
+                    <h3 className="text-lg font-black text-slate-900 tracking-tight">
+                      HVAC Dispatch & Portal Operations
+                    </h3>
                   </div>
                   <p className="text-xs text-slate-500 font-medium">
-                    Configure alert routing emails, dispatch phone lines, and operating hours. Updates sync instantly to all website visitors and service pages in real-time.
+                    Configure alert routing emails, dispatch phone lines, and
+                    operating hours. Updates sync instantly to all website
+                    visitors and service pages in real-time.
                   </p>
                 </div>
 
@@ -3457,15 +4332,23 @@ function DashboardPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      getSiteSettings().then(settings => {
+                      getSiteSettings().then((settings) => {
                         if (settings) {
-                          setAlertEmail(settings.alertEmail || "allen@upfrontac.com");
-                          setOfficePhone(settings.officePhone || "(713) 819-7908");
+                          setAlertEmail(
+                            settings.alertEmail || "allen@upfrontac.com",
+                          );
+                          setOfficePhone(
+                            settings.officePhone || "(713) 819-7908",
+                          );
                           setEmailAlert(settings.emailAlert);
                           setMaintenanceMode(settings.maintenanceMode);
                           setWeekdays(settings.weekdays || "7:00 AM - 5:00 PM");
-                          setSaturdays(settings.saturdays || "Emergency Calls Only");
-                          setSundays(settings.sundays || "Emergency Calls Only");
+                          setSaturdays(
+                            settings.saturdays || "Emergency Calls Only",
+                          );
+                          setSundays(
+                            settings.sundays || "Emergency Calls Only",
+                          );
                         }
                       });
                       toast.success("Settings reloaded from database!");
@@ -3481,8 +4364,10 @@ function DashboardPage() {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
                 {/* Left 2 Cols: Main Configuration Form */}
                 <div className="lg:col-span-2 space-y-6">
-                  <form onSubmit={handleSaveConfig} className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-7">
-                    
+                  <form
+                    onSubmit={handleSaveConfig}
+                    className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-7"
+                  >
                     {/* Section 1: Contact & Dispatch Routing */}
                     <div>
                       <div className="flex items-center gap-2 mb-4 pb-2 border-b border-slate-100">
@@ -3496,7 +4381,9 @@ function DashboardPage() {
                         <div className="space-y-1.5">
                           <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
                             <span>Alert Notification Email</span>
-                            <span className="text-[10px] text-slate-400 font-normal">Receives all web inquiries</span>
+                            <span className="text-[10px] text-slate-400 font-normal">
+                              Receives all web inquiries
+                            </span>
                           </label>
                           <div className="relative">
                             <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -3514,7 +4401,9 @@ function DashboardPage() {
                         <div className="space-y-1.5">
                           <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
                             <span>Dispatch Office Phone</span>
-                            <span className="text-[10px] text-slate-400 font-normal">Displayed on website & call buttons</span>
+                            <span className="text-[10px] text-slate-400 font-normal">
+                              Displayed on website & call buttons
+                            </span>
                           </label>
                           <div className="relative">
                             <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -3543,14 +4432,18 @@ function DashboardPage() {
 
                         {/* Quick Presets */}
                         <div className="hidden sm:flex items-center gap-1.5">
-                          <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider">Presets:</span>
+                          <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider">
+                            Presets:
+                          </span>
                           <button
                             type="button"
                             onClick={() => {
                               setWeekdays("7:00 AM - 5:00 PM");
                               setSaturdays("Emergency Calls Only");
                               setSundays("Emergency Calls Only");
-                              toast.info("Applied Upfront Standard Schedule (7 AM - 5 PM M-F)");
+                              toast.info(
+                                "Applied Upfront Standard Schedule (7 AM - 5 PM M-F)",
+                              );
                             }}
                             className="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold transition"
                           >
@@ -3575,7 +4468,9 @@ function DashboardPage() {
                         <div className="space-y-1.5 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-100">
                           <label className="text-xs font-black text-slate-800 flex items-center justify-between">
                             <span>Monday - Friday</span>
-                            <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">Weekdays</span>
+                            <span className="text-[9px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
+                              Weekdays
+                            </span>
                           </label>
                           <input
                             type="text"
@@ -3590,7 +4485,9 @@ function DashboardPage() {
                         <div className="space-y-1.5 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-100">
                           <label className="text-xs font-black text-slate-800 flex items-center justify-between">
                             <span>Saturday</span>
-                            <span className="text-[9px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">Weekend</span>
+                            <span className="text-[9px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">
+                              Weekend
+                            </span>
                           </label>
                           <input
                             type="text"
@@ -3605,7 +4502,9 @@ function DashboardPage() {
                         <div className="space-y-1.5 bg-slate-50/70 p-3.5 rounded-2xl border border-slate-100">
                           <label className="text-xs font-black text-slate-800 flex items-center justify-between">
                             <span>Sunday / Emergencies</span>
-                            <span className="text-[9px] font-bold text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded">Emergency</span>
+                            <span className="text-[9px] font-bold text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded">
+                              Emergency
+                            </span>
                           </label>
                           <input
                             type="text"
@@ -3631,9 +4530,12 @@ function DashboardPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-center justify-between">
                           <div>
-                            <span className="text-xs font-black text-slate-900 block">Instant Email Alerts</span>
+                            <span className="text-xs font-black text-slate-900 block">
+                              Instant Email Alerts
+                            </span>
                             <span className="text-[11px] text-slate-500 font-medium leading-tight block mt-0.5">
-                              Notify {alertEmail || "admin"} immediately on incoming leads
+                              Notify {alertEmail || "admin"} immediately on
+                              incoming leads
                             </span>
                           </div>
                           <button
@@ -3653,7 +4555,9 @@ function DashboardPage() {
 
                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-center justify-between">
                           <div>
-                            <span className="text-xs font-black text-slate-900 block">Emergency Maintenance Mode</span>
+                            <span className="text-xs font-black text-slate-900 block">
+                              Emergency Maintenance Mode
+                            </span>
                             <span className="text-[11px] text-slate-500 font-medium leading-tight block mt-0.5">
                               Displays maintenance screen to public visitors
                             </span>
@@ -3662,12 +4566,16 @@ function DashboardPage() {
                             type="button"
                             onClick={handleToggleMaintenanceMode}
                             className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer shrink-0 ${
-                              maintenanceMode ? "bg-rose-600 shadow-sm shadow-rose-500/40" : "bg-slate-300"
+                              maintenanceMode
+                                ? "bg-rose-600 shadow-sm shadow-rose-500/40"
+                                : "bg-slate-300"
                             }`}
                           >
                             <div
                               className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
-                                maintenanceMode ? "translate-x-6" : "translate-x-0"
+                                maintenanceMode
+                                  ? "translate-x-6"
+                                  : "translate-x-0"
                               }`}
                             />
                           </button>
@@ -3706,7 +4614,9 @@ function DashboardPage() {
                         <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                         Live Public Site Preview
                       </span>
-                      <span className="text-[10px] text-slate-500 font-bold">Real-Time</span>
+                      <span className="text-[10px] text-slate-500 font-bold">
+                        Real-Time
+                      </span>
                     </div>
 
                     {/* Preview 1: Header Call Bar */}
@@ -3719,8 +4629,12 @@ function DashboardPage() {
                           <Phone className="w-4 h-4" />
                         </div>
                         <div>
-                          <span className="text-[9px] uppercase font-black tracking-wider text-white/80 block">Call Us Now</span>
-                          <span className="text-sm font-black">{officePhone || "(713) 819-7908"}</span>
+                          <span className="text-[9px] uppercase font-black tracking-wider text-white/80 block">
+                            Call Us Now
+                          </span>
+                          <span className="text-sm font-black">
+                            {officePhone || "(713) 819-7908"}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -3733,11 +4647,15 @@ function DashboardPage() {
                       <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/60 space-y-2.5 text-xs">
                         <div className="flex items-center gap-2.5 text-slate-300">
                           <Phone className="w-3.5 h-3.5 text-[#005CE6] shrink-0" />
-                          <span className="font-bold">{officePhone || "(713) 819-7908"}</span>
+                          <span className="font-bold">
+                            {officePhone || "(713) 819-7908"}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2.5 text-slate-300">
                           <Mail className="w-3.5 h-3.5 text-[#005CE6] shrink-0" />
-                          <span className="font-medium text-slate-300 break-all">{alertEmail || "allen@upfrontac.com"}</span>
+                          <span className="font-medium text-slate-300 break-all">
+                            {alertEmail || "allen@upfrontac.com"}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -3749,20 +4667,31 @@ function DashboardPage() {
                       </span>
                       <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/60 space-y-2 text-xs">
                         <div className="flex items-center justify-between">
-                          <span className="text-slate-400 font-bold text-[11px]">Mon - Fri:</span>
-                          <span className="font-bold text-white text-[11px]">{weekdays || "7:00 AM - 5:00 PM"}</span>
+                          <span className="text-slate-400 font-bold text-[11px]">
+                            Mon - Fri:
+                          </span>
+                          <span className="font-bold text-white text-[11px]">
+                            {weekdays || "7:00 AM - 5:00 PM"}
+                          </span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-slate-400 font-bold text-[11px]">Saturday:</span>
-                          <span className="font-bold text-white text-[11px]">{saturdays || "Emergency Calls Only"}</span>
+                          <span className="text-slate-400 font-bold text-[11px]">
+                            Saturday:
+                          </span>
+                          <span className="font-bold text-white text-[11px]">
+                            {saturdays || "Emergency Calls Only"}
+                          </span>
                         </div>
                         <div className="flex items-center justify-between pt-1 border-t border-slate-700/50">
-                          <span className="text-rose-400 font-black text-[11px]">Sunday:</span>
-                          <span className="font-black text-rose-400 text-[11px]">{sundays || "Emergency Calls Only"}</span>
+                          <span className="text-rose-400 font-black text-[11px]">
+                            Sunday:
+                          </span>
+                          <span className="font-black text-rose-400 text-[11px]">
+                            {sundays || "Emergency Calls Only"}
+                          </span>
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -3793,9 +4722,15 @@ function DashboardPage() {
                       Active &amp; Secured
                     </span>
                   </div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Security Protocol</span>
-                  <div className="text-lg font-black text-white mt-0.5">SHA-256 Hashing</div>
-                  <p className="text-[11px] text-slate-400 mt-1 font-medium">Multi-round salted credential encryption</p>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                    Security Protocol
+                  </span>
+                  <div className="text-lg font-black text-white mt-0.5">
+                    SHA-256 Hashing
+                  </div>
+                  <p className="text-[11px] text-slate-400 mt-1 font-medium">
+                    Multi-round salted credential encryption
+                  </p>
                 </div>
 
                 {/* 2. Active Session */}
@@ -3808,9 +4743,15 @@ function DashboardPage() {
                       {currentUser?.role || "Admin"}
                     </span>
                   </div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Active Session User</span>
-                  <div className="text-lg font-black text-slate-900 mt-0.5 truncate">{currentUser?.username || "admin"}</div>
-                  <p className="text-[11px] text-slate-500 mt-1 font-medium">Protected HTTPS &amp; Socket Session</p>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                    Active Session User
+                  </span>
+                  <div className="text-lg font-black text-slate-900 mt-0.5 truncate">
+                    {currentUser?.username || "admin"}
+                  </div>
+                  <p className="text-[11px] text-slate-500 mt-1 font-medium">
+                    Protected HTTPS &amp; Socket Session
+                  </p>
                 </div>
 
                 {/* 3. Team Member Accounts */}
@@ -3823,11 +4764,17 @@ function DashboardPage() {
                       {portalUsers.length} Accounts
                     </span>
                   </div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Portal Team Size</span>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                    Portal Team Size
+                  </span>
                   <div className="text-lg font-black text-slate-900 mt-0.5">
-                    {portalUsers.filter(u => u.role === "admin").length} Admins • {portalUsers.filter(u => u.role !== "admin").length} Staff
+                    {portalUsers.filter((u) => u.role === "admin").length}{" "}
+                    Admins •{" "}
+                    {portalUsers.filter((u) => u.role !== "admin").length} Staff
                   </div>
-                  <p className="text-[11px] text-slate-500 mt-1 font-medium">Role-Based Access Control (RBAC)</p>
+                  <p className="text-[11px] text-slate-500 mt-1 font-medium">
+                    Role-Based Access Control (RBAC)
+                  </p>
                 </div>
 
                 {/* 4. Database Sync */}
@@ -3840,28 +4787,36 @@ function DashboardPage() {
                       Live
                     </span>
                   </div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Storage Engine</span>
-                  <div className="text-lg font-black text-slate-900 mt-0.5">MongoDB Atlas</div>
-                  <p className="text-[11px] text-slate-500 mt-1 font-medium">Real-time synchronized persistence</p>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                    Storage Engine
+                  </span>
+                  <div className="text-lg font-black text-slate-900 mt-0.5">
+                    MongoDB Atlas
+                  </div>
+                  <p className="text-[11px] text-slate-500 mt-1 font-medium">
+                    Real-time synchronized persistence
+                  </p>
                 </div>
               </div>
 
               {/* Main Content Grid: Left (User Directory) + Right (Create Team Member & Profile) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
                 {/* ── LEFT COLUMN: Team Directory (7 Cols) ── */}
                 <div className="lg:col-span-7 space-y-6">
                   <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="text-base font-black text-slate-900">Portal Team Accounts</h3>
+                          <h3 className="text-base font-black text-slate-900">
+                            Portal Team Accounts
+                          </h3>
                           <span className="px-2.5 py-0.5 bg-blue-50 text-[#005CE6] text-[11px] font-black rounded-full border border-blue-100">
                             {filteredPortalUsers.length}
                           </span>
                         </div>
                         <p className="text-xs text-slate-500 font-medium mt-0.5">
-                          Authorized team members with access to Upfront AC Dashboard
+                          Authorized team members with access to Upfront AC
+                          Dashboard
                         </p>
                       </div>
 
@@ -3902,7 +4857,7 @@ function DashboardPage() {
                           { id: "all", label: "All" },
                           { id: "admin", label: "Admins" },
                           { id: "editor", label: "Dispatchers" },
-                          { id: "viewer", label: "Viewers" }
+                          { id: "viewer", label: "Viewers" },
                         ].map((tab) => (
                           <button
                             key={tab.id}
@@ -3925,11 +4880,19 @@ function DashboardPage() {
                       {filteredPortalUsers.length === 0 ? (
                         <div className="text-center py-12 px-4 bg-slate-50/60 rounded-2xl border border-dashed border-slate-200">
                           <Users className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-                          <p className="text-xs font-bold text-slate-700">No portal accounts found</p>
-                          <p className="text-[11px] text-slate-400 mt-0.5">Try searching with a different username or role filter.</p>
+                          <p className="text-xs font-bold text-slate-700">
+                            No portal accounts found
+                          </p>
+                          <p className="text-[11px] text-slate-400 mt-0.5">
+                            Try searching with a different username or role
+                            filter.
+                          </p>
                           {userSearch && (
                             <button
-                              onClick={() => { setUserSearch(""); setUserRoleFilter("all"); }}
+                              onClick={() => {
+                                setUserSearch("");
+                                setUserRoleFilter("all");
+                              }}
                               className="mt-3 text-xs font-extrabold text-[#005CE6] hover:underline"
                             >
                               Clear Search Filter
@@ -3938,23 +4901,27 @@ function DashboardPage() {
                         </div>
                       ) : (
                         filteredPortalUsers.map((user) => {
-                          const isCurrentUser = currentUser?.id === user.id || currentUser?.username === user.username;
+                          const isCurrentUser =
+                            currentUser?.id === user.id ||
+                            currentUser?.username === user.username;
                           const isRootAdmin = user.username === "admin";
-                          const initials = user.username.slice(0, 2).toUpperCase();
+                          const initials = user.username
+                            .slice(0, 2)
+                            .toUpperCase();
 
                           const roleBadgeStyle =
                             user.role === "admin"
                               ? "bg-purple-50 text-purple-700 border-purple-200/80"
                               : user.role === "editor"
-                              ? "bg-sky-50 text-sky-700 border-sky-200/80"
-                              : "bg-slate-100 text-slate-700 border-slate-200/80";
+                                ? "bg-sky-50 text-sky-700 border-sky-200/80"
+                                : "bg-slate-100 text-slate-700 border-slate-200/80";
 
                           const roleAvatarStyle =
                             user.role === "admin"
                               ? "from-purple-600 to-indigo-600 ring-purple-200"
                               : user.role === "editor"
-                              ? "from-[#005CE6] to-cyan-500 ring-blue-200"
-                              : "from-slate-600 to-slate-800 ring-slate-200";
+                                ? "from-[#005CE6] to-cyan-500 ring-blue-200"
+                                : "from-slate-600 to-slate-800 ring-slate-200";
 
                           return (
                             <div
@@ -3968,10 +4935,15 @@ function DashboardPage() {
                               <div className="flex items-center gap-3.5 min-w-0">
                                 {/* Avatar */}
                                 <div className="relative shrink-0">
-                                  <div className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${roleAvatarStyle} text-white font-black text-sm flex items-center justify-center shadow-xs ring-2`}>
+                                  <div
+                                    className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${roleAvatarStyle} text-white font-black text-sm flex items-center justify-center shadow-xs ring-2`}
+                                  >
                                     {initials}
                                   </div>
-                                  <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white" title="Active Account" />
+                                  <div
+                                    className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white"
+                                    title="Active Account"
+                                  />
                                 </div>
 
                                 {/* Info */}
@@ -3992,8 +4964,12 @@ function DashboardPage() {
                                     )}
                                   </div>
                                   <div className="flex items-center gap-2 mt-1">
-                                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border uppercase tracking-wider ${roleBadgeStyle}`}>
-                                      {user.role === "editor" ? "Dispatcher / Editor" : user.role}
+                                    <span
+                                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border uppercase tracking-wider ${roleBadgeStyle}`}
+                                    >
+                                      {user.role === "editor"
+                                        ? "Dispatcher / Editor"
+                                        : user.role}
                                     </span>
                                     <span className="text-[11px] text-slate-400 font-medium">
                                       ID: {user.id.slice(0, 10)}
@@ -4015,15 +4991,19 @@ function DashboardPage() {
                                   </button>
                                 )}
 
-                                {!isRootAdmin && !isCurrentUser && currentUser?.role === "admin" && (
-                                  <button
-                                    onClick={() => handleDeleteUser(user.id, user.username)}
-                                    className="p-2 bg-white hover:bg-rose-50 text-slate-400 hover:text-rose-600 rounded-xl border border-slate-200 hover:border-rose-200 shadow-xs transition cursor-pointer"
-                                    title="Remove account permanently"
-                                  >
-                                    <Trash2 className="w-3.5 h-3.5" />
-                                  </button>
-                                )}
+                                {!isRootAdmin &&
+                                  !isCurrentUser &&
+                                  currentUser?.role === "admin" && (
+                                    <button
+                                      onClick={() =>
+                                        handleDeleteUser(user.id, user.username)
+                                      }
+                                      className="p-2 bg-white hover:bg-rose-50 text-slate-400 hover:text-rose-600 rounded-xl border border-slate-200 hover:border-rose-200 shadow-xs transition cursor-pointer"
+                                      title="Remove account permanently"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                    </button>
+                                  )}
                               </div>
                             </div>
                           );
@@ -4035,7 +5015,6 @@ function DashboardPage() {
 
                 {/* ── RIGHT COLUMN: Create Team Account & Personal Profile (5 Cols) ── */}
                 <div className="lg:col-span-5 space-y-6">
-                  
                   {/* Create New Team Member Account (Admin only) */}
                   {currentUser?.role === "admin" && (
                     <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs">
@@ -4044,14 +5023,20 @@ function DashboardPage() {
                           <Plus className="w-4 h-4" />
                         </div>
                         <div>
-                          <h3 className="text-sm font-black text-slate-900">Add Team Member</h3>
-                          <p className="text-[11px] text-slate-400 font-medium">Provision new staff account for Upfront portal</p>
+                          <h3 className="text-sm font-black text-slate-900">
+                            Add Team Member
+                          </h3>
+                          <p className="text-[11px] text-slate-400 font-medium">
+                            Provision new staff account for Upfront portal
+                          </p>
                         </div>
                       </div>
 
                       <form onSubmit={handleCreateUser} className="space-y-4">
                         <div className="space-y-1.5">
-                          <label className="text-xs font-extrabold text-slate-700">Account Username *</label>
+                          <label className="text-xs font-extrabold text-slate-700">
+                            Account Username *
+                          </label>
                           <div className="relative">
                             <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                             <input
@@ -4066,7 +5051,9 @@ function DashboardPage() {
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="text-xs font-extrabold text-slate-700">Initial Password *</label>
+                          <label className="text-xs font-extrabold text-slate-700">
+                            Initial Password *
+                          </label>
                           <div className="relative">
                             <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                             <input
@@ -4079,25 +5066,41 @@ function DashboardPage() {
                             />
                             <button
                               type="button"
-                              onClick={() => setShowAddPassword(!showAddPassword)}
+                              onClick={() =>
+                                setShowAddPassword(!showAddPassword)
+                              }
                               className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
                             >
-                              {showAddPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                              {showAddPassword ? (
+                                <EyeOff className="w-4 h-4" />
+                              ) : (
+                                <Eye className="w-4 h-4" />
+                              )}
                             </button>
                           </div>
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="text-xs font-extrabold text-slate-700">Access Role &amp; Permissions</label>
+                          <label className="text-xs font-extrabold text-slate-700">
+                            Access Role &amp; Permissions
+                          </label>
                           <div className="relative">
                             <select
                               value={addRole}
-                              onChange={(e) => setAddRole(e.target.value as any)}
+                              onChange={(e) =>
+                                setAddRole(e.target.value as any)
+                              }
                               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#005CE6] outline-none transition appearance-none cursor-pointer"
                             >
-                              <option value="editor">Dispatcher / Editor (Leads &amp; Chats)</option>
-                              <option value="admin">Administrator (Full Access)</option>
-                              <option value="viewer">Viewer (Read-Only Access)</option>
+                              <option value="editor">
+                                Dispatcher / Editor (Leads &amp; Chats)
+                              </option>
+                              <option value="admin">
+                                Administrator (Full Access)
+                              </option>
+                              <option value="viewer">
+                                Viewer (Read-Only Access)
+                              </option>
                             </select>
                             <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                           </div>
@@ -4105,9 +5108,12 @@ function DashboardPage() {
 
                         {/* Role Description Helper */}
                         <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/60 text-[11px] text-slate-500 font-medium">
-                          {addRole === "admin" && "👑 Full access to all portal data, database operations, team accounts, and site settings."}
-                          {addRole === "editor" && "🎧 Can respond to live chats, review web inquiries, manage dispatch leads, and view reviews."}
-                          {addRole === "viewer" && "👁️ Read-only dashboard view. Cannot edit leads, dispatch chats, or alter settings."}
+                          {addRole === "admin" &&
+                            "👑 Full access to all portal data, database operations, team accounts, and site settings."}
+                          {addRole === "editor" &&
+                            "🎧 Can respond to live chats, review web inquiries, manage dispatch leads, and view reviews."}
+                          {addRole === "viewer" &&
+                            "👁️ Read-only dashboard view. Cannot edit leads, dispatch chats, or alter settings."}
                         </div>
 
                         <button
@@ -4138,14 +5144,21 @@ function DashboardPage() {
                         <KeyRound className="w-4 h-4" />
                       </div>
                       <div>
-                        <h3 className="text-sm font-black text-slate-900">My Profile &amp; Password</h3>
-                        <p className="text-[11px] text-slate-400 font-medium">Update credentials for your logged-in session ({currentUser?.username})</p>
+                        <h3 className="text-sm font-black text-slate-900">
+                          My Profile &amp; Password
+                        </h3>
+                        <p className="text-[11px] text-slate-400 font-medium">
+                          Update credentials for your logged-in session (
+                          {currentUser?.username})
+                        </p>
                       </div>
                     </div>
 
                     <form onSubmit={handleUpdateProfile} className="space-y-4">
                       <div className="space-y-1.5">
-                        <label className="text-xs font-extrabold text-slate-700">Display Username</label>
+                        <label className="text-xs font-extrabold text-slate-700">
+                          Display Username
+                        </label>
                         <input
                           type="text"
                           required
@@ -4157,7 +5170,9 @@ function DashboardPage() {
                       </div>
 
                       <div className="space-y-1.5">
-                        <label className="text-xs font-extrabold text-slate-700">New Password</label>
+                        <label className="text-xs font-extrabold text-slate-700">
+                          New Password
+                        </label>
                         <div className="relative">
                           <input
                             type={showUpdatePassword ? "text" : "password"}
@@ -4168,10 +5183,16 @@ function DashboardPage() {
                           />
                           <button
                             type="button"
-                            onClick={() => setShowUpdatePassword(!showUpdatePassword)}
+                            onClick={() =>
+                              setShowUpdatePassword(!showUpdatePassword)
+                            }
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
                           >
-                            {showUpdatePassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            {showUpdatePassword ? (
+                              <EyeOff className="w-4 h-4" />
+                            ) : (
+                              <Eye className="w-4 h-4" />
+                            )}
                           </button>
                         </div>
                       </div>
@@ -4179,12 +5200,16 @@ function DashboardPage() {
                       {updatePassword && (
                         <>
                           <div className="space-y-1.5">
-                            <label className="text-xs font-extrabold text-slate-700">Confirm New Password</label>
+                            <label className="text-xs font-extrabold text-slate-700">
+                              Confirm New Password
+                            </label>
                             <input
                               type={showUpdatePassword ? "text" : "password"}
                               placeholder="Re-enter new password"
                               value={updatePasswordConfirm}
-                              onChange={(e) => setUpdatePasswordConfirm(e.target.value)}
+                              onChange={(e) =>
+                                setUpdatePasswordConfirm(e.target.value)
+                              }
                               className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 focus:bg-white focus:border-[#005CE6] outline-none transition"
                             />
                           </div>
@@ -4192,29 +5217,39 @@ function DashboardPage() {
                           {/* Password Strength Indicator */}
                           <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/60 space-y-1.5">
                             <div className="flex items-center justify-between text-[10px] font-bold">
-                              <span className="text-slate-500">Password Strength</span>
-                              <span className={
-                                updatePassword.length >= 10 && /[0-9]/.test(updatePassword) && /[^A-Za-z0-9]/.test(updatePassword)
-                                  ? "text-emerald-600 font-black"
-                                  : updatePassword.length >= 8
-                                  ? "text-blue-600 font-black"
-                                  : "text-amber-600 font-black"
-                              }>
-                                {updatePassword.length >= 10 && /[0-9]/.test(updatePassword) && /[^A-Za-z0-9]/.test(updatePassword)
+                              <span className="text-slate-500">
+                                Password Strength
+                              </span>
+                              <span
+                                className={
+                                  updatePassword.length >= 10 &&
+                                  /[0-9]/.test(updatePassword) &&
+                                  /[^A-Za-z0-9]/.test(updatePassword)
+                                    ? "text-emerald-600 font-black"
+                                    : updatePassword.length >= 8
+                                      ? "text-blue-600 font-black"
+                                      : "text-amber-600 font-black"
+                                }
+                              >
+                                {updatePassword.length >= 10 &&
+                                /[0-9]/.test(updatePassword) &&
+                                /[^A-Za-z0-9]/.test(updatePassword)
                                   ? "Strong / Secure"
                                   : updatePassword.length >= 8
-                                  ? "Good"
-                                  : "Weak (add numbers/symbols)"}
+                                    ? "Good"
+                                    : "Weak (add numbers/symbols)"}
                               </span>
                             </div>
                             <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
                               <div
                                 className={`h-full transition-all duration-300 ${
-                                  updatePassword.length >= 10 && /[0-9]/.test(updatePassword) && /[^A-Za-z0-9]/.test(updatePassword)
+                                  updatePassword.length >= 10 &&
+                                  /[0-9]/.test(updatePassword) &&
+                                  /[^A-Za-z0-9]/.test(updatePassword)
                                     ? "w-full bg-emerald-500"
                                     : updatePassword.length >= 8
-                                    ? "w-2/3 bg-blue-500"
-                                    : "w-1/3 bg-amber-500"
+                                      ? "w-2/3 bg-blue-500"
+                                      : "w-1/3 bg-amber-500"
                                 }`}
                               />
                             </div>
@@ -4230,15 +5265,11 @@ function DashboardPage() {
                       </button>
                     </form>
                   </div>
-
                 </div>
-
               </div>
             </motion.div>
           )}
-
         </div>
-
       </div>
 
       {/* ── ADD LEAD MODAL ── */}
@@ -4252,15 +5283,22 @@ function DashboardPage() {
               className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 overflow-hidden"
             >
               <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
-                <h3 className="font-black text-base text-slate-900">Add New HVAC Dispatch Lead</h3>
-                <button onClick={() => setIsAddingLead(false)} className="text-slate-400 hover:text-slate-700 cursor-pointer">
+                <h3 className="font-black text-base text-slate-900">
+                  Add New HVAC Dispatch Lead
+                </h3>
+                <button
+                  onClick={() => setIsAddingLead(false)}
+                  className="text-slate-400 hover:text-slate-700 cursor-pointer"
+                >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               <form onSubmit={handleAddCustomLead} className="space-y-4">
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Customer Name *</label>
+                  <label className="text-[11px] font-bold text-slate-700">
+                    Customer Name *
+                  </label>
                   <input
                     type="text"
                     required
@@ -4273,7 +5311,9 @@ function DashboardPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Phone Number *</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Phone Number *
+                    </label>
                     <input
                       type="text"
                       required
@@ -4284,7 +5324,9 @@ function DashboardPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Email Address</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Email Address
+                    </label>
                     <input
                       type="email"
                       value={newLeadEmail}
@@ -4296,7 +5338,9 @@ function DashboardPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Service Location Address</label>
+                  <label className="text-[11px] font-bold text-slate-700">
+                    Service Location Address
+                  </label>
                   <input
                     type="text"
                     value={newLeadAddress}
@@ -4308,7 +5352,9 @@ function DashboardPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Service Type</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Service Type
+                    </label>
                     <select
                       value={newLeadType}
                       onChange={(e) => setNewLeadType(e.target.value)}
@@ -4322,7 +5368,9 @@ function DashboardPage() {
                     </select>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Estimated Value ($)</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Estimated Value ($)
+                    </label>
                     <input
                       type="number"
                       value={newLeadVal}
@@ -4333,7 +5381,9 @@ function DashboardPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Notes / Problem Description</label>
+                  <label className="text-[11px] font-bold text-slate-700">
+                    Notes / Problem Description
+                  </label>
                   <textarea
                     rows={2}
                     value={newLeadDesc}
@@ -4376,10 +5426,28 @@ function DashboardPage() {
             >
               <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
                 <div>
-                  <h3 className="font-black text-base text-slate-900">Lead & Dispatch Details: {selectedLead.name}</h3>
-                  <span className="text-xs text-slate-400">ID: {selectedLead.id} · Created {selectedLead.createdAt ? new Date(selectedLead.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "Recently"}</span>
+                  <h3 className="font-black text-base text-slate-900">
+                    Lead & Dispatch Details: {selectedLead.name}
+                  </h3>
+                  <span className="text-xs text-slate-400">
+                    ID: {selectedLead.id} · Created{" "}
+                    {selectedLead.createdAt
+                      ? new Date(selectedLead.createdAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          },
+                        )
+                      : "Recently"}
+                  </span>
                 </div>
-                <button onClick={() => setIsEditingLead(false)} className="text-slate-400 hover:text-slate-700 cursor-pointer">
+                <button
+                  onClick={() => setIsEditingLead(false)}
+                  className="text-slate-400 hover:text-slate-700 cursor-pointer"
+                >
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -4387,7 +5455,9 @@ function DashboardPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Customer Name *</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Customer Name *
+                    </label>
                     <input
                       type="text"
                       value={editName}
@@ -4396,7 +5466,9 @@ function DashboardPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Phone Number *</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Phone Number *
+                    </label>
                     <input
                       type="text"
                       value={editPhone}
@@ -4408,7 +5480,9 @@ function DashboardPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Email Address</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Email Address
+                    </label>
                     <input
                       type="email"
                       value={editEmail}
@@ -4417,7 +5491,9 @@ function DashboardPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Service Location Address</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Service Location Address
+                    </label>
                     <input
                       type="text"
                       value={editAddress}
@@ -4429,7 +5505,9 @@ function DashboardPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Service Type</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Service Type
+                    </label>
                     <select
                       value={editProjectType}
                       onChange={(e) => setEditProjectType(e.target.value)}
@@ -4440,21 +5518,29 @@ function DashboardPage() {
                       <option value="install">HVAC Replacement</option>
                       <option value="maintenance">Seasonal Tune-Up</option>
                       <option value="commercial">Commercial HVAC</option>
-                      <option value="indoor_air_quality">Air Quality / IAQ</option>
+                      <option value="indoor_air_quality">
+                        Air Quality / IAQ
+                      </option>
                       <option value="emergency">24/7 Emergency AC</option>
                     </select>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Estimated Value ($)</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Estimated Value ($)
+                    </label>
                     <input
                       type="number"
                       value={editEstimatedValue}
-                      onChange={(e) => setEditEstimatedValue(Number(e.target.value))}
+                      onChange={(e) =>
+                        setEditEstimatedValue(Number(e.target.value))
+                      }
                       className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-bold"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Status</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Status
+                    </label>
                     <select
                       value={editStatus}
                       onChange={(e) => setEditStatus(e.target.value as any)}
@@ -4471,7 +5557,9 @@ function DashboardPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Customer Problem Description / Request</label>
+                  <label className="text-[11px] font-bold text-slate-700">
+                    Customer Problem Description / Request
+                  </label>
                   <textarea
                     rows={2}
                     value={editDescription}
@@ -4482,7 +5570,9 @@ function DashboardPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Technician Dispatch Notes & Parts</label>
+                  <label className="text-[11px] font-bold text-slate-700">
+                    Technician Dispatch Notes & Parts
+                  </label>
                   <textarea
                     rows={3}
                     value={editNotes}
@@ -4494,13 +5584,24 @@ function DashboardPage() {
 
                 {/* Photo Attachments */}
                 <div className="space-y-2 pt-2">
-                  <label className="text-[11px] font-bold text-slate-700 block">Job Photos & Diagnostics</label>
+                  <label className="text-[11px] font-bold text-slate-700 block">
+                    Job Photos & Diagnostics
+                  </label>
                   <div className="flex flex-wrap gap-2">
                     {selectedLead.photos?.map((photo, idx) => (
-                      <div key={idx} className="relative w-16 h-16 rounded-xl overflow-hidden border border-slate-200 group">
-                        <img src={photo} alt="Lead Attachment" className="w-full h-full object-cover" />
+                      <div
+                        key={idx}
+                        className="relative w-16 h-16 rounded-xl overflow-hidden border border-slate-200 group"
+                      >
+                        <img
+                          src={photo}
+                          alt="Lead Attachment"
+                          className="w-full h-full object-cover"
+                        />
                         <button
-                          onClick={() => handleRemovePhoto(selectedLead.id, idx)}
+                          onClick={() =>
+                            handleRemovePhoto(selectedLead.id, idx)
+                          }
                           className="absolute inset-0 bg-black/60 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition cursor-pointer"
                         >
                           <X className="w-4 h-4" />
@@ -4556,18 +5657,37 @@ function DashboardPage() {
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center p-1.5 border border-blue-100">
                     <svg className="w-full h-full" viewBox="0 0 24 24">
-                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05" />
-                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335" />
+                      <path
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                        fill="#4285F4"
+                      />
+                      <path
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                        fill="#34A853"
+                      />
+                      <path
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                        fill="#FBBC05"
+                      />
+                      <path
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+                        fill="#EA4335"
+                      />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-black text-base text-slate-900">Google Places Reviews Sync</h3>
-                    <span className="text-[11px] font-bold text-slate-400">Automated Google Business Profile Integration</span>
+                    <h3 className="font-black text-base text-slate-900">
+                      Google Places Reviews Sync
+                    </h3>
+                    <span className="text-[11px] font-bold text-slate-400">
+                      Automated Google Business Profile Integration
+                    </span>
                   </div>
                 </div>
-                <button onClick={() => setIsSyncingGoogleModal(false)} className="text-slate-400 hover:text-slate-700 cursor-pointer">
+                <button
+                  onClick={() => setIsSyncingGoogleModal(false)}
+                  className="text-slate-400 hover:text-slate-700 cursor-pointer"
+                >
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -4578,13 +5698,17 @@ function DashboardPage() {
                     <Sparkles className="w-3.5 h-3.5" /> How this sync works:
                   </span>
                   <p className="text-[11px] leading-relaxed text-slate-600">
-                    Connects directly to your Google Business Profile via Google Places API to fetch verified 5-star ratings, reviewer profile pictures, and timestamps without duplicates.
+                    Connects directly to your Google Business Profile via Google
+                    Places API to fetch verified 5-star ratings, reviewer
+                    profile pictures, and timestamps without duplicates.
                   </p>
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-bold text-slate-700">Google Place ID *</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Google Place ID *
+                    </label>
                     <a
                       href="https://developers.google.com/maps/documentation/places/web-service/place-id"
                       target="_blank"
@@ -4603,12 +5727,17 @@ function DashboardPage() {
                     onChange={(e) => setGooglePlaceId(e.target.value)}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-mono"
                   />
-                  <span className="text-[10px] text-slate-400 block">Search "Upfront Air Conditioning & Heating" on Google Place ID Finder.</span>
+                  <span className="text-[10px] text-slate-400 block">
+                    Search "Upfront Air Conditioning & Heating" on Google Place
+                    ID Finder.
+                  </span>
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-bold text-slate-700">Google Cloud Places API Key *</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Google Cloud Places API Key *
+                    </label>
                     <a
                       href="https://console.cloud.google.com/apis/credentials"
                       target="_blank"
@@ -4627,7 +5756,9 @@ function DashboardPage() {
                     onChange={(e) => setGoogleApiKey(e.target.value)}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-mono"
                   />
-                  <span className="text-[10px] text-slate-400 block">Saved securely and used to fetch live reviews from Google.</span>
+                  <span className="text-[10px] text-slate-400 block">
+                    Saved securely and used to fetch live reviews from Google.
+                  </span>
                 </div>
 
                 <div className="pt-3 flex justify-end gap-3 border-t border-slate-100">
@@ -4673,8 +5804,13 @@ function DashboardPage() {
               className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 overflow-hidden"
             >
               <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
-                <h3 className="font-black text-base text-slate-900">Add Verified Customer Review</h3>
-                <button onClick={() => setIsAddingReview(false)} className="text-slate-400 hover:text-slate-700 cursor-pointer">
+                <h3 className="font-black text-base text-slate-900">
+                  Add Verified Customer Review
+                </h3>
+                <button
+                  onClick={() => setIsAddingReview(false)}
+                  className="text-slate-400 hover:text-slate-700 cursor-pointer"
+                >
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -4682,7 +5818,9 @@ function DashboardPage() {
               <form onSubmit={handleAddReview} className="space-y-4">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Author Name *</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Author Name *
+                    </label>
                     <input
                       type="text"
                       required
@@ -4693,7 +5831,9 @@ function DashboardPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[11px] font-bold text-slate-700">Location</label>
+                    <label className="text-[11px] font-bold text-slate-700">
+                      Location
+                    </label>
                     <input
                       type="text"
                       placeholder="e.g. Cypress, TX"
@@ -4705,7 +5845,9 @@ function DashboardPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Review Headline *</label>
+                  <label className="text-[11px] font-bold text-slate-700">
+                    Review Headline *
+                  </label>
                   <input
                     type="text"
                     required
@@ -4717,7 +5859,9 @@ function DashboardPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Review Testimonial Text *</label>
+                  <label className="text-[11px] font-bold text-slate-700">
+                    Review Testimonial Text *
+                  </label>
                   <textarea
                     rows={3}
                     required
@@ -4729,7 +5873,9 @@ function DashboardPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Star Rating</label>
+                  <label className="text-[11px] font-bold text-slate-700">
+                    Star Rating
+                  </label>
                   <div className="flex items-center gap-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
@@ -4738,7 +5884,9 @@ function DashboardPage() {
                         onClick={() => setNewReviewRating(star)}
                         className="cursor-pointer"
                       >
-                        <Star className={`w-6 h-6 ${star <= newReviewRating ? "text-amber-400 fill-amber-400" : "text-slate-300"}`} />
+                        <Star
+                          className={`w-6 h-6 ${star <= newReviewRating ? "text-amber-400 fill-amber-400" : "text-slate-300"}`}
+                        />
                       </button>
                     ))}
                   </div>
@@ -4776,8 +5924,13 @@ function DashboardPage() {
               className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 overflow-hidden"
             >
               <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
-                <h3 className="font-black text-base text-slate-900">Reply to {selectedReview.author}</h3>
-                <button onClick={() => setSelectedReview(null)} className="text-slate-400 hover:text-slate-700 cursor-pointer">
+                <h3 className="font-black text-base text-slate-900">
+                  Reply to {selectedReview.author}
+                </h3>
+                <button
+                  onClick={() => setSelectedReview(null)}
+                  className="text-slate-400 hover:text-slate-700 cursor-pointer"
+                >
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -4788,7 +5941,9 @@ function DashboardPage() {
                 </p>
 
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Your Official Response (Shown on Website)</label>
+                  <label className="text-[11px] font-bold text-slate-700">
+                    Your Official Response (Shown on Website)
+                  </label>
                   <textarea
                     rows={3}
                     placeholder="Thank you for trusting Upfront A/C & Heating with your home comfort..."
@@ -4852,8 +6007,12 @@ function DashboardPage() {
               <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mx-auto mb-3">
                 <AlertTriangle className="w-6 h-6" />
               </div>
-              <h4 className="font-extrabold text-base text-slate-900">{confirmConfig.title}</h4>
-              <p className="text-xs text-slate-500 mt-1 leading-relaxed">{confirmConfig.message}</p>
+              <h4 className="font-extrabold text-base text-slate-900">
+                {confirmConfig.title}
+              </h4>
+              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                {confirmConfig.message}
+              </p>
 
               <div className="mt-6 flex justify-center gap-3">
                 <button
@@ -4893,18 +6052,27 @@ function DashboardPage() {
                     <Edit2 className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="font-black text-base text-slate-900">Edit Account</h3>
-                    <p className="text-[11px] text-slate-400 font-medium">{editingUser.username}</p>
+                    <h3 className="font-black text-base text-slate-900">
+                      Edit Account
+                    </h3>
+                    <p className="text-[11px] text-slate-400 font-medium">
+                      {editingUser.username}
+                    </p>
                   </div>
                 </div>
-                <button onClick={() => setEditingUser(null)} className="text-slate-400 hover:text-slate-700 cursor-pointer">
+                <button
+                  onClick={() => setEditingUser(null)}
+                  className="text-slate-400 hover:text-slate-700 cursor-pointer"
+                >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               <form onSubmit={handleEditUserSubmit} className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-extrabold text-slate-700">Account Username</label>
+                  <label className="text-xs font-extrabold text-slate-700">
+                    Account Username
+                  </label>
                   <div className="relative">
                     <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
@@ -4918,7 +6086,9 @@ function DashboardPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-extrabold text-slate-700">Reset Password (Optional)</label>
+                  <label className="text-xs font-extrabold text-slate-700">
+                    Reset Password (Optional)
+                  </label>
                   <div className="relative">
                     <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
@@ -4933,13 +6103,19 @@ function DashboardPage() {
                       onClick={() => setShowEditPassword(!showEditPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
                     >
-                      {showEditPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      {showEditPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
                     </button>
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-extrabold text-slate-700">Access Role &amp; Permissions</label>
+                  <label className="text-xs font-extrabold text-slate-700">
+                    Access Role &amp; Permissions
+                  </label>
                   <div className="relative">
                     <select
                       value={editUserRole}
@@ -4947,7 +6123,9 @@ function DashboardPage() {
                       onChange={(e) => setEditUserRole(e.target.value as any)}
                       className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#005CE6] outline-none transition appearance-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <option value="editor">Dispatcher / Editor (Leads &amp; Chats)</option>
+                      <option value="editor">
+                        Dispatcher / Editor (Leads &amp; Chats)
+                      </option>
                       <option value="admin">Administrator (Full Access)</option>
                       <option value="viewer">Viewer (Read-Only Access)</option>
                     </select>
@@ -4955,7 +6133,8 @@ function DashboardPage() {
                   </div>
                   {editingUser.username === "admin" && (
                     <p className="text-[10px] text-amber-600 font-bold mt-1">
-                      Root administrator role is permanent and cannot be downgraded.
+                      Root administrator role is permanent and cannot be
+                      downgraded.
                     </p>
                   )}
                 </div>
@@ -4988,7 +6167,6 @@ function DashboardPage() {
           </div>
         )}
       </AnimatePresence>
-
     </div>
   );
 }

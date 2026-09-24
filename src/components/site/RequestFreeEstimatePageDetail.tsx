@@ -18,7 +18,7 @@ import {
   User,
   AlertCircle,
   TrendingUp,
-  ArrowUp
+  ArrowUp,
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
@@ -40,7 +40,7 @@ export function RequestFreeEstimatePageDetail() {
     serviceNeeded: "",
     problemDescription: "",
     timeline: "As Soon As Possible",
-    contactMethod: "Phone"
+    contactMethod: "Phone",
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -59,10 +59,12 @@ export function RequestFreeEstimatePageDetail() {
         phone: formData.phone.trim(),
         service: formData.serviceNeeded || "Free Estimate Request",
         message: `Address: ${formData.address}\nTimeline: ${formData.timeline}\nPreferred Method: ${formData.contactMethod}\nNotes: ${formData.problemDescription}`,
-        source: "Free Estimate Page (/request-free-estimate)"
+        source: "Free Estimate Page (/request-free-estimate)",
       });
       setSubmitted(true);
-      toast.success("Free estimate request received! We will contact you shortly.");
+      toast.success(
+        "Free estimate request received! We will contact you shortly.",
+      );
     } catch (err) {
       toast.error("Failed to submit request. Please call (713) 819-7908.");
     } finally {
@@ -78,85 +80,98 @@ export function RequestFreeEstimatePageDetail() {
     {
       step: "01",
       title: "Call or Book Online",
-      desc: "Reach out to us 24/7 for a same-day appointment or complete our online request form."
+      desc: "Reach out to us 24/7 for a same-day appointment or complete our online request form.",
     },
     {
       step: "02",
       title: "On-Site Diagnosis",
-      desc: "Our EPA-certified technician will perform a full inspection of your system."
+      desc: "Our EPA-certified technician will perform a full inspection of your system.",
     },
     {
       step: "03",
       title: "Upfront Pricing",
-      desc: "We provide a detailed, honest quote before any work begins. No hidden fees, no surprises."
-    }
+      desc: "We provide a detailed, honest quote before any work begins. No hidden fees, no surprises.",
+    },
   ];
 
   const whyChooseUs = [
     {
       title: "In-House Experts",
-      desc: "We never use subcontractors. You get a trained, vetted, and accountable technician."
+      desc: "We never use subcontractors. You get a trained, vetted, and accountable technician.",
     },
     {
       title: "Upfront Pricing",
-      desc: "We give you the cost upfront, so you know exactly what to expect before work starts."
+      desc: "We give you the cost upfront, so you know exactly what to expect before work starts.",
     },
     {
       title: "24/7 Emergency Response",
-      desc: "We’re here for you when the Houston heat strikes — 60-minute emergency dispatch."
+      desc: "We’re here for you when the Houston heat strikes — 60-minute emergency dispatch.",
     },
     {
       title: "Licensed & Insured",
-      desc: "Certified by the state of Texas (TACLA133609C) and fully insured for your peace of mind."
-    }
+      desc: "Certified by the state of Texas (TACLA133609C) and fully insured for your peace of mind.",
+    },
   ];
 
   const testimonials = [
     {
-      quote: "I had a great experience with Allen from Upfront. He let me know when he was on his way, and showed up as promised. He was helpful in answering questions, and his prices were reasonable. Would highly recommend him.",
+      quote:
+        "I had a great experience with Allen from Upfront. He let me know when he was on his way, and showed up as promised. He was helpful in answering questions, and his prices were reasonable. Would highly recommend him.",
       author: "Lorraine Penczak",
-      badge: "Google Verified Review"
+      badge: "Google Verified Review",
     },
     {
-      quote: "Allen and his crew did a fast, thorough, and efficient job on my AC! I would trust them to help all my friends and family! Highly recommended! Thank you Upfront AC :)",
+      quote:
+        "Allen and his crew did a fast, thorough, and efficient job on my AC! I would trust them to help all my friends and family! Highly recommended! Thank you Upfront AC :)",
       author: "Celise Keller",
-      badge: "Google Verified Review"
-    }
+      badge: "Google Verified Review",
+    },
   ];
 
   const serviceAreas = [
-    { city: "Tomball, TX", desc: "Residential neighborhoods along FM 2920 & SH 249." },
-    { city: "Houston, TX", desc: "North Houston, West Houston, Energy Corridor." },
-    { city: "The Woodlands, TX", desc: "Master-planned communities and commercial centers." },
-    { city: "Cypress, TX", desc: "Bridgeland, Towne Lake, Fairfield, Copper Lakes." },
+    {
+      city: "Tomball, TX",
+      desc: "Residential neighborhoods along FM 2920 & SH 249.",
+    },
+    {
+      city: "Houston, TX",
+      desc: "North Houston, West Houston, Energy Corridor.",
+    },
+    {
+      city: "The Woodlands, TX",
+      desc: "Master-planned communities and commercial centers.",
+    },
+    {
+      city: "Cypress, TX",
+      desc: "Bridgeland, Towne Lake, Fairfield, Copper Lakes.",
+    },
     { city: "Katy, TX", desc: "Rapidly growing western suburbs." },
     { city: "Spring, TX", desc: "Established neighborhoods along FM 1960." },
     { city: "Sugar Land, TX", desc: "Southwest Houston suburbs." },
-    { city: "Magnolia, TX", desc: "Rural residential and acreage properties." }
+    { city: "Magnolia, TX", desc: "Rural residential and acreage properties." },
   ];
 
   const faqs = [
     {
       q: "How quickly can an HVAC technician arrive in Houston, TX?",
-      a: "We prioritize emergency dispatch and can typically have a technician at your property within 60 minutes. Standard same-day appointments are also available."
+      a: "We prioritize emergency dispatch and can typically have a technician at your property within 60 minutes. Standard same-day appointments are also available.",
     },
     {
       q: "Why is my AC not cooling during the Houston heat?",
-      a: "Common causes include low refrigerant, dirty coils, a failing compressor, or ductwork issues. Our technicians can accurately diagnose the root cause during your free estimate."
+      a: "Common causes include low refrigerant, dirty coils, a failing compressor, or ductwork issues. Our technicians can accurately diagnose the root cause during your free estimate.",
     },
     {
       q: "How much does AC repair cost in Houston, TX?",
-      a: "Costs vary depending on the issue. We provide upfront, itemized pricing before any work begins, ensuring you know the cost and approve it first."
+      a: "Costs vary depending on the issue. We provide upfront, itemized pricing before any work begins, ensuring you know the cost and approve it first.",
     },
     {
       q: "Do you provide emergency HVAC repair 24/7 in Houston?",
-      a: "Yes! We are available around-the-clock for emergency HVAC services across the Greater Houston area."
-    }
+      a: "Yes! We are available around-the-clock for emergency HVAC services across the Greater Houston area.",
+    },
   ];
 
   return (
     <div className="w-full bg-[#F8FAFC] text-slate-900 overflow-hidden select-none font-sans">
-      
       {/* ── PAGE HEADER ────────────────────────────────────── */}
       <PageHeader
         eyebrow="Serving Tomball, Cypress, The Woodlands & Greater Houston, TX"
@@ -170,15 +185,20 @@ export function RequestFreeEstimatePageDetail() {
         <div className="absolute bottom-0 left-10 w-[450px] h-[450px] bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10 text-left">
-          
           {/* Quick Info Bar */}
           <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#050b1a] text-white shadow-xl mb-10">
             <div className="flex flex-wrap items-center gap-6 text-xs sm:text-sm font-bold">
-              <a href="tel:+17138197908" className="flex items-center gap-2 text-cyan-300 hover:underline">
+              <a
+                href="tel:+17138197908"
+                className="flex items-center gap-2 text-cyan-300 hover:underline"
+              >
                 <PhoneCall className="w-4 h-4 text-cyan-400" />
                 <span>(713) 819-7908</span>
               </a>
-              <a href="mailto:allen@upfrontac.com" className="flex items-center gap-2 text-slate-200 hover:text-cyan-300">
+              <a
+                href="mailto:allen@upfrontac.com"
+                className="flex items-center gap-2 text-slate-200 hover:text-cyan-300"
+              >
                 <Mail className="w-4 h-4 text-cyan-400" />
                 <span>allen@upfrontac.com</span>
               </a>
@@ -200,16 +220,27 @@ export function RequestFreeEstimatePageDetail() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
-                No hidden fees, no sales pressure, and no guesswork. We perform a thorough inspection and give you the cost upfront so you know exactly what to expect before any work begins.
+                No hidden fees, no sales pressure, and no guesswork. We perform
+                a thorough inspection and give you the cost upfront so you know
+                exactly what to expect before any work begins.
               </p>
 
               {/* 3 Step Process */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
                 {processSteps.map((p, i) => (
-                  <div key={i} className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
-                    <span className="text-xs font-black text-[#005CE6] block mb-1">{p.step}</span>
-                    <h3 className="text-sm font-extrabold text-slate-900 mb-1">{p.title}</h3>
-                    <p className="text-[11px] text-slate-600 font-medium leading-relaxed">{p.desc}</p>
+                  <div
+                    key={i}
+                    className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80"
+                  >
+                    <span className="text-xs font-black text-[#005CE6] block mb-1">
+                      {p.step}
+                    </span>
+                    <h3 className="text-sm font-extrabold text-slate-900 mb-1">
+                      {p.title}
+                    </h3>
+                    <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
+                      {p.desc}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -224,7 +255,9 @@ export function RequestFreeEstimatePageDetail() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
                 <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-white/80 shadow-xl text-left">
-                  <span className="block text-base font-black text-slate-900">100% Free & No Obligation</span>
+                  <span className="block text-base font-black text-slate-900">
+                    100% Free & No Obligation
+                  </span>
                   <span className="text-xs font-bold text-[#005CE6] block mt-0.5">
                     TACLA133609C Licensed · In-House Technicians
                   </span>
@@ -232,14 +265,12 @@ export function RequestFreeEstimatePageDetail() {
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── WHY CHOOSE UPFRONT AC ───────────────────────────── */}
       <section className="py-16 lg:py-20 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               WHY CHOOSE UPFRONT AC?
@@ -251,25 +282,33 @@ export function RequestFreeEstimatePageDetail() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyChooseUs.map((w, idx) => (
-              <div key={idx} className="rounded-3xl bg-white border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+              <div
+                key={idx}
+                className="rounded-3xl bg-white border border-slate-200 p-6 shadow-sm flex flex-col justify-between"
+              >
                 <div>
                   <div className="w-10 h-10 rounded-xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center font-black text-xs mb-4">
                     0{idx + 1}
                   </div>
-                  <h3 className="text-base font-extrabold text-slate-900 mb-2">{w.title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">{w.desc}</p>
+                  <h3 className="text-base font-extrabold text-slate-900 mb-2">
+                    {w.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+                    {w.desc}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── ESTIMATE REQUEST FORM ───────────────────────────── */}
-      <section id="estimate-form" className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
+      <section
+        id="estimate-form"
+        className="py-20 lg:py-24 bg-white border-b border-slate-200/80"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               TELL US ABOUT YOUR HVAC NEEDS
@@ -278,12 +317,13 @@ export function RequestFreeEstimatePageDetail() {
               Request Your Free, Accurate Estimate
             </h2>
             <p className="text-sm text-slate-600 mt-2 font-medium">
-              Ready to get started? Fill out the form below, and we’ll connect you with a technician who can provide a free, accurate estimate. Fields marked with * are required.
+              Ready to get started? Fill out the form below, and we’ll connect
+              you with a technician who can provide a free, accurate estimate.
+              Fields marked with * are required.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            
             {/* Form */}
             <div className="lg:col-span-8 bg-[#F8FAFC] rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
               {submitted ? (
@@ -295,20 +335,29 @@ export function RequestFreeEstimatePageDetail() {
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-2">
                       Priority Dispatch Confirmed
                     </span>
-                    <h3 className="text-2xl font-black text-emerald-950">Estimate Request Received!</h3>
+                    <h3 className="text-2xl font-black text-emerald-950">
+                      Estimate Request Received!
+                    </h3>
                     <p className="text-xs sm:text-sm text-emerald-800 font-semibold max-w-md mx-auto mt-2 leading-relaxed">
-                      Thank you! An Upfront AC specialist will review your project requirements and contact you within 15–30 minutes to confirm your free quote.
+                      Thank you! An Upfront AC specialist will review your
+                      project requirements and contact you within 15–30 minutes
+                      to confirm your free quote.
                     </p>
                   </div>
 
                   <div className="bg-white/80 rounded-xl p-4 border border-emerald-200 text-left space-y-2 max-w-sm mx-auto">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                       <span className="text-slate-500">Service:</span>
-                      <span className="text-slate-900">{formData.serviceNeeded || "Free Estimate"}</span>
+                      <span className="text-slate-900">
+                        {formData.serviceNeeded || "Free Estimate"}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                       <span className="text-slate-500">Hotline:</span>
-                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] hover:underline font-extrabold">
+                      <a
+                        href={`tel:${phoneTel}`}
+                        className="text-[#005CE6] hover:underline font-extrabold"
+                      >
                         {settings.officePhone || "(713) 819-7908"}
                       </a>
                     </div>
@@ -326,7 +375,7 @@ export function RequestFreeEstimatePageDetail() {
                         serviceNeeded: "",
                         problemDescription: "",
                         timeline: "As Soon As Possible",
-                        contactMethod: "Phone"
+                        contactMethod: "Phone",
                       });
                     }}
                     className="mt-2 text-xs font-bold text-[#005CE6] hover:underline cursor-pointer"
@@ -336,7 +385,6 @@ export function RequestFreeEstimatePageDetail() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  
                   {/* Contact Info Header */}
                   <span className="text-xs font-black uppercase tracking-wider text-[#005CE6] block border-b border-slate-200 pb-2">
                     1. Contact Information
@@ -352,7 +400,9 @@ export function RequestFreeEstimatePageDetail() {
                         required
                         placeholder="Your Full Name"
                         value={formData.fullName}
-                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, fullName: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -366,7 +416,9 @@ export function RequestFreeEstimatePageDetail() {
                         required
                         placeholder="Phone Number"
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -382,7 +434,9 @@ export function RequestFreeEstimatePageDetail() {
                         required
                         placeholder="Email Address"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -396,7 +450,9 @@ export function RequestFreeEstimatePageDetail() {
                         required
                         placeholder="e.g. Tomball, Cypress, Houston"
                         value={formData.address}
-                        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, address: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       />
                     </div>
@@ -415,16 +471,33 @@ export function RequestFreeEstimatePageDetail() {
                       <select
                         required
                         value={formData.serviceNeeded}
-                        onChange={(e) => setFormData({ ...formData, serviceNeeded: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            serviceNeeded: e.target.value,
+                          })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       >
                         <option value="">Select HVAC Service...</option>
-                        <option value="AC Repair & Maintenance">AC Repair & Maintenance</option>
-                        <option value="HVAC Installation (New/Replacement)">HVAC Installation (New/Replacement)</option>
-                        <option value="Commercial HVAC Service">Commercial HVAC Service</option>
-                        <option value="Heating Service (Furnace/Heat Pump)">Heating Service (Furnace/Heat Pump)</option>
-                        <option value="HVAC Maintenance/Tune-Up">HVAC Maintenance/Tune-Up</option>
-                        <option value="Ductwork & Indoor Air Quality">Ductwork & Indoor Air Quality</option>
+                        <option value="AC Repair & Maintenance">
+                          AC Repair & Maintenance
+                        </option>
+                        <option value="HVAC Installation (New/Replacement)">
+                          HVAC Installation (New/Replacement)
+                        </option>
+                        <option value="Commercial HVAC Service">
+                          Commercial HVAC Service
+                        </option>
+                        <option value="Heating Service (Furnace/Heat Pump)">
+                          Heating Service (Furnace/Heat Pump)
+                        </option>
+                        <option value="HVAC Maintenance/Tune-Up">
+                          HVAC Maintenance/Tune-Up
+                        </option>
+                        <option value="Ductwork & Indoor Air Quality">
+                          Ductwork & Indoor Air Quality
+                        </option>
                         <option value="Other">Other</option>
                       </select>
                     </div>
@@ -436,13 +509,23 @@ export function RequestFreeEstimatePageDetail() {
                       <select
                         required
                         value={formData.timeline}
-                        onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, timeline: e.target.value })
+                        }
                         className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                       >
-                        <option value="Emergency (Today)">Emergency (Today)</option>
-                        <option value="As Soon As Possible">As Soon As Possible</option>
-                        <option value="Within the Next Week">Within the Next Week</option>
-                        <option value="Planning for a Project">Planning for a Project</option>
+                        <option value="Emergency (Today)">
+                          Emergency (Today)
+                        </option>
+                        <option value="As Soon As Possible">
+                          As Soon As Possible
+                        </option>
+                        <option value="Within the Next Week">
+                          Within the Next Week
+                        </option>
+                        <option value="Planning for a Project">
+                          Planning for a Project
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -455,7 +538,12 @@ export function RequestFreeEstimatePageDetail() {
                       rows={4}
                       placeholder='Example: "AC is blowing warm air," "Need a new system for a 2,000 sq ft home," or "System is short-cycling and making noise."'
                       value={formData.problemDescription}
-                      onChange={(e) => setFormData({ ...formData, problemDescription: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          problemDescription: e.target.value,
+                        })
+                      }
                       className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm text-slate-900 focus:border-[#005CE6] focus:outline-none transition-all font-medium"
                     />
                   </div>
@@ -466,13 +554,21 @@ export function RequestFreeEstimatePageDetail() {
                     </label>
                     <div className="flex items-center gap-6 pt-1">
                       {["Phone", "Email", "Text"].map((method) => (
-                        <label key={method} className="flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer">
+                        <label
+                          key={method}
+                          className="flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer"
+                        >
                           <input
                             type="radio"
                             name="contactMethod"
                             value={method}
                             checked={formData.contactMethod === method}
-                            onChange={(e) => setFormData({ ...formData, contactMethod: e.target.value })}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                contactMethod: e.target.value,
+                              })
+                            }
                             className="text-[#005CE6] focus:ring-[#005CE6]"
                           />
                           <span>{method}</span>
@@ -504,15 +600,18 @@ export function RequestFreeEstimatePageDetail() {
 
             {/* Hotline & Guarantee Column */}
             <div className="lg:col-span-4 space-y-6">
-              
               {/* Emergency Callout Card */}
               <div className="rounded-3xl bg-[#050b1a] text-white p-8 border border-slate-800 shadow-2xl space-y-5">
                 <span className="text-xs font-black uppercase tracking-widest text-cyan-400 block">
                   NEED IMMEDIATE ASSISTANCE?
                 </span>
-                <h3 className="text-xl font-black text-white">24/7 Emergency HVAC Hotline</h3>
+                <h3 className="text-xl font-black text-white">
+                  24/7 Emergency HVAC Hotline
+                </h3>
                 <p className="text-xs text-slate-300 leading-relaxed font-medium">
-                  If your AC has stopped working in the Houston heat, don't wait for a form response. Call our hotline for immediate same-day dispatch:
+                  If your AC has stopped working in the Houston heat, don't wait
+                  for a form response. Call our hotline for immediate same-day
+                  dispatch:
                 </p>
 
                 <a
@@ -526,9 +625,14 @@ export function RequestFreeEstimatePageDetail() {
 
               {/* Houston Partner Card */}
               <div className="rounded-3xl bg-white p-8 border border-slate-200 shadow-sm space-y-4">
-                <h4 className="text-base font-extrabold text-slate-900">Why We're Houston's Trusted Partner</h4>
+                <h4 className="text-base font-extrabold text-slate-900">
+                  Why We're Houston's Trusted Partner
+                </h4>
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Upfront AC operates as a local HVAC service provider with trained in-house technicians, fast dispatch systems, and deep expertise in central air conditioning, ductwork, and thermostat calibration.
+                  Upfront AC operates as a local HVAC service provider with
+                  trained in-house technicians, fast dispatch systems, and deep
+                  expertise in central air conditioning, ductwork, and
+                  thermostat calibration.
                 </p>
 
                 <div className="space-y-3 pt-3 border-t border-slate-100">
@@ -542,22 +646,20 @@ export function RequestFreeEstimatePageDetail() {
                   </div>
                   <div className="flex items-center gap-2.5 text-xs font-bold text-slate-800">
                     <CheckCircle2 className="w-4 h-4 text-[#005CE6] shrink-0" />
-                    <span>Active Daily Service in Tomball, Cypress & Houston</span>
+                    <span>
+                      Active Daily Service in Tomball, Cypress & Houston
+                    </span>
                   </div>
                 </div>
               </div>
-
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* ── CUSTOMER REVIEWS CAROUSEL ───────────────────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
-          
           <span className="text-xs font-black uppercase tracking-widest text-[#005CE6] block mb-2">
             WHAT OUR CUSTOMERS SAY
           </span>
@@ -579,7 +681,9 @@ export function RequestFreeEstimatePageDetail() {
             <div className="mt-8 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
               <span className="text-sm font-black text-[#005CE6]">
                 — {testimonials[activeTestimonial].author}{" "}
-                <span className="text-slate-400 font-semibold">({testimonials[activeTestimonial].badge})</span>
+                <span className="text-slate-400 font-semibold">
+                  ({testimonials[activeTestimonial].badge})
+                </span>
               </span>
 
               <div className="flex items-center gap-2">
@@ -593,14 +697,12 @@ export function RequestFreeEstimatePageDetail() {
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── SERVICE AREAS LIST ──────────────────────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               SERVICE AREAS
@@ -609,18 +711,24 @@ export function RequestFreeEstimatePageDetail() {
               Same-Day HVAC Service Across Northwest Houston
             </h2>
             <p className="text-sm text-slate-600 mt-2 font-medium">
-              We provide prompt, certified HVAC service across Harris & Montgomery Counties.
+              We provide prompt, certified HVAC service across Harris &
+              Montgomery Counties.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {serviceAreas.map((area, idx) => (
-              <div key={idx} className="p-5 rounded-2xl bg-[#F8FAFC] border border-slate-200 shadow-sm space-y-1">
+              <div
+                key={idx}
+                className="p-5 rounded-2xl bg-[#F8FAFC] border border-slate-200 shadow-sm space-y-1"
+              >
                 <div className="flex items-center gap-2 text-sm font-extrabold text-slate-900">
                   <MapPin className="w-4 h-4 text-[#005CE6] shrink-0" />
                   <span>{area.city}</span>
                 </div>
-                <p className="text-xs text-slate-600 font-medium pl-6 leading-relaxed">{area.desc}</p>
+                <p className="text-xs text-slate-600 font-medium pl-6 leading-relaxed">
+                  {area.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -628,14 +736,12 @@ export function RequestFreeEstimatePageDetail() {
           <div className="p-4 rounded-2xl bg-slate-100 text-center text-xs font-black text-slate-700">
             Fort Bend County service available upon request.
           </div>
-
         </div>
       </section>
 
       {/* ── FREQUENTLY ASKED QUESTIONS ─────────────────────── */}
       <section className="py-20 lg:py-24 bg-slate-100/70 border-b border-slate-200/80">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="text-center max-w-2xl mx-auto mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               FREQUENTLY ASKED QUESTIONS
@@ -658,7 +764,9 @@ export function RequestFreeEstimatePageDetail() {
                     className="w-full flex items-center justify-between p-6 text-left text-slate-900 font-extrabold text-base hover:text-[#005CE6] transition-colors"
                   >
                     <span>{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown
+                      className={`w-5 h-5 text-[#005CE6] transition-transform duration-300 shrink-0 ${isOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
                   <AnimatePresence>
                     {isOpen && (
@@ -686,14 +794,12 @@ export function RequestFreeEstimatePageDetail() {
               <span>Back to Top</span>
             </button>
           </div>
-
         </div>
       </section>
 
       {/* ── MAP SECTION ────────────────────────────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-12">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               OUR OFFICE & DISPATCH HUB
@@ -716,10 +822,8 @@ export function RequestFreeEstimatePageDetail() {
               className="w-full h-full"
             />
           </div>
-
         </div>
       </section>
-
     </div>
   );
 }

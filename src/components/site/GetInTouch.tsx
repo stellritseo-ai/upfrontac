@@ -12,7 +12,7 @@ import {
   HelpCircle,
   Sparkles,
   Zap,
-  PhoneCall
+  PhoneCall,
 } from "lucide-react";
 import {
   Accordion,
@@ -24,7 +24,10 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 const TinyLightningIcon = () => (
-  <svg className="w-3.5 h-3.5 text-[#005CE6] fill-[#005CE6] shrink-0" viewBox="0 0 24 24">
+  <svg
+    className="w-3.5 h-3.5 text-[#005CE6] fill-[#005CE6] shrink-0"
+    viewBox="0 0 24 24"
+  >
     <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
   </svg>
 );
@@ -37,37 +40,85 @@ export function GetInTouch() {
 
   const faqs = [
     {
-      q: t("How fast can an HVAC technician arrive in Houston, TX?", "¿Qué tan rápido puede llegar un técnico de HVAC en Houston, TX?"),
-      a: t("Upfront AC typically dispatches technicians the same day, and in emergency cases, arrival can be within a few hours, depending on your location in Houston, Tomball, or Cypress.", "Upfront AC generalmente despacha técnicos el mismo día, y en casos de emergencia, la llegada puede ser dentro de un par de horas, dependiendo de su ubicación en Houston, Tomball o Cypress.")
+      q: t(
+        "How fast can an HVAC technician arrive in Houston, TX?",
+        "¿Qué tan rápido puede llegar un técnico de HVAC en Houston, TX?",
+      ),
+      a: t(
+        "Upfront AC typically dispatches technicians the same day, and in emergency cases, arrival can be within a few hours, depending on your location in Houston, Tomball, or Cypress.",
+        "Upfront AC generalmente despacha técnicos el mismo día, y en casos de emergencia, la llegada puede ser dentro de un par de horas, dependiendo de su ubicación en Houston, Tomball o Cypress.",
+      ),
     },
     {
-      q: t("Why is my AC not cooling during the Houston heat?", "¿Por qué mi aire acondicionado no enfría durante el calor de Houston?"),
-      a: t("The most common reasons include low refrigerant, dirty condenser coils, thermostat malfunction, or system overload due to extreme Houston temperatures.", "Las razones más comunes incluyen refrigerante bajo, bobinas de condensador sucias, mal funcionamiento del termostato o sobrecarga del sistema debido a temperaturas extremas en Houston.")
+      q: t(
+        "Why is my AC not cooling during the Houston heat?",
+        "¿Por qué mi aire acondicionado no enfría durante el calor de Houston?",
+      ),
+      a: t(
+        "The most common reasons include low refrigerant, dirty condenser coils, thermostat malfunction, or system overload due to extreme Houston temperatures.",
+        "Las razones más comunes incluyen refrigerante bajo, bobinas de condensador sucias, mal funcionamiento del termostato o sobrecarga del sistema debido a temperaturas extremas en Houston.",
+      ),
     },
     {
-      q: t("How much does AC repair cost in Houston, TX?", "¿Cuánto cuesta la reparación de aire acondicionado en Houston, TX?"),
-      a: t("AC repair typically costs between $150 and $1500, depending on the issue. Minor electrical or filter repairs are lower, while compressor or refrigerant repairs are higher.", "La reparación de AC generalmente cuesta entre $150 y $1500, dependiendo del problema. Las reparaciones eléctricas menores o de filtros son más bajas, mientras que las de compresor o refrigerante son más altas.")
+      q: t(
+        "How much does AC repair cost in Houston, TX?",
+        "¿Cuánto cuesta la reparación de aire acondicionado en Houston, TX?",
+      ),
+      a: t(
+        "AC repair typically costs between $150 and $1500, depending on the issue. Minor electrical or filter repairs are lower, while compressor or refrigerant repairs are higher.",
+        "La reparación de AC generalmente cuesta entre $150 y $1500, dependiendo del problema. Las reparaciones eléctricas menores o de filtros son más bajas, mientras que las de compresor o refrigerante son más altas.",
+      ),
     },
     {
-      q: t("Should I repair or replace my HVAC system?", "¿Debo reparar o reemplazar mi sistema HVAC?"),
-      a: t("If your system is over 10–12 years old and requires frequent repairs, replacement is usually more cost-effective due to improved energy efficiency and lower long-term costs.", "Si su sistema tiene más de 10-12 años y requiere reparaciones frecuentes, el reemplazo suele ser más rentable debido a una mejor eficiencia energética y menores costos a largo plazo.")
+      q: t(
+        "Should I repair or replace my HVAC system?",
+        "¿Debo reparar o reemplazar mi sistema HVAC?",
+      ),
+      a: t(
+        "If your system is over 10–12 years old and requires frequent repairs, replacement is usually more cost-effective due to improved energy efficiency and lower long-term costs.",
+        "Si su sistema tiene más de 10-12 años y requiere reparaciones frecuentes, el reemplazo suele ser más rentable debido a una mejor eficiencia energética y menores costos a largo plazo.",
+      ),
     },
     {
-      q: t("How quickly can Upfront Ac respond to emergency HVAC calls in Houston, TX?", "¿Qué tan rápido puede responder Upfront AC a llamadas de emergencia HVAC en Houston, TX?"),
-      a: t("Yes, Upfront Ac provides same-day AC repair across Houston with fast emergency dispatch for urgent cooling issues.", "Sí, Upfront AC ofrece reparación de AC el mismo día en todo Houston con despacho rápido de emergencia para problemas urgentes de enfriamiento.")
+      q: t(
+        "How quickly can Upfront Ac respond to emergency HVAC calls in Houston, TX?",
+        "¿Qué tan rápido puede responder Upfront AC a llamadas de emergencia HVAC en Houston, TX?",
+      ),
+      a: t(
+        "Yes, Upfront Ac provides same-day AC repair across Houston with fast emergency dispatch for urgent cooling issues.",
+        "Sí, Upfront AC ofrece reparación de AC el mismo día en todo Houston con despacho rápido de emergencia para problemas urgentes de enfriamiento.",
+      ),
     },
     {
-      q: t("What are the signs my HVAC system needs repair?", "¿Cuáles son las señales de que mi sistema HVAC necesita reparación?"),
-      a: t("Weak airflow, warm air from vents, unusual noises, high energy bills, and frequent on/off cycling are common warning signs.", "El flujo de aire débil, el aire caliente por las rejillas, los ruidos inusuales, las facturas de energía altas y el encendido/apagado frecuente son señales comunes.")
+      q: t(
+        "What are the signs my HVAC system needs repair?",
+        "¿Cuáles son las señales de que mi sistema HVAC necesita reparación?",
+      ),
+      a: t(
+        "Weak airflow, warm air from vents, unusual noises, high energy bills, and frequent on/off cycling are common warning signs.",
+        "El flujo de aire débil, el aire caliente por las rejillas, los ruidos inusuales, las facturas de energía altas y el encendido/apagado frecuente son señales comunes.",
+      ),
     },
     {
-      q: t("Do you provide emergency HVAC repair 24/7 in Houston?", "¿Ofrecen reparación de HVAC de emergencia las 24 horas en Houston?"),
-      a: t("Yes, Upfront Ac offers 24/7 emergency HVAC repair across Houston, including nights, weekends, and holidays.", "Sí, Upfront AC ofrece reparación de HVAC de emergencia las 24 horas, los 7 días de la semana en todo Houston, incluidos noches, fines de semana y feriados.")
+      q: t(
+        "Do you provide emergency HVAC repair 24/7 in Houston?",
+        "¿Ofrecen reparación de HVAC de emergencia las 24 horas en Houston?",
+      ),
+      a: t(
+        "Yes, Upfront Ac offers 24/7 emergency HVAC repair across Houston, including nights, weekends, and holidays.",
+        "Sí, Upfront AC ofrece reparación de HVAC de emergencia las 24 horas, los 7 días de la semana en todo Houston, incluidos noches, fines de semana y feriados.",
+      ),
     },
     {
-      q: t("How often should HVAC systems be serviced?", "¿Con qué frecuencia se debe dar mantenimiento a los sistemas HVAC?"),
-      a: t("HVAC systems should be serviced twice per year—before summer and winter—to maintain efficiency and prevent breakdowns.", "Los sistemas HVAC deben recibir mantenimiento dos veces al año (antes del verano y del invierno) para mantener la eficiencia y evitar averías.")
-    }
+      q: t(
+        "How often should HVAC systems be serviced?",
+        "¿Con qué frecuencia se debe dar mantenimiento a los sistemas HVAC?",
+      ),
+      a: t(
+        "HVAC systems should be serviced twice per year—before summer and winter—to maintain efficiency and prevent breakdowns.",
+        "Los sistemas HVAC deben recibir mantenimiento dos veces al año (antes del verano y del invierno) para mantener la eficiencia y evitar averías.",
+      ),
+    },
   ];
 
   const handleGitSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -75,11 +126,21 @@ export function GetInTouch() {
     setSubmitting(true);
 
     const form = e.currentTarget;
-    const name = (form.querySelector("input[name='name']") as HTMLInputElement)?.value || "";
-    const phone = (form.querySelector("input[name='phone']") as HTMLInputElement)?.value || "";
-    const email = (form.querySelector("input[name='email']") as HTMLInputElement)?.value || "";
-    const service = (form.querySelector("select[name='service']") as HTMLSelectElement)?.value || "";
-    const msg = (form.querySelector("textarea[name='message']") as HTMLTextAreaElement)?.value || "";
+    const name =
+      (form.querySelector("input[name='name']") as HTMLInputElement)?.value ||
+      "";
+    const phone =
+      (form.querySelector("input[name='phone']") as HTMLInputElement)?.value ||
+      "";
+    const email =
+      (form.querySelector("input[name='email']") as HTMLInputElement)?.value ||
+      "";
+    const service =
+      (form.querySelector("select[name='service']") as HTMLSelectElement)
+        ?.value || "";
+    const msg =
+      (form.querySelector("textarea[name='message']") as HTMLTextAreaElement)
+        ?.value || "";
 
     try {
       // Immediate dual-sync to MongoDB Atlas & local cache
@@ -89,7 +150,7 @@ export function GetInTouch() {
         email,
         service: service || "General HVAC Inquiry",
         message: msg,
-        source: "Landing Get-In-Touch Form"
+        source: "Landing Get-In-Touch Form",
       });
 
       // Background notification without blocking UI
@@ -97,20 +158,23 @@ export function GetInTouch() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json"
+          Accept: "application/json",
         },
         body: JSON.stringify({
           Name: name,
           Phone: phone,
           Email: email,
           "Service Needed": service || "General HVAC Inquiry",
-          Message: msg
-        })
+          Message: msg,
+        }),
       }).catch((err) => console.log("Background email alert:", err));
 
       setSubmitted(true);
       toast.success(t("Estimate Request Received!", "¡Solicitud Recibida!"), {
-        description: t("Our dispatch team has been notified.", "Nuestro equipo de despacho ha sido notificado.")
+        description: t(
+          "Our dispatch team has been notified.",
+          "Nuestro equipo de despacho ha sido notificado.",
+        ),
       });
     } catch (err) {
       setSubmitted(true);
@@ -121,10 +185,12 @@ export function GetInTouch() {
   };
 
   return (
-    <section id="get-in-touch" className="relative py-16 lg:py-20 bg-white border-b border-slate-100 overflow-hidden select-none">
+    <section
+      id="get-in-touch"
+      className="relative py-16 lg:py-20 bg-white border-b border-slate-100 overflow-hidden select-none"
+    >
       <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-30 pointer-events-none" />
       <div className="mx-auto w-[90%] max-w-7xl relative z-10">
-        
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="inline-flex items-center gap-2 bg-[#005CE6]/10 border border-[#005CE6]/20 text-[#005CE6] rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider mb-4 shadow-sm">
@@ -133,19 +199,20 @@ export function GetInTouch() {
           </span>
           <h2 className="text-3xl lg:text-[40px] font-extrabold text-[#0F172A] leading-tight mb-2 tracking-tight">
             {t("Get your ", "Obtenga su ")}
-            <span className="text-[#005CE6]">{t("free estimate", "presupuesto gratis")}</span>
+            <span className="text-[#005CE6]">
+              {t("free estimate", "presupuesto gratis")}
+            </span>
             {t(" today.", " hoy.")}
           </h2>
           <p className="text-sm sm:text-base text-slate-500 font-medium leading-relaxed max-w-lg mx-auto">
             {t(
               "Tell us about your HVAC service needs or request immediate dispatch — fast response guaranteed.",
-              "Cuéntenos sobre sus necesidades de servicio HVAC o solicite despacho inmediato."
+              "Cuéntenos sobre sus necesidades de servicio HVAC o solicite despacho inmediato.",
             )}
           </p>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-10 items-start">
-          
           {/* Left Column: Premium FAQ Section (5 cols) */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -165,7 +232,10 @@ export function GetInTouch() {
                     {t("Frequently Asked Questions", "Preguntas Frecuentes")}
                   </span>
                   <span className="block text-[11px] text-slate-400 font-medium">
-                    {t("HVAC service in Houston, TX", "Servicio HVAC en Houston, TX")}
+                    {t(
+                      "HVAC service in Houston, TX",
+                      "Servicio HVAC en Houston, TX",
+                    )}
                   </span>
                 </div>
               </div>
@@ -176,7 +246,7 @@ export function GetInTouch() {
               <p className="text-xs text-slate-300/90 font-medium leading-relaxed mb-4 text-left">
                 {t(
                   "Answers to the most common questions about HVAC service in Houston, TX.",
-                  "Respuestas a las preguntas más comunes sobre el servicio HVAC en Houston, TX."
+                  "Respuestas a las preguntas más comunes sobre el servicio HVAC en Houston, TX.",
                 )}
               </p>
 
@@ -203,7 +273,10 @@ export function GetInTouch() {
             <div className="mt-5 pt-3.5 border-t border-white/10 flex items-center justify-between gap-3 text-left">
               <div>
                 <span className="block text-[9px] uppercase tracking-widest text-slate-400 font-extrabold">
-                  {t("Have an urgent question?", "¿Tiene una pregunta urgente?")}
+                  {t(
+                    "Have an urgent question?",
+                    "¿Tiene una pregunta urgente?",
+                  )}
                 </span>
                 <a
                   href={`tel:${phoneTel}`}
@@ -251,7 +324,10 @@ export function GetInTouch() {
                   <div className="space-y-2">
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-black uppercase tracking-wider">
                       <Zap className="w-3.5 h-3.5 text-emerald-600" />
-                      {t("Priority Dispatch Assigned", "Despacho Prioritario Asignado")}
+                      {t(
+                        "Priority Dispatch Assigned",
+                        "Despacho Prioritario Asignado",
+                      )}
                     </span>
                     <h3 className="text-2xl sm:text-3xl font-display font-black text-[#0F172A]">
                       {t("Request Received!", "¡Solicitud Recibida!")}
@@ -259,7 +335,7 @@ export function GetInTouch() {
                     <p className="text-xs sm:text-sm text-slate-600 font-semibold max-w-md mx-auto leading-relaxed">
                       {t(
                         "Thank you! Your inquiry is logged in our dispatch database. Our EPA-certified HVAC technician will call or text you within 15–30 minutes.",
-                        "¡Gracias! Su consulta está registrada en nuestra base de datos de despacho. Nuestro técnico certificado le llamará o enviará un mensaje en 15–30 minutos."
+                        "¡Gracias! Su consulta está registrada en nuestra base de datos de despacho. Nuestro técnico certificado le llamará o enviará un mensaje en 15–30 minutos.",
                       )}
                     </p>
                   </div>
@@ -267,15 +343,24 @@ export function GetInTouch() {
                   {/* Dispatch Details Card */}
                   <div className="w-full max-w-md bg-slate-50 rounded-2xl p-4 border border-slate-200/90 space-y-2.5 text-left">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700">
-                      <span className="text-slate-400 uppercase text-[10px] tracking-wider">Response Window:</span>
+                      <span className="text-slate-400 uppercase text-[10px] tracking-wider">
+                        Response Window:
+                      </span>
                       <span className="text-emerald-700 font-extrabold flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-emerald-600" /> Same-Day / 15-30 Mins
+                        <Clock className="w-3.5 h-3.5 text-emerald-600" />{" "}
+                        Same-Day / 15-30 Mins
                       </span>
                     </div>
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700 pt-2 border-t border-slate-200">
-                      <span className="text-slate-400 uppercase text-[10px] tracking-wider">Direct Hotline:</span>
-                      <a href={`tel:${phoneTel}`} className="text-[#005CE6] font-extrabold hover:underline flex items-center gap-1">
-                        <Phone className="w-3.5 h-3.5" /> {settings.officePhone || "(713) 819-7908"}
+                      <span className="text-slate-400 uppercase text-[10px] tracking-wider">
+                        Direct Hotline:
+                      </span>
+                      <a
+                        href={`tel:${phoneTel}`}
+                        className="text-[#005CE6] font-extrabold hover:underline flex items-center gap-1"
+                      >
+                        <Phone className="w-3.5 h-3.5" />{" "}
+                        {settings.officePhone || "(713) 819-7908"}
                       </a>
                     </div>
                   </div>
@@ -284,7 +369,9 @@ export function GetInTouch() {
                     onClick={() => setSubmitted(false)}
                     className="mt-3 text-xs font-extrabold text-[#005CE6] hover:underline cursor-pointer flex items-center gap-1"
                   >
-                    <span>← {t("Submit another request", "Enviar otra solicitud")}</span>
+                    <span>
+                      ← {t("Submit another request", "Enviar otra solicitud")}
+                    </span>
                   </button>
                 </motion.div>
               ) : (
@@ -322,22 +409,65 @@ export function GetInTouch() {
                         required
                         className="mt-2.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/50 px-4 py-3.5 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-4 focus:ring-[#005CE6]/10 focus:border-[#005CE6] focus:bg-white transition-all duration-300 cursor-pointer"
                       >
-                        <option value="">{t("Select HVAC service...", "Seleccione servicio HVAC...")}</option>
-                        <option>{t("Emergency AC Repair", "Reparación de AC de Emergencia")}</option>
-                        <option>{t("HVAC Installation & Replacement", "Instalación y Reemplazo de HVAC")}</option>
-                        <option>{t("Routine HVAC Maintenance", "Mantenimiento Rutinario de HVAC")}</option>
-                        <option>{t("Commercial HVAC Service", "Servicio HVAC Comercial")}</option>
-                        <option>{t("Indoor Air Quality & Ductwork", "Calidad del Aire Interior y Conductos")}</option>
-                        <option>{t("Thermostat & Smart Controls", "Termostatos y Controles Inteligentes")}</option>
+                        <option value="">
+                          {t(
+                            "Select HVAC service...",
+                            "Seleccione servicio HVAC...",
+                          )}
+                        </option>
+                        <option>
+                          {t(
+                            "Emergency AC Repair",
+                            "Reparación de AC de Emergencia",
+                          )}
+                        </option>
+                        <option>
+                          {t(
+                            "HVAC Installation & Replacement",
+                            "Instalación y Reemplazo de HVAC",
+                          )}
+                        </option>
+                        <option>
+                          {t(
+                            "Routine HVAC Maintenance",
+                            "Mantenimiento Rutinario de HVAC",
+                          )}
+                        </option>
+                        <option>
+                          {t(
+                            "Commercial HVAC Service",
+                            "Servicio HVAC Comercial",
+                          )}
+                        </option>
+                        <option>
+                          {t(
+                            "Indoor Air Quality & Ductwork",
+                            "Calidad del Aire Interior y Conductos",
+                          )}
+                        </option>
+                        <option>
+                          {t(
+                            "Thermostat & Smart Controls",
+                            "Termostatos y Controles Inteligentes",
+                          )}
+                        </option>
                       </select>
                     </div>
 
                     <div className="sm:col-span-2">
-                      <Label>{t("Project Scope / Problem Description", "Detalles del Proyecto / Descripción del Problema")}</Label>
+                      <Label>
+                        {t(
+                          "Project Scope / Problem Description",
+                          "Detalles del Proyecto / Descripción del Problema",
+                        )}
+                      </Label>
                       <textarea
                         name="message"
                         rows={4}
-                        placeholder={t("Describe your AC or heating issue, system age, or requested appointment time...", "Describa su problema de AC o calefacción...")}
+                        placeholder={t(
+                          "Describe your AC or heating issue, system age, or requested appointment time...",
+                          "Describa su problema de AC o calefacción...",
+                        )}
                         className="mt-2.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/50 px-4 py-3.5 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-4 focus:ring-[#005CE6]/10 focus:border-[#005CE6] focus:bg-white transition-all duration-300 resize-none"
                       />
                     </div>
@@ -353,11 +483,21 @@ export function GetInTouch() {
                     {submitting ? (
                       <span className="flex items-center gap-2">
                         <div className="h-4 w-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />
-                        <span>{t("Transmitting Request to Dispatch...", "Transmitiendo Solicitud a Despacho...")}</span>
+                        <span>
+                          {t(
+                            "Transmitting Request to Dispatch...",
+                            "Transmitiendo Solicitud a Despacho...",
+                          )}
+                        </span>
                       </span>
                     ) : (
                       <>
-                        <span>{t("Send Free Estimate Request", "Enviar Solicitud de Presupuesto Gratis")}</span>
+                        <span>
+                          {t(
+                            "Send Free Estimate Request",
+                            "Enviar Solicitud de Presupuesto Gratis",
+                          )}
+                        </span>
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </>
                     )}
@@ -366,7 +506,7 @@ export function GetInTouch() {
                   <p className="text-center text-[10px] text-slate-400 font-semibold">
                     {t(
                       "We secure your data. Info only used to dispatch technician updates.",
-                      "Aseguramos sus datos. Información utilizada únicamente para actualizaciones de despacho."
+                      "Aseguramos sus datos. Información utilizada únicamente para actualizaciones de despacho.",
                     )}
                   </p>
                 </form>

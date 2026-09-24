@@ -17,7 +17,7 @@ import {
   Building2,
   Flame,
   ChevronRight,
-  Filter
+  Filter,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -77,11 +77,15 @@ export function ProjectsPageDetail() {
 
     if (activeFilter === "all") return valid;
     return valid.filter((p) => {
-      const cat = (typeof p === "string" ? "residential" : (p.category || "")).toLowerCase();
-      if (activeFilter === "residential") return cat.includes("res") || cat.includes("ac");
+      const cat = (
+        typeof p === "string" ? "residential" : p.category || ""
+      ).toLowerCase();
+      if (activeFilter === "residential")
+        return cat.includes("res") || cat.includes("ac");
       if (activeFilter === "commercial") return cat.includes("com");
       if (activeFilter === "install") return cat.includes("inst");
-      if (activeFilter === "heating") return cat.includes("heat") || cat.includes("repair");
+      if (activeFilter === "heating")
+        return cat.includes("heat") || cat.includes("repair");
       return cat === activeFilter;
     });
   }, [dbPhotos, activeFilter]);
@@ -105,7 +109,11 @@ export function ProjectsPageDetail() {
   }, [closeLightbox]);
 
   const stats = [
-    { num: "12,000+", label: "Projects Completed", sub: "Since 2013 in Houston" },
+    {
+      num: "12,000+",
+      label: "Projects Completed",
+      sub: "Since 2013 in Houston",
+    },
     { num: "10+", label: "Years Experience", sub: "Local Family Business" },
     { num: "100%", label: "In-House Techs", sub: "Never Subcontracted" },
     { num: "5.0 ★", label: "Customer Rating", sub: "50+ Verified Reviews" },
@@ -114,25 +122,24 @@ export function ProjectsPageDetail() {
   const qualityPillars = [
     {
       title: "EPA Section 608 Certified",
-      desc: "Every installation adheres to rigorous federal & state environmental refrigerant handling protocols."
+      desc: "Every installation adheres to rigorous federal & state environmental refrigerant handling protocols.",
     },
     {
       title: "21-Point Commissioning Checklist",
-      desc: "We measure static pressure, temperature splits, and airflow velocity before declaring any job finished."
+      desc: "We measure static pressure, temperature splits, and airflow velocity before declaring any job finished.",
     },
     {
       title: "Matched SEER2 Efficiency Systems",
-      desc: "Sized precisely for Texas heat loads to maximize comfort while minimizing monthly electricity consumption."
+      desc: "Sized precisely for Texas heat loads to maximize comfort while minimizing monthly electricity consumption.",
     },
     {
       title: "Upfront Transparent Pricing",
-      desc: "Itemized quotes provided before work begins — no surprise fees or post-installation markups."
-    }
+      desc: "Itemized quotes provided before work begins — no surprise fees or post-installation markups.",
+    },
   ];
 
   return (
     <div className="w-full bg-[#F8FAFC] text-slate-900 overflow-hidden select-none font-sans">
-      
       {/* ── PAGE HEADER ────────────────────────────────────── */}
       <PageHeader
         eyebrow="Our Portfolio · Upfront AC"
@@ -145,10 +152,19 @@ export function ProjectsPageDetail() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {stats.map((s, i) => (
-              <div key={i} className="p-6 rounded-2xl bg-slate-50 border border-slate-200/80">
-                <span className="text-3xl sm:text-4xl font-extrabold text-[#005CE6] block">{s.num}</span>
-                <span className="text-sm font-black text-slate-900 block mt-1">{s.label}</span>
-                <span className="text-xs text-slate-500 font-medium block mt-0.5">{s.sub}</span>
+              <div
+                key={i}
+                className="p-6 rounded-2xl bg-slate-50 border border-slate-200/80"
+              >
+                <span className="text-3xl sm:text-4xl font-extrabold text-[#005CE6] block">
+                  {s.num}
+                </span>
+                <span className="text-sm font-black text-slate-900 block mt-1">
+                  {s.label}
+                </span>
+                <span className="text-xs text-slate-500 font-medium block mt-0.5">
+                  {s.sub}
+                </span>
               </div>
             ))}
           </div>
@@ -158,7 +174,6 @@ export function ProjectsPageDetail() {
       {/* ── FILTERABLE GALLERY SECTION ──────────────────────── */}
       <section className="py-20 lg:py-24 bg-[#F8FAFC] border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div className="max-w-2xl">
               <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
@@ -168,7 +183,8 @@ export function ProjectsPageDetail() {
                 Real Installations & Field Work
               </h2>
               <p className="text-sm text-slate-600 mt-2 font-medium">
-                Click any image to expand and inspect our workmanship, clean ducting, and precision system setups.
+                Click any image to expand and inspect our workmanship, clean
+                ducting, and precision system setups.
               </p>
             </div>
 
@@ -194,7 +210,10 @@ export function ProjectsPageDetail() {
           {loading ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="aspect-[4/3] w-full rounded-2xl bg-slate-200/60 animate-pulse" />
+                <div
+                  key={i}
+                  className="aspect-[4/3] w-full rounded-2xl bg-slate-200/60 animate-pulse"
+                />
               ))}
             </div>
           ) : filteredPhotos.length === 0 ? (
@@ -206,15 +225,24 @@ export function ProjectsPageDetail() {
                 No Photos in this Category Yet
               </h4>
               <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                Photos uploaded via the admin dashboard will automatically appear here in high definition.
+                Photos uploaded via the admin dashboard will automatically
+                appear here in high definition.
               </p>
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {filteredPhotos.map((photo, idx) => {
-                const photoUrl = typeof photo === "string" ? photo : photo?.url || "";
-                const photoTitle = typeof photo === "string" ? `HVAC Project ${idx + 1}` : (photo?.title || `Upfront AC Project Installation ${idx + 1}`);
-                const photoId = typeof photo === "string" ? `photo-${idx}` : (photo?.id || `photo-${idx}`);
+                const photoUrl =
+                  typeof photo === "string" ? photo : photo?.url || "";
+                const photoTitle =
+                  typeof photo === "string"
+                    ? `HVAC Project ${idx + 1}`
+                    : photo?.title ||
+                      `Upfront AC Project Installation ${idx + 1}`;
+                const photoId =
+                  typeof photo === "string"
+                    ? `photo-${idx}`
+                    : photo?.id || `photo-${idx}`;
 
                 return (
                   <motion.div
@@ -242,14 +270,12 @@ export function ProjectsPageDetail() {
               })}
             </div>
           )}
-
         </div>
       </section>
 
       {/* ── QUALITY STANDARDS SECTION ───────────────────────── */}
       <section className="py-20 lg:py-24 bg-white border-b border-slate-200/80">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
-          
           <div className="max-w-3xl mb-14">
             <span className="text-xs font-black uppercase tracking-widest text-[#005CE6]">
               OUR CRAFTSMANSHIP COMMITMENT
@@ -261,25 +287,30 @@ export function ProjectsPageDetail() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {qualityPillars.map((p, idx) => (
-              <div key={idx} className="p-7 rounded-3xl bg-[#F8FAFC] border border-slate-200 flex flex-col justify-between">
+              <div
+                key={idx}
+                className="p-7 rounded-3xl bg-[#F8FAFC] border border-slate-200 flex flex-col justify-between"
+              >
                 <div>
                   <div className="w-10 h-10 rounded-xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center font-black text-xs mb-4">
                     0{idx + 1}
                   </div>
-                  <h3 className="text-base font-extrabold text-slate-900 mb-2">{p.title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">{p.desc}</p>
+                  <h3 className="text-base font-extrabold text-slate-900 mb-2">
+                    {p.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+                    {p.desc}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
       {/* ── DIRECT CTA BANNER & MAP ──────────────────────────── */}
       <section className="py-20 lg:py-24 bg-[#050b1a] text-white relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          
           <div className="max-w-3xl mx-auto space-y-6 mb-12">
             <span className="inline-flex items-center gap-2 rounded-full bg-cyan-500/20 border border-cyan-500/40 px-4 py-1 text-xs font-black uppercase tracking-widest text-cyan-300">
               <Sparkles className="h-3.5 w-3.5 text-cyan-300" />
@@ -291,7 +322,8 @@ export function ProjectsPageDetail() {
             </h2>
 
             <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed font-medium">
-              Call us today or submit an estimate request. We provide upfront itemized quotes with zero hidden fees.
+              Call us today or submit an estimate request. We provide upfront
+              itemized quotes with zero hidden fees.
             </p>
 
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -327,7 +359,6 @@ export function ProjectsPageDetail() {
               className="w-full h-full grayscale invert opacity-80"
             />
           </div>
-
         </div>
       </section>
 
@@ -358,7 +389,6 @@ export function ProjectsPageDetail() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

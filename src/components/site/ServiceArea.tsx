@@ -77,9 +77,12 @@ export function ServiceArea() {
   const [hoveredArea, setHoveredArea] = useState<string | null>(null);
 
   return (
-    <section id="service-area" className="relative py-16 lg:py-20 bg-white border-b border-slate-100 overflow-hidden select-none" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 650px" }}>
+    <section
+      id="service-area"
+      className="relative py-16 lg:py-20 bg-white border-b border-slate-100 overflow-hidden select-none"
+      style={{ contentVisibility: "auto", containIntrinsicSize: "1px 650px" }}
+    >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-
         {/* Header Title */}
         <div className="text-left max-w-3xl mb-12">
           <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm mb-4">
@@ -90,20 +93,22 @@ export function ServiceArea() {
           <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-slate-900 tracking-tight leading-tight mb-3">
             {t("HVAC maintenance across ", "Mantenimiento HVAC en ")}
             <span className="text-[#005CE6]">
-              {t("Tomball, Cypress & Greater Houston", "Tomball, Cypress y Greater Houston")}
+              {t(
+                "Tomball, Cypress & Greater Houston",
+                "Tomball, Cypress y Greater Houston",
+              )}
             </span>
           </h2>
 
           <p className="text-slate-600 font-medium text-sm sm:text-base leading-relaxed">
             {t(
               "Daily service across Northwest Houston with Harris and Montgomery County coverage — Fort Bend on request.",
-              "Servicio diario en el noroeste de Houston con cobertura en los condados de Harris y Montgomery — Fort Bend a pedido."
+              "Servicio diario en el noroeste de Houston con cobertura en los condados de Harris y Montgomery — Fort Bend a pedido.",
             )}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-
           {/* Left Column: Interactive Cards Grid (7 cols) */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {serviceAreas.map((area) => {
@@ -114,14 +119,17 @@ export function ServiceArea() {
                   onMouseEnter={() => setHoveredArea(area.name)}
                   onMouseLeave={() => setHoveredArea(null)}
                   whileHover={{ scale: 1.02, y: -2 }}
-                  className={`rounded-2xl p-5 border text-left transition-all duration-300 cursor-pointer ${isActive
+                  className={`rounded-2xl p-5 border text-left transition-all duration-300 cursor-pointer ${
+                    isActive
                       ? "bg-[#005CE6]/5 border-[#005CE6] shadow-md shadow-[#005CE6]/10"
                       : "bg-slate-50/80 border-slate-200/80 hover:bg-white hover:border-[#005CE6]/40 hover:shadow-sm"
-                    }`}
+                  }`}
                 >
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2">
-                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${isActive ? "bg-[#005CE6] text-white" : "bg-[#005CE6]/10 text-[#005CE6]"}`}>
+                      <div
+                        className={`w-7 h-7 rounded-lg flex items-center justify-center ${isActive ? "bg-[#005CE6] text-white" : "bg-[#005CE6]/10 text-[#005CE6]"}`}
+                      >
                         <MapPin className="w-4 h-4" />
                       </div>
                       <h3 className="text-base font-extrabold text-slate-900 leading-tight">
@@ -225,9 +233,7 @@ export function ServiceArea() {
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
-
           </motion.div>
-
         </div>
       </div>
 
@@ -272,28 +278,38 @@ function Pin({
       <div className="flex flex-col items-center gap-1">
         {/* Glowing hotspot */}
         <div className="relative flex h-7 w-7 items-center justify-center">
-          <span className={`animate-ping absolute inline-flex h-5 w-5 rounded-full opacity-75 transition-all duration-300 ${active
-              ? "bg-cyan-400 scale-125"
-              : primary
-                ? "bg-[#005CE6]"
-                : "bg-blue-400"
-            }`}></span>
-          <span className={`relative inline-flex rounded-full h-4 w-4 items-center justify-center text-white shadow-md transition-all duration-300 ${active
-              ? "bg-cyan-400 scale-110 shadow-[0_0_12px_rgba(34,211,238,0.8)]"
-              : primary
-                ? "bg-[#005CE6]"
-                : "bg-[#005CE6]"
-            }`}>
+          <span
+            className={`animate-ping absolute inline-flex h-5 w-5 rounded-full opacity-75 transition-all duration-300 ${
+              active
+                ? "bg-cyan-400 scale-125"
+                : primary
+                  ? "bg-[#005CE6]"
+                  : "bg-blue-400"
+            }`}
+          ></span>
+          <span
+            className={`relative inline-flex rounded-full h-4 w-4 items-center justify-center text-white shadow-md transition-all duration-300 ${
+              active
+                ? "bg-cyan-400 scale-110 shadow-[0_0_12px_rgba(34,211,238,0.8)]"
+                : primary
+                  ? "bg-[#005CE6]"
+                  : "bg-[#005CE6]"
+            }`}
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
           </span>
         </div>
 
         {/* Label frame */}
-        <span className={`px-2 py-0.5 rounded-md backdrop-blur-sm border transition-all duration-300 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap shadow-sm ${primary || active ? "inline-block" : "hidden sm:inline-block"
-          } ${active
-            ? "bg-[#005CE6] border-cyan-400 text-white scale-105 shadow-md"
-            : "bg-slate-950/85 border-slate-800 text-white group-hover:bg-[#005CE6] group-hover:text-white"
-          }`}>
+        <span
+          className={`px-2 py-0.5 rounded-md backdrop-blur-sm border transition-all duration-300 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap shadow-sm ${
+            primary || active ? "inline-block" : "hidden sm:inline-block"
+          } ${
+            active
+              ? "bg-[#005CE6] border-cyan-400 text-white scale-105 shadow-md"
+              : "bg-slate-950/85 border-slate-800 text-white group-hover:bg-[#005CE6] group-hover:text-white"
+          }`}
+        >
           {label}
         </span>
       </div>

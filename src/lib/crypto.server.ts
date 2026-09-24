@@ -10,12 +10,17 @@ export async function hashPassword(password: string): Promise<string> {
   return `${salt}:${hash}`;
 }
 
-export async function verifyPassword(password: string, storedHash: string): Promise<boolean> {
+export async function verifyPassword(
+  password: string,
+  storedHash: string,
+): Promise<boolean> {
   const [salt, hash] = storedHash.split(":");
   if (!salt || !hash) {
     return false;
   }
   const { pbkdf2Sync } = await getCryptoModule();
-  const verifyHash = pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
+  const verifyHash = pbkdf2Sync(password, salt, 1000, 64, "sha512").toString(
+    "hex",
+  );
   return hash === verifyHash;
 }

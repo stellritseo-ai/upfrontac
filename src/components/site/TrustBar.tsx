@@ -23,7 +23,10 @@ export function TrustBar() {
         <div className="relative flex overflow-hidden w-full before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-20 before:bg-gradient-to-r before:from-white before:to-transparent before:content-[''] after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-20 after:bg-gradient-to-l after:from-white after:to-transparent after:content-['']">
           <div className="flex gap-16 items-center animate-marquee hover-pause w-max">
             {duplicatedLogos.map((logo, index) => (
-              <div key={index} className="flex justify-center items-center h-12 w-28 shrink-0">
+              <div
+                key={index}
+                className="flex justify-center items-center h-12 w-28 shrink-0"
+              >
                 <img
                   src={logo}
                   alt={`Certification Logo ${index + 1}`}

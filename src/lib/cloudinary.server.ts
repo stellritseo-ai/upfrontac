@@ -16,16 +16,19 @@ function ensureConfigured() {
     cloud_name,
     api_key,
     api_secret,
-    secure: true
+    secure: true,
   });
   configured = true;
 }
 
-export async function uploadToCloudinary(fileStr: string, folder = "upfrontac") {
+export async function uploadToCloudinary(
+  fileStr: string,
+  folder = "upfrontac",
+) {
   ensureConfigured();
   const result = await cloudinary.uploader.upload(fileStr, {
     folder,
-    resource_type: "auto"
+    resource_type: "auto",
   });
   return result.secure_url;
 }
@@ -36,18 +39,23 @@ export async function listCloudinaryPhotos(folderPrefix = "upfrontac") {
     const res = await cloudinary.api.resources({
       type: "upload",
       prefix: folderPrefix,
-      max_results: 500
+      max_results: 500,
     });
     if (res && Array.isArray(res.resources)) {
       return res.resources.map((r: any) => {
         const folderParts = (r.public_id || "").split("/");
-        const category = folderParts.length > 2 ? folderParts[1] : (folderParts[0] === "upfrontac" && folderParts[1] ? folderParts[1] : "residential");
+        const category =
+          folderParts.length > 2
+            ? folderParts[1]
+            : folderParts[0] === "upfrontac" && folderParts[1]
+              ? folderParts[1]
+              : "residential";
         return {
           id: "photo-" + r.public_id.replace(/[^a-zA-Z0-9]/g, "-"),
           url: r.secure_url,
           category: category || "residential",
           title: "HVAC Project",
-          uploadedAt: r.created_at || new Date().toISOString()
+          uploadedAt: r.created_at || new Date().toISOString(),
         };
       });
     }
@@ -74,5 +82,3 @@ export async function deleteFromCloudinary(url: string) {
     console.warn("Cloudinary destroy error:", err);
   }
 }
-
-

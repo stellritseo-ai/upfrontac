@@ -236,8 +236,8 @@ export function Services() {
 
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-3">
               {t(
-                "Click on any service category on the left to inspect detailed specifications, features, and immediate dispatch availability.",
-                "Haga clic en cualquier categoría de servicio a la izquierda para inspeccionar especificaciones detalladas, características y disponibilidad de despacho inmediato."
+                "Select any service to explore detailed specifications, features, and immediate dispatch availability.",
+                "Seleccione cualquier servicio para explorar especificaciones detalladas, características y disponibilidad de despacho inmediato."
               )}
             </p>
           </div>

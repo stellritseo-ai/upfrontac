@@ -34,7 +34,7 @@ export function FastHVAC() {
 
             {/* Left Column: Headline & Content */}
             <div className="lg:col-span-8 space-y-5 text-left">
-              
+
               {/* Eyebrow Pill */}
               <div className="flex flex-wrap items-center gap-2.5">
                 <motion.div

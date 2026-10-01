@@ -9,92 +9,37 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as UpfrontPricingRouteImport } from './routes/upfront-pricing'
-import { Route as UnderConstructionRouteImport } from './routes/under-construction'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as ServiceAreasRouteImport } from './routes/service-areas'
-import { Route as ReviewsRouteImport } from './routes/reviews'
-import { Route as RequestFreeEstimateRouteImport } from './routes/request-free-estimate'
-import { Route as ProjectsRouteImport } from './routes/projects'
-import { Route as FinanceRouteImport } from './routes/finance'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CareersRouteImport } from './routes/careers'
-import { Route as AboutOwnerRouteImport } from './routes/about-owner'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ServicesIndexRouteImport } from './routes/services/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AboutOwnerRouteImport } from './routes/about-owner'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FinanceRouteImport } from './routes/finance'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as RequestFreeEstimateRouteImport } from './routes/request-free-estimate'
+import { Route as ReviewsRouteImport } from './routes/reviews'
+import { Route as ServiceAreasRouteImport } from './routes/service-areas'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as UnderConstructionRouteImport } from './routes/under-construction'
+import { Route as UpfrontPricingRouteImport } from './routes/upfront-pricing'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as ServicesResidentialHvacRouteImport } from './routes/services/residential-hvac'
-import { Route as ServicesIndoorAirQualityRouteImport } from './routes/services/indoor-air-quality'
-import { Route as ServicesHvacRepairsRouteImport } from './routes/services/hvac-repairs'
-import { Route as ServicesHvacMaintenanceRouteImport } from './routes/services/hvac-maintenance'
-import { Route as ServicesHvacInstallRouteImport } from './routes/services/hvac-install'
-import { Route as ServicesHeatingRouteImport } from './routes/services/heating'
-import { Route as ServicesCommercialHvacRouteImport } from './routes/services/commercial-hvac'
-import { Route as ServicesAirConditioningRouteImport } from './routes/services/air-conditioning'
-import { Route as ServicesAcRepairTomballRouteImport } from './routes/services/ac-repair-tomball'
-import { Route as ServicesAcRepairCypressRouteImport } from './routes/services/ac-repair-cypress'
 import { Route as DashboardLoginRouteImport } from './routes/dashboard/login'
+import { Route as ServicesIndexRouteImport } from './routes/services/index'
+import { Route as ServicesAcRepairCypressRouteImport } from './routes/services/ac-repair-cypress'
+import { Route as ServicesAcRepairTomballRouteImport } from './routes/services/ac-repair-tomball'
+import { Route as ServicesAirConditioningRouteImport } from './routes/services/air-conditioning'
+import { Route as ServicesCommercialHvacRouteImport } from './routes/services/commercial-hvac'
+import { Route as ServicesHeatingRouteImport } from './routes/services/heating'
+import { Route as ServicesHvacInstallRouteImport } from './routes/services/hvac-install'
+import { Route as ServicesHvacMaintenanceRouteImport } from './routes/services/hvac-maintenance'
+import { Route as ServicesHvacRepairsRouteImport } from './routes/services/hvac-repairs'
+import { Route as ServicesIndoorAirQualityRouteImport } from './routes/services/indoor-air-quality'
+import { Route as ServicesResidentialHvacRouteImport } from './routes/services/residential-hvac'
 
-const UpfrontPricingRoute = UpfrontPricingRouteImport.update({
-  id: '/upfront-pricing',
-  path: '/upfront-pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UnderConstructionRoute = UnderConstructionRouteImport.update({
-  id: '/under-construction',
-  path: '/under-construction',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServiceAreasRoute = ServiceAreasRouteImport.update({
-  id: '/service-areas',
-  path: '/service-areas',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReviewsRoute = ReviewsRouteImport.update({
-  id: '/reviews',
-  path: '/reviews',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RequestFreeEstimateRoute = RequestFreeEstimateRouteImport.update({
-  id: '/request-free-estimate',
-  path: '/request-free-estimate',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsRoute = ProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FinanceRoute = FinanceRouteImport.update({
-  id: '/finance',
-  path: '/finance',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CareersRoute = CareersRouteImport.update({
-  id: '/careers',
-  path: '/careers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutOwnerRoute = AboutOwnerRouteImport.update({
-  id: '/about-owner',
-  path: '/about-owner',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -102,9 +47,74 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AboutOwnerRoute = AboutOwnerRouteImport.update({
+  id: '/about-owner',
+  path: '/about-owner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanceRoute = FinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestFreeEstimateRoute = RequestFreeEstimateRouteImport.update({
+  id: '/request-free-estimate',
+  path: '/request-free-estimate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewsRoute = ReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiceAreasRoute = ServiceAreasRouteImport.update({
+  id: '/service-areas',
+  path: '/service-areas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UnderConstructionRoute = UnderConstructionRouteImport.update({
+  id: '/under-construction',
+  path: '/under-construction',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UpfrontPricingRoute = UpfrontPricingRouteImport.update({
+  id: '/upfront-pricing',
+  path: '/upfront-pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardLoginRoute = DashboardLoginRouteImport.update({
+  id: '/dashboard/login',
+  path: '/dashboard/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
@@ -112,14 +122,44 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServicesRoute,
 } as any)
-const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
+const ServicesAcRepairCypressRoute = ServicesAcRepairCypressRouteImport.update({
+  id: '/ac-repair-cypress',
+  path: '/ac-repair-cypress',
+  getParentRoute: () => ServicesRoute,
 } as any)
-const ServicesResidentialHvacRoute = ServicesResidentialHvacRouteImport.update({
-  id: '/residential-hvac',
-  path: '/residential-hvac',
+const ServicesAcRepairTomballRoute = ServicesAcRepairTomballRouteImport.update({
+  id: '/ac-repair-tomball',
+  path: '/ac-repair-tomball',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesAirConditioningRoute = ServicesAirConditioningRouteImport.update({
+  id: '/air-conditioning',
+  path: '/air-conditioning',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesCommercialHvacRoute = ServicesCommercialHvacRouteImport.update({
+  id: '/commercial-hvac',
+  path: '/commercial-hvac',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesHeatingRoute = ServicesHeatingRouteImport.update({
+  id: '/heating',
+  path: '/heating',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesHvacInstallRoute = ServicesHvacInstallRouteImport.update({
+  id: '/hvac-install',
+  path: '/hvac-install',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesHvacMaintenanceRoute = ServicesHvacMaintenanceRouteImport.update({
+  id: '/hvac-maintenance',
+  path: '/hvac-maintenance',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesHvacRepairsRoute = ServicesHvacRepairsRouteImport.update({
+  id: '/hvac-repairs',
+  path: '/hvac-repairs',
   getParentRoute: () => ServicesRoute,
 } as any)
 const ServicesIndoorAirQualityRoute =
@@ -128,50 +168,10 @@ const ServicesIndoorAirQualityRoute =
     path: '/indoor-air-quality',
     getParentRoute: () => ServicesRoute,
   } as any)
-const ServicesHvacRepairsRoute = ServicesHvacRepairsRouteImport.update({
-  id: '/hvac-repairs',
-  path: '/hvac-repairs',
+const ServicesResidentialHvacRoute = ServicesResidentialHvacRouteImport.update({
+  id: '/residential-hvac',
+  path: '/residential-hvac',
   getParentRoute: () => ServicesRoute,
-} as any)
-const ServicesHvacMaintenanceRoute = ServicesHvacMaintenanceRouteImport.update({
-  id: '/hvac-maintenance',
-  path: '/hvac-maintenance',
-  getParentRoute: () => ServicesRoute,
-} as any)
-const ServicesHvacInstallRoute = ServicesHvacInstallRouteImport.update({
-  id: '/hvac-install',
-  path: '/hvac-install',
-  getParentRoute: () => ServicesRoute,
-} as any)
-const ServicesHeatingRoute = ServicesHeatingRouteImport.update({
-  id: '/heating',
-  path: '/heating',
-  getParentRoute: () => ServicesRoute,
-} as any)
-const ServicesCommercialHvacRoute = ServicesCommercialHvacRouteImport.update({
-  id: '/commercial-hvac',
-  path: '/commercial-hvac',
-  getParentRoute: () => ServicesRoute,
-} as any)
-const ServicesAirConditioningRoute = ServicesAirConditioningRouteImport.update({
-  id: '/air-conditioning',
-  path: '/air-conditioning',
-  getParentRoute: () => ServicesRoute,
-} as any)
-const ServicesAcRepairTomballRoute = ServicesAcRepairTomballRouteImport.update({
-  id: '/ac-repair-tomball',
-  path: '/ac-repair-tomball',
-  getParentRoute: () => ServicesRoute,
-} as any)
-const ServicesAcRepairCypressRoute = ServicesAcRepairCypressRouteImport.update({
-  id: '/ac-repair-cypress',
-  path: '/ac-repair-cypress',
-  getParentRoute: () => ServicesRoute,
-} as any)
-const DashboardLoginRoute = DashboardLoginRouteImport.update({
-  id: '/dashboard/login',
-  path: '/dashboard/login',
-  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -371,88 +371,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/upfront-pricing': {
-      id: '/upfront-pricing'
-      path: '/upfront-pricing'
-      fullPath: '/upfront-pricing'
-      preLoaderRoute: typeof UpfrontPricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/under-construction': {
-      id: '/under-construction'
-      path: '/under-construction'
-      fullPath: '/under-construction'
-      preLoaderRoute: typeof UnderConstructionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/service-areas': {
-      id: '/service-areas'
-      path: '/service-areas'
-      fullPath: '/service-areas'
-      preLoaderRoute: typeof ServiceAreasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reviews': {
-      id: '/reviews'
-      path: '/reviews'
-      fullPath: '/reviews'
-      preLoaderRoute: typeof ReviewsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/request-free-estimate': {
-      id: '/request-free-estimate'
-      path: '/request-free-estimate'
-      fullPath: '/request-free-estimate'
-      preLoaderRoute: typeof RequestFreeEstimateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/finance': {
-      id: '/finance'
-      path: '/finance'
-      fullPath: '/finance'
-      preLoaderRoute: typeof FinanceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/careers': {
-      id: '/careers'
-      path: '/careers'
-      fullPath: '/careers'
-      preLoaderRoute: typeof CareersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about-owner': {
-      id: '/about-owner'
-      path: '/about-owner'
-      fullPath: '/about-owner'
-      preLoaderRoute: typeof AboutOwnerRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -462,11 +385,102 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/about-owner': {
+      id: '/about-owner'
+      path: '/about-owner'
+      fullPath: '/about-owner'
+      preLoaderRoute: typeof AboutOwnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance': {
+      id: '/finance'
+      path: '/finance'
+      fullPath: '/finance'
+      preLoaderRoute: typeof FinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-free-estimate': {
+      id: '/request-free-estimate'
+      path: '/request-free-estimate'
+      fullPath: '/request-free-estimate'
+      preLoaderRoute: typeof RequestFreeEstimateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reviews': {
+      id: '/reviews'
+      path: '/reviews'
+      fullPath: '/reviews'
+      preLoaderRoute: typeof ReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/service-areas': {
+      id: '/service-areas'
+      path: '/service-areas'
+      fullPath: '/service-areas'
+      preLoaderRoute: typeof ServiceAreasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/under-construction': {
+      id: '/under-construction'
+      path: '/under-construction'
+      fullPath: '/under-construction'
+      preLoaderRoute: typeof UnderConstructionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/upfront-pricing': {
+      id: '/upfront-pricing'
+      path: '/upfront-pricing'
+      fullPath: '/upfront-pricing'
+      preLoaderRoute: typeof UpfrontPricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/login': {
+      id: '/dashboard/login'
+      path: '/dashboard/login'
+      fullPath: '/dashboard/login'
+      preLoaderRoute: typeof DashboardLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services/': {
@@ -476,67 +490,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof ServicesRoute
     }
-    '/dashboard/': {
-      id: '/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services/residential-hvac': {
-      id: '/services/residential-hvac'
-      path: '/residential-hvac'
-      fullPath: '/services/residential-hvac'
-      preLoaderRoute: typeof ServicesResidentialHvacRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/indoor-air-quality': {
-      id: '/services/indoor-air-quality'
-      path: '/indoor-air-quality'
-      fullPath: '/services/indoor-air-quality'
-      preLoaderRoute: typeof ServicesIndoorAirQualityRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/hvac-repairs': {
-      id: '/services/hvac-repairs'
-      path: '/hvac-repairs'
-      fullPath: '/services/hvac-repairs'
-      preLoaderRoute: typeof ServicesHvacRepairsRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/hvac-maintenance': {
-      id: '/services/hvac-maintenance'
-      path: '/hvac-maintenance'
-      fullPath: '/services/hvac-maintenance'
-      preLoaderRoute: typeof ServicesHvacMaintenanceRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/hvac-install': {
-      id: '/services/hvac-install'
-      path: '/hvac-install'
-      fullPath: '/services/hvac-install'
-      preLoaderRoute: typeof ServicesHvacInstallRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/heating': {
-      id: '/services/heating'
-      path: '/heating'
-      fullPath: '/services/heating'
-      preLoaderRoute: typeof ServicesHeatingRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/commercial-hvac': {
-      id: '/services/commercial-hvac'
-      path: '/commercial-hvac'
-      fullPath: '/services/commercial-hvac'
-      preLoaderRoute: typeof ServicesCommercialHvacRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/services/air-conditioning': {
-      id: '/services/air-conditioning'
-      path: '/air-conditioning'
-      fullPath: '/services/air-conditioning'
-      preLoaderRoute: typeof ServicesAirConditioningRouteImport
+    '/services/ac-repair-cypress': {
+      id: '/services/ac-repair-cypress'
+      path: '/ac-repair-cypress'
+      fullPath: '/services/ac-repair-cypress'
+      preLoaderRoute: typeof ServicesAcRepairCypressRouteImport
       parentRoute: typeof ServicesRoute
     }
     '/services/ac-repair-tomball': {
@@ -546,19 +504,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesAcRepairTomballRouteImport
       parentRoute: typeof ServicesRoute
     }
-    '/services/ac-repair-cypress': {
-      id: '/services/ac-repair-cypress'
-      path: '/ac-repair-cypress'
-      fullPath: '/services/ac-repair-cypress'
-      preLoaderRoute: typeof ServicesAcRepairCypressRouteImport
+    '/services/air-conditioning': {
+      id: '/services/air-conditioning'
+      path: '/air-conditioning'
+      fullPath: '/services/air-conditioning'
+      preLoaderRoute: typeof ServicesAirConditioningRouteImport
       parentRoute: typeof ServicesRoute
     }
-    '/dashboard/login': {
-      id: '/dashboard/login'
-      path: '/dashboard/login'
-      fullPath: '/dashboard/login'
-      preLoaderRoute: typeof DashboardLoginRouteImport
-      parentRoute: typeof rootRouteImport
+    '/services/commercial-hvac': {
+      id: '/services/commercial-hvac'
+      path: '/commercial-hvac'
+      fullPath: '/services/commercial-hvac'
+      preLoaderRoute: typeof ServicesCommercialHvacRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/heating': {
+      id: '/services/heating'
+      path: '/heating'
+      fullPath: '/services/heating'
+      preLoaderRoute: typeof ServicesHeatingRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/hvac-install': {
+      id: '/services/hvac-install'
+      path: '/hvac-install'
+      fullPath: '/services/hvac-install'
+      preLoaderRoute: typeof ServicesHvacInstallRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/hvac-maintenance': {
+      id: '/services/hvac-maintenance'
+      path: '/hvac-maintenance'
+      fullPath: '/services/hvac-maintenance'
+      preLoaderRoute: typeof ServicesHvacMaintenanceRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/hvac-repairs': {
+      id: '/services/hvac-repairs'
+      path: '/hvac-repairs'
+      fullPath: '/services/hvac-repairs'
+      preLoaderRoute: typeof ServicesHvacRepairsRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/indoor-air-quality': {
+      id: '/services/indoor-air-quality'
+      path: '/indoor-air-quality'
+      fullPath: '/services/indoor-air-quality'
+      preLoaderRoute: typeof ServicesIndoorAirQualityRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/residential-hvac': {
+      id: '/services/residential-hvac'
+      path: '/residential-hvac'
+      fullPath: '/services/residential-hvac'
+      preLoaderRoute: typeof ServicesResidentialHvacRouteImport
+      parentRoute: typeof ServicesRoute
     }
   }
 }

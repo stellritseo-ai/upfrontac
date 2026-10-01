@@ -75,7 +75,8 @@ function Index() {
     ],
     "sameAs": [
       "https://www.facebook.com/upfrontac",
-      "https://www.instagram.com/upfrontac/"
+      "https://www.instagram.com/upfrontac/",
+      "https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209"
     ]
   };
 

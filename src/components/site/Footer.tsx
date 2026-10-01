@@ -25,18 +25,17 @@ const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const LinkedinIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-    <rect x="2" y="9" width="4" height="12" />
-    <circle cx="4" cy="4" r="2" />
+const BbbIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <text x="12" y="14" textAnchor="middle" fontSize="6.5" fontWeight="900" fill="currentColor" stroke="none" fontFamily="system-ui, -apple-system, sans-serif" letterSpacing="-0.3px">BBB</text>
   </svg>
 );
 
 const socials = [
-  { icon: FacebookIcon, href: "https://www.facebook.com/", label: "Facebook" },
-  { icon: InstagramIcon, href: "https://www.instagram.com/", label: "Instagram" },
-  { icon: LinkedinIcon, href: "#", label: "LinkedIn" },
+  { icon: FacebookIcon, href: "https://www.facebook.com/upfrontac", label: "Facebook" },
+  { icon: InstagramIcon, href: "https://www.instagram.com/upfrontac/", label: "Instagram" },
+  { icon: BbbIcon, href: "https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209", label: "Better Business Bureau" },
 ];
 
 export function Footer() {
@@ -307,16 +306,25 @@ export function Footer() {
         </div>
 
         {/* Trust Badges Full-Width 1-Row Bar */}
-        <div className="mt-10 pt-6 border-t border-slate-900 flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-3 select-none">
-          <div className="flex items-center justify-center gap-2 bg-red-500/15 border border-red-500/30 rounded-xl px-4 py-2 text-xs font-black text-red-400 uppercase tracking-wider shadow-sm w-full lg:w-auto text-center">
+        <div className="mt-10 pt-6 border-t border-slate-900 flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-between gap-3 select-none">
+          <div className="flex items-center justify-center gap-2 bg-red-500/15 border border-red-500/30 rounded-xl px-4 py-2 text-xs font-black text-red-400 uppercase tracking-wider shadow-sm w-full sm:w-auto text-center">
             <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse shrink-0" />
             <span>{t("Call for 24/7 Emergency Service", "Llama para Servicio 24/7")}</span>
           </div>
-          <div className="flex items-center justify-center gap-2 bg-slate-900/50 border border-slate-800/80 rounded-xl px-4 py-2 text-xs font-bold text-slate-300 uppercase tracking-wider w-full lg:w-auto text-center">
+          <a
+            href="https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 bg-slate-900/50 hover:bg-slate-800 border border-slate-800/80 hover:border-[#005CE6]/50 transition-colors rounded-xl px-4 py-2 text-xs font-bold text-slate-300 hover:text-white uppercase tracking-wider w-full sm:w-auto text-center cursor-pointer"
+          >
+            <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse shrink-0" />
+            <span>BBB Accredited A+</span>
+          </a>
+          <div className="flex items-center justify-center gap-2 bg-slate-900/50 border border-slate-800/80 rounded-xl px-4 py-2 text-xs font-bold text-slate-300 uppercase tracking-wider w-full sm:w-auto text-center">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
             <span>{t("Licensed & Insured HVAC Provider", "Proveedor HVAC Autorizado")}</span>
           </div>
-          <div className="flex items-center justify-center gap-2 bg-slate-900/50 border border-slate-800/80 rounded-xl px-4 py-2 text-xs font-bold text-slate-300 uppercase tracking-wider w-full lg:w-auto text-center">
+          <div className="flex items-center justify-center gap-2 bg-slate-900/50 border border-slate-800/80 rounded-xl px-4 py-2 text-xs font-bold text-slate-300 uppercase tracking-wider w-full sm:w-auto text-center">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
             <span>{t("Tomball & Greater Houston", "Tomball y Greater Houston")}</span>
           </div>

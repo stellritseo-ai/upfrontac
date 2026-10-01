@@ -187,11 +187,33 @@ export function Header() {
 
           {/* Social icons */}
           <div className="flex items-center gap-2 shrink-0">
-            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition">
+            <a
+              href="https://www.facebook.com/upfrontac"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition"
+            >
               <Facebook className="h-3.5 w-3.5" />
             </a>
-            <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition">
+            <a
+              href="https://www.instagram.com/upfrontac/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition"
+            >
               <Instagram className="h-3.5 w-3.5" />
+            </a>
+            <a
+              href="https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Better Business Bureau Profile"
+              title="BBB Accredited A+"
+              className="h-8 px-2.5 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition text-[11px] font-black tracking-tight"
+            >
+              BBB
             </a>
           </div>
         </div>
@@ -529,6 +551,37 @@ export function Header() {
                 );
               })}
             </nav>
+
+            {/* Mobile Social Media Links */}
+            <div className="flex items-center justify-center gap-3 pt-1 pb-2">
+              <a
+                href="https://www.facebook.com/upfrontac"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#005CE6] transition-colors"
+              >
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a
+                href="https://www.instagram.com/upfrontac/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#005CE6] transition-colors"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+              <a
+                href="https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Better Business Bureau Profile"
+                className="px-3 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#005CE6] transition-colors font-black text-xs tracking-tight"
+              >
+                BBB A+
+              </a>
+            </div>
 
             {/* Bottom Certification Badge */}
             <div className="rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-900 border border-slate-800 p-3.5 flex items-center justify-between text-xs">

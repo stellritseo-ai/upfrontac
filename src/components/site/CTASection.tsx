@@ -36,23 +36,6 @@ export function CTASection() {
         source: "Landing CTA Section"
       });
 
-      // 2. Email backup (background notification)
-      fetch("https://formsubmit.co/ajax/allen@upfrontac.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          Name: name,
-          Phone: phone,
-          Email: email,
-          Address: address,
-          "Service Needed": service || "General Quote Request",
-          Message: message
-        })
-      }).catch((err) => console.log("Background email alert:", err));
-
       toast.success("Thank you! We will get in touch with you shortly.");
       setIsSubmitted(true);
     } catch (err) {

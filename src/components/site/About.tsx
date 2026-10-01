@@ -108,10 +108,15 @@ export function About() {
               <span>{t("Excellence Has Been Our Hallmark Since 2010", "La Excelencia ha Sido Nuestra Marca Desde 2010")}</span>
             </span>
 
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700 shadow-sm">
+            <a
+              href="https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700 shadow-sm hover:bg-emerald-100/80 hover:border-emerald-300 transition-all cursor-pointer"
+            >
               <Check className="h-3 w-3 text-emerald-600" />
               <span>BBB Accredited A+</span>
-            </span>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">

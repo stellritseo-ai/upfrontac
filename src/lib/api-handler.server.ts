@@ -35,6 +35,7 @@ import {
 
 import { uploadToCloudinary, deleteFromCloudinary, listCloudinaryPhotos } from "./cloudinary.server.js";
 import { hashPassword, verifyPassword } from "./crypto.server.js";
+import { sendFormNotificationEmail } from "./mailer.server.js";
 
 const DEFAULT_ADMIN = {
   id: "admin-1",
@@ -126,6 +127,22 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
         if (io && savedLead) {
           io.emit("new-lead", savedLead);
         }
+
+        // Send email alert to eva@stellrit.com via Zoho SMTP for direct lead creation
+        try {
+          sendFormNotificationEmail({
+            name: savedLead.name,
+            email: savedLead.email,
+            phone: savedLead.phone,
+            service: savedLead.projectType || "Direct Lead",
+            message: savedLead.description,
+            source: savedLead.address || "Website Intake",
+            createdAt: savedLead.createdAt
+          }, "eva@stellrit.com").catch((err) => {
+            console.error("[Zoho SMTP Lead Error]:", err);
+          });
+        } catch {}
+
         return jsonResponse(savedLead);
       }
       if (method === "PUT") {
@@ -528,6 +545,23 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           console.error("Failed to create form submission notification:", err);
         }
 
+        // Send email alert to eva@stellrit.com via Zoho Mail SMTP
+        try {
+          sendFormNotificationEmail({
+            name: newEmail.name,
+            email: newEmail.email,
+            phone: newEmail.phone,
+            service: newEmail.service,
+            message: newEmail.message,
+            source: newEmail.source,
+            createdAt: newEmail.createdAt
+          }, "eva@stellrit.com").catch((err) => {
+            console.error("[Zoho SMTP Form Submission Error]:", err);
+          });
+        } catch (mailErr) {
+          console.error("[Zoho Mail Error]:", mailErr);
+        }
+
         return jsonResponse({ ...saved, lead: savedLead });
       }
       if (method === "DELETE") {
@@ -705,6 +739,21 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           } catch (err) {
             console.error("Failed to broadcast chat start notification:", err);
           }
+
+          // Send email alert to eva@stellrit.com via Zoho SMTP for new chat session
+          try {
+            sendFormNotificationEmail({
+              name: newSession.clientName,
+              email: newSession.clientEmail,
+              phone: newSession.clientPhone,
+              service: "Live Chat Session (" + newSession.clientCity + ")",
+              message: firstMsgText || "Started a live chat session.",
+              source: "Live Chat Widget",
+              createdAt: newSession.lastMessageTime
+            }, "eva@stellrit.com").catch((err) => {
+              console.error("[Zoho SMTP Chat Alert Error]:", err);
+            });
+          } catch {}
 
           return jsonResponse(newSession);
         }
@@ -1089,7 +1138,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     // ── /api/settings ──
     if (pathname === "/api/settings") {
       const defaultSettings = {
-        alertEmail: "allen@upfrontac.com",
+        alertEmail: "eva@stellrit.com",
         officePhone: "(713) 819-7908",
         emailAlert: true,
         maintenanceMode: false,

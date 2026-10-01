@@ -1926,7 +1926,7 @@ export interface SiteSettings {
 }
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
-  alertEmail: "allen@upfrontac.com",
+  alertEmail: "eva@stellrit.com",
   officePhone: "(713) 819-7908",
   emailAlert: true,
   maintenanceMode: false,

@@ -62,6 +62,7 @@ export function ServiceAreasPageDetail() {
         message: `City / Service Area: ${formData.city || selectedCity || "Greater Houston"}\nRequested Date / Time: ${formData.date || "As soon as possible"}`,
         source: "Service Areas Page (/service-areas)"
       });
+
       setSubmitted(true);
       toast.success("Service area request received! We will contact you shortly.");
     } catch {

@@ -35,22 +35,6 @@ export function Estimate() {
         source: "Free Estimate Page"
       });
 
-      // 2. Email backup forwarding (background notification)
-      fetch("https://formsubmit.co/ajax/allen@upfrontac.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          Name: name,
-          Phone: phone,
-          Email: email,
-          "Service Needed": service || "General Inquiry",
-          Message: msg
-        })
-      }).catch((err) => console.log("Background email alert:", err));
-
       toast.success(t("Thanks! We'll be in touch within 24 hours.", "¡Gracias! Nos pondremos en contacto dentro de las 24 horas."));
       form.reset();
       setService("");

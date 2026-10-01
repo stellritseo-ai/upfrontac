@@ -50,6 +50,7 @@ export function ContactPageDetail() {
         service: "Contact Us Inquiry",
         source: "Contact Page (/contact)"
       });
+
       setSubmitted(true);
       toast.success("Thank you! Your message has been sent to our dispatch team.");
       setFormData({ name: "", email: "", phone: "", message: "" });

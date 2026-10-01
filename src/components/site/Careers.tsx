@@ -42,24 +42,6 @@ export function Careers() {
         source: "Careers Form"
       });
 
-      // 2. Email backup (background notification)
-      fetch("https://formsubmit.co/ajax/allen@upfrontac.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          Name: name,
-          Phone: phone,
-          Email: email,
-          "Position of Interest": job || "General Application",
-          "Years of Experience": exp || "Not Specified",
-          "License Status": license || "Not Specified",
-          Message: msg
-        })
-      }).catch((err) => console.log("Background email alert:", err));
-
       toast.success(t("Application received! We'll review your details and contact you soon.", "¡Solicitud recibida! Revisaremos sus datos y nos pondremos en contacto pronto."));
       form.reset();
       setJob("");

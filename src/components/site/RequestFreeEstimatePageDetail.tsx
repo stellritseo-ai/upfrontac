@@ -61,6 +61,7 @@ export function RequestFreeEstimatePageDetail() {
         message: `Address: ${formData.address}\nTimeline: ${formData.timeline}\nPreferred Method: ${formData.contactMethod}\nNotes: ${formData.problemDescription}`,
         source: "Free Estimate Page (/request-free-estimate)"
       });
+
       setSubmitted(true);
       toast.success("Free estimate request received! We will contact you shortly.");
     } catch (err) {
@@ -536,10 +537,15 @@ export function RequestFreeEstimatePageDetail() {
                     <CheckCircle2 className="w-4 h-4 text-[#005CE6] shrink-0" />
                     <span>5-Star Google Reviews (Verified Metro Ratings)</span>
                   </div>
-                  <div className="flex items-center gap-2.5 text-xs font-bold text-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-[#005CE6] shrink-0" />
+                  <a
+                    href="https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 text-xs font-bold text-slate-800 hover:text-[#005CE6] transition-colors cursor-pointer group"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-[#005CE6] shrink-0 group-hover:scale-110 transition-transform" />
                     <span>BBB Accredited (A+ Rated Business)</span>
-                  </div>
+                  </a>
                   <div className="flex items-center gap-2.5 text-xs font-bold text-slate-800">
                     <CheckCircle2 className="w-4 h-4 text-[#005CE6] shrink-0" />
                     <span>Active Daily Service in Tomball, Cypress & Houston</span>

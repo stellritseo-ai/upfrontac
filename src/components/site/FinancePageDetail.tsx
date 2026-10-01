@@ -60,6 +60,7 @@ export function FinancePageDetail() {
         message: `Estimated Budget: ${formData.budget || "Not Specified"}\nSystem / Service: ${formData.service || "HVAC Replacement Financing"}`,
         source: "Financing Page (/finance)"
       });
+
       setSubmitted(true);
       toast.success("Financing inquiry received! A specialist will contact you shortly.");
     } catch (err) {

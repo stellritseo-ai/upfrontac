@@ -204,6 +204,14 @@ export function Services() {
   const [activeServiceId, setActiveServiceId] = useState<string>("hvac-install");
   const activeService = services.find((s) => s.id === activeServiceId) || services[0];
 
+  const handleServiceClick = (serviceId: string) => {
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      setActiveServiceId((prev) => (prev === serviceId ? "" : serviceId));
+    } else {
+      setActiveServiceId(serviceId);
+    }
+  };
+
   return (
     <section id="services" className="bg-[#F8FAFC] py-20 overflow-hidden border-y border-slate-200/80 text-slate-900">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
@@ -248,50 +256,167 @@ export function Services() {
           <div className="lg:col-span-5 flex flex-col gap-2.5 w-full">
             {services.map((s) => {
               const Icon = s.icon;
-              const isActive = activeService.id === s.id;
+              const isMobileExpanded = activeServiceId === s.id;
+              const isDesktopSelected = activeService.id === s.id;
 
               return (
-                <button
-                  key={s.id}
-                  onClick={() => setActiveServiceId(s.id)}
-                  className={`group relative w-full text-left p-4 rounded-2xl border transition-all duration-300 flex items-center justify-between ${
-                    isActive
-                      ? "bg-gradient-to-r from-[#005CE6] to-[#0047B3] border-[#005CE6] text-white shadow-lg shadow-[#005CE6]/25 translate-x-1"
-                      : "bg-white hover:bg-slate-100/80 border-slate-200/90 text-slate-800 hover:text-[#005CE6] shadow-sm"
-                  }`}
-                >
-                  <div className="flex items-center gap-3.5">
-                    {/* Index Number */}
-                    <span className={`text-xs font-black tracking-widest ${isActive ? "text-cyan-200" : "text-slate-400"}`}>
-                      {s.num}
-                    </span>
+                <div key={s.id} className="flex flex-col w-full">
+                  <button
+                    onClick={() => handleServiceClick(s.id)}
+                    className={`group relative w-full text-left p-4 rounded-2xl border transition-all duration-300 flex items-center justify-between ${
+                      isMobileExpanded
+                        ? "bg-gradient-to-r from-[#005CE6] to-[#0047B3] border-[#005CE6] text-white shadow-lg shadow-[#005CE6]/25"
+                        : isDesktopSelected
+                        ? "lg:bg-gradient-to-r lg:from-[#005CE6] lg:to-[#0047B3] lg:border-[#005CE6] lg:text-white lg:shadow-lg lg:shadow-[#005CE6]/25 bg-white hover:bg-slate-100/80 border-slate-200/90 text-slate-800 hover:text-[#005CE6] shadow-sm"
+                        : "bg-white hover:bg-slate-100/80 border-slate-200/90 text-slate-800 hover:text-[#005CE6] shadow-sm"
+                    } ${isDesktopSelected ? "lg:translate-x-1" : ""}`}
+                  >
+                    <div className="flex items-center gap-3.5">
+                      {/* Index Number */}
+                      <span
+                        className={`text-xs font-black tracking-widest ${
+                          isMobileExpanded
+                            ? "text-cyan-200"
+                            : isDesktopSelected
+                            ? "lg:text-cyan-200 text-slate-400"
+                            : "text-slate-400"
+                        }`}
+                      >
+                        {s.num}
+                      </span>
 
-                    {/* Icon Box */}
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                      isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600 group-hover:text-[#005CE6] group-hover:bg-[#005CE6]/10"
-                    }`}>
-                      <Icon className="w-4.5 h-4.5" />
+                      {/* Icon Box */}
+                      <div
+                        className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
+                          isMobileExpanded
+                            ? "bg-white/20 text-white"
+                            : isDesktopSelected
+                            ? "lg:bg-white/20 lg:text-white bg-slate-100 text-slate-600 group-hover:text-[#005CE6] group-hover:bg-[#005CE6]/10"
+                            : "bg-slate-100 text-slate-600 group-hover:text-[#005CE6] group-hover:bg-[#005CE6]/10"
+                        }`}
+                      >
+                        <Icon className="w-4.5 h-4.5" />
+                      </div>
+
+                      {/* Title & Subtitle */}
+                      <div className="flex flex-col text-left">
+                        <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wide leading-tight">
+                          {s.title}
+                        </span>
+                        <span
+                          className={`text-[11px] font-medium mt-0.5 ${
+                            isMobileExpanded
+                              ? "text-slate-100"
+                              : isDesktopSelected
+                              ? "lg:text-slate-100 text-slate-500"
+                              : "text-slate-500"
+                          }`}
+                        >
+                          {s.subtitle}
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Title & Subtitle */}
-                    <div className="flex flex-col text-left">
-                      <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wide leading-tight">
-                        {s.title}
-                      </span>
-                      <span className={`text-[11px] font-medium mt-0.5 ${isActive ? "text-slate-100" : "text-slate-500"}`}>
-                        {s.subtitle}
-                      </span>
-                    </div>
-                  </div>
+                    <ChevronRight
+                      className={`w-4 h-4 transition-transform duration-300 ${
+                        isMobileExpanded
+                          ? "text-white rotate-90 lg:rotate-0"
+                          : isDesktopSelected
+                          ? "lg:text-white text-slate-400 group-hover:text-[#005CE6]"
+                          : "text-slate-400 group-hover:text-[#005CE6]"
+                      } ${isDesktopSelected ? "lg:translate-x-1" : ""}`}
+                    />
+                  </button>
 
-                  <ChevronRight className={`w-4 h-4 transition-transform ${isActive ? "text-white translate-x-1" : "text-slate-400 group-hover:text-[#005CE6]"}`} />
-                </button>
+                  {/* Mobile Inline Detail Card (Accordion - mobile only) */}
+                  <AnimatePresence initial={false}>
+                    {isMobileExpanded && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.35, ease: "easeInOut" }}
+                        className="lg:hidden overflow-hidden pt-2"
+                      >
+                        <div className="overflow-hidden rounded-2xl bg-slate-900 border border-slate-800 shadow-xl text-left">
+                          {/* Image Banner with Vignette Overlay */}
+                          <div className="relative h-48 w-full overflow-hidden">
+                            <img
+                              src={s.image}
+                              alt={s.title}
+                              className="w-full h-full object-cover object-center"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
+
+                            {/* Top Badges */}
+                            <div className="absolute top-3 left-3 z-10 flex flex-wrap items-center gap-1.5">
+                              <span className="rounded-full bg-[#005CE6] px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-white shadow-md border border-white/20">
+                                {s.badge}
+                              </span>
+                              <span className="rounded-full bg-slate-900/80 backdrop-blur-md px-2.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-slate-200 border border-white/20 shadow-sm">
+                                Licensed TACLA133609C
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Content Details */}
+                          <div className="p-4 sm:p-5 -mt-3 relative z-10 text-left">
+                            <span className="text-[11px] font-black uppercase tracking-widest text-cyan-400 block">
+                              {s.subtitle}
+                            </span>
+                            <h3 className="text-lg font-extrabold text-white uppercase tracking-tight mt-0.5">
+                              {s.title}
+                            </h3>
+                            <p className="text-xs text-slate-300 leading-relaxed mt-2">
+                              {s.desc}
+                            </p>
+
+                            {/* Specification Bullets */}
+                            <div className="mt-3.5 flex flex-col gap-2">
+                              {s.specs.map((spec, i) => (
+                                <div
+                                  key={i}
+                                  className="flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2 border border-white/10 text-[11px] font-bold text-white shadow-sm"
+                                >
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                                  <span>{spec}</span>
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Dual Action CTA Buttons */}
+                            <div className="mt-4 flex flex-col gap-2">
+                              <Button
+                                asChild
+                                className="w-full rounded-xl font-extrabold bg-[#005CE6] hover:bg-[#0047B3] text-white shadow-lg shadow-[#005CE6]/30 py-3 text-xs justify-center"
+                              >
+                                <Link to={s.to} className="flex items-center justify-center gap-2">
+                                  <span>{t("Schedule Service Now", "Programar Servicio Ahora")}</span>
+                                  <ArrowRight className="w-4 h-4" />
+                                </Link>
+                              </Button>
+
+                              <a
+                                href="tel:7138197908"
+                                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 px-4 py-2.5 text-xs font-extrabold text-white border border-white/15 transition-all text-center"
+                              >
+                                <PhoneCall className="w-3.5 h-3.5 text-cyan-400" />
+                                <span>{t("Call (713) 819-7908", "Llamar (713) 819-7908")}</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               );
             })}
           </div>
 
-          {/* Right Column: Dynamic Spotlight Stage (7 cols on desktop) */}
-          <div className="lg:col-span-7 relative w-full rounded-3xl bg-slate-900 border border-slate-200/80 shadow-[0_20px_50px_rgba(15,23,42,0.12)] overflow-hidden min-h-[580px] flex flex-col justify-end">
+          {/* Right Column: Dynamic Spotlight Stage (7 cols on desktop, hidden on mobile) */}
+          <div className="hidden lg:flex lg:col-span-7 relative w-full rounded-3xl bg-slate-900 border border-slate-200/80 shadow-[0_20px_50px_rgba(15,23,42,0.12)] overflow-hidden min-h-[580px] flex-col justify-end">
             
             <AnimatePresence mode="wait">
               <motion.div
@@ -398,15 +523,20 @@ export function Services() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#005CE6]/20 text-[#005CE6] flex items-center justify-center shrink-0">
+          <a
+            href="https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 group hover:opacity-90 transition-all cursor-pointer"
+          >
+            <div className="w-10 h-10 rounded-xl bg-[#005CE6]/20 text-[#005CE6] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
               <Award className="w-5 h-5" />
             </div>
             <div>
-              <span className="block text-xs font-extrabold text-slate-900">{t("BBB Accredited", "Acreditado por BBB")}</span>
+              <span className="block text-xs font-extrabold text-slate-900 group-hover:text-[#005CE6] transition-colors">{t("BBB Accredited", "Acreditado por BBB")}</span>
               <span className="text-[11px] text-slate-500 font-medium">{t("A+ Rated Contractor", "Calificación A+")}</span>
             </div>
-          </div>
+          </a>
 
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#005CE6]/10 text-[#005CE6] flex items-center justify-center shrink-0">

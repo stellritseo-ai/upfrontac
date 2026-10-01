@@ -286,7 +286,7 @@ function DashboardPage() {
   const [emailSourceFilter, setEmailSourceFilter] = useState("all");
 
   // Portal & Site Config States
-  const [alertEmail, setAlertEmail] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_alertEmail") : null) || "allen@upfrontac.com");
+  const [alertEmail, setAlertEmail] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_alertEmail") : null) || "eva@stellrit.com");
   const [officePhone, setOfficePhone] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_officePhone") : null) || "(713) 819-7908");
   const [emailAlert, setEmailAlert] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_emailAlert") !== "false" : true));
   const [maintenanceMode, setMaintenanceMode] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_maintenanceMode") === "true" : false));
@@ -355,7 +355,7 @@ function DashboardPage() {
       getNotifications().then(setNotifications);
       getSiteSettings().then(settings => {
         if (settings) {
-          setAlertEmail(settings.alertEmail || "allen@upfrontac.com");
+          setAlertEmail(settings.alertEmail || "eva@stellrit.com");
           setOfficePhone(settings.officePhone || "(713) 819-7908");
           setEmailAlert(settings.emailAlert);
           setMaintenanceMode(settings.maintenanceMode);
@@ -583,7 +583,7 @@ function DashboardPage() {
       },
       "settings-updated": (updated: any) => {
         if (updated) {
-          setAlertEmail(updated.alertEmail || "allen@upfrontac.com");
+          setAlertEmail(updated.alertEmail || "eva@stellrit.com");
           setOfficePhone(updated.officePhone || "(713) 819-7908");
           setEmailAlert(updated.emailAlert !== undefined ? Boolean(updated.emailAlert) : true);
           setMaintenanceMode(updated.maintenanceMode !== undefined ? Boolean(updated.maintenanceMode) : false);
@@ -3459,7 +3459,7 @@ function DashboardPage() {
                     onClick={() => {
                       getSiteSettings().then(settings => {
                         if (settings) {
-                          setAlertEmail(settings.alertEmail || "allen@upfrontac.com");
+                          setAlertEmail(settings.alertEmail || "eva@stellrit.com");
                           setOfficePhone(settings.officePhone || "(713) 819-7908");
                           setEmailAlert(settings.emailAlert);
                           setMaintenanceMode(settings.maintenanceMode);
@@ -3505,7 +3505,7 @@ function DashboardPage() {
                               required
                               value={alertEmail}
                               onChange={(e) => setAlertEmail(e.target.value)}
-                              placeholder="allen@upfrontac.com"
+                              placeholder="eva@stellrit.com"
                               className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 font-bold focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 transition"
                             />
                           </div>
@@ -3737,7 +3737,7 @@ function DashboardPage() {
                         </div>
                         <div className="flex items-center gap-2.5 text-slate-300">
                           <Mail className="w-3.5 h-3.5 text-[#005CE6] shrink-0" />
-                          <span className="font-medium text-slate-300 break-all">{alertEmail || "allen@upfrontac.com"}</span>
+                          <span className="font-medium text-slate-300 break-all">{alertEmail || "eva@stellrit.com"}</span>
                         </div>
                       </div>
                     </div>

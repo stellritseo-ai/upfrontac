@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { FloatingChat } from "./FloatingChat";
+// import { FloatingChat } from "./FloatingChat";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
@@ -9,7 +9,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       <Header />
       <main className="flex-grow pt-[100px] md:pt-[124px]">{children}</main>
       <Footer />
-      <FloatingChat />
+      {/* Live chat is hidden per request (do not remove, just hide) */}
+      {/* <FloatingChat /> */}
     </div>
   );
 }

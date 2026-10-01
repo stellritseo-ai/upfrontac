@@ -92,22 +92,6 @@ export function GetInTouch() {
         source: "Landing Get-In-Touch Form"
       });
 
-      // Background notification without blocking UI
-      fetch("https://formsubmit.co/ajax/allen@upfrontac.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          Name: name,
-          Phone: phone,
-          Email: email,
-          "Service Needed": service || "General HVAC Inquiry",
-          Message: msg
-        })
-      }).catch((err) => console.log("Background email alert:", err));
-
       setSubmitted(true);
       toast.success(t("Estimate Request Received!", "¡Solicitud Recibida!"), {
         description: t("Our dispatch team has been notified.", "Nuestro equipo de despacho ha sido notificado.")

@@ -173,10 +173,15 @@ export function AcRepairCypressPageDetail() {
               <span>Serving Cypress Since 2005</span>
             </span>
 
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">
+            <a
+              href="https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm hover:bg-amber-100/80 hover:border-amber-300 transition-all cursor-pointer"
+            >
               <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
               <span>5/5 BBB Accredited</span>
-            </span>
+            </a>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700 shadow-sm">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />

@@ -51,6 +51,7 @@ export function UpfrontPricingPageDetail() {
         message: `Preferred Date: ${formData.date || "ASAP"}. Service Category: ${formData.service || "Standard Diagnostic"}`,
         source: "Upfront Pricing Page (/upfront-pricing)"
       });
+
       setSubmitted(true);
       toast.success("Service booked! We will confirm your appointment shortly.");
       setFormData({ name: "", phone: "", service: "", date: "" });

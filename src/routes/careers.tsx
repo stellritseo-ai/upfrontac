@@ -15,13 +15,13 @@ function CareersPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://www.randeelectrical.com/"
+        "item": "https://www.upfrontac.com/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Careers",
-        "item": "https://www.randeelectrical.com/careers"
+        "item": "https://www.upfrontac.com/careers"
       }
     ]
   };
@@ -33,9 +33,9 @@ function CareersPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <PageHeader
-        eyebrow={t("Careers", "Carreras")}
-        title={t("Join the R&E Electrical Crew", "Únase al Equipo de R&E Electrical")}
-        subtitle={t("We are always hiring talented electricians, journeymen, and helpers in Florida.", "Siempre estamos contratando electricistas talentosos, jornaleros y ayudantes en Florida.")}
+        eyebrow={t("Careers at Upfront AC", "Carreras en Upfront AC")}
+        title={t("Join the Upfront AC & Heating Team", "Únase al Equipo de Upfront AC & Heating")}
+        subtitle={t("We are always looking for honest, skilled HVAC service technicians and installers across Tomball, Cypress, and Greater Houston, TX.", "Siempre estamos buscando técnicos de servicio e instaladores de HVAC calificados y honestos en Tomball, Cypress y Greater Houston, TX.")}
       />
       <Careers />
       <EmergencyCTA />
@@ -46,14 +46,15 @@ function CareersPage() {
 export const Route = createFileRoute("/careers")({
   head: () => ({
     meta: [
-      { title: "Careers & Job Openings | R&E Electrical Contractor Corp" },
-      { name: "description", content: "Apply for electrician jobs, journeyman positions, and apprenticeships at Florida's trusted contractor. Competitive pay & premium benefits." },
-      { property: "og:title", content: "Careers | R&E Electrical Contractor Corp" },
-      { property: "og:description", content: "Join our licensed electrical crew in South Florida." },
+      { title: "HVAC Careers & Technician Jobs | Upfront AC & Heating" },
+      { name: "description", content: "Join Upfront AC & Heating in Tomball & Greater Houston. Hiring licensed HVAC service technicians, system installers, and helpers. Top pay, modern vans, and family culture." },
+      { property: "og:title", content: "HVAC Careers & Technician Jobs | Upfront AC & Heating" },
+      { property: "og:description", content: "Grow your HVAC career with a trusted, family-owned Texas HVAC company. Competitive pay & great culture." },
     ],
     links: [
-      { rel: "canonical", href: "https://www.randeelectrical.com/careers" }
+      { rel: "canonical", href: "https://www.upfrontac.com/careers" }
     ],
   }),
   component: CareersPage,
 });
+

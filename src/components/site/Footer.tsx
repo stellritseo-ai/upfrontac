@@ -322,7 +322,7 @@ export function Footer() {
           </a>
           <div className="flex items-center justify-center gap-2 bg-slate-900/50 border border-slate-800/80 rounded-xl px-4 py-2 text-xs font-bold text-slate-300 uppercase tracking-wider w-full sm:w-auto text-center">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-            <span>{t("Licensed & Insured HVAC Provider", "Proveedor HVAC Autorizado")}</span>
+            <span>{t("Licensed TACLA133609C & Insured", "Licencia TACLA133609C y Asegurado")}</span>
           </div>
           <div className="flex items-center justify-center gap-2 bg-slate-900/50 border border-slate-800/80 rounded-xl px-4 py-2 text-xs font-bold text-slate-300 uppercase tracking-wider w-full sm:w-auto text-center">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />

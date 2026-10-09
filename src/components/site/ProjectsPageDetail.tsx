@@ -105,8 +105,8 @@ export function ProjectsPageDetail() {
   }, [closeLightbox]);
 
   const stats = [
-    { num: "12,000+", label: "Projects Completed", sub: "Since 2013 in Houston" },
-    { num: "10+", label: "Years Experience", sub: "Local Family Business" },
+    { num: "12,000+", label: "Projects Completed", sub: "Since 2005 in Houston" },
+    { num: "20+", label: "Years Experience", sub: "Local Family Business" },
     { num: "100%", label: "In-House Techs", sub: "Never Subcontracted" },
     { num: "5.0 ★", label: "Customer Rating", sub: "50+ Verified Reviews" },
   ];

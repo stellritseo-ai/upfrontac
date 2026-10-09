@@ -204,12 +204,12 @@ export function AcRepairTomballPageDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
             
             <div className="lg:col-span-7 space-y-6">
-              <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 Repair-First AC Service in Tomball with{" "}
                 <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-600 bg-clip-text text-transparent">
                   1-Year Repair Warranty
                 </span>
-              </h1>
+              </h2>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
                 From Old Town Tomball to homes near the Historic Depot and Hooks Airport, Upfront AC focuses on real fixes, not guesswork. Repair-first service, clear recommendations, and long-term value.

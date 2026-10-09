@@ -269,12 +269,12 @@ export function UpfrontPricingPageDetail() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-8 space-y-5">
-              <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 Know the Cost Before We Ever Touch a Screw.{" "}
                 <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-600 bg-clip-text text-transparent">
                   100% Honest Pricing.
                 </span>
-              </h1>
+              </h2>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
                 We publish our flat-rate repair menu so Houston homeowners know exactly what to expect. No hourly inflation, no surprise charges after work begins, and no pressure.

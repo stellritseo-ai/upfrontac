@@ -72,8 +72,8 @@ export function Careers() {
     },
     {
       icon: GraduationCap,
-      title: t("Paid Training & NEC Support", "Formación Pagada y Soporte NEC"),
-      desc: t("We pay for safety certifications, continuing education, and electrical licensing exam preps.", "Pagamos por certificaciones de seguridad, educación continua y preparación para exámenes de licencia eléctrica.")
+      title: t("Paid Training & EPA Certification", "Capacitación Pagada y Certificación EPA"),
+      desc: t("We sponsor EPA Section 608 certifications, NATE training, manufacturer courses, and state licensing prep.", "Patrocinamos certificaciones EPA Sección 608, capacitación NATE, cursos de fabricantes y preparación para licencias estatales.")
     },
     {
       icon: Clock,
@@ -83,54 +83,53 @@ export function Careers() {
     {
       icon: Award,
       title: t("Modern Vans & Fuel Cards", "Camionetas Modernas y Tarjetas de Combustible"),
-      desc: t("Take-home fully equipped response vans with top-quality Milwaukee/Klein tools and company iPads.", "Camionetas de respuesta totalmente equipadas para llevar a casa con herramientas Milwaukee/Klein e iPads.")
+      desc: t("Take-home fully equipped response vans with top-quality Milwaukee/Fieldpiece tools and company iPads.", "Camionetas de respuesta totalmente equipadas para llevar a casa con herramientas Milwaukee/Fieldpiece e iPads.")
     }
   ];
 
   const jobs = [
     {
-      title: t("Lead Master Electrician", "Electricista Maestro Líder"),
-      type: t("Full-Time / Commercial & Industrial", "Tiempo Completo / Comercial e Industrial"),
-      experience: t("7+ Years", "Más de 7 Años"),
-      desc: t("Overseeing commercial projects, scheduling safety inspections, reading blueprints, managing site crews, and wiring advanced 3-phase systems.", "Supervisión de proyectos comerciales, programación de inspecciones de seguridad, lectura de planos, gestión de equipos en el sitio y cableado de sistemas trifásicos avanzados."),
+      title: t("Lead HVAC Service Technician", "Técnico Líder de Servicio HVAC"),
+      type: t("Full-Time / Residential & Light Commercial", "Tiempo Completo / Residencial y Comercial Ligero"),
+      experience: t("5+ Years", "Más de 5 Años"),
+      desc: t("Diagnosing residential and commercial HVAC systems, troubleshooting complex refrigerant and electrical issues, guiding apprentices, and delivering upfront pricing with excellence across Northwest Houston.", "Diagnóstico de sistemas HVAC residenciales y comerciales, solución de problemas complejos de refrigerante y eléctricos, orientación a aprendices y entrega de precios transparentes en el noroeste de Houston."),
       reqs: [
-        t("Active Florida Master Electrician License (or Journeyman equivalent state license)", "Licencia activa de electricista maestro de Florida (o equivalente estatal)"),
-        t("Clean driving record & background check", "Historial de conducción limpio y verificación de antecedentes"),
-        t("Proven leadership experience supervising 3+ apprentices", "Experiencia de liderazgo demostrada supervisando a más de 3 aprendices")
+        t("EPA Universal Certification & Valid Texas Driver's License", "Certificación EPA Universal y Licencia de Conducir Válida de Texas"),
+        t("TDLR Registered HVAC Technician", "Técnico de HVAC Registrado en TDLR"),
+        t("Clean driving record & background check", "Historial de conducción limpio y verificación de antecedentes")
       ]
     },
     {
-      title: t("Commercial Journeyman Electrician", "Electricista Jornalero Comercial"),
-      type: t("Full-Time / Commercial", "Tiempo Completo / Comercial"),
-      experience: t("4+ Years", "Más de 4 Años"),
-      desc: t("Installing conduits, routing circuits, pulling wires, fitting panels, and executing tenant improvements and retail build-outs safely and efficiently.", "Instalación de conductos, enrutamiento de circuitos, tracción de cables, montaje de paneles y ejecución de mejoras de inquilinos y remodelaciones comerciales de manera segura.")
-      ,
-      reqs: [
-        t("Journeyman license or card preferred", "Se prefiere licencia o tarjeta de electricista"),
-        t("Strong proficiency in bending conduit (EMT/Rigid)", "Gran habilidad en doblado de conductos (EMT/Rígido)"),
-        t("Ability to work from commercial schematics and wiring drawings", "Capacidad para trabajar con esquemas comerciales y planos de cableado")
-      ]
-    },
-    {
-      title: t("Residential Service Electrician", "Electricista de Servicio Residencial"),
-      type: t("Full-Time / Residential", "Tiempo Completo / Residencial"),
+      title: t("HVAC Installation Lead / Specialist", "Líder / Especialista en Instalación de HVAC"),
+      type: t("Full-Time / Installation", "Tiempo Completo / Instalación"),
       experience: t("3+ Years", "Más de 3 Años"),
-      desc: t("Diagnosing home electrical faults, conducting panel upgrades, installing smart lighting systems, vehicle chargers, and delivering top-tier customer care.", "Diagnóstico de fallas eléctricas en el hogar, actualizaciones de paneles, instalación de iluminación inteligente, cargadores de vehículos y atención al cliente de primer nivel."),
+      desc: t("Leading complete residential and commercial HVAC changeouts, duct transitions, high-efficiency SEER2 heat pumps and AC systems, ensuring clean, code-compliant workmanship.", "Liderazgo en reemplazos completos de HVAC residenciales y comerciales, transiciones de ductos, bombas de calor y sistemas de AC de alta eficiencia SEER2 con mano de obra limpia y conforme al código."),
       reqs: [
-        t("Strong diagnostics and residential panel troubleshooting skills", "Sólidas habilidades de diagnóstico y solución de problemas de paneles residenciales"),
-        t("Excellent client communication and presentation skills", "Excelentes habilidades de comunicación y presentación con el cliente"),
-        t("Familiarity with residential NEC compliance standards", "Familiaridad con los estándares de cumplimiento NEC residenciales")
+        t("EPA Section 608 Certification", "Certificación EPA Sección 608"),
+        t("Proficiency in sheet metal fabrication and duct sizing", "Competencia en fabricación de láminas metálicas y dimensionamiento de ductos"),
+        t("Experience with modern inverter and dual-fuel equipment", "Experiencia con equipos modernos inverter y de combustible dual")
       ]
     },
     {
-      title: t("Electrical Helper / Apprentice", "Ayudante / Aprendiz de Electricista"),
-      type: t("Full-Time / Hybrid", "Tiempo Completo / Híbrido"),
-      experience: t("0-2 Years", "0 a 2 Años"),
-      desc: t("Supporting lead technicians on residential, commercial, and solar jobs. Learn tool handling, safety protocols, and NEC standards on-the-job.", "Apoyo a técnicos líderes en trabajos residenciales, comerciales y solares. Aprenda el manejo de herramientas, protocolos de seguridad y normas NEC en el trabajo."),
+      title: t("HVAC Maintenance & Tune-Up Specialist", "Especialista en Mantenimiento y Puesta a Punto de HVAC"),
+      type: t("Full-Time / Residential", "Tiempo Completo / Residencial"),
+      experience: t("2+ Years", "Más de 2 Años"),
+      desc: t("Conducting comprehensive 21-point seasonal precision tune-ups, condenser and evaporator coil cleanings, electrical capacitor checks, and advising homeowners on preventative care.", "Realización de puestas a punto estacionales de precisión de 21 puntos, limpieza de serpentines, verificación de capacitores eléctricos y asesoramiento a propietarios."),
       reqs: [
-        t("Enrolled or interested in an accredited electrical apprenticeship program", "Inscrito o interesado en un programa acreditado de aprendizaje eléctrico"),
-        t("High reliability, strong physical endurance, and eagerness to learn", "Alta confiabilidad, fuerte resistencia física y entusiasmo por aprender"),
-        t("Basic hand tools and clean background check", "Herramientas manuales básicas y verificación de antecedentes limpia")
+        t("EPA Certification preferred or in progress", "Certificación EPA preferida o en progreso"),
+        t("Strong customer communication and honest diagnostic approach", "Excelente comunicación con el cliente y enfoque de diagnóstico honesto"),
+        t("Commitment to punctuality and quality service", "Compromiso con la puntualidad y el servicio de calidad")
+      ]
+    },
+    {
+      title: t("HVAC Apprentice / Field Helper", "Aprendiz / Ayudante de Campo de HVAC"),
+      type: t("Full-Time / Mentorship", "Tiempo Completo / Tutoría"),
+      experience: t("0-1 Years", "0 a 1 Años"),
+      desc: t("Working directly alongside senior technicians and founder Allen Swindell to learn system installs, refrigerant recovery, troubleshooting, and professional customer service on the job.", "Trabajando directamente junto a técnicos experimentados y el fundador Allen Swindell para aprender instalación de sistemas, recuperación de refrigerante y solución de problemas en el trabajo."),
+      reqs: [
+        t("Eager to build a career in heating and air conditioning", "Deseoso de construir una carrera en calefacción y aire acondicionado"),
+        t("High reliability, positive attitude, and physical capability", "Alta confiabilidad, actitud positiva y capacidad física"),
+        t("Clean background check and valid driver's license", "Verificación de antecedentes limpia y licencia de conducir válida")
       ]
     }
   ];
@@ -146,20 +145,20 @@ export function Careers() {
         {/* Core Culture Header */}
         <div className="mx-auto max-w-3xl text-center mb-16">
           <span className="inline-flex rounded-full bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary">
-            {t("Join R&E Team", "Únase al Equipo de R&E")}
+            {t("Join Upfront AC Team", "Únase al Equipo de Upfront AC")}
           </span>
           <h2 className="mt-4 font-display text-4xl font-extrabold leading-tight text-secondary sm:text-5xl">
-            {t("Build a Career, Not Just a Job", "Construya una Carrera, No Solo un Trabajo")}
+            {t("Build an HVAC Career, Not Just a Job", "Construya una Carrera en HVAC, No Solo un Trabajo")}
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            {t("We are looking for licensed master electricians, journeymen, and eager apprentices. Power your future with competitive pay, outstanding benefits, and a team that respects your craftsmanship.", "Buscamos electricistas maestros autorizados, jornaleros y aprendices entusiastas. Impulse su futuro con un pago competitivo, excelentes beneficios y un equipo que respeta su oficio.")}
+            {t("We are looking for licensed HVAC technicians, installation leads, and eager apprentices. Power your future with competitive pay, outstanding benefits, and a team that respects your craftsmanship.", "Buscamos técnicos de HVAC con licencia, líderes de instalación y aprendices entusiastas. Impulse su futuro con un pago competitivo, excelentes beneficios y un equipo que respeta su oficio.")}
           </p>
         </div>
 
         {/* Benefits Grid */}
         <div className="mb-24">
           <h3 className="text-center font-display text-2xl font-extrabold text-secondary mb-10">
-            {t("Why Electricians Choose R&E", "Por Qué los Electricistas Eligen R&E")}
+            {t("Why Technicians Choose Upfront AC", "Por Qué los Técnicos Eligen Upfront AC")}
           </h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {benefits.map((b, idx) => {
@@ -287,10 +286,10 @@ export function Careers() {
                       <SelectValue placeholder={t("Select a position", "Seleccione un puesto")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="master">{t("Lead Master Electrician", "Electricista Maestro Líder")}</SelectItem>
-                      <SelectItem value="journeyman">{t("Commercial Journeyman Electrician", "Electricista Jornalero Comercial")}</SelectItem>
-                      <SelectItem value="residential">{t("Residential Service Electrician", "Electricista de Servicio Residencial")}</SelectItem>
-                      <SelectItem value="apprentice">{t("Electrical Helper / Apprentice", "Ayudante / Aprendiz de Electricista")}</SelectItem>
+                      <SelectItem value="lead-tech">{t("Lead HVAC Service Technician", "Técnico Líder de Servicio HVAC")}</SelectItem>
+                      <SelectItem value="install-lead">{t("HVAC Installation Lead / Specialist", "Líder de Instalación de HVAC")}</SelectItem>
+                      <SelectItem value="maintenance">{t("HVAC Maintenance & Tune-Up Specialist", "Especialista en Mantenimiento HVAC")}</SelectItem>
+                      <SelectItem value="apprentice">{t("HVAC Apprentice / Field Helper", "Aprendiz / Ayudante de HVAC")}</SelectItem>
                       <SelectItem value="other">{t("Other / Office Roles", "Otro / Puestos de Oficina")}</SelectItem>
                     </SelectContent>
                   </Select>
@@ -315,17 +314,17 @@ export function Careers() {
 
                 <div>
                   <Label htmlFor="app-license" className="text-xs font-bold uppercase tracking-wider text-secondary">
-                    {t("Electrical License Status", "Estado de Licencia Eléctrica")}
+                    {t("HVAC Certification / License", "Certificación / Licencia de HVAC")}
                   </Label>
                   <Select required value={license} onValueChange={setLicense}>
                     <SelectTrigger id="app-license" className="h-11 mt-1.5">
-                      <SelectValue placeholder={t("Select license", "Seleccione licencia")} />
+                      <SelectValue placeholder={t("Select license status", "Seleccione estado de licencia")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="master">{t("State Licensed Master", "Maestro con Licencia Estatal")}</SelectItem>
-                      <SelectItem value="journeyman">{t("Licensed Journeyman", "Jornalero con Licencia")}</SelectItem>
-                      <SelectItem value="registered">{t("Registered Apprentice", "Aprendiz Registrado")}</SelectItem>
-                      <SelectItem value="none">{t("No License / Helper", "Sin Licencia / Ayudante")}</SelectItem>
+                      <SelectItem value="universal">{t("EPA Universal / TDLR Registered Tech", "EPA Universal / Técnico TDLR")}</SelectItem>
+                      <SelectItem value="type2">{t("EPA Type II Certified", "Certificado EPA Tipo II")}</SelectItem>
+                      <SelectItem value="apprentice">{t("Registered HVAC Apprentice", "Aprendiz Registrado de HVAC")}</SelectItem>
+                      <SelectItem value="none">{t("No License / Eager Helper", "Sin Licencia / Ayudante con Ganas")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

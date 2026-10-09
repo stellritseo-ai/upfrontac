@@ -33,7 +33,7 @@ function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <PageHeader
-        eyebrow={t("Excellence Since 2010", "Excelencia Desde 2010")}
+        eyebrow={t("Excellence Since 2005", "Excelencia Desde 2005")}
         title={t("About Upfront Air Conditioning", "Acerca de Upfront Air Conditioning")}
         subtitle={t("Family-owned residential & commercial HVAC experts dedicated to quality over quantity in Tomball, Cypress, and Greater Houston, TX.", "Expertos en HVAC residencial y comercial dedicados a la calidad sobre la cantidad en Tomball, Cypress y Greater Houston, TX.")}
       />

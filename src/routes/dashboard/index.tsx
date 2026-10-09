@@ -139,7 +139,8 @@ export const Route = createFileRoute("/dashboard/")({
   head: () => ({
     meta: [
       { title: "Upfront A/C & Heating — Business Command Portal" },
-      { name: "description", content: "Executive operations, HVAC dispatch, and lead management portal." }
+      { name: "description", content: "Executive operations, HVAC dispatch, and lead management portal." },
+      { name: "robots", content: "noindex, nofollow" }
     ],
   }),
   component: DashboardPage,

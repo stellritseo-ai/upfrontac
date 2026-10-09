@@ -10,7 +10,7 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async ({ request }) => {
-        const host = request.headers.get("host") || "www.randeelectrical.com";
+        const host = request.headers.get("host") || "www.upfrontac.com";
         const proto = request.headers.get("x-forwarded-proto") || "https";
         const BASE_URL = `${proto}://${host}`;
 
@@ -18,20 +18,24 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "", changefreq: "weekly", priority: "1.0" },
           { path: "/about", changefreq: "monthly", priority: "0.8" },
           { path: "/about-owner", changefreq: "monthly", priority: "0.8" },
-          { path: "/services", changefreq: "monthly", priority: "0.9" },
+          { path: "/services", changefreq: "weekly", priority: "0.9" },
           { path: "/services/hvac-install", changefreq: "monthly", priority: "0.8" },
           { path: "/services/air-conditioning", changefreq: "monthly", priority: "0.8" },
-          { path: "/services/hvac-repairs", changefreq: "monthly", priority: "0.8" },
-          { path: "/services/ac-repair-cypress", changefreq: "monthly", priority: "0.8" },
-          { path: "/services/ac-repair-tomball", changefreq: "monthly", priority: "0.8" },
+          { path: "/services/hvac-repairs", changefreq: "weekly", priority: "0.9" },
+          { path: "/services/ac-repair-cypress", changefreq: "weekly", priority: "0.9" },
+          { path: "/services/ac-repair-tomball", changefreq: "weekly", priority: "0.9" },
           { path: "/services/heating", changefreq: "monthly", priority: "0.8" },
           { path: "/services/hvac-maintenance", changefreq: "monthly", priority: "0.8" },
           { path: "/services/indoor-air-quality", changefreq: "monthly", priority: "0.8" },
           { path: "/services/commercial-hvac", changefreq: "monthly", priority: "0.8" },
           { path: "/services/residential-hvac", changefreq: "monthly", priority: "0.8" },
+          { path: "/service-areas", changefreq: "weekly", priority: "0.9" },
+          { path: "/upfront-pricing", changefreq: "monthly", priority: "0.8" },
+          { path: "/finance", changefreq: "monthly", priority: "0.8" },
+          { path: "/request-free-estimate", changefreq: "weekly", priority: "0.9" },
           { path: "/projects", changefreq: "monthly", priority: "0.7" },
-          { path: "/reviews", changefreq: "monthly", priority: "0.6" },
-          { path: "/careers", changefreq: "monthly", priority: "0.8" },
+          { path: "/reviews", changefreq: "monthly", priority: "0.7" },
+          { path: "/careers", changefreq: "monthly", priority: "0.7" },
           { path: "/contact", changefreq: "monthly", priority: "0.8" },
         ];
 

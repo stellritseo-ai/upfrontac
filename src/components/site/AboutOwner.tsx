@@ -118,13 +118,13 @@ export function AboutOwner() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="lg:col-span-7 space-y-6"
             >
-              <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
+              <h2 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 {t("Self-Made HVAC Pro with ", "Técnico HVAC Autodidacta con ")}
                 <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-600 bg-clip-text text-transparent">
                   {t("Oilfield Grit", "Carácter Petrolero")}
                 </span>
                 {t(" & a Heart for Service", " y Pasión por Servir")}
-              </h1>
+              </h2>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
                 {t(

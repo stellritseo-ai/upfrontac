@@ -15,13 +15,13 @@ function ReviewsPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://www.randeelectrical.com/"
+        "item": "https://www.upfrontac.com/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Reviews",
-        "item": "https://www.randeelectrical.com/reviews"
+        "item": "https://www.upfrontac.com/reviews"
       }
     ]
   };
@@ -33,9 +33,9 @@ function ReviewsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <PageHeader
-        eyebrow={t("Reviews", "Opiniones")}
-        title={t("Trusted by 300+ homes & businesses.", "Con la confianza de más de 300 hogares y empresas.")}
-        subtitle={t("See what our customers say about the R&E Electrical Contractor Corp experience.", "Vea lo que dicen nuestros clientes sobre la experiencia con R&E Electrical Contractor Corp.")}
+        eyebrow={t("Verified Reviews", "Opiniones Verificadas")}
+        title={t("Trusted by Greater Houston Homeowners", "Con la Confianza de Familias en Greater Houston")}
+        subtitle={t("Read genuine reviews from local homeowners and businesses who rely on Upfront AC & Heating for honest repairs and transparent pricing.", "Vea lo que dicen nuestros clientes locales sobre la experiencia y el servicio honesto de Upfront AC & Heating.")}
       />
       <Testimonials isGrid={true} />
       <EmergencyCTA />
@@ -46,14 +46,15 @@ function ReviewsPage() {
 export const Route = createFileRoute("/reviews")({
   head: () => ({
     meta: [
-      { title: "Customer Reviews | R&E Electrical Contractor Corp" },
-      { name: "description", content: "Read 300+ five-star reviews from R&E Electrical Contractor Corp's residential and commercial electrical clients." },
-      { property: "og:title", content: "Customer Reviews | R&E Electrical Contractor Corp" },
-      { property: "og:description", content: "4.9 average rating from 300+ customers." },
+      { title: "Customer Reviews & Testimonials | Upfront AC & Heating" },
+      { name: "description", content: "Read verified customer reviews for Upfront AC & Heating. 5-star HVAC repair, AC installation, and heating maintenance across Tomball, Cypress, & Greater Houston, TX." },
+      { property: "og:title", content: "Customer Reviews & Testimonials | Upfront AC & Heating" },
+      { property: "og:description", content: "Top-rated heating & cooling solutions in Tomball & Cypress, TX. Honest HVAC service and upfront flat-rate pricing." },
     ],
     links: [
-      { rel: "canonical", href: "https://www.randeelectrical.com/reviews" }
+      { rel: "canonical", href: "https://www.upfrontac.com/reviews" }
     ],
   }),
   component: ReviewsPage,
 });
+

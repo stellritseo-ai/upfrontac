@@ -151,8 +151,8 @@ export function ServiceAreasPageDetail() {
   ];
 
   const highlights = [
-    { number: "12,000+", label: "Completed HVAC Projects", desc: "Across Houston & Tomball since 2013" },
-    { number: "10+ Yrs", label: "Local Family Business", desc: "TACLA133609C Licensed & EPA Certified" },
+    { number: "12,000+", label: "Completed HVAC Projects", desc: "Across Houston & Tomball since 2005" },
+    { number: "20+ Yrs", label: "Local Family Business", desc: "TACLA133609C Licensed & EPA Certified" },
     { number: "5.0 ★", label: "Customer Review Rating", desc: "Based on 50+ verified homeowner reviews" },
     { number: "30–60m", label: "Average Dispatch Time", desc: "Fast emergency response in priority zones" }
   ];
@@ -192,12 +192,12 @@ export function ServiceAreasPageDetail() {
           </div>
 
           <div className="max-w-4xl space-y-6">
-            <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
+            <h2 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
               Trusted HVAC Expertise Across{" "}
               <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-600 bg-clip-text text-transparent">
                 Tomball, Cypress, Katy & Greater Houston
               </span>
-            </h1>
+            </h2>
 
             <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
               At Upfront AC, we proudly offer a wide range of professional HVAC services across Texas. Whether you’re dealing with AC Repair, Installation, or need thorough Indoor Air Quality, our expert team is here to serve you.

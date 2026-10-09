@@ -192,12 +192,12 @@ export function AcRepairCypressPageDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
             
             <div className="lg:col-span-7 space-y-6">
-              <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 Fast, Dependable Cypress AC Repairs with{" "}
                 <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-600 bg-clip-text text-transparent">
                   Personalized Solutions
                 </span>
-              </h1>
+              </h2>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
                 We understand how crucial a functioning AC system is for homes and businesses in this hot Texas climate. At Upfront AC, we promise fast repairs, dependable service, and personalized solutions for your AC repair needs.

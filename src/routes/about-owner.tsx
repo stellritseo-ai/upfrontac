@@ -7,9 +7,46 @@ import { useLanguage } from "@/hooks/useLanguage";
 
 function AboutOwnerPage() {
   const { t } = useLanguage();
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.upfrontac.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "About The Owner",
+            "item": "https://www.upfrontac.com/about-owner"
+          }
+        ]
+      },
+      {
+        "@type": "Person",
+        "name": "Allen Swindell",
+        "jobTitle": "Owner & Founder",
+        "worksFor": {
+          "@type": "HVACBusiness",
+          "name": "Upfront AC & Heating",
+          "url": "https://www.upfrontac.com/"
+        },
+        "description": "Founder and lead technician of Upfront AC & Heating, serving Tomball, Cypress, and Greater Houston with Texas HVAC license TACLA133609C."
+      }
+    ]
+  };
 
   return (
     <SiteLayout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <PageHeader
         eyebrow={t("Leadership & Legacy", "Liderazgo y Legado")}
         title={t("About The Owner", "Sobre El Propietario")}
@@ -28,6 +65,9 @@ export const Route = createFileRoute("/about-owner")({
       { name: "description", content: "Allen Swindell — Self-made HVAC pro with oilfield grit, hands-on mentorship, and a commitment to family legacy at Upfront AC in Tomball & Cypress, TX." },
       { property: "og:title", content: "About The Owner — Allen Swindell | Upfront AC" },
       { property: "og:description", content: "Upfront AC isn't just a business — it's a legacy in motion." },
+    ],
+    links: [
+      { rel: "canonical", href: "https://www.upfrontac.com/about-owner" }
     ],
   }),
   component: AboutOwnerPage,

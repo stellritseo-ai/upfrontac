@@ -34,7 +34,8 @@ export const Route = createFileRoute("/dashboard/login")({
       {
         name: "description",
         content: "Secure executive portal for Upfront A/C & Heating management, dispatch, leads, reviews, and media."
-      }
+      },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: LoginPage,

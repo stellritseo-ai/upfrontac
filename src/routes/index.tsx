@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Upfront AC & Heating: 7 AM - 5 PM M-F & emergency weekend dispatch. Honest HVAC service, transparent pricing, TACLA133609C licensed." },
     ],
     links: [
-      { rel: "canonical", href: "https://upfrontac.com/" }
+      { rel: "canonical", href: "https://www.upfrontac.com/" }
     ],
   }),
   component: Index,
@@ -38,11 +38,21 @@ function Index() {
     "@context": "https://schema.org",
     "@type": "HVACBusiness",
     "name": "Upfront AC & Heating",
-    "image": "https://upfrontac.com/assets/logo.png",
-    "@id": "https://upfrontac.com/#organization",
-    "url": "https://upfrontac.com",
+    "image": "https://www.upfrontac.com/assets/logo.png",
+    "@id": "https://www.upfrontac.com/#organization",
+    "url": "https://www.upfrontac.com/",
     "telephone": "+17138197908",
+    "email": "allen@upfrontac.com",
     "priceRange": "$$",
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "Texas HVAC Contractor License",
+      "recognizedBy": {
+        "@type": "State",
+        "name": "Texas Department of Licensing and Regulation"
+      },
+      "identifier": "TACLA133609C"
+    },
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Serving Tomball, Cypress, and Greater NW Houston",
@@ -56,6 +66,16 @@ function Index() {
       "latitude": "30.0972",
       "longitude": "-95.6161"
     },
+    "areaServed": [
+      { "@type": "City", "name": "Tomball", "sameAs": "https://en.wikipedia.org/wiki/Tomball,_Texas" },
+      { "@type": "City", "name": "Cypress", "sameAs": "https://en.wikipedia.org/wiki/Cypress,_Texas" },
+      { "@type": "City", "name": "Houston", "sameAs": "https://en.wikipedia.org/wiki/Houston" },
+      { "@type": "City", "name": "Katy" },
+      { "@type": "City", "name": "Spring" },
+      { "@type": "City", "name": "Magnolia" },
+      { "@type": "City", "name": "The Woodlands" },
+      { "@type": "City", "name": "Sugar Land" }
+    ],
     "openingHoursSpecification": [
       {
         "@type": "OpeningHoursSpecification",
@@ -70,7 +90,9 @@ function Index() {
         "dayOfWeek": [
           "Saturday", "Sunday"
         ],
-        "description": "Emergency Calls Only"
+        "opens": "00:00",
+        "closes": "23:59",
+        "description": "24/7 Emergency AC & Heating Dispatch"
       }
     ],
     "sameAs": [

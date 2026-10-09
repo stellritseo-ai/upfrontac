@@ -132,7 +132,7 @@ export function AirConditioningPageDetail() {
   const whyChooseUs = [
     {
       title: "Real Field Experience",
-      desc: "12,000+ AC jobs completed across Houston since 2013 — older units and modern high-efficiency systems."
+      desc: "12,000+ AC jobs completed across Houston since 2005 — older units and modern high-efficiency systems."
     },
     {
       title: "Root-Cause Fixes",
@@ -201,7 +201,7 @@ export function AirConditioningPageDetail() {
       <PageHeader
         eyebrow="EPA-Certified · Licensed · Insured in Texas"
         title="Same-Day AC Repair, Installation & Maintenance You Can Trust"
-        subtitle="When your AC stops working in 100°F Houston heat, waiting isn’t an option. Since 2013, Upfront AC has completed 12,000+ AC jobs across Houston, Cypress, Katy, and The Woodlands — fast, certified, and upfront."
+        subtitle="When your AC stops working in 100°F Houston heat, waiting isn’t an option. Since 2005, Upfront AC has completed 12,000+ AC jobs across Houston, Cypress, Katy, and The Woodlands — fast, certified, and upfront."
       />
 
       {/* ── HERO SPOTLIGHT SECTION ─────────────────────────── */}
@@ -214,7 +214,7 @@ export function AirConditioningPageDetail() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
-              <span>12,000+ Jobs Completed Since 2013</span>
+              <span>12,000+ Jobs Completed Since 2005</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">
@@ -231,12 +231,12 @@ export function AirConditioningPageDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
             
             <div className="lg:col-span-7 space-y-6">
-              <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
+              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 Fast, Reliable Cooling Restores with{" "}
                 <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-600 bg-clip-text text-transparent">
                   Upfront Pricing
                 </span>
-              </h1>
+              </h2>
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
                 Air conditioning services include everything needed to keep your cooling system running efficiently — inspection, repair, installation, replacement, and routine maintenance. In Houston’s extreme heat, we get your air cold fast.

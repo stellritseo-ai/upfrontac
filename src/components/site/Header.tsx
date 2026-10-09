@@ -153,7 +153,7 @@ export function Header() {
         <div className="mx-auto max-w-7xl flex justify-between items-center w-full gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0">
-            <img src={logoImg} alt="R&E Electrical Contractor Corp Logo" className="h-12 lg:h-14 w-auto object-contain" />
+            <img src={logoImg} alt="Upfront AC & Heating Logo" className="h-12 lg:h-14 w-auto object-contain" />
           </Link>
 
           {/* Contact cards */}

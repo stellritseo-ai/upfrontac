@@ -105,7 +105,7 @@ export function About() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
-              <span>{t("Excellence Has Been Our Hallmark Since 2010", "La Excelencia ha Sido Nuestra Marca Desde 2010")}</span>
+              <span>{t("Excellence Has Been Our Hallmark Since 2005", "La Excelencia ha Sido Nuestra Marca Desde 2005")}</span>
             </span>
 
             <a
@@ -123,12 +123,12 @@ export function About() {
             
             {/* Left Story Narrative */}
             <div className="lg:col-span-7 space-y-6">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.15] text-slate-900">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 {t("History of Our ", "Historia de Nuestra ")}
                 <span className="bg-gradient-to-r from-[#005CE6] to-cyan-600 bg-clip-text text-transparent">
                   {t("Company", "Empresa")}
                 </span>
-              </h1>
+              </h2>
 
               <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-medium">
                 {t(

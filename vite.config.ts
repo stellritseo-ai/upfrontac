@@ -20,6 +20,11 @@ export default defineConfig({
     },
   },
   vite: {
+    resolve: {
+      alias: {
+        "@vercel/analytics/next": "@vercel/analytics/react",
+      },
+    },
     plugins: [
       {
         name: "api-server",

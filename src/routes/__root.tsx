@@ -86,6 +86,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Upfront AC delivers fast, reliable 24/7 emergency AC repair, heating maintenance, and HVAC installation across Tomball, Cypress, and Greater Houston, TX." },
       { name: "keywords", content: "AC repair tomball tx, AC repair cypress tx, hvac service houston, emergency ac repair, upfront ac, central air conditioning repair" },
       { name: "robots", content: "index, follow" },
+      { name: "google-site-verification", content: "3Q8KuRC5Igy3P0PuIgeKYm4XlsEPzJXnH3dv9ZvvWOE" },
       { name: "author", content: "Upfront AC" },
       { property: "og:title", content: "Upfront AC | 24/7 HVAC Service Tomball & Houston, TX" },
       { property: "og:description", content: "Powering Houston & Tomball homes with expert heating & cooling solutions." },

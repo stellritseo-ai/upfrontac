@@ -23,6 +23,7 @@ export const Route = createFileRoute("/")({
       { title: "Upfront AC & Heating | Tomball & Cypress TX HVAC Repair & Install" },
       { name: "description", content: "Upfront AC & Heating delivers honest, high-efficiency HVAC repair, system replacement, and maintenance in Tomball, Cypress, and Greater NW Houston. TACLA133609C licensed. Call (713) 819-7908." },
       { name: "keywords", content: "ac repair tomball tx, ac repair cypress tx, hvac contractor tomball, emergency ac repair houston, air conditioning install cypress, upfront pricing ac" },
+      { name: "google-site-verification", content: "3Q8KuRC5Igy3P0PuIgeKYm4XlsEPzJXnH3dv9ZvvWOE" },
       { property: "og:title", content: "Upfront AC & Heating | Tomball & Cypress TX HVAC Repair & Install" },
       { property: "og:description", content: "Upfront AC & Heating: 7 AM - 5 PM M-F & emergency weekend dispatch. Honest HVAC service, transparent pricing, TACLA133609C licensed." },
     ],

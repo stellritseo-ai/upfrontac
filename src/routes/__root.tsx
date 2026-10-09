@@ -16,7 +16,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "../hooks/useLanguage";
 import { SiteSettingsProvider, useSiteSettings } from "../hooks/useSiteSettings";
 import { getSiteSettings } from "../lib/leads-store";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 function NotFoundComponent() {
   return (

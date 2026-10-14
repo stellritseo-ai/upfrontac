@@ -22,7 +22,7 @@ All public pages are configured with **unique meta titles, descriptions, OpenGra
 | Route File | Canonical URL | Primary Target Keyword | Secondary & Long-Tail Keywords | Primary Intent | H1 Tag | Schema Type |
 |---|---|---|---|---|---|---|
 | `index.tsx` | `https://www.upfrontac.com/` | HVAC company Tomball TX | AC repair Houston, heating and cooling Cypress TX, Christian HVAC contractor, upfront pricing HVAC | Branded & Local Pack | *Hero visual H1 on homepage* | `HVACBusiness` (TACLA133609C) |
-| `about.tsx` | `https://www.upfrontac.com/about` | About Upfront AC & Heating | Christian HVAC company Houston, family owned HVAC Tomball, HVAC contractor since 2005 | Trust / E-E-A-T | About Upfront AC & Heating | `BreadcrumbList` |
+| `about.tsx` | `https://www.upfrontac.com/about` | About Upfront AC & Heating | Christian HVAC company Houston, family owned HVAC Tomball, 15+ years industry experience | Trust / E-E-A-T | About Upfront AC & Heating | `BreadcrumbList` |
 | `about-owner.tsx` | `https://www.upfrontac.com/about-owner` | Allen Swindell HVAC Houston | Upfront AC founder, licensed HVAC technician Tomball TX, Christian business owner | Trust / E-E-A-T | About The Owner — Allen Swindell | `Person` + `BreadcrumbList` |
 | `services/index.tsx` | `https://www.upfrontac.com/services` | HVAC services Houston TX | Heating and air conditioning services, residential HVAC, commercial HVAC contractors | Commercial Hub | Full-Service Heating & Air Conditioning in Greater Houston | `Service` + `BreadcrumbList` |
 | `services/ac-repair-tomball.tsx` | `https://www.upfrontac.com/services/ac-repair-tomball` | AC repair Tomball TX | Emergency AC repair Tomball, air conditioning repair 77375 77377, fast AC repair FM 2920 | Emergency / Local | Trusted, Same-Day AC Repair in Tomball, TX | `Service` + `BreadcrumbList` |
@@ -98,4 +98,4 @@ All public pages are configured with **unique meta titles, descriptions, OpenGra
    - Dynamic: `src/routes/sitemap[.]xml.ts` (API route)
    - Static: `public/sitemap.xml` (Root static feed for CDN/crawlers)
 5. **Crawl Exclusions**: `robots.txt` explicitly disallows `/dashboard/` and `/api/`. Both routes also output `<meta name="robots" content="noindex, nofollow" />`.
-6. **E-E-A-T Consistency**: Founding date is verified and standardized to **2005** across all site pages and metadata.
+6. **E-E-A-T Consistency**: Clearly distinguishes company operating history (2 years in business, BBB accredited) from founder & team trade experience (15+ years in the HVAC industry) across all site pages and metadata.

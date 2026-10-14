@@ -70,7 +70,7 @@ export const Route = createFileRoute("/services/ac-repair-tomball")({
       { title: "Trusted AC Repair Tomball, TX | Upfront AC & Heating" },
       { name: "description", content: "Dependable AC repair Tomball homeowners trust. Fast communication, honest diagnostics, and 1-year repair warranty across Old Town Tomball, Northpointe & FM 2920." },
       { property: "og:title", content: "Emergency AC Repair Services in Tomball, TX – Upfront AC" },
-      { property: "og:description", content: "Family-owned hometown HVAC team since 2005. TACLA133609C licensed, EPA-certified, flat-rate pricing. Call (713) 819-7908." },
+      { property: "og:description", content: "Family-owned hometown HVAC team backed by 15+ years of industry experience. TACLA133609C licensed, EPA-certified, flat-rate pricing. Call (713) 819-7908." },
       { property: "og:url", content: "https://www.upfrontac.com/services/ac-repair-tomball" },
     ],
     links: [

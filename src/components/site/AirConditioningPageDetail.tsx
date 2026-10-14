@@ -132,7 +132,7 @@ export function AirConditioningPageDetail() {
   const whyChooseUs = [
     {
       title: "Real Field Experience",
-      desc: "12,000+ AC jobs completed across Houston since 2005 — older units and modern high-efficiency systems."
+      desc: "12,000+ career AC jobs completed across Greater Houston over 15+ years of industry experience — older units and modern high-efficiency systems."
     },
     {
       title: "Root-Cause Fixes",
@@ -201,7 +201,7 @@ export function AirConditioningPageDetail() {
       <PageHeader
         eyebrow="EPA-Certified · Licensed · Insured in Texas"
         title="Same-Day AC Repair, Installation & Maintenance You Can Trust"
-        subtitle="When your AC stops working in 100°F Houston heat, waiting isn’t an option. Since 2005, Upfront AC has completed 12,000+ AC jobs across Houston, Cypress, Katy, and The Woodlands — fast, certified, and upfront."
+        subtitle="When your AC stops working in 100°F Houston heat, waiting isn’t an option. Backed by 15+ years of industry experience and over 12,000 completed career jobs across Greater Houston, Upfront AC delivers fast, certified, and transparent service."
       />
 
       {/* ── HERO SPOTLIGHT SECTION ─────────────────────────── */}
@@ -214,7 +214,7 @@ export function AirConditioningPageDetail() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
-              <span>12,000+ Jobs Completed Since 2005</span>
+              <span>15+ Years Trade Experience · 12,000+ Jobs</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">

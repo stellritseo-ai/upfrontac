@@ -66,7 +66,7 @@ export const Route = createFileRoute("/services/heating")({
       { title: "Furnace Repair & Heating Services Tomball & Houston | Upfront AC" },
       { name: "description", content: "Gas furnace repair, heat pump maintenance, CO safety inspections, and emergency heating solutions across Tomball, Cypress, and Northwest Houston." },
       { property: "og:title", content: "Emergency Heating & Furnace Repair · Tomball, TX | Upfront AC" },
-      { property: "og:description", content: "12,000+ HVAC jobs completed since 2005. TACLA133609C licensed, EPA-certified, flat-rate pricing." },
+      { property: "og:description", content: "15+ years of HVAC experience with 12,000+ career jobs completed. TACLA133609C licensed, EPA-certified, flat-rate pricing." },
       { property: "og:url", content: "https://www.upfrontac.com/services/heating" },
     ],
     links: [

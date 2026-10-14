@@ -87,8 +87,8 @@ export function HvacRepairsPageDetail() {
 
   const whyChooseUs = [
     {
-      title: "10+ Years Local Experience",
-      desc: "Field expertise across Tomball, Cypress, Bridgeland, Fairfield and 77377 / 77375 / 77433 / 77429."
+      title: "15+ Years Industry Experience",
+      desc: "Deep trade expertise across Tomball, Cypress, Bridgeland, Fairfield and 77377 / 77375 / 77433 / 77429."
     },
     {
       title: "Licensed & EPA-Certified",
@@ -423,7 +423,7 @@ export function HvacRepairsPageDetail() {
                 </div>
                 <h3 className="text-2xl font-extrabold">1-Year Repair Guarantee</h3>
                 <p className="text-xs sm:text-sm text-slate-100 leading-relaxed font-medium">
-                  Texas Choice HVAC at Upfront AC has been repairing AC systems for more than 10 years. We want you to be cool and comfortable, and we’ll guarantee any repairs we make through a full one-year warranty.
+                  The Upfront AC team brings over 15 years of hands-on HVAC repair experience to Tomball and Houston homes. We want you to be cool and comfortable, and we guarantee our repairs with a full 1-year repair warranty.
                 </p>
                 <div className="pt-4 border-t border-white/20 flex items-center justify-between text-xs font-bold text-cyan-200">
                   <span>100% Workmanship Guarantee</span>

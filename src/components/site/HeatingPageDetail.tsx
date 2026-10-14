@@ -121,7 +121,7 @@ export function HeatingPageDetail() {
   ];
 
   const whyChooseUs = [
-    { title: "Proven Track Record", desc: "12,000+ HVAC jobs completed serving Tomball & Houston since 2005." },
+    { title: "Proven Track Record", desc: "Over 15 years of industry experience with 12,000+ career HVAC jobs completed across Tomball & Greater Houston." },
     { title: "Skilled, Certified Techs", desc: "EPA-certified professionals trained on both modern high-efficiency & older systems." },
     { title: "Built for Texas Weather", desc: "Systems optimized for Texas weather swings — not temporary band-aids." },
     { title: "Faster Emergency Response", desc: "Same-day service in most cases, plus weekend & 24/7 emergency availability." },
@@ -195,7 +195,7 @@ export function HeatingPageDetail() {
       <PageHeader
         eyebrow="Emergency Heating Services · Tomball, TX"
         title="Furnace Repair, Emergency Installation & Maintenance Done Right"
-        subtitle="When your heater stops working on a cold Tomball night, waiting until morning isn’t an option. Since 2005, Upfront AC has completed 12,000+ heating repairs, installations, and tune-ups across Tomball, Cypress, and Northwest Houston."
+        subtitle="When your heater stops working on a cold Tomball night, waiting until morning isn’t an option. Backed by 15+ years of hands-on industry experience, Upfront AC provides dependable heating repairs, installations, and tune-ups across Tomball, Cypress, and Northwest Houston."
       />
 
       {/* ── HERO SPOTLIGHT SECTION ─────────────────────────── */}
@@ -208,7 +208,7 @@ export function HeatingPageDetail() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
-              <span>12,000+ Heating Jobs Since 2005</span>
+              <span>15+ Years Trade Experience · Heating Pros</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">

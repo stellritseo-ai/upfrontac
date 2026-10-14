@@ -111,7 +111,7 @@ export function ResidentialHvacPageDetail() {
   ];
 
   const whyChooseUs = [
-    { title: "10+ Years of Local Experience", desc: "Deep knowledge of Tomball's housing stock — from FM 2920 subdivisions to established older homes." },
+    { title: "15+ Years Industry Experience", desc: "Deep knowledge of Tomball's housing stock backed by 15+ years in the HVAC trade — from FM 2920 subdivisions to established older homes." },
     { title: "In-House Technicians — No Subs", desc: "Every technician who comes to your home is part of our team: consistent quality and direct accountability." },
     { title: "Transparent, Itemized Pricing", desc: "Clear price by labor, equipment, and added work before anything begins. Final invoice matches the quote." },
     { title: "Manual J Sizing Guarantee", desc: "Every system replacement gets an itemized load calculation to ensure long-term comfort & humidity removal." }
@@ -204,7 +204,7 @@ export function ResidentialHvacPageDetail() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
-              <span>10+ Years Serving Tomball & Northwest Houston</span>
+              <span>15+ Years Industry Experience</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">

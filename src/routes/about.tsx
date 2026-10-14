@@ -33,7 +33,7 @@ function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <PageHeader
-        eyebrow={t("Excellence Since 2005", "Excelencia Desde 2005")}
+        eyebrow={t("15+ Years Industry Experience", "15+ Años de Experiencia en la Industria")}
         title={t("About Upfront Air Conditioning", "Acerca de Upfront Air Conditioning")}
         subtitle={t("Family-owned residential & commercial HVAC experts dedicated to quality over quantity in Tomball, Cypress, and Greater Houston, TX.", "Expertos en HVAC residencial y comercial dedicados a la calidad sobre la cantidad en Tomball, Cypress y Greater Houston, TX.")}
       />
@@ -47,7 +47,7 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About Us | Upfront Air Conditioning & Heating" },
-      { name: "description", content: "Family-owned BBB accredited residential and commercial HVAC contractor serving Tomball, Cypress, and Greater Houston, TX since 2005." },
+      { name: "description", content: "BBB-accredited, family-owned HVAC contractor serving Tomball, Cypress, and Greater Houston, TX backed by 15+ years of industry experience." },
       { property: "og:title", content: "About Upfront Air Conditioning & Heating" },
       { property: "og:description", content: "Your comfort matters. BBB accredited licensed HVAC experts in Texas." },
     ],

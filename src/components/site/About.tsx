@@ -105,7 +105,7 @@ export function About() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
-              <span>{t("Excellence Has Been Our Hallmark Since 2005", "La Excelencia ha Sido Nuestra Marca Desde 2005")}</span>
+              <span>{t("15+ Years of Industry Experience", "15+ Años de Experiencia en la Industria")}</span>
             </span>
 
             <a
@@ -132,8 +132,8 @@ export function About() {
 
               <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-medium">
                 {t(
-                  "We have been a family-owned company since 2005. We are a BBB-accredited residential HVAC contractor located in TX. We specialize in the custom design and installation of quality comfort systems in New Construction Development and Residential Replacements.",
-                  "Hemos sido una empresa familiar desde 2005. Somos un contratista de HVAC residencial acreditado por la BBB en TX. Nos especializamos en el diseño personalizado e instalación de sistemas de confort de calidad en Nuevas Construcciones y Reemplazos Residenciales."
+                  "Upfront AC is a BBB-accredited, family-owned residential HVAC contractor serving Tomball, Cypress, and Greater Houston. While our company is proudly in its 2nd year of business, our team brings over 15 years of hands-on industry expertise to every installation, diagnostic, and repair. We specialize in the custom design and installation of quality comfort systems in New Construction Development and Residential Replacements.",
+                  "Upfront AC es un contratista de HVAC residencial familiar y acreditado por la BBB que brinda servicios en Tomball, Cypress y Greater Houston. Aunque nuestra empresa se encuentra orgullosamente en su segundo año de actividad, nuestro equipo aporta más de 15 años de experiencia práctica en la industria en cada instalación, diagnóstico y reparación. Nos especializamos en el diseño personalizado e instalación de sistemas de confort de calidad en Nuevas Construcciones y Reemplazos Residenciales."
                 )}
               </p>
 
@@ -177,12 +177,12 @@ export function About() {
                 {/* Floating Glass Stats Bar */}
                 <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/90 backdrop-blur-xl border border-white/80 shadow-xl grid grid-cols-2 gap-3 text-center">
                   <div className="border-r border-slate-200 pr-2">
-                    <span className="block text-2xl font-black text-slate-900">2005+</span>
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#005CE6]">{t("Family Owned", "Empresa Familiar")}</span>
+                    <span className="block text-2xl font-black text-slate-900">15+ Yrs</span>
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#005CE6]">{t("Industry Experience", "Experiencia en el Sector")}</span>
                   </div>
                   <div>
-                    <span className="block text-2xl font-black text-slate-900">100%</span>
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#005CE6]">{t("Custom Systems", "Diseños a Medida")}</span>
+                    <span className="block text-2xl font-black text-slate-900">2 Yrs</span>
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#005CE6]">{t("In Business • BBB A+", "En el Negocio • BBB A+")}</span>
                   </div>
                 </div>
               </div>

@@ -31,7 +31,7 @@ export function AboutOwner() {
 
   const stats = [
     { value: "55", label: t("Years of Integrity", "Años de Integridad"), desc: t("Leading with honest principles", "Liderando con principios honestos") },
-    { value: "10+", label: t("Years in HVAC", "Años en HVAC"), desc: t("Industrial Oil & Gas background", "Experiencia en Petróleo y Gas") },
+    { value: "15+", label: t("Years in HVAC", "Años en HVAC"), desc: t("Hands-on trade & industrial expertise", "Experiencia práctica y oficio industrial") },
     { value: "85%", label: t("Self-Taught Master", "Maestro Autodidacta"), desc: t("Mastered from within", "Dominado desde adentro") },
     { value: "5+ Yrs", label: t("Apprentice Mentor", "Mentor de Aprendices"), desc: t("Hands-on 2019–Present mentorship", "Tutoría práctica 2019–Presente") }
   ];
@@ -43,8 +43,8 @@ export function AboutOwner() {
       tag: t("Oilfield Grit & Self-Taught Trade", "Carácter Petrolero y Oficio Autodidacta"),
       title: t("Forged in High-Pressure Environments", "Forjado en Entornos de Alta Presión"),
       body: t(
-        "With over a decade in HVAC and a background in the high-pressure Oil and Gas industry, Allen Swindell brings a no-compromise approach to quality, safety, and service. Though HVAC was a trade passed down to him, Allen is 85% self-taught — learning the hard way, the honest way, and the right way. The companies he worked for gave him space to learn, but the drive to master the craft came from within.",
-        "Con más de una década en HVAC y experiencia en la industria de Petróleo y Gas de alta presión, Allen Swindell aporta un enfoque sin concesiones a la calidad, la seguridad y el servicio. Aunque el HVAC fue un oficio transmitido por su familia, Allen es 85% autodidacta — aprendiendo de la manera honesta, difícil y correcta. Las empresas para las que trabajó le dieron espacio para aprender, pero el impulso para dominar el oficio vino de su interior."
+        "With over 15 years in the HVAC industry and a background in high-pressure Oil and Gas environments, Allen Swindell brings a no-compromise approach to quality, safety, and service. Though HVAC was a trade passed down to him, Allen is 85% self-taught — learning the hard way, the honest way, and the right way. The companies he worked for gave him space to learn, but the drive to master the craft came from within.",
+        "Con más de 15 años en la industria de HVAC y experiencia en entornos de Petróleo y Gas de alta presión, Allen Swindell aporta un enfoque sin concesiones a la calidad, la seguridad y el servicio. Aunque el HVAC fue un oficio transmitido por su familia, Allen es 85% autodidacta — aprendiendo de la manera honesta, difícil y correcta. Las empresas para las que trabajó le dieron espacio para aprender, pero el impulso para dominar el oficio vino de su interior."
       )
     },
     {
@@ -128,8 +128,8 @@ export function AboutOwner() {
 
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-semibold">
                 {t(
-                  "With over a decade in HVAC and a background in the high-pressure Oil and Gas industry, Allen Swindell brings a no-compromise approach to quality, safety, and service. Though HVAC was a trade passed down to him, Allen is 85% self-taught — learning the hard way, the honest way, and the right way.",
-                  "Con más de una década en HVAC y experiencia en la industria de Petróleo y Gas de alta presión, Allen Swindell aporta un enfoque sin concesiones a la calidad, la seguridad y el servicio."
+                  "With over 15 years in the HVAC industry and a background in high-pressure Oil and Gas environments, Allen Swindell brings a no-compromise approach to quality, safety, and service. Though HVAC was a trade passed down to him, Allen is 85% self-taught — learning the hard way, the honest way, and the right way.",
+                  "Con más de 15 años en la industria de HVAC y experiencia en entornos de Petróleo y Gas de alta presión, Allen Swindell aporta un enfoque sin concesiones a la calidad, la seguridad y el servicio."
                 )}
               </p>
 

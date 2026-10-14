@@ -101,7 +101,7 @@ export function HvacInstallPageDetail() {
   ];
 
   const whyChooseUs = [
-    { title: "10+ Years Local Field Experience", desc: "We've installed and serviced systems across Cypress, Tomball, and Houston — and we know what fails when corners get cut." },
+    { title: "15+ Years Industry Experience", desc: "Our team brings 15+ years of hands-on installation and service experience across Cypress, Tomball, and Houston — knowing exactly what fails when corners get cut." },
     { title: "Manual Load Calc — Every Time", desc: "Most contractors size by square footage or what was there before. We don't. Correctly sized systems last longer and dehumidify properly." },
     { title: "Transparent, Itemized Pricing", desc: "Equipment, labor, permits, and ductwork listed separately. If anything changes mid-install, we stop and tell you first." },
     { title: "EPA Certified · Licensed · Insured", desc: "EPA Section 608 certified, licensed Texas HVAC contractor (TACLA133609C), fully insured with liability and workers' comp." },
@@ -279,7 +279,7 @@ export function HvacInstallPageDetail() {
                 If you’re planning a new HVAC installation in Cypress, TX, you already know one thing: doing it halfway isn’t an option when summer arrives and the Texas heat shows up uninvited. Whether you’re putting in a system for the first time, replacing an aging unit, or building from scratch, how the system gets installed determines how efficiently it runs, how long it lasts, and how much it costs you year after year.
               </p>
               <p>
-                At Upfront AC, we’ve been doing HVAC installations across Cypress and the broader Houston metro for over a decade. We work with homeowners in Bridgeland, Towne Lake, and Fairfield, commercial property owners along Highway 290, and builders putting up new homes between Cypress and Tomball. Every installation is treated the same way: sized correctly, sealed tightly, and tested before we leave.
+                Backed by over 15 years of industry experience, the Upfront AC team delivers reliable HVAC installations across Cypress and the broader Houston metro. We work with homeowners in Bridgeland, Towne Lake, and Fairfield, commercial property owners along Highway 290, and builders putting up new homes between Cypress and Tomball. Every installation is treated the same way: sized correctly, sealed tightly, and tested before we leave.
               </p>
             </div>
 

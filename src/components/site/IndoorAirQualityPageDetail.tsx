@@ -90,8 +90,8 @@ export function IndoorAirQualityPageDetail() {
       desc: "We inspect ductwork, measure humidity, and check filtration before quoting a single piece of equipment."
     },
     {
-      title: "10+ Years in Houston Homes",
-      desc: "Deep experience with Bridgeland, Towne Lake, Fairfield, and homes along FM 2920 and SH 249."
+      title: "15+ Years Industry Experience",
+      desc: "Deep trade experience with Bridgeland, Towne Lake, Fairfield, and homes along FM 2920 and SH 249."
     },
     {
       title: "EPA & Texas Licensed",
@@ -599,7 +599,7 @@ export function IndoorAirQualityPageDetail() {
             </h2>
 
             <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed font-medium">
-              Upfront AC has been serving Houston-area homeowners for more than 10 years. 100% upfront pricing, EPA-certified technicians, and guaranteed solutions.
+              Upfront AC is a 2-year-old local family business backed by 15+ years of HVAC trade experience. 100% upfront pricing, EPA-certified technicians, and guaranteed solutions.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">

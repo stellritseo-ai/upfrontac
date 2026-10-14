@@ -151,8 +151,8 @@ export function ServiceAreasPageDetail() {
   ];
 
   const highlights = [
-    { number: "12,000+", label: "Completed HVAC Projects", desc: "Across Houston & Tomball since 2005" },
-    { number: "20+ Yrs", label: "Local Family Business", desc: "TACLA133609C Licensed & EPA Certified" },
+    { number: "15+ Yrs", label: "Industry Experience", desc: "Hands-on HVAC trade expertise in Texas" },
+    { number: "2 Yrs", label: "In Business", desc: "BBB-Accredited A+ local family company" },
     { number: "5.0 ★", label: "Customer Review Rating", desc: "Based on 50+ verified homeowner reviews" },
     { number: "30–60m", label: "Average Dispatch Time", desc: "Fast emergency response in priority zones" }
   ];

@@ -130,7 +130,7 @@ export function AcRepairCypressPageDetail() {
     },
     {
       q: "What is the best AC repair company in Cypress?",
-      a: "Upfront AC is BBB-accredited, family-owned since 2005, and holds 50+ 5-star reviews across Cypress, Towne Lake, and Bridgeland."
+      a: "Upfront AC is a BBB-accredited, 2-year-old local family business backed by 15+ years of HVAC trade experience, holding 50+ 5-star reviews across Cypress, Towne Lake, and Bridgeland."
     },
     {
       q: "How often should I have my AC serviced in Cypress?",
@@ -157,7 +157,7 @@ export function AcRepairCypressPageDetail() {
       <PageHeader
         eyebrow="Emergency AC Repair Services in Cypress, TX – Upfront AC"
         title="Best AC Repair Services in Cypress, TX"
-        subtitle="When your AC breaks down, comfort is the first thing that comes to mind. Upfront AC offers fast, reliable, and affordable AC repair services in Cypress, TX, with a family-oriented approach since 2005."
+        subtitle="When your AC breaks down, comfort is the first thing that comes to mind. Upfront AC offers fast, reliable, and affordable AC repair services in Cypress, TX, backed by 15+ years of hands-on industry experience."
       />
 
       {/* ── HERO SPOTLIGHT SECTION ─────────────────────────── */}
@@ -170,7 +170,7 @@ export function AcRepairCypressPageDetail() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
-              <span>Serving Cypress Since 2005</span>
+              <span>15+ Years Industry Experience</span>
             </span>
 
             <a

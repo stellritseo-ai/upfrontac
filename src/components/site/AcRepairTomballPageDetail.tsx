@@ -35,7 +35,7 @@ export function AcRepairTomballPageDetail() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const whyChoosePoints = [
-    "Family-owned HVAC contractor serving Tomball-area customers since 2005",
+    "Family-owned, BBB-accredited local HVAC business with 15+ years of industry experience",
     "Strong experience with home AC repair, air conditioning service, and HVAC service in Tomball",
     "Skilled in diagnostics for compressors, coils, contactors, thermostats, drain systems, and electrical faults",
     "Clear recommendations for repair, maintenance, or AC replacement in Tomball",
@@ -187,7 +187,7 @@ export function AcRepairTomballPageDetail() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
-              <span>Hometown Tomball Service Since 2005</span>
+              <span>15+ Years Industry Experience</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">
@@ -409,7 +409,7 @@ export function AcRepairTomballPageDetail() {
                 </div>
                 <h3 className="text-2xl font-extrabold">1-Year Repair Warranty</h3>
                 <p className="text-xs sm:text-sm text-slate-100 leading-relaxed font-medium">
-                  Texas Choice HVAC at Upfront AC has been repairing AC systems for more than 10 years. We want you to be cool and comfortable, and we’ll guarantee any repairs we make through a one-year warranty.
+                  The Upfront AC team brings over 15 years of hands-on HVAC repair experience to Tomball homeowners. We want you to be cool and comfortable, and we guarantee our repairs with a 1-year repair warranty.
                 </p>
                 <div className="pt-4 border-t border-white/20 flex items-center justify-between text-xs font-bold text-cyan-200">
                   <span>100% Workmanship Guarantee</span>

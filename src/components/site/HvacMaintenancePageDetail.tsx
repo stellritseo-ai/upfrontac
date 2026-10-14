@@ -300,7 +300,7 @@ export function HvacMaintenancePageDetail() {
                 Add the fact that many homes here were built between the late 1990s and 2010s with original ductwork, and seasonal maintenance stops being optional. It’s the difference between a system that lasts 15–18 years and one that fails at year 11.
               </p>
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs font-black text-[#005CE6] uppercase">10+ Years in Northwest Houston</span>
+                <span className="text-xs font-black text-[#005CE6] uppercase">15+ Years Industry Experience</span>
                 <span className="text-xs font-black text-slate-900">TACLA133609C</span>
               </div>
             </div>

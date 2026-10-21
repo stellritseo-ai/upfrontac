@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import nodemailer, { type Transporter } from "nodemailer";
 
 const SMTP_HOST = process.env.SMTP_HOST || "smtppro.zoho.com";
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || "465", 10);
@@ -33,9 +33,9 @@ export function getNotificationRecipients(input?: string | string[]): string[] {
   return Array.from(set);
 }
 
-const transporters = new Map<string, nodemailer.Transporter>();
+const transporters = new Map<string, Transporter>();
 
-function getAccountTransporter(user: string, pass: string): nodemailer.Transporter {
+function getAccountTransporter(user: string, pass: string): Transporter {
   const key = `${user}:${pass}`;
   if (!transporters.has(key)) {
     const t = nodemailer.createTransport({

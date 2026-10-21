@@ -72,6 +72,7 @@ export interface GalleryPhoto {
   id: string;
   url: string;
   category?: string;
+  title?: string;
   uploadedAt: string;
 }
 

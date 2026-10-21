@@ -408,7 +408,7 @@ function DashboardPage() {
 
   // Real-time sync: Socket.IO on local dev, polling on Vercel
   useRealtimeSync({
-    enabled: isAuthenticated,
+    enabled: Boolean(isAuthenticated),
     joinRoom: activeSessionId || undefined,
     pollInterval: 5000,
     onPoll: async () => {
@@ -575,7 +575,7 @@ function DashboardPage() {
           if (prev.some((n) => n.id === notification.id)) return prev;
           return [notification, ...prev];
         });
-        if (notification.type === "form_submission" || notification.type === "lead") {
+        if (notification.type === "form_submission" || (notification.type as string) === "lead") {
           toast.message(notification.title, {
             description: notification.message,
             action: { label: "View Inquiries", onClick: () => setActiveTab("emails") }

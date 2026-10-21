@@ -642,7 +642,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     if (pathname === "/api/chats") {
       if (method === "GET") {
         try {
-          const chats = await dbGetChatSessions(INITIAL_CHATS);
+          const chats = await dbGetChatSessions([]);
           return jsonResponse(chats);
         } catch (dbErr) {
           console.warn("MongoDB chat read error, using server fallback:", dbErr);
@@ -1227,7 +1227,7 @@ export async function handleNodeApiRequest(req: any, res: any) {
       if (Array.isArray(val)) {
         val.forEach(v => webHeaders.append(key, v));
       } else {
-        webHeaders.set(key, val);
+        webHeaders.set(key, String(val ?? ""));
       }
     }
   });

@@ -191,7 +191,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href={`mailto:${settings.alertEmail || "allen@upfrontac.com"}`}
+                  href={`mailto:${settings.alertEmail?.includes("allen@upfrontac.com") ? "allen@upfrontac.com" : (settings.alertEmail?.split(",")[0]?.trim() || "allen@upfrontac.com")}`}
                   className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group"
                 >
                   <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
@@ -199,7 +199,7 @@ export function Footer() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Email</span>
-                    <span className="font-semibold text-white tracking-tight mt-0.5 text-wrap break-all">{settings.alertEmail || "allen@upfrontac.com"}</span>
+                    <span className="font-semibold text-white tracking-tight mt-0.5 text-wrap break-all">{settings.alertEmail?.includes("allen@upfrontac.com") ? "allen@upfrontac.com" : (settings.alertEmail?.split(",")[0]?.trim() || "allen@upfrontac.com")}</span>
                   </div>
                 </a>
               </li>

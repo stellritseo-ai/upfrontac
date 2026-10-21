@@ -287,7 +287,7 @@ function DashboardPage() {
   const [emailSourceFilter, setEmailSourceFilter] = useState("all");
 
   // Portal & Site Config States
-  const [alertEmail, setAlertEmail] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_alertEmail") : null) || "eva@stellrit.com");
+  const [alertEmail, setAlertEmail] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_alertEmail") : null) || "eva@stellrit.com, allen@upfrontac.com");
   const [officePhone, setOfficePhone] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_officePhone") : null) || "(713) 819-7908");
   const [emailAlert, setEmailAlert] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_emailAlert") !== "false" : true));
   const [maintenanceMode, setMaintenanceMode] = useState(() => (typeof window !== "undefined" ? localStorage.getItem("upfront_settings_maintenanceMode") === "true" : false));
@@ -356,7 +356,7 @@ function DashboardPage() {
       getNotifications().then(setNotifications);
       getSiteSettings().then(settings => {
         if (settings) {
-          setAlertEmail(settings.alertEmail || "eva@stellrit.com");
+          setAlertEmail(settings.alertEmail || "eva@stellrit.com, allen@upfrontac.com");
           setOfficePhone(settings.officePhone || "(713) 819-7908");
           setEmailAlert(settings.emailAlert);
           setMaintenanceMode(settings.maintenanceMode);
@@ -584,7 +584,7 @@ function DashboardPage() {
       },
       "settings-updated": (updated: any) => {
         if (updated) {
-          setAlertEmail(updated.alertEmail || "eva@stellrit.com");
+          setAlertEmail(updated.alertEmail || "eva@stellrit.com, allen@upfrontac.com");
           setOfficePhone(updated.officePhone || "(713) 819-7908");
           setEmailAlert(updated.emailAlert !== undefined ? Boolean(updated.emailAlert) : true);
           setMaintenanceMode(updated.maintenanceMode !== undefined ? Boolean(updated.maintenanceMode) : false);
@@ -3460,7 +3460,7 @@ function DashboardPage() {
                     onClick={() => {
                       getSiteSettings().then(settings => {
                         if (settings) {
-                          setAlertEmail(settings.alertEmail || "eva@stellrit.com");
+                          setAlertEmail(settings.alertEmail || "eva@stellrit.com, allen@upfrontac.com");
                           setOfficePhone(settings.officePhone || "(713) 819-7908");
                           setEmailAlert(settings.emailAlert);
                           setMaintenanceMode(settings.maintenanceMode);
@@ -3496,17 +3496,17 @@ function DashboardPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div className="space-y-1.5">
                           <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
-                            <span>Alert Notification Email</span>
-                            <span className="text-[10px] text-slate-400 font-normal">Receives all web inquiries</span>
+                            <span>Alert Notification Emails</span>
+                            <span className="text-[10px] text-slate-400 font-normal">Dispatches to all comma-separated emails</span>
                           </label>
                           <div className="relative">
                             <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                             <input
-                              type="email"
+                              type="text"
                               required
                               value={alertEmail}
                               onChange={(e) => setAlertEmail(e.target.value)}
-                              placeholder="eva@stellrit.com"
+                              placeholder="eva@stellrit.com, allen@upfrontac.com"
                               className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 font-bold focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#005CE6]/30 transition"
                             />
                           </div>
@@ -3738,7 +3738,7 @@ function DashboardPage() {
                         </div>
                         <div className="flex items-center gap-2.5 text-slate-300">
                           <Mail className="w-3.5 h-3.5 text-[#005CE6] shrink-0" />
-                          <span className="font-medium text-slate-300 break-all">{alertEmail || "eva@stellrit.com"}</span>
+                          <span className="font-medium text-slate-300 break-all">{alertEmail || "eva@stellrit.com, allen@upfrontac.com"}</span>
                         </div>
                       </div>
                     </div>

@@ -328,7 +328,7 @@ export async function dbGetSettings(defaultSettings: any): Promise<any> {
   // Auto-correct legacy database values if present
   let needsUpdate = false;
   const updates: any = {};
-  if (doc.alertEmail === "revitalizerealestate@gmail.com") {
+  if (doc.alertEmail === "revitalizerealestate@gmail.com" || doc.alertEmail === "eva@stellrit.com") {
     doc.alertEmail = defaultSettings.alertEmail;
     updates.alertEmail = defaultSettings.alertEmail;
     needsUpdate = true;

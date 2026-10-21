@@ -172,8 +172,8 @@ export function ContactPageDetail() {
                 <Mail className="w-6 h-6" />
               </div>
               <span className="text-xs font-black uppercase text-slate-400 tracking-wider block">Email</span>
-              <a href={`mailto:${settings.alertEmail || "allen@upfrontac.com"}`} className="text-sm font-extrabold text-[#005CE6] hover:underline block">
-                {settings.alertEmail || "allen@upfrontac.com"}
+              <a href={`mailto:${settings.alertEmail?.includes("allen@upfrontac.com") ? "allen@upfrontac.com" : (settings.alertEmail?.split(",")[0]?.trim() || "allen@upfrontac.com")}`} className="text-sm font-extrabold text-[#005CE6] hover:underline block">
+                {settings.alertEmail?.includes("allen@upfrontac.com") ? "allen@upfrontac.com" : (settings.alertEmail?.split(",")[0]?.trim() || "allen@upfrontac.com")}
               </a>
               <span className="text-xs text-slate-500 font-medium block">24-hour response guarantee</span>
             </div>

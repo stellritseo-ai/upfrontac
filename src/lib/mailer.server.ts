@@ -3,27 +3,55 @@ import nodemailer from "nodemailer";
 const SMTP_HOST = process.env.SMTP_HOST || "smtppro.zoho.com";
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || "465", 10);
 const SMTP_SECURE = process.env.SMTP_SECURE !== "false";
-const SMTP_USER = process.env.SMTP_USER || "eva@stellrit.com";
-const SMTP_PASS = process.env.SMTP_PASS || "";
-const DEFAULT_NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || "eva@stellrit.com";
 
-let transporter: nodemailer.Transporter | null = null;
+// Dual Zoho Mail SMTP accounts
+const PRIMARY_USER = process.env.SMTP_USER || "allen@upfrontac.com";
+const PRIMARY_PASS = process.env.SMTP_PASS || "HWem2cgGm8Ef";
 
-function getTransporter() {
-  if (!transporter) {
-    transporter = nodemailer.createTransport({
+const FALLBACK_USER = process.env.SMTP_USER_FALLBACK || "eva@stellrit.com";
+const FALLBACK_PASS = process.env.SMTP_PASS_FALLBACK || "HG9iHHrkFK5t";
+
+const REQUIRED_NOTIFICATION_EMAILS = ["eva@stellrit.com", "allen@upfrontac.com"];
+
+export function getNotificationRecipients(input?: string | string[]): string[] {
+  const envRecipients = (process.env.NOTIFICATION_EMAILS || process.env.NOTIFICATION_EMAIL || "")
+    .split(/[,;\s]+/)
+    .map((e) => e.trim().toLowerCase())
+    .filter((e) => e.includes("@"));
+
+  let list: string[] = [];
+  if (Array.isArray(input)) {
+    list = input.map((e) => e.trim().toLowerCase()).filter((e) => e.includes("@"));
+  } else if (typeof input === "string" && input.trim()) {
+    list = input
+      .split(/[,;\s]+/)
+      .map((e) => e.trim().toLowerCase())
+      .filter((e) => e.includes("@"));
+  }
+
+  const set = new Set([...envRecipients, ...list, ...REQUIRED_NOTIFICATION_EMAILS]);
+  return Array.from(set);
+}
+
+const transporters = new Map<string, nodemailer.Transporter>();
+
+function getAccountTransporter(user: string, pass: string): nodemailer.Transporter {
+  const key = `${user}:${pass}`;
+  if (!transporters.has(key)) {
+    const t = nodemailer.createTransport({
       host: SMTP_HOST,
       port: SMTP_PORT,
       secure: SMTP_SECURE,
       auth: {
-        user: SMTP_USER,
-        pass: SMTP_PASS,
+        user,
+        pass,
       },
       connectionTimeout: 10000,
       socketTimeout: 15000,
     });
+    transporters.set(key, t);
   }
-  return transporter;
+  return transporters.get(key)!;
 }
 
 export interface FormSubmissionPayload {
@@ -39,18 +67,18 @@ export interface FormSubmissionPayload {
 
 export async function sendFormNotificationEmail(
   payload: FormSubmissionPayload,
-  recipientEmail: string = DEFAULT_NOTIFICATION_EMAIL
+  recipientEmail?: string | string[]
 ): Promise<boolean> {
-  try {
-    const transport = getTransporter();
-    const source = payload.source || "Website Form";
-    const subject = `📬 New HVAC Inquiry: ${payload.name || "Website Visitor"} (${payload.service || "General Inquiry"})`;
+  const recipients = getNotificationRecipients(recipientEmail);
+  const recipientsString = recipients.join(", ");
+  const source = payload.source || "Website Form";
+  const subject = `📬 New HVAC Inquiry: ${payload.name || "Website Visitor"} (${payload.service || "General Inquiry"})`;
 
-    const formattedDate = payload.createdAt
-      ? new Date(payload.createdAt).toLocaleString("en-US", { timeZone: "America/Chicago" })
-      : new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
+  const formattedDate = payload.createdAt
+    ? new Date(payload.createdAt).toLocaleString("en-US", { timeZone: "America/Chicago" })
+    : new Date().toLocaleString("en-US", { timeZone: "America/Chicago" });
 
-    const html = `
+  const html = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -124,26 +152,65 @@ export async function sendFormNotificationEmail(
           </div>
           <div class="footer">
             Submitted on ${formattedDate} CT<br/>
-            Upfront AC & Heating · Dispatched to <strong>${recipientEmail}</strong>
+            Upfront AC & Heating · Dispatched to <strong>${recipientsString}</strong>
           </div>
         </div>
       </body>
       </html>
     `;
 
-    const info = await transport.sendMail({
-      from: `"Upfront AC Inquiries" <${SMTP_USER}>`,
-      to: recipientEmail,
-      replyTo: payload.email && payload.email.includes("@") ? payload.email : SMTP_USER,
-      subject,
-      text: `New Form Submission from ${source}\n\nName: ${payload.name}\nPhone: ${payload.phone}\nEmail: ${payload.email}\nService: ${payload.service}\n\nMessage:\n${payload.message}\n\nSubmitted on: ${formattedDate} CT`,
-      html,
-    });
+  const plainText = `New Form Submission from ${source}\n\nName: ${payload.name}\nPhone: ${payload.phone}\nEmail: ${payload.email}\nService: ${payload.service}\n\nMessage:\n${payload.message}\n\nSubmitted on: ${formattedDate} CT\nDispatched to: ${recipientsString}`;
 
-    console.log(`[Zoho SMTP] Successfully dispatched form inquiry to ${recipientEmail}. Message ID:`, info.messageId);
-    return true;
-  } catch (err: any) {
-    console.error("[Zoho SMTP Error] Failed to send form notification email:", err);
-    return false;
+  // Candidate accounts to send from: try primary (allen@upfrontac.com) then fallback (eva@stellrit.com)
+  const candidateAccounts = [
+    { user: PRIMARY_USER, pass: PRIMARY_PASS },
+    { user: FALLBACK_USER, pass: FALLBACK_PASS },
+  ].filter((acc, idx, arr) => acc.user && acc.pass && arr.findIndex((a) => a.user === acc.user) === idx);
+
+  for (const account of candidateAccounts) {
+    try {
+      const transport = getAccountTransporter(account.user, account.pass);
+
+      // Attempt 1: Batch send to all recipients together
+      try {
+        const info = await transport.sendMail({
+          from: `"Upfront AC Inquiries" <${account.user}>`,
+          to: recipients,
+          replyTo: payload.email && payload.email.includes("@") ? payload.email : account.user,
+          subject,
+          text: plainText,
+          html,
+        });
+
+        console.log(`[Zoho SMTP] Successfully dispatched inquiry to [${recipientsString}] via ${account.user}. Message ID:`, info.messageId);
+        return true;
+      } catch (batchErr) {
+        console.warn(`[Zoho SMTP Batch Warn] Batch dispatch via ${account.user} failed, attempting individual sends:`, batchErr);
+        
+        // Attempt 2: Send individually to each recipient
+        let anySuccess = false;
+        for (const recipient of recipients) {
+          try {
+            const singleInfo = await transport.sendMail({
+              from: `"Upfront AC Inquiries" <${account.user}>`,
+              to: recipient,
+              replyTo: payload.email && payload.email.includes("@") ? payload.email : account.user,
+              subject,
+              text: plainText,
+              html,
+            });
+            console.log(`[Zoho SMTP] Dispatched to ${recipient} via ${account.user}. Message ID:`, singleInfo.messageId);
+            anySuccess = true;
+          } catch (indErr) {
+            console.error(`[Zoho SMTP Error] Failed sending to ${recipient} via ${account.user}:`, indErr);
+          }
+        }
+        if (anySuccess) return true;
+      }
+    } catch (accountErr) {
+      console.error(`[Zoho SMTP Error] Account ${account.user} error:`, accountErr);
+    }
   }
+
+  return false;
 }

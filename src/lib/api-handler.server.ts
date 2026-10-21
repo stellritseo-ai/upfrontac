@@ -128,7 +128,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           io.emit("new-lead", savedLead);
         }
 
-        // Send email alert to eva@stellrit.com via Zoho SMTP for direct lead creation
+        // Send email alert to eva@stellrit.com and allen@upfrontac.com via Zoho SMTP for direct lead creation
         try {
           sendFormNotificationEmail({
             name: savedLead.name,
@@ -138,7 +138,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             message: savedLead.description,
             source: savedLead.address || "Website Intake",
             createdAt: savedLead.createdAt
-          }, "eva@stellrit.com").catch((err) => {
+          }).catch((err) => {
             console.error("[Zoho SMTP Lead Error]:", err);
           });
         } catch {}
@@ -545,7 +545,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
           console.error("Failed to create form submission notification:", err);
         }
 
-        // Send email alert to eva@stellrit.com via Zoho Mail SMTP
+        // Send email alert to eva@stellrit.com and allen@upfrontac.com via Zoho Mail SMTP
         try {
           sendFormNotificationEmail({
             name: newEmail.name,
@@ -555,7 +555,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             message: newEmail.message,
             source: newEmail.source,
             createdAt: newEmail.createdAt
-          }, "eva@stellrit.com").catch((err) => {
+          }).catch((err) => {
             console.error("[Zoho SMTP Form Submission Error]:", err);
           });
         } catch (mailErr) {
@@ -740,7 +740,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             console.error("Failed to broadcast chat start notification:", err);
           }
 
-          // Send email alert to eva@stellrit.com via Zoho SMTP for new chat session
+          // Send email alert to eva@stellrit.com and allen@upfrontac.com via Zoho SMTP for new chat session
           try {
             sendFormNotificationEmail({
               name: newSession.clientName,
@@ -750,7 +750,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
               message: firstMsgText || "Started a live chat session.",
               source: "Live Chat Widget",
               createdAt: newSession.lastMessageTime
-            }, "eva@stellrit.com").catch((err) => {
+            }).catch((err) => {
               console.error("[Zoho SMTP Chat Alert Error]:", err);
             });
           } catch {}
@@ -1138,7 +1138,7 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     // ── /api/settings ──
     if (pathname === "/api/settings") {
       const defaultSettings = {
-        alertEmail: "eva@stellrit.com",
+        alertEmail: "eva@stellrit.com, allen@upfrontac.com",
         officePhone: "(713) 819-7908",
         emailAlert: true,
         maintenanceMode: false,

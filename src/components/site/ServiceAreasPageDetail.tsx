@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import {
   MapPin,
   PhoneCall,
@@ -29,10 +30,10 @@ import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { PageHeader } from "@/components/site/PageHeader";
 import { addWebEmail } from "@/lib/leads-store";
 import { toast } from "sonner";
-import tomballImg from "@/assets/service-ac-tomball.png";
-import cypressImg from "@/assets/service-ac-cypress.png";
-import hvacImg from "@/assets/service-air-conditioning.png";
-import repairsImg from "@/assets/service-hvac-repairs.png";
+import tomballImg from "@/assets/service-ac-tomball.webp";
+import cypressImg from "@/assets/service-ac-cypress.webp";
+import hvacImg from "@/assets/service-air-conditioning.webp";
+import repairsImg from "@/assets/service-hvac-repairs.webp";
 
 export function ServiceAreasPageDetail() {
   const { t } = useLanguage();
@@ -88,72 +89,80 @@ export function ServiceAreasPageDetail() {
       name: "Tomball, TX",
       zip: "77375, 77377",
       tag: "Home Headquarters",
-      desc: "Fast same-day AC repairs, furnace tune-ups, and replacement services across Old Town Tomball, Northpointe, and FM 2920.",
+      desc: "Fast same-day AC repairs, furnace tune-ups, and replacement services across Old Town Tomball, Northpointe, Rosehill, and FM 2920.",
       img: tomballImg,
-      features: ["Same-Day Emergency Service", "Northpointe & FM 2920 Corridor", "0% Financing Available"]
+      href: "/services/ac-repair-tomball",
+      features: ["Same-Day Emergency Service", "Northpointe & FM 2920 Corridor", "Flexible Financing Available"]
     },
     {
-      name: "Cypress, Houston, TX",
+      name: "Cypress, TX",
       zip: "77433, 77429",
       tag: "Cy-Fair Priority Zone",
-      desc: "Comprehensive residential and commercial HVAC services for Bridgeland, Towne Lake, Fairfield, Copper Lakes, and Cy-Fair communities.",
+      desc: "Comprehensive residential and commercial HVAC services for Bridgeland, Towne Lake, Fairfield, Coles Crossing, and Cy-Fair communities.",
       img: cypressImg,
+      href: "/services/ac-repair-cypress",
       features: ["Bridgeland & Towne Lake", "Ductless & Dehumidification", "TACLA133609C Licensed"]
     },
     {
       name: "Houston, TX",
       zip: "Metro & Suburbs",
       tag: "Greater Metro Hub",
-      desc: "North Houston, West Houston, Energy Corridor, River Oaks, and Memorial. Full-spectrum heating, cooling, and rooftop commercial units.",
+      desc: "Northwest Houston, Jersey Village, Champions, Willowbrook, Spring Branch, Memorial, and Energy Corridor residential & commercial HVAC.",
       img: hvacImg,
-      features: ["Energy Corridor & Heights", "Commercial RTU Specialist", "EPA Section 608 Certified"]
+      href: "/services/hvac-repairs",
+      features: ["Northwest Houston & Heights", "Commercial RTU Service", "EPA Section 608 Certified"]
     },
     {
       name: "Katy, TX",
       zip: "77449, 77493, 77494",
       tag: "I-10 & Grand Pkwy",
-      desc: "Serving Cinco Ranch, Seven Meadows, Firethorne, and Old Town Katy with precision AC repair, coil cleaning, and system installations.",
+      desc: "Serving Cinco Ranch, Elyson, Seven Meadows, Cane Island, and Old Town Katy with precision AC repair, coil cleaning, and SEER2 installations.",
       img: repairsImg,
-      features: ["Cinco Ranch & Firethorne", "Fast Dispatch", "100% Upfront Pricing"]
+      href: "/services/air-conditioning",
+      features: ["Cinco Ranch & Elyson", "Grand Parkway 99 Access", "100% Upfront Pricing"]
     },
     {
       name: "The Woodlands, TX",
-      zip: "77380, 77381, 77382",
+      zip: "77380, 77381, 77382, 77389",
       tag: "Montgomery County",
-      desc: "Master-planned residential subdivisions and commercial plazas along I-45 and Woodlands Parkway. High-efficiency SEER2 upgrades.",
+      desc: "Serving Creekside Park, Alden Bridge, Sterling Ridge, and Cochran's Crossing with multi-system zoning, dehumidification, and SEER2 upgrades.",
       img: tomballImg,
-      features: ["Carlton Woods & Sterling Ridge", "SEER2 High Efficiency", "Air Quality Upgrades"]
+      href: "/services/hvac-install",
+      features: ["Creekside Park & Sterling Ridge", "SEER2 High Efficiency", "Indoor Air Quality Upgrades"]
     },
     {
-      name: "Spring, TX 77373",
-      zip: "77373, 77379, 77388",
-      tag: "FM 1960 Corridor",
-      desc: "Established homes and vibrant commercial plazas along FM 1960 and Champions. Full maintenance, duct sanitization, and heating.",
+      name: "Spring, TX",
+      zip: "77373, 77379, 77388, 77389",
+      tag: "FM 2920 & Gleannloch",
+      desc: "Serving Gleannloch Farms, Klein, Louetta, Champion Forest, and Spring Stuebner with full HVAC maintenance, repairs, and replacements.",
       img: cypressImg,
-      features: ["FM 1960 & Champions", "24/7 Priority Dispatch", "Bi-Annual Maintenance"]
+      href: "/services/hvac-maintenance",
+      features: ["Gleannloch Farms & Klein", "24/7 Priority Dispatch", "Bi-Annual Maintenance"]
     },
     {
       name: "Magnolia, TX",
       zip: "77354, 77355",
-      tag: "Acreage & Custom",
-      desc: "Rural acreage properties, custom homes, and commercial spaces along FM 1488. Dedicated long-run heat pump & AC solutions.",
+      tag: "FM 1488 & SH 249",
+      desc: "Serving Woodforest, High Meadow Ranch, Mostyn Manor, and FM 1488 custom homes and light commercial spaces with heat pump & AC service.",
       img: hvacImg,
-      features: ["FM 1488 Corridor", "Acreage & Custom Homes", "Heavy-Duty Heat Pumps"]
+      href: "/services/heating",
+      features: ["FM 1488 & Woodforest", "Acreage & Custom Homes", "Heat Pumps & Gas Furnaces"]
     },
     {
       name: "Sugar Land, TX",
       zip: "77478, 77479, 77498",
       tag: "Southwest Metro",
-      desc: "Southwest Houston master-planned communities including First Colony, Greatwood, and New Territory. Complete HVAC & IAQ.",
+      desc: "Serving First Colony, Telfair, Riverstone, Greatwood, and New Territory with scheduled HVAC replacements, IAQ, and emergency repairs.",
       img: repairsImg,
-      features: ["First Colony & Greatwood", "Whole-Home Purification", "Itemized Diagnostics"]
+      href: "/services/residential-hvac",
+      features: ["First Colony & Riverstone", "Whole-Home Purification", "Itemized Diagnostics"]
     }
   ];
 
   const highlights = [
     { number: "15+ Yrs", label: "Industry Experience", desc: "Hands-on HVAC trade expertise in Texas" },
     { number: "2 Yrs", label: "In Business", desc: "BBB-Accredited A+ local family company" },
-    { number: "5.0 ★", label: "Customer Review Rating", desc: "Based on 50+ verified homeowner reviews" },
+    { number: "5.0 ★", label: "Customer Review Rating", desc: "Based on 50+ Google reviews" },
     { number: "30–60m", label: "Average Dispatch Time", desc: "Fast emergency response in priority zones" }
   ];
 
@@ -182,7 +191,7 @@ export function ServiceAreasPageDetail() {
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">
               <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-              <span>5/5 (50+ Verified Reviews)</span>
+              <span>5/5 (50+ Google Reviews)</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700 shadow-sm">
@@ -263,7 +272,11 @@ export function ServiceAreasPageDetail() {
                   <div className="relative h-48 overflow-hidden">
                     <img
                       src={city.img}
-                      alt={city.name}
+                      alt={`HVAC service in ${city.name} (${city.zip})`}
+                      width={400}
+                      height={192}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />
@@ -294,13 +307,19 @@ export function ServiceAreasPageDetail() {
                   </div>
                 </div>
 
-                <div className="p-5 pt-0">
+                <div className="p-5 pt-0 flex flex-col gap-2">
+                  <Link
+                    to={city.href}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#005CE6] hover:bg-[#0047B3] text-white font-extrabold py-2.5 text-xs transition-all duration-300 shadow-sm"
+                  >
+                    <span>Explore {city.name.split(",")[0]} HVAC</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                   <button
                     onClick={() => scrollToContact(city.name)}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#F0F5FF] hover:bg-[#005CE6] text-[#005CE6] hover:text-white font-extrabold py-3 text-xs border border-[#005CE6]/20 transition-all duration-300 shadow-sm group-hover:shadow-md"
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#F0F5FF] hover:bg-slate-100 text-[#005CE6] font-extrabold py-2.5 text-xs border border-[#005CE6]/20 transition-all duration-300"
                   >
-                    <span>Learn More</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <span>Request Dispatch in {city.name.split(",")[0]}</span>
                   </button>
                 </div>
               </motion.div>

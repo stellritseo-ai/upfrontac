@@ -34,11 +34,11 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
-import serviceImg from "@/assets/service-commercial-hvac.png";
+import serviceImg from "@/assets/service-commercial-hvac.webp";
 
 export function CommercialHvacPageDetail() {
   const { t } = useLanguage();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const commercialServices = [
     {
@@ -115,7 +115,7 @@ export function CommercialHvacPageDetail() {
   ];
 
   const whyChooseUs = [
-    { title: "10+ Years Commercial Experience", desc: "Specializing in commercial HVAC systems across Tomball, Cypress, and Houston — not residential work with a commercial label." },
+    { title: "Commercial HVAC Experience", desc: "Specializing in commercial HVAC systems across Tomball, Cypress, and Houston — not residential work with a commercial label." },
     { title: "True Diagnostic Process", desc: "We run systematic diagnostics to identify root causes so you pay for what is actually broken." },
     { title: "Transparent Service Agreements", desc: "Straightforward commercial contracts with documented visit frequency and zero hidden add-ons." },
     { title: "Facility Manager Friendly", desc: "Documented reports after every visit, working within your building schedule and compliance requirements." },
@@ -206,7 +206,7 @@ export function CommercialHvacPageDetail() {
       <PageHeader
         eyebrow="24/7 Commercial HVAC · Houston, TX"
         title="Reliable Commercial Heating & Cooling for Every Houston Business"
-        subtitle="When a commercial HVAC system fails in a Houston summer, it impacts productivity, customers, and operations. Upfront AC has been the go-to commercial contractor in Tomball for 10+ years — same-day response, accurate diagnosis, work done right."
+        subtitle="When a commercial HVAC system fails in a Houston summer, it impacts productivity, customers, and operations. Upfront AC services commercial HVAC systems across Tomball, Cypress and Houston, backed by 15+ years of HVAC industry experience on our team — accurate diagnosis, work done right."
       />
 
       {/* ── HERO SPOTLIGHT SECTION ─────────────────────────── */}
@@ -219,12 +219,12 @@ export function CommercialHvacPageDetail() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
-              <span>10+ Years Specializing in Commercial Systems</span>
+              <span>15+ Years of Team HVAC Industry Experience</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">
               <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-              <span>5/5 (50+ Verified Reviews)</span>
+              <span>5/5 (50+ Google Reviews)</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700 shadow-sm">
@@ -332,7 +332,7 @@ export function CommercialHvacPageDetail() {
           </div>
 
           <div className="rounded-2xl bg-white border border-slate-200/90 p-4 text-center text-xs font-black text-[#005CE6] shadow-sm">
-            ✓ 10+ Years Serving Commercial Clients Across Tomball, Cypress & Houston · Texas TDLR Licensed · EPA Section 608 Certified · Emergency Response Available
+            ✓ Serving Commercial Clients Across Tomball, Cypress & Houston · Texas TDLR Licensed · EPA Section 608 Certified · Emergency Response Available
           </div>
 
         </div>
@@ -469,11 +469,12 @@ export function CommercialHvacPageDetail() {
           <div className="rounded-3xl bg-white border border-slate-200 p-8 sm:p-10 shadow-lg">
             <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1 text-xs font-black uppercase text-[#005CE6] mb-4">
               <TrendingUp className="w-3.5 h-3.5" />
-              <span>Real Situation · Tomball Case Study</span>
+              <span>Illustrative Scenario</span>
             </div>
             <h3 className="text-2xl font-extrabold text-slate-900 mb-6">
-              Two-Story Office Building in Tomball, TX — Late August Call
+              Example: a second floor that runs hot in a two-story office building
             </h3>
+            <p className="text-xs text-slate-500 italic mb-5">Illustrative example based on common service calls. It is not a specific customer or completed job. Real, permission-approved projects appear on our Projects page.</p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
@@ -493,7 +494,7 @@ export function CommercialHvacPageDetail() {
               <div className="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200/80">
                 <h4 className="text-sm font-black text-emerald-700 uppercase tracking-wider mb-2">The Result</h4>
                 <p className="text-xs text-slate-700 font-bold leading-relaxed">
-                  Second-floor temp normalized within one cycle. Zero tenant complaints over following two months. Property manager signed quarterly maintenance contract.
+                  Once the damper and condenser are corrected, the second floor can return to setpoint. Many property managers then move to scheduled maintenance to catch problems like this earlier.
                 </p>
               </div>
             </div>

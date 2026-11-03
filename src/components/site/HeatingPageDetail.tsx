@@ -29,11 +29,11 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
-import serviceImg from "@/assets/service-heating.png";
+import serviceImg from "@/assets/service-heating.webp";
 
 export function HeatingPageDetail() {
   const { t } = useLanguage();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const includedServices = [
     {
@@ -121,7 +121,7 @@ export function HeatingPageDetail() {
   ];
 
   const whyChooseUs = [
-    { title: "Proven Track Record", desc: "Over 15 years of industry experience with 12,000+ career HVAC jobs completed across Tomball & Greater Houston." },
+    { title: "Proven Track Record", desc: "Over 15 years of hands-on HVAC industry experience across Tomball & Greater Houston." },
     { title: "Skilled, Certified Techs", desc: "EPA-certified professionals trained on both modern high-efficiency & older systems." },
     { title: "Built for Texas Weather", desc: "Systems optimized for Texas weather swings — not temporary band-aids." },
     { title: "Faster Emergency Response", desc: "Same-day service in most cases, plus weekend & 24/7 emergency availability." },
@@ -213,7 +213,7 @@ export function HeatingPageDetail() {
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">
               <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-              <span>5/5 (40+ Verified Reviews)</span>
+              <span>5/5 (50+ Google Reviews)</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700 shadow-sm">
@@ -573,11 +573,12 @@ export function HeatingPageDetail() {
           <div className="rounded-3xl bg-slate-50 border border-slate-200 p-8 sm:p-10 shadow-lg">
             <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1 text-xs font-black uppercase text-[#005CE6] mb-4">
               <TrendingUp className="w-3.5 h-3.5" />
-              <span>Local Case Study</span>
+              <span>Illustrative Scenario</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-6">
-              Same-day heating restored in Tomball
+              Example: a furnace that blows cold air on a cold night
             </h2>
+            <p className="text-xs text-slate-500 italic mb-5">Illustrative example based on common service calls. It is not a specific customer or completed job. Real, permission-approved projects appear on our Projects page.</p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm">

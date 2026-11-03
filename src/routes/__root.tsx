@@ -11,7 +11,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import logoImg from "../assets/logo.png";
+import logoImg from "../assets/logo.webp";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "../hooks/useLanguage";
 import { SiteSettingsProvider, useSiteSettings } from "../hooks/useSiteSettings";
@@ -83,26 +83,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Upfront AC | 24/7 Heating & Air Conditioning Service Tomball & Houston, TX" },
-      { name: "description", content: "Upfront AC delivers fast, reliable 24/7 emergency AC repair, heating maintenance, and HVAC installation across Tomball, Cypress, and Greater Houston, TX." },
-      { name: "keywords", content: "AC repair tomball tx, AC repair cypress tx, hvac service houston, emergency ac repair, upfront ac, central air conditioning repair" },
-      { name: "robots", content: "index, follow" },
+      { title: "HVAC Repair & AC Installation in Houston, TX | Upfront AC" },
+      { name: "description", content: "Need reliable AC repair or HVAC installation in Houston, Tomball or Cypress, TX? Contact Upfront AC for honest pricing, professional service and emergency HVAC assistance." },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
       { name: "google-site-verification", content: "3Q8KuRC5Igy3P0PuIgeKYm4XlsEPzJXnH3dv9ZvvWOE" },
-      { name: "author", content: "Upfront AC" },
-      { property: "og:title", content: "Upfront AC | 24/7 HVAC Service Tomball & Houston, TX" },
-      { property: "og:description", content: "Powering Houston & Tomball homes with expert heating & cooling solutions." },
+      { name: "author", content: "Upfront AC & Heating" },
+      { property: "og:title", content: "HVAC Repair & AC Installation in Houston, TX | Upfront AC" },
+      { property: "og:description", content: "Need reliable AC repair or HVAC installation in Houston, Tomball or Cypress, TX? Contact Upfront AC for honest pricing, professional service and emergency HVAC assistance." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://www.upfrontac.com" },
-      { property: "og:image", content: logoImg },
-      { property: "og:site_name", content: "Upfront AC" },
+      { property: "og:url", content: "https://www.upfrontac.com/" },
+      { property: "og:image", content: "https://www.upfrontac.com/og-default.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:site_name", content: "Upfront AC & Heating" },
+      { property: "og:locale", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://www.upfrontac.com/og-default.jpg" },
     ],
     links: [
-      { rel: "icon", href: logoImg, type: "image/png" },
-      { rel: "shortcut icon", href: logoImg, type: "image/png" },
-      { rel: "apple-touch-icon", href: logoImg },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "shortcut icon", href: "/favicon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://res.cloudinary.com" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" },
       {
         rel: "stylesheet",
@@ -116,11 +120,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const GA4_ID = import.meta.env.VITE_GA4_MEASUREMENT_ID as string | undefined;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        {GA4_ID ? (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${GA4_ID}', { send_page_view: true });`,
+              }}
+            />
+          </>
+        ) : null}
       </head>
       <body>
         {children}

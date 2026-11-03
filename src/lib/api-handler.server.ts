@@ -1198,6 +1198,46 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
       return jsonResponse({ signature, timestamp, apiKey, cloudName, folder });
     }
 
+    // ── /api/conversions ──
+    if (pathname === "/api/conversions") {
+      if (method === "GET") {
+        try {
+          const db = await getDb();
+          const docs = await db
+            .collection("conversion_events")
+            .find({})
+            .sort({ createdAt: -1 })
+            .limit(500)
+            .toArray();
+          return jsonResponse(docs.map((d) => ({ ...d, _id: undefined })));
+        } catch {
+          return jsonResponse((globalThis as any).__serverConversions || []);
+        }
+      }
+      if (method === "POST") {
+        const body = await request.json();
+        const event = {
+          id: body.id || "conv-" + Math.random().toString(36).slice(2, 9),
+          type: String(body.type || "unknown"),
+          channel: String(body.channel || "direct"),
+          path: String(body.path || "/"),
+          label: body.label ? String(body.label).slice(0, 200) : undefined,
+          referrer: body.referrer ? String(body.referrer).slice(0, 300) : undefined,
+          createdAt: body.createdAt || new Date().toISOString(),
+        };
+        if (!(globalThis as any).__serverConversions) {
+          (globalThis as any).__serverConversions = [];
+        }
+        (globalThis as any).__serverConversions.unshift(event);
+        (globalThis as any).__serverConversions = (globalThis as any).__serverConversions.slice(0, 500);
+        try {
+          const db = await getDb();
+          await db.collection("conversion_events").insertOne({ ...event });
+        } catch {}
+        return jsonResponse({ ok: true });
+      }
+    }
+
   } catch (error: any) {
     console.error("API error:", error);
     return jsonResponse({ error: error.message || "Internal Server Error" }, 500);

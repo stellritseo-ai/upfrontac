@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createChatSession, sendChatMessage, getChatSessionById, dedupeChatMessages, ChatMessage } from "@/lib/leads-store";
 import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 import { toast } from "sonner";
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/logo.webp";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 export function FloatingChat() {

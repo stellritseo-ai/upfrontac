@@ -43,7 +43,7 @@ function Page() {
             "identifier": "TACLA133609C"
           }
         },
-        "areaServed": ["Tomball", "Cypress", "Houston", "Katy", "Spring", "The Woodlands"],
+        "areaServed": ["Tomball", "Cypress", "Houston", "Katy", "Spring", "Magnolia", "The Woodlands", "Sugar Land"],
         "description": "Whole-home indoor air quality solutions: germicidal UV lights, whole-home dehumidifiers, MERV 11–16 hospital-grade media filtration, and air duct sanitization."
       }
     ]
@@ -60,18 +60,15 @@ function Page() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/services/indoor-air-quality")({
-  head: () => ({
-    meta: [
-      { title: "Indoor Air Quality & Whole-Home Purification | Upfront AC" },
-      { name: "description", content: "Duct cleaning, UV germicidal lights, whole-home dehumidifiers, and MERV 11-16 filtration in Tomball, Cypress, Katy, & Houston, TX." },
-      { property: "og:title", content: "Indoor Air Quality · Tomball & Cypress, TX | Upfront AC" },
-      { property: "og:description", content: "Breathe cleaner air done right the first time. Diagnoses, treats, and verifies your home air quality with 100% itemized pricing." },
-      { property: "og:url", content: "https://www.upfrontac.com/services/indoor-air-quality" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/services/indoor-air-quality" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "Indoor Air Quality, Dehumidifiers & Media Filtration in Houston | Upfront AC",
+      description:
+        "Whole-home dehumidifiers, UV germicidal lights, MERV 11–16 media air cleaners, and duct sealing across Tomball, Cypress, Katy & Houston, TX.",
+      path: "/services/indoor-air-quality",
+    }),
   component: Page,
 });

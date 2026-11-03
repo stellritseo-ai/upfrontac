@@ -43,7 +43,7 @@ function Page() {
             "identifier": "TACLA133609C"
           }
         },
-        "areaServed": ["Tomball", "Cypress", "Houston", "Katy", "Spring", "The Woodlands"],
+        "areaServed": ["Tomball", "Cypress", "Houston", "Katy", "Spring", "Magnolia", "The Woodlands", "Sugar Land"],
         "description": "Complete high-efficiency air conditioning solutions: rapid cooling repairs, SEER2 system replacements, compressor troubleshooting, and preventative tune-ups in Greater Houston."
       }
     ]
@@ -60,18 +60,15 @@ function Page() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/services/air-conditioning")({
-  head: () => ({
-    meta: [
-      { title: "Air Conditioning Services Tomball & Cypress, TX | Upfront AC" },
-      { name: "description", content: "High-efficiency AC repairs, new system installations, and routine maintenance across Tomball, Cypress, Katy, & Greater Houston. 24/7 emergency cooling dispatch." },
-      { property: "og:title", content: "Air Conditioning Repair, Installation & Maintenance | Upfront AC" },
-      { property: "og:description", content: "EPA-certified, licensed, and insured. Transparent upfront pricing and 24/7 emergency dispatch. Call (713) 819-7908." },
-      { property: "og:url", content: "https://www.upfrontac.com/services/air-conditioning" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/services/air-conditioning" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "Air Conditioning Services in Tomball, Cypress & Houston, TX | Upfront AC",
+      description:
+        "High-efficiency AC repairs, SEER2 system installations, and routine maintenance across Tomball, Cypress, Katy & Greater Houston, TX. 24/7 emergency cooling dispatch.",
+      path: "/services/air-conditioning",
+    }),
   component: Page,
 });

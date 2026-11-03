@@ -28,11 +28,11 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
-import serviceImg from "@/assets/service-indoor-air-quality.png";
+import serviceImg from "@/assets/service-indoor-air-quality.webp";
 
 export function IndoorAirQualityPageDetail() {
   const { t } = useLanguage();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const includedServices = [
     {
@@ -195,7 +195,7 @@ export function IndoorAirQualityPageDetail() {
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">
               <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-              <span>5/5 (50+ Verified Reviews)</span>
+              <span>5/5 (50+ Google Reviews)</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700 shadow-sm">
@@ -449,17 +449,18 @@ export function IndoorAirQualityPageDetail() {
           <div className="rounded-3xl bg-white border border-slate-200 p-8 sm:p-10 shadow-lg">
             <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1 text-xs font-black uppercase text-[#005CE6] mb-4">
               <TrendingUp className="w-3.5 h-3.5" />
-              <span>Local Case Study</span>
+              <span>Illustrative Scenario</span>
             </div>
             <h3 className="text-2xl font-extrabold text-slate-900 mb-6">
-              Asthma relief in a 2018 Tomball home
+              Example: improving air quality in a tightly sealed home
             </h3>
+            <p className="text-xs text-slate-500 italic mb-5">Illustrative example based on common service calls. It is not a specific customer or completed job. Real, permission-approved projects appear on our Projects page.</p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80">
                 <h4 className="text-sm font-black text-red-600 uppercase tracking-wider mb-2">The Problem</h4>
                 <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                  A family near FM 2920 noticed their daughter's asthma worsened over two summers. The HVAC ran fine, but indoor air clearly wasn't right. Found biological coil fouling, MERV 4 filter, and 67% humidity.
+                  A family notices indoor air seems worse over two summers. The HVAC ran fine, but indoor air clearly wasn't right. Found biological coil fouling, MERV 4 filter, and 67% humidity.
                 </p>
               </div>
 
@@ -473,7 +474,7 @@ export function IndoorAirQualityPageDetail() {
               <div className="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200/80">
                 <h4 className="text-sm font-black text-emerald-700 uppercase tracking-wider mb-2">The Result</h4>
                 <p className="text-xs text-slate-700 font-bold leading-relaxed">
-                  Noticeable improvement within two weeks. Indoor asthma symptoms significantly reduced and the home held humidity below 55%.
+                  Cleaner coil and ducts, better filtration and controlled humidity (a common target is below 55%). Indoor air quality equipment is not a medical treatment; talk to a physician about health concerns.
                 </p>
               </div>
             </div>

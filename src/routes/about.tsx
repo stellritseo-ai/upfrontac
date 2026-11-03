@@ -4,27 +4,17 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { About } from "@/components/site/About";
 import { EmergencyCTA } from "@/components/site/EmergencyCTA";
 import { useLanguage } from "@/hooks/useLanguage";
+import { pageHead, breadcrumbSchema, businessSchema, graph } from "@/lib/seo";
 
 function AboutPage() {
   const { t } = useLanguage();
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://www.upfrontac.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "About Us",
-        "item": "https://www.upfrontac.com/about"
-      }
-    ]
-  };
+  const schema = graph(
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "About Us", path: "/about" },
+    ]),
+    businessSchema(),
+  );
 
   return (
     <SiteLayout>
@@ -34,8 +24,8 @@ function AboutPage() {
       />
       <PageHeader
         eyebrow={t("15+ Years Industry Experience", "15+ Años de Experiencia en la Industria")}
-        title={t("About Upfront Air Conditioning", "Acerca de Upfront Air Conditioning")}
-        subtitle={t("Family-owned residential & commercial HVAC experts dedicated to quality over quantity in Tomball, Cypress, and Greater Houston, TX.", "Expertos en HVAC residencial y comercial dedicados a la calidad sobre la cantidad en Tomball, Cypress y Greater Houston, TX.")}
+        title={t("About Upfront Air Conditioning & Heating", "Acerca de Upfront Air Conditioning & Heating")}
+        subtitle={t("Family-owned residential & commercial HVAC contractor dedicated to honest diagnostics and upfront pricing across Tomball, Cypress, and Greater Houston, TX.", "Expertos en HVAC residencial y comercial dedicados a la calidad sobre la cantidad en Tomball, Cypress y Greater Houston, TX.")}
       />
       <About />
       <EmergencyCTA />
@@ -44,16 +34,12 @@ function AboutPage() {
 }
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Us | Upfront Air Conditioning & Heating" },
-      { name: "description", content: "BBB-accredited, family-owned HVAC contractor serving Tomball, Cypress, and Greater Houston, TX backed by 15+ years of industry experience." },
-      { property: "og:title", content: "About Upfront Air Conditioning & Heating" },
-      { property: "og:description", content: "Your comfort matters. BBB accredited licensed HVAC experts in Texas." },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/about" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "About Upfront AC & Heating | Licensed HVAC Contractor in Tomball & Houston, TX",
+      description:
+        "Learn about Upfront AC & Heating — a BBB-accredited, family-owned HVAC contractor in Tomball, TX (License TACLA133609C) founded by Allen Swindell with 15+ years of trade experience.",
+      path: "/about",
+    }),
   component: AboutPage,
 });

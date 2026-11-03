@@ -64,18 +64,15 @@ function Page() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/services/ac-repair-cypress")({
-  head: () => ({
-    meta: [
-      { title: "Best AC Repair Services in Cypress, TX | Upfront AC & Heating" },
-      { name: "description", content: "Fast, reliable AC repair in Cypress, TX. 24/7 emergency dispatch, capacitor & freon fixes, transparent upfront pricing. Serving Bridgeland, Towne Lake & Fairfield." },
-      { property: "og:title", content: "Emergency AC Repair Services in Cypress, TX – Upfront AC" },
-      { property: "og:description", content: "BBB-accredited local HVAC repair, air conditioning troubleshooting, and 24/7 emergency response in Cypress, TX. Call (713) 819-7908." },
-      { property: "og:url", content: "https://www.upfrontac.com/services/ac-repair-cypress" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/services/ac-repair-cypress" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "AC Repair Services in Cypress, TX (77429 & 77433) | Upfront AC & Heating",
+      description:
+        "Fast, reliable AC repair in Cypress, TX. 24/7 emergency dispatch, capacitor & refrigerant diagnostics, and upfront flat-rate pricing across Bridgeland, Towne Lake, Fairfield & Coles Crossing.",
+      path: "/services/ac-repair-cypress",
+    }),
   component: Page,
 });

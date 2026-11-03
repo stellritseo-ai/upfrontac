@@ -15,6 +15,7 @@ import { Route as AboutOwnerRouteImport } from './routes/about-owner'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FinanceRouteImport } from './routes/finance'
+import { Route as KnowledgeCenterRouteImport } from './routes/knowledge-center'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as RequestFreeEstimateRouteImport } from './routes/request-free-estimate'
 import { Route as ReviewsRouteImport } from './routes/reviews'
@@ -25,6 +26,8 @@ import { Route as UnderConstructionRouteImport } from './routes/under-constructi
 import { Route as UpfrontPricingRouteImport } from './routes/upfront-pricing'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardLoginRouteImport } from './routes/dashboard/login'
+import { Route as KnowledgeCenterSlugRouteImport } from './routes/knowledge-center_.$slug'
+import { Route as ProjectsSlugRouteImport } from './routes/projects_.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as ServicesAcRepairCypressRouteImport } from './routes/services/ac-repair-cypress'
 import { Route as ServicesAcRepairTomballRouteImport } from './routes/services/ac-repair-tomball'
@@ -65,6 +68,11 @@ const ContactRoute = ContactRouteImport.update({
 const FinanceRoute = FinanceRouteImport.update({
   id: '/finance',
   path: '/finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnowledgeCenterRoute = KnowledgeCenterRouteImport.update({
+  id: '/knowledge-center',
+  path: '/knowledge-center',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsRoute = ProjectsRouteImport.update({
@@ -115,6 +123,16 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
 const DashboardLoginRoute = DashboardLoginRouteImport.update({
   id: '/dashboard/login',
   path: '/dashboard/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnowledgeCenterSlugRoute = KnowledgeCenterSlugRouteImport.update({
+  id: '/knowledge-center_/$slug',
+  path: '/knowledge-center/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
+  id: '/projects_/$slug',
+  path: '/projects/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
@@ -181,6 +199,7 @@ export interface FileRoutesByFullPath {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
+  '/knowledge-center': typeof KnowledgeCenterRoute
   '/projects': typeof ProjectsRoute
   '/request-free-estimate': typeof RequestFreeEstimateRoute
   '/reviews': typeof ReviewsRoute
@@ -190,6 +209,8 @@ export interface FileRoutesByFullPath {
   '/under-construction': typeof UnderConstructionRoute
   '/upfront-pricing': typeof UpfrontPricingRoute
   '/dashboard/login': typeof DashboardLoginRoute
+  '/knowledge-center/$slug': typeof KnowledgeCenterSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/services/ac-repair-cypress': typeof ServicesAcRepairCypressRoute
   '/services/ac-repair-tomball': typeof ServicesAcRepairTomballRoute
   '/services/air-conditioning': typeof ServicesAirConditioningRoute
@@ -210,6 +231,7 @@ export interface FileRoutesByTo {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
+  '/knowledge-center': typeof KnowledgeCenterRoute
   '/projects': typeof ProjectsRoute
   '/request-free-estimate': typeof RequestFreeEstimateRoute
   '/reviews': typeof ReviewsRoute
@@ -218,6 +240,8 @@ export interface FileRoutesByTo {
   '/under-construction': typeof UnderConstructionRoute
   '/upfront-pricing': typeof UpfrontPricingRoute
   '/dashboard/login': typeof DashboardLoginRoute
+  '/knowledge-center/$slug': typeof KnowledgeCenterSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/services/ac-repair-cypress': typeof ServicesAcRepairCypressRoute
   '/services/ac-repair-tomball': typeof ServicesAcRepairTomballRoute
   '/services/air-conditioning': typeof ServicesAirConditioningRoute
@@ -239,6 +263,7 @@ export interface FileRoutesById {
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/finance': typeof FinanceRoute
+  '/knowledge-center': typeof KnowledgeCenterRoute
   '/projects': typeof ProjectsRoute
   '/request-free-estimate': typeof RequestFreeEstimateRoute
   '/reviews': typeof ReviewsRoute
@@ -248,6 +273,8 @@ export interface FileRoutesById {
   '/under-construction': typeof UnderConstructionRoute
   '/upfront-pricing': typeof UpfrontPricingRoute
   '/dashboard/login': typeof DashboardLoginRoute
+  '/knowledge-center_/$slug': typeof KnowledgeCenterSlugRoute
+  '/projects_/$slug': typeof ProjectsSlugRoute
   '/services/ac-repair-cypress': typeof ServicesAcRepairCypressRoute
   '/services/ac-repair-tomball': typeof ServicesAcRepairTomballRoute
   '/services/air-conditioning': typeof ServicesAirConditioningRoute
@@ -270,6 +297,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/finance'
+    | '/knowledge-center'
     | '/projects'
     | '/request-free-estimate'
     | '/reviews'
@@ -279,6 +307,8 @@ export interface FileRouteTypes {
     | '/under-construction'
     | '/upfront-pricing'
     | '/dashboard/login'
+    | '/knowledge-center/$slug'
+    | '/projects/$slug'
     | '/services/ac-repair-cypress'
     | '/services/ac-repair-tomball'
     | '/services/air-conditioning'
@@ -299,6 +329,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/finance'
+    | '/knowledge-center'
     | '/projects'
     | '/request-free-estimate'
     | '/reviews'
@@ -307,6 +338,8 @@ export interface FileRouteTypes {
     | '/under-construction'
     | '/upfront-pricing'
     | '/dashboard/login'
+    | '/knowledge-center/$slug'
+    | '/projects/$slug'
     | '/services/ac-repair-cypress'
     | '/services/ac-repair-tomball'
     | '/services/air-conditioning'
@@ -327,6 +360,7 @@ export interface FileRouteTypes {
     | '/careers'
     | '/contact'
     | '/finance'
+    | '/knowledge-center'
     | '/projects'
     | '/request-free-estimate'
     | '/reviews'
@@ -336,6 +370,8 @@ export interface FileRouteTypes {
     | '/under-construction'
     | '/upfront-pricing'
     | '/dashboard/login'
+    | '/knowledge-center_/$slug'
+    | '/projects_/$slug'
     | '/services/ac-repair-cypress'
     | '/services/ac-repair-tomball'
     | '/services/air-conditioning'
@@ -357,6 +393,7 @@ export interface RootRouteChildren {
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   FinanceRoute: typeof FinanceRoute
+  KnowledgeCenterRoute: typeof KnowledgeCenterRoute
   ProjectsRoute: typeof ProjectsRoute
   RequestFreeEstimateRoute: typeof RequestFreeEstimateRoute
   ReviewsRoute: typeof ReviewsRoute
@@ -366,6 +403,8 @@ export interface RootRouteChildren {
   UnderConstructionRoute: typeof UnderConstructionRoute
   UpfrontPricingRoute: typeof UpfrontPricingRoute
   DashboardLoginRoute: typeof DashboardLoginRoute
+  KnowledgeCenterSlugRoute: typeof KnowledgeCenterSlugRoute
+  ProjectsSlugRoute: typeof ProjectsSlugRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
@@ -411,6 +450,13 @@ declare module '@tanstack/react-router' {
       path: '/finance'
       fullPath: '/finance'
       preLoaderRoute: typeof FinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knowledge-center': {
+      id: '/knowledge-center'
+      path: '/knowledge-center'
+      fullPath: '/knowledge-center'
+      preLoaderRoute: typeof KnowledgeCenterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects': {
@@ -481,6 +527,20 @@ declare module '@tanstack/react-router' {
       path: '/dashboard/login'
       fullPath: '/dashboard/login'
       preLoaderRoute: typeof DashboardLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knowledge-center_/$slug': {
+      id: '/knowledge-center_/$slug'
+      path: '/knowledge-center/$slug'
+      fullPath: '/knowledge-center/$slug'
+      preLoaderRoute: typeof KnowledgeCenterSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects_/$slug': {
+      id: '/projects_/$slug'
+      path: '/projects/$slug'
+      fullPath: '/projects/$slug'
+      preLoaderRoute: typeof ProjectsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services/': {
@@ -602,6 +662,7 @@ const rootRouteChildren: RootRouteChildren = {
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   FinanceRoute: FinanceRoute,
+  KnowledgeCenterRoute: KnowledgeCenterRoute,
   ProjectsRoute: ProjectsRoute,
   RequestFreeEstimateRoute: RequestFreeEstimateRoute,
   ReviewsRoute: ReviewsRoute,
@@ -611,6 +672,8 @@ const rootRouteChildren: RootRouteChildren = {
   UnderConstructionRoute: UnderConstructionRoute,
   UpfrontPricingRoute: UpfrontPricingRoute,
   DashboardLoginRoute: DashboardLoginRoute,
+  KnowledgeCenterSlugRoute: KnowledgeCenterSlugRoute,
+  ProjectsSlugRoute: ProjectsSlugRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 export const routeTree = rootRouteImport

@@ -43,18 +43,16 @@ function ReviewsPage() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/reviews")({
-  head: () => ({
-    meta: [
-      { title: "Customer Reviews & Testimonials | Upfront AC & Heating" },
-      { name: "description", content: "Read verified customer reviews for Upfront AC & Heating. 5-star HVAC repair, AC installation, and heating maintenance across Tomball, Cypress, & Greater Houston, TX." },
-      { property: "og:title", content: "Customer Reviews & Testimonials | Upfront AC & Heating" },
-      { property: "og:description", content: "Top-rated heating & cooling solutions in Tomball & Cypress, TX. Honest HVAC service and upfront flat-rate pricing." },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/reviews" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "50+ Verified Customer Reviews | Upfront AC & Heating | Tomball & Houston, TX",
+      description:
+        "Read 50+ verified 5-star Google customer reviews for Upfront AC & Heating. Honest AC repair, HVAC installation, and heating service across Tomball, Cypress & Greater Houston, TX.",
+      path: "/reviews",
+    }),
   component: ReviewsPage,
 });
 

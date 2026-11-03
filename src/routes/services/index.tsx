@@ -5,18 +5,16 @@ import { Process } from "@/components/site/Process";
 import { EmergencyCTA } from "@/components/site/EmergencyCTA";
 import { useLanguage } from "@/hooks/useLanguage";
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/services/")({
-  head: () => ({
-    meta: [
-      { title: "HVAC Services Tomball & Cypress, TX | Upfront AC & Heating" },
-      { name: "description", content: "Complete residential & commercial HVAC services in Tomball, Cypress, & Greater Houston, TX. 24/7 AC repair, heating maintenance, system install, & air quality." },
-      { property: "og:title", content: "HVAC Services Tomball & Cypress, TX | Upfront AC & Heating" },
-      { property: "og:description", content: "Full-spectrum HVAC services across Tomball & Cypress, TX. In-house licensed technicians & 100% upfront pricing." },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/services" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "HVAC Services in Tomball, Cypress & Houston, TX | Upfront AC & Heating",
+      description:
+        "Complete residential and light commercial HVAC services across Tomball, Cypress & Greater Houston, TX: 24/7 AC repair, HVAC installation, heating service, maintenance & indoor air quality.",
+      path: "/services",
+    }),
   component: ServicesIndex,
 });
 

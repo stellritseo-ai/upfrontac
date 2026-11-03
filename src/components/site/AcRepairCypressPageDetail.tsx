@@ -27,11 +27,11 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
-import serviceImg from "@/assets/service-ac-cypress.png";
+import serviceImg from "@/assets/service-ac-cypress.webp";
 
 export function AcRepairCypressPageDetail() {
   const { t } = useLanguage();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const includedServices = [
     {
@@ -483,13 +483,14 @@ export function AcRepairCypressPageDetail() {
           <div className="rounded-3xl bg-slate-50 border border-slate-200 p-8 sm:p-10 shadow-lg">
             <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1 text-xs font-black uppercase text-[#005CE6] mb-4">
               <TrendingUp className="w-3.5 h-3.5" />
-              <span>Local Case Study</span>
+              <span>Illustrative Scenario</span>
             </div>
             <h3 className="text-2xl font-extrabold text-slate-900 mb-4">
-              Recent repair near Cypress Park, Cypress, TX
+              Example: an AC that stops cooling in peak heat
             </h3>
+            <p className="text-xs text-slate-500 italic mb-5">Illustrative example based on common service calls. It is not a specific customer or completed job. Real, permission-approved projects appear on our Projects page.</p>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium max-w-3xl">
-              Last month, we helped a customer near Cypress Park whose AC unit wasn’t cooling during peak heat. After inspecting the system, we found a refrigerant leak and repaired it the same day. They were delighted with the quick service and now enjoy a cool, comfortable home again.
+              A homeowner calls because the AC is not cooling during peak heat. After inspecting the system, the technician finds a refrigerant leak, explains the repair options and flat-rate price, and — if approved — repairs the leak and restores cooling.
             </p>
           </div>
 

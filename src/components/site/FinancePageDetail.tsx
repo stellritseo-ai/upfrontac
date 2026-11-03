@@ -27,15 +27,15 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { addWebEmail } from "@/lib/leads-store";
 import { toast } from "sonner";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
-import hvacImg from "@/assets/service-air-conditioning.png";
-import installImg from "@/assets/service-hvac-install.png";
-import tomballImg from "@/assets/service-ac-tomball.png";
-import cypressImg from "@/assets/service-ac-cypress.png";
+import hvacImg from "@/assets/service-air-conditioning.webp";
+import installImg from "@/assets/service-hvac-install.webp";
+import tomballImg from "@/assets/service-ac-tomball.webp";
+import cypressImg from "@/assets/service-ac-cypress.webp";
 
 export function FinancePageDetail() {
   const { t } = useLanguage();
   const { settings, phoneTel } = useSiteSettings();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",

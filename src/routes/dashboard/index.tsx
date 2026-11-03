@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useRealtimeSync } from "@/hooks/useRealtimeSync";
+import { SeoConversionMonitorCard } from "@/components/site/SeoConversionMonitorCard";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   TrendingUp,
@@ -133,7 +134,7 @@ import {
   setStorageItem
 } from "@/lib/leads-store";
 import { toast } from "sonner";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 
 export const Route = createFileRoute("/dashboard/")({
   head: () => ({
@@ -2074,6 +2075,9 @@ function DashboardPage() {
                 </div>
 
               </div>
+
+              {/* SEO & AI Search Conversion Monitor */}
+              <SeoConversionMonitorCard />
 
               {/* Bottom Section: Urgent Dispatch Stream */}
               <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">

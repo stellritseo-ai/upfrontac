@@ -32,11 +32,11 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
-import serviceImg from "@/assets/service-air-conditioning.png";
+import serviceImg from "@/assets/service-air-conditioning.webp";
 
 export function AirConditioningPageDetail() {
   const { t } = useLanguage();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const includedServices = [
     {
@@ -132,7 +132,7 @@ export function AirConditioningPageDetail() {
   const whyChooseUs = [
     {
       title: "Real Field Experience",
-      desc: "12,000+ career AC jobs completed across Greater Houston over 15+ years of industry experience — older units and modern high-efficiency systems."
+      desc: "15+ years of industry experience across Greater Houston — older units and modern high-efficiency systems."
     },
     {
       title: "Root-Cause Fixes",
@@ -201,7 +201,7 @@ export function AirConditioningPageDetail() {
       <PageHeader
         eyebrow="EPA-Certified · Licensed · Insured in Texas"
         title="Same-Day AC Repair, Installation & Maintenance You Can Trust"
-        subtitle="When your AC stops working in 100°F Houston heat, waiting isn’t an option. Backed by 15+ years of industry experience and over 12,000 completed career jobs across Greater Houston, Upfront AC delivers fast, certified, and transparent service."
+        subtitle="When your AC stops working in 100°F Houston heat, waiting isn’t an option. Backed by 15+ years of industry experience across Greater Houston, Upfront AC delivers prompt, certified, and transparent service."
       />
 
       {/* ── HERO SPOTLIGHT SECTION ─────────────────────────── */}
@@ -214,12 +214,12 @@ export function AirConditioningPageDetail() {
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1.5 text-[11px] font-black uppercase tracking-widest text-[#005CE6] shadow-sm">
               <Award className="h-3.5 w-3.5 text-[#005CE6]" />
-              <span>15+ Years Trade Experience · 12,000+ Jobs</span>
+              <span>15+ Years Trade Experience</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">
               <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-              <span>5/5 (50+ Verified Reviews)</span>
+              <span>5/5 (50+ Google Reviews)</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700 shadow-sm">
@@ -687,11 +687,12 @@ export function AirConditioningPageDetail() {
           <div className="rounded-3xl bg-slate-50 border border-slate-200 p-8 sm:p-10 shadow-lg">
             <div className="inline-flex items-center gap-2 rounded-full bg-[#005CE6]/10 border border-[#005CE6]/20 px-4 py-1 text-xs font-black uppercase text-[#005CE6] mb-4">
               <TrendingUp className="w-3.5 h-3.5" />
-              <span>Local Case Study</span>
+              <span>Illustrative Scenario</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-6">
-              Same-day cooling restored in Cypress
+              Example: cooling lost to a partially frozen evaporator coil
             </h2>
+            <p className="text-xs text-slate-500 italic mb-5">Illustrative example based on common service calls. It is not a specific customer or completed job. Real, permission-approved projects appear on our Projects page.</p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm">

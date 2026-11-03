@@ -10,16 +10,16 @@ import {
   Home,
   LucideIcon
 } from "lucide-react";
-import hvacInstallImg from "@/assets/service-hvac-install.png";
-import airConditioningImg from "@/assets/service-air-conditioning.png";
-import hvacRepairsImg from "@/assets/service-hvac-repairs.png";
-import acCypressImg from "@/assets/service-ac-cypress.png";
-import acTomballImg from "@/assets/service-ac-tomball.png";
-import heatingImg from "@/assets/service-heating.png";
-import hvacMaintenanceImg from "@/assets/service-hvac-maintenance.png";
-import indoorAirQualityImg from "@/assets/service-indoor-air-quality.png";
-import commercialHvacImg from "@/assets/service-commercial-hvac.png";
-import residentialHvacImg from "@/assets/service-residential-hvac.png";
+import hvacInstallImg from "@/assets/service-hvac-install.webp";
+import airConditioningImg from "@/assets/service-air-conditioning.webp";
+import hvacRepairsImg from "@/assets/service-hvac-repairs.webp";
+import acCypressImg from "@/assets/service-ac-cypress.webp";
+import acTomballImg from "@/assets/service-ac-tomball.webp";
+import heatingImg from "@/assets/service-heating.webp";
+import hvacMaintenanceImg from "@/assets/service-hvac-maintenance.webp";
+import indoorAirQualityImg from "@/assets/service-indoor-air-quality.webp";
+import commercialHvacImg from "@/assets/service-commercial-hvac.webp";
+import residentialHvacImg from "@/assets/service-residential-hvac.webp";
 import { ServiceDetailData } from "@/components/site/ServiceDetailPage";
 
 export const servicesDataMap: Record<string, ServiceDetailData> = {

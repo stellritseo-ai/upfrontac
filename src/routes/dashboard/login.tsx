@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { loginAdmin, verifyAdminToken } from "@/lib/leads-store";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 
 export const Route = createFileRoute("/dashboard/login")({
   head: () => ({

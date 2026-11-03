@@ -22,10 +22,11 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
-import tomballImg from "@/assets/service-ac-tomball.png";
-import cypressImg from "@/assets/service-ac-cypress.png";
-import hvacImg from "@/assets/service-air-conditioning.png";
+import tomballImg from "@/assets/service-ac-tomball.webp";
+import cypressImg from "@/assets/service-ac-cypress.webp";
+import hvacImg from "@/assets/service-air-conditioning.webp";
 import { addWebEmail } from "@/lib/leads-store";
+import { detectTrafficChannel, trackConversion } from "@/lib/conversion-tracking";
 import { toast } from "sonner";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
@@ -42,26 +43,38 @@ export function RequestFreeEstimatePageDetail() {
     timeline: "As Soon As Possible",
     contactMethod: "Phone"
   });
+  const [honeypot, setHoneypot] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (honeypot.trim().length > 0) {
+      setSubmitted(true);
+      return;
+    }
     if (!formData.fullName.trim() || !formData.phone.trim()) return;
+    const digits = formData.phone.replace(/\D/g, "");
+    if (digits.length < 10) {
+      toast.error("Please enter a valid 10-digit phone number.");
+      return;
+    }
 
     setSubmitting(true);
+    const { channel } = detectTrafficChannel();
     try {
       await addWebEmail({
         name: formData.fullName.trim(),
         email: formData.email.trim() || "estimate-request@upfrontac.com",
         phone: formData.phone.trim(),
         service: formData.serviceNeeded || "Free Estimate Request",
-        message: `Address: ${formData.address}\nTimeline: ${formData.timeline}\nPreferred Method: ${formData.contactMethod}\nNotes: ${formData.problemDescription}`,
-        source: "Free Estimate Page (/request-free-estimate)"
+        message: `Address: ${formData.address}\nTimeline: ${formData.timeline}\nPreferred Method: ${formData.contactMethod}\nChannel: ${channel}\nNotes: ${formData.problemDescription}`,
+        source: `Free Estimate Page (/request-free-estimate) [Channel: ${channel}]`
       });
 
+      trackConversion("estimate_submit", { label: formData.serviceNeeded || "Free Estimate Request" });
       setSubmitted(true);
       toast.success("Free estimate request received! We will contact you shortly.");
     } catch (err) {
@@ -337,6 +350,16 @@ export function RequestFreeEstimatePageDetail() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  <input
+                    type="text"
+                    name="companyWebsite"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    className="sr-only"
+                    aria-hidden="true"
+                  />
                   
                   {/* Contact Info Header */}
                   <span className="text-xs font-black uppercase tracking-wider text-[#005CE6] block border-b border-slate-200 pb-2">

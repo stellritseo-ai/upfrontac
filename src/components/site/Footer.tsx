@@ -6,7 +6,7 @@ import {
   Clock,
   ArrowRight,
 } from "lucide-react";
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/logo.webp";
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
@@ -35,7 +35,7 @@ const BbbIcon = (props: React.SVGProps<SVGSVGElement>) => (
 const socials = [
   { icon: FacebookIcon, href: "https://www.facebook.com/upfrontac", label: "Facebook" },
   { icon: InstagramIcon, href: "https://www.instagram.com/upfrontac/", label: "Instagram" },
-  { icon: BbbIcon, href: "https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209", label: "Better Business Bureau" },
+  { icon: BbbIcon, href: "https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209", label: "BBB Accredited Business" },
 ];
 
 export function Footer() {
@@ -45,23 +45,26 @@ export function Footer() {
   const quickLinks = [
     { label: t("Home", "Inicio"), href: "/" },
     { label: t("About Upfront AC", "Sobre Upfront AC"), href: "/about" },
-    { label: t("Our Services", "Nuestros Servicios"), href: "/services" },
+    { label: t("About The Owner", "Sobre El Propietario"), href: "/about-owner" },
+    { label: t("All HVAC Services", "Nuestros Servicios"), href: "/services" },
     { label: t("Service Areas", "Áreas de Servicio"), href: "/service-areas" },
     { label: t("Upfront Pricing", "Precios Transparentes"), href: "/upfront-pricing" },
-    { label: t("Finance", "Financiamiento"), href: "/finance" },
+    { label: t("Financing Options", "Financiamiento"), href: "/finance" },
+    { label: t("Completed Projects", "Proyectos"), href: "/projects" },
+    { label: t("Customer Reviews", "Reseñas de Clientes"), href: "/reviews" },
+    { label: t("HVAC Knowledge Center", "Centro de Conocimiento HVAC"), href: "/knowledge-center" },
     { label: t("Get Free Estimate", "Obtener Presupuesto Gratis"), href: "/request-free-estimate" },
     { label: t("Careers", "Carreras"), href: "/careers" },
-    { label: t("Projects", "Proyectos"), href: "/projects" },
     { label: t("Contact Us", "Contáctenos"), href: "/contact" },
   ];
 
   const serviceLinks = [
-    { label: t("HVAC Install", "Instalación HVAC"), href: "/services/hvac-install" },
+    { label: t("HVAC Installation", "Instalación HVAC"), href: "/services/hvac-install" },
     { label: t("Air Conditioning", "Aire Acondicionado"), href: "/services/air-conditioning" },
-    { label: t("HVAC Repairs", "Reparaciones HVAC"), href: "/services/hvac-repairs" },
-    { label: t("AC Repair Cypress", "Reparación AC Cypress"), href: "/services/ac-repair-cypress" },
-    { label: t("AC Repair Tomball", "Reparación AC Tomball"), href: "/services/ac-repair-tomball" },
-    { label: t("Heating", "Calefacción"), href: "/services/heating" },
+    { label: t("HVAC Repairs (24/7)", "Reparaciones HVAC"), href: "/services/hvac-repairs" },
+    { label: t("AC Repair Tomball, TX", "Reparación AC Tomball"), href: "/services/ac-repair-tomball" },
+    { label: t("AC Repair Cypress, TX", "Reparación AC Cypress"), href: "/services/ac-repair-cypress" },
+    { label: t("Heating Services", "Calefacción"), href: "/services/heating" },
     { label: t("HVAC Maintenance", "Mantenimiento HVAC"), href: "/services/hvac-maintenance" },
     { label: t("Indoor Air Quality", "Calidad del Aire"), href: "/services/indoor-air-quality" },
     { label: t("Commercial HVAC", "HVAC Comercial"), href: "/services/commercial-hvac" },
@@ -84,6 +87,9 @@ export function Footer() {
                 <img
                   src={logoImg}
                   alt="Upfront AC & Heating Logo"
+                  width={120}
+                  height={40}
+                  loading="lazy"
                   className="h-10 w-auto object-contain"
                 />
               </div>
@@ -91,20 +97,20 @@ export function Footer() {
                 <span className="text-xl font-black tracking-tight text-white uppercase">
                   UPFRONT <span className="text-[#005CE6]">AC</span>
                 </span>
-                <span className="text-[10px] text-slate-400 font-bold tracking-widest uppercase">
+                <span className="text-[10px] text-slate-300 font-bold tracking-widest uppercase">
                   Heating & Air Conditioning
                 </span>
               </div>
             </Link>
 
-            <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
+            <p className="text-slate-300 text-sm leading-relaxed max-w-sm">
               {t(
-                "Upfront AC & Heating provides honest, top-tier HVAC repairs, installations, and maintenance across Tomball, Cypress, and Greater Houston.",
+                "Upfront AC & Heating provides honest, flat-rate HVAC repairs, installations, and seasonal maintenance across Tomball, Cypress, Houston, Katy, Spring, Magnolia, The Woodlands, and Sugar Land, TX.",
                 "Upfront AC & Heating ofrece reparaciones, instalaciones y mantenimiento de HVAC de primer nivel en Tomball, Cypress y Greater Houston."
               )}
             </p>
 
-            <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
+            <p className="text-slate-300 text-xs leading-relaxed max-w-sm">
               {t(
                 "We are a Christian owned and operated company grounded in our faith in Jesus Christ and committed to treating every customer with honesty and care.",
                 "Somos una empresa de propiedad y operación cristiana, fundamentada en nuestra fe en Jesucristo y comprometida a tratar a cada cliente con honestidad y cuidado."
@@ -133,11 +139,11 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
+            <div className="text-xs uppercase tracking-widest text-slate-300 font-bold mb-6">
               {t("Quick Links", "Enlaces Rápidos")}
             </div>
-            <ul className="space-y-3 text-sm text-slate-400">
-              {quickLinks.slice(0, 6).map((link, idx) => (
+            <ul className="space-y-2.5 text-sm text-slate-300">
+              {quickLinks.map((link, idx) => (
                 <li key={idx}>
                   <Link
                     to={link.href}
@@ -152,11 +158,11 @@ export function Footer() {
 
           {/* Services Links */}
           <div>
-            <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
+            <div className="text-xs uppercase tracking-widest text-slate-300 font-bold mb-6">
               {t("HVAC Services", "Servicios HVAC")}
             </div>
-            <ul className="space-y-3 text-sm text-slate-400">
-              {serviceLinks.slice(0, 6).map((link, idx) => (
+            <ul className="space-y-2.5 text-sm text-slate-300">
+              {serviceLinks.map((link, idx) => (
                 <li key={idx}>
                   <Link
                     to={link.href}
@@ -171,20 +177,20 @@ export function Footer() {
 
           {/* Contact Info Col */}
           <div>
-            <div className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
+            <div className="text-xs uppercase tracking-widest text-slate-300 font-bold mb-6">
               {t("Contact Info", "Información de Contacto")}
             </div>
             <ul className="space-y-3.5 text-sm">
               <li>
                 <a
                   href={`tel:${phoneTel}`}
-                  className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors group"
+                  className="flex items-center gap-3 text-slate-300 hover:text-white transition-colors group"
                 >
                   <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
                     <Phone className="h-4 w-4 group-hover:rotate-12 transition-transform" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Phone</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Phone</span>
                     <span className="font-semibold text-white tracking-tight mt-0.5">{settings.officePhone || "(713) 819-7908"}</span>
                   </div>
                 </a>
@@ -192,31 +198,31 @@ export function Footer() {
               <li>
                 <a
                   href={`mailto:${settings.alertEmail?.includes("allen@upfrontac.com") ? "allen@upfrontac.com" : (settings.alertEmail?.split(",")[0]?.trim() || "allen@upfrontac.com")}`}
-                  className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group"
+                  className="flex items-start gap-3 text-slate-300 hover:text-white transition-colors group"
                 >
                   <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
                     <Mail className="h-4 w-4 group-hover:scale-110 transition-transform" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Email</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Email</span>
                     <span className="font-semibold text-white tracking-tight mt-0.5 text-wrap break-all">{settings.alertEmail?.includes("allen@upfrontac.com") ? "allen@upfrontac.com" : (settings.alertEmail?.split(",")[0]?.trim() || "allen@upfrontac.com")}</span>
                   </div>
                 </a>
               </li>
               <li>
                 <a
-                  href="https://maps.google.com/?q=Northpointe,+Tomball,+Tx.+77377"
+                  href="https://maps.google.com/?q=Northpointe,+Tomball,+TX+77377"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors group"
+                  className="flex items-start gap-3 text-slate-300 hover:text-white transition-colors group"
                 >
                   <div className="h-9 w-9 rounded-lg bg-slate-900/50 border border-slate-800 flex items-center justify-center text-[#005CE6] group-hover:bg-[#005CE6]/10 group-hover:border-[#005CE6]/30 transition-all shrink-0">
                     <MapPin className="h-4 w-4 group-hover:-translate-y-0.5 transition-transform" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">{t("Office", "Oficina")}</span>
+                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">{t("Office", "Oficina")}</span>
                     <span className="font-semibold text-white tracking-tight mt-0.5 leading-snug">
-                      Northpointe, Tomball, Tx. 77377
+                      Northpointe, Tomball, TX 77377
                     </span>
                   </div>
                 </a>
@@ -264,7 +270,7 @@ export function Footer() {
                 <span className="text-sm font-black text-white tracking-tight">
                   {settings.weekdays || "7:00 AM - 5:00 PM"}
                 </span>
-                <span className="text-[10px] text-slate-500 font-medium mt-1">
+                <span className="text-[10px] text-slate-400 font-medium mt-1">
                   {t("Full Service, Repairs & Installs", "Servicio Completo e Instalaciones")}
                 </span>
               </div>
@@ -272,7 +278,7 @@ export function Footer() {
               {/* Saturday */}
               <div className="bg-slate-950/80 border border-slate-800/90 hover:border-amber-500/40 transition-colors rounded-2xl p-3.5 flex flex-col text-left group">
                 <div className="flex items-center justify-between gap-2 mb-1.5">
-                  <span className="text-xs font-bold text-slate-400">{t("Saturday", "Sábado")}</span>
+                  <span className="text-xs font-bold text-slate-300">{t("Saturday", "Sábado")}</span>
                   <span className="text-[9px] font-black text-amber-400 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded uppercase tracking-wider">
                     {t("Weekend", "Fin de Semana")}
                   </span>
@@ -280,7 +286,7 @@ export function Footer() {
                 <span className="text-sm font-black text-amber-400 tracking-tight">
                   {settings.saturdays || "Emergency Calls Only"}
                 </span>
-                <span className="text-[10px] text-slate-500 font-medium mt-1">
+                <span className="text-[10px] text-slate-400 font-medium mt-1">
                   {t("Rapid On-Call Technician Dispatch", "Técnico de Guardia para Urgencias")}
                 </span>
               </div>
@@ -288,7 +294,7 @@ export function Footer() {
               {/* Sunday */}
               <div className="bg-slate-950/80 border border-slate-800/90 hover:border-rose-500/40 transition-colors rounded-2xl p-3.5 flex flex-col text-left group">
                 <div className="flex items-center justify-between gap-2 mb-1.5">
-                  <span className="text-xs font-bold text-slate-400">{t("Sunday", "Domingo")}</span>
+                  <span className="text-xs font-bold text-slate-300">{t("Sunday", "Domingo")}</span>
                   <span className="text-[9px] font-black text-rose-400 bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded uppercase tracking-wider">
                     {t("24/7 Priority", "Prioridad 24/7")}
                   </span>
@@ -296,7 +302,7 @@ export function Footer() {
                 <span className="text-sm font-black text-rose-400 tracking-tight">
                   {settings.sundays || "Emergency Calls Only"}
                 </span>
-                <span className="text-[10px] text-slate-500 font-medium mt-1">
+                <span className="text-[10px] text-slate-400 font-medium mt-1">
                   {t("Critical AC Breakdown Response", "Respuesta Crítica a Fallas")}
                 </span>
               </div>
@@ -332,28 +338,28 @@ export function Footer() {
 
         {/* Bottom Copy/Trademark Row with Back to Top trigger */}
         <div className="mt-10 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 text-center sm:text-left">
-          <p className="text-xs text-slate-500 font-semibold">
-            © 2026 Upfront AC. {t("All rights reserved. Design by", "Todos los derechos reservados. Diseño por")}{" "}
+          <p className="text-xs text-slate-400 font-semibold">
+            © 2026 Upfront AC & Heating. {t("All rights reserved. Design by", "Todos los derechos reservados. Diseño por")}{" "}
             <a 
               href="https://stellrit.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-slate-400 hover:text-[#005CE6] transition-colors whitespace-nowrap"
+              className="text-slate-300 hover:text-[#005CE6] transition-colors whitespace-nowrap"
             >
               StellR IT LLC
             </a>
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-            <p className="text-xs text-slate-500 font-semibold hidden lg:block">
-              {t("Tomball, TX & Greater Houston Area", "Tomball, TX y Área Metropolitana de Houston")}
+            <p className="text-xs text-slate-400 font-semibold hidden lg:block">
+              {t("Serving Tomball, Cypress, Houston, Katy, Spring, Magnolia, The Woodlands & Sugar Land, TX", "Tomball, TX y Área Metropolitana de Houston")}
             </p>
 
             <motion.button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               whileHover={{ y: -3 }}
               whileTap={{ scale: 0.95 }}
-              className="text-xs text-slate-400 hover:text-white transition-colors font-bold flex items-center gap-2 cursor-pointer select-none bg-white/5 sm:bg-transparent px-4 py-2 sm:p-0 rounded-full sm:rounded-none"
+              className="text-xs text-slate-300 hover:text-white transition-colors font-bold flex items-center gap-2 cursor-pointer select-none bg-white/5 sm:bg-transparent px-4 py-2 sm:p-0 rounded-full sm:rounded-none"
             >
               <span>{t("Back to Top", "Volver Arriba")}</span>
               <ArrowRight className="h-4 w-4 -rotate-90 text-[#005CE6]" />

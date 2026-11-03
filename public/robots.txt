@@ -1,6 +1,52 @@
+# Upfront AC & Heating — https://www.upfrontac.com
+# SEO & AI Search Crawler Policy
+
+User-agent: Googlebot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /under-construction
+
+User-agent: Bingbot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /under-construction
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /under-construction
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /under-construction
+
+User-agent: GPTBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /under-construction
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /under-construction
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /under-construction
+
 User-agent: *
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+Disallow: /under-construction
 
 Sitemap: https://www.upfrontac.com/sitemap.xml

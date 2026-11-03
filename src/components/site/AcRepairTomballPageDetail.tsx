@@ -28,11 +28,11 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { PageHeader } from "@/components/site/PageHeader";
-import serviceImg from "@/assets/service-ac-tomball.png";
+import serviceImg from "@/assets/service-ac-tomball.webp";
 
 export function AcRepairTomballPageDetail() {
   const { t } = useLanguage();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const whyChoosePoints = [
     "Family-owned, BBB-accredited local HVAC business with 15+ years of industry experience",
@@ -192,7 +192,7 @@ export function AcRepairTomballPageDetail() {
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">
               <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-              <span>5/5 (40+ Verified Reviews)</span>
+              <span>5/5 (50+ Google Reviews)</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700 shadow-sm">
@@ -207,7 +207,7 @@ export function AcRepairTomballPageDetail() {
               <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight leading-[1.15] text-slate-900">
                 Repair-First AC Service in Tomball with{" "}
                 <span className="bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-600 bg-clip-text text-transparent">
-                  1-Year Repair Warranty
+                  Warranty on Repairs
                 </span>
               </h2>
 
@@ -407,9 +407,9 @@ export function AcRepairTomballPageDetail() {
                 <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/30 text-white flex items-center justify-center">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-extrabold">1-Year Repair Warranty</h3>
+                <h3 className="text-2xl font-extrabold">Clear Repair Warranty Terms</h3>
                 <p className="text-xs sm:text-sm text-slate-100 leading-relaxed font-medium">
-                  The Upfront AC team brings over 15 years of hands-on HVAC repair experience to Tomball homeowners. We want you to be cool and comfortable, and we guarantee our repairs with a 1-year repair warranty.
+                  The Upfront AC team brings over 15 years of hands-on HVAC repair experience to Tomball homeowners. We want you to be cool and comfortable, and warranty terms are listed per repair on our Upfront Pricing page and confirmed before any work begins.
                 </p>
                 <div className="pt-4 border-t border-white/20 flex items-center justify-between text-xs font-bold text-cyan-200">
                   <span>100% Workmanship Guarantee</span>

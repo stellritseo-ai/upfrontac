@@ -43,7 +43,7 @@ function Page() {
             "identifier": "TACLA133609C"
           }
         },
-        "areaServed": ["Tomball", "Cypress", "Houston", "Katy", "Spring", "The Woodlands"],
+        "areaServed": ["Tomball", "Cypress", "Houston", "Katy", "Spring", "Magnolia", "The Woodlands", "Sugar Land"],
         "description": "Complete residential heating and cooling solutions: central air conditioning, heat pumps, gas furnaces, ductless mini-splits, and duct airflow balancing for Greater Houston homes."
       }
     ]
@@ -60,18 +60,15 @@ function Page() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/services/residential-hvac")({
-  head: () => ({
-    meta: [
-      { title: "Residential HVAC Services Tomball & Cypress, TX | Upfront AC" },
-      { name: "description", content: "Complete home heating & cooling done right for Texas. Home HVAC repair, Manual J load calculations, system replacements, and ductless mini-splits in Tomball & Houston." },
-      { property: "og:title", content: "Residential HVAC Services in Tomball, TX | Upfront AC" },
-      { property: "og:description", content: "Same-day service on most calls. TACLA133609C licensed, EPA-certified, flat-rate itemized pricing." },
-      { property: "og:url", content: "https://www.upfrontac.com/services/residential-hvac" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/services/residential-hvac" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "Residential HVAC Services in Tomball, Cypress & Houston, TX | Upfront AC",
+      description:
+        "Complete home heating and cooling solutions: central AC repair, Manual J load calculations, SEER2 replacements, heat pumps, and duct balancing across Tomball, Cypress & Houston.",
+      path: "/services/residential-hvac",
+    }),
   component: Page,
 });

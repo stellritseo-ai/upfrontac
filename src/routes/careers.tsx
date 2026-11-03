@@ -43,18 +43,16 @@ function CareersPage() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/careers")({
-  head: () => ({
-    meta: [
-      { title: "HVAC Careers & Technician Jobs | Upfront AC & Heating" },
-      { name: "description", content: "Join Upfront AC & Heating in Tomball & Greater Houston. Hiring licensed HVAC service technicians, system installers, and helpers. Top pay, modern vans, and family culture." },
-      { property: "og:title", content: "HVAC Careers & Technician Jobs | Upfront AC & Heating" },
-      { property: "og:description", content: "Grow your HVAC career with a trusted, family-owned Texas HVAC company. Competitive pay & great culture." },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/careers" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "HVAC Careers & Technician Jobs in Tomball & Houston, TX | Upfront AC",
+      description:
+        "Join Upfront AC & Heating in Tomball & Greater Houston, TX. Hiring licensed HVAC service technicians, system installers, and apprentices.",
+      path: "/careers",
+    }),
   component: CareersPage,
 });
 

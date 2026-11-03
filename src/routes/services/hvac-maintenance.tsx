@@ -43,7 +43,7 @@ function Page() {
             "identifier": "TACLA133609C"
           }
         },
-        "areaServed": ["Tomball", "Cypress", "Houston", "Katy", "Spring", "The Woodlands"],
+        "areaServed": ["Tomball", "Cypress", "Houston", "Katy", "Spring", "Magnolia", "The Woodlands", "Sugar Land"],
         "description": "Comprehensive 16-point HVAC seasonal tune-ups: condenser coil cleaning, electrical safety testing, refrigerant pressure verification, and written performance reports."
       }
     ]
@@ -60,19 +60,16 @@ function Page() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/services/hvac-maintenance")({
-  head: () => ({
-    meta: [
-      { title: "HVAC Maintenance & Tune-Up Services Tomball & Cypress, TX | Upfront AC" },
-      { name: "description", content: "Systematic HVAC tune-ups built for Texas weather. Coil cleaning, refrigerant checks, 16-point checklists, and written reports across Tomball, Cypress, & Houston." },
-      { property: "og:title", content: "HVAC Maintenance Tomball, TX | Upfront AC" },
-      { property: "og:description", content: "Keep your HVAC running all year long. Extended lifespan to 15–18 years with bi-annual Texas-tailored tune-ups." },
-      { property: "og:url", content: "https://www.upfrontac.com/services/hvac-maintenance" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/services/hvac-maintenance" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "HVAC Maintenance & Seasonal Tune-Ups in Tomball & Cypress, TX | Upfront AC",
+      description:
+        "Systematic 16-point HVAC tune-ups built for Texas weather: coil cleaning, capacitor & refrigerant checks, drain line clearing, and written reports across Tomball, Cypress & Houston.",
+      path: "/services/hvac-maintenance",
+    }),
   component: Page,
 });
 

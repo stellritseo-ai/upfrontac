@@ -18,16 +18,16 @@ import {
   Clock,
   Award,
 } from "lucide-react";
-import hvacInstallImg from "@/assets/service-hvac-install.png";
-import acImg from "@/assets/service-air-conditioning.png";
-import hvacRepairsImg from "@/assets/service-hvac-repairs.png";
-import acCypressImg from "@/assets/service-ac-cypress.png";
-import acTomballImg from "@/assets/service-ac-tomball.png";
-import heatingImg from "@/assets/service-heating.png";
-import hvacMaintenanceImg from "@/assets/service-hvac-maintenance.png";
-import iaqImg from "@/assets/service-indoor-air-quality.png";
-import commercialHvacImg from "@/assets/service-commercial-hvac.png";
-import residentialHvacImg from "@/assets/service-residential-hvac.png";
+import hvacInstallImg from "@/assets/service-hvac-install.webp";
+import acImg from "@/assets/service-air-conditioning.webp";
+import hvacRepairsImg from "@/assets/service-hvac-repairs.webp";
+import acCypressImg from "@/assets/service-ac-cypress.webp";
+import acTomballImg from "@/assets/service-ac-tomball.webp";
+import heatingImg from "@/assets/service-heating.webp";
+import hvacMaintenanceImg from "@/assets/service-hvac-maintenance.webp";
+import iaqImg from "@/assets/service-indoor-air-quality.webp";
+import commercialHvacImg from "@/assets/service-commercial-hvac.webp";
+import residentialHvacImg from "@/assets/service-residential-hvac.webp";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
@@ -243,7 +243,7 @@ export function Services() {
           </div>
 
           <div className="shrink-0 flex items-center gap-3">
-            <span className="text-xs font-black text-slate-400 uppercase tracking-widest bg-white border border-slate-200 px-3.5 py-1.5 rounded-full shadow-sm">
+            <span className="text-xs font-black text-slate-700 uppercase tracking-widest bg-white border border-slate-200 px-3.5 py-1.5 rounded-full shadow-sm">
               TACLA133609C
             </span>
           </div>
@@ -278,8 +278,8 @@ export function Services() {
                           isMobileExpanded
                             ? "text-cyan-200"
                             : isDesktopSelected
-                            ? "lg:text-cyan-200 text-slate-400"
-                            : "text-slate-400"
+                            ? "lg:text-cyan-200 text-slate-600"
+                            : "text-slate-600"
                         }`}
                       >
                         {s.num}
@@ -291,8 +291,8 @@ export function Services() {
                           isMobileExpanded
                             ? "bg-white/20 text-white"
                             : isDesktopSelected
-                            ? "lg:bg-white/20 lg:text-white bg-slate-100 text-slate-600 group-hover:text-[#005CE6] group-hover:bg-[#005CE6]/10"
-                            : "bg-slate-100 text-slate-600 group-hover:text-[#005CE6] group-hover:bg-[#005CE6]/10"
+                            ? "lg:bg-white/20 lg:text-white bg-slate-100 text-slate-700 group-hover:text-[#005CE6] group-hover:bg-[#005CE6]/10"
+                            : "bg-slate-100 text-slate-700 group-hover:text-[#005CE6] group-hover:bg-[#005CE6]/10"
                         }`}
                       >
                         <Icon className="w-4.5 h-4.5" />
@@ -308,8 +308,8 @@ export function Services() {
                             isMobileExpanded
                               ? "text-slate-100"
                               : isDesktopSelected
-                              ? "lg:text-slate-100 text-slate-500"
-                              : "text-slate-500"
+                              ? "lg:text-slate-100 text-slate-600"
+                              : "text-slate-600"
                           }`}
                         >
                           {s.subtitle}
@@ -430,7 +430,11 @@ export function Services() {
                 {/* Full Stage Image */}
                 <img
                   src={activeService.image}
-                  alt={activeService.title}
+                  alt={`${activeService.title} — ${activeService.subtitle}`}
+                  width={800}
+                  height={580}
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover object-center"
                 />
 
@@ -500,6 +504,30 @@ export function Services() {
           </div>
 
         </div>
+
+        {/* ── Crawlable Direct Links to All 10 HVAC Services ─── */}
+        <nav aria-label="Direct links to HVAC service pages" className="mt-8 rounded-2xl bg-white border border-slate-200/90 p-5 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <span className="text-[11px] font-black uppercase tracking-widest text-slate-700">
+              {t("Direct Service Pages", "Páginas Directas de Servicio")}
+            </span>
+            <Link to="/upfront-pricing" className="text-xs font-extrabold text-[#005CE6] hover:underline">
+              {t("View Published Upfront Pricing Menu →", "Ver Menú de Precios Transparentes →")}
+            </Link>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {services.map((s) => (
+              <Link
+                key={s.id}
+                to={s.to}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-slate-50 hover:bg-[#005CE6]/10 border border-slate-200/80 hover:border-[#005CE6]/30 px-3 py-1.5 text-xs font-bold text-slate-800 hover:text-[#005CE6] transition-colors"
+              >
+                <span>{s.title}</span>
+                <ArrowRight className="w-3 h-3 text-[#005CE6]" />
+              </Link>
+            ))}
+          </div>
+        </nav>
 
         {/* ── Bottom Guarantee Highlights ───────────────────── */}
         <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 rounded-2xl bg-white border border-slate-200/90 p-6 text-left shadow-sm">

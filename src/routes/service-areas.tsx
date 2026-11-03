@@ -60,18 +60,15 @@ function Page() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/service-areas")({
-  head: () => ({
-    meta: [
-      { title: "HVAC Service Areas | Tomball, Cypress, Katy & Houston | Upfront AC" },
-      { name: "description", content: "Upfront AC provides HVAC repairs, AC installation, and indoor air quality services across Tomball, Cypress, Katy, Houston, Spring, Magnolia, Sugar Land, & The Woodlands, TX." },
-      { property: "og:title", content: "Our Service Areas – Upfront AC" },
-      { property: "og:description", content: "Fast same-day AC repair and installation across Northwest Houston. Call (713) 819-7908." },
-      { property: "og:url", content: "https://www.upfrontac.com/service-areas" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/service-areas" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "HVAC Service Areas | Tomball, Cypress, Katy & Houston, TX | Upfront AC",
+      description:
+        "Upfront AC & Heating provides licensed AC repair, HVAC installation, heating service, and maintenance across Tomball, Cypress, Houston, Katy, Spring, Magnolia, The Woodlands & Sugar Land, TX.",
+      path: "/service-areas",
+    }),
   component: Page,
 });

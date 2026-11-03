@@ -20,9 +20,10 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { PageHeader } from "@/components/site/PageHeader";
 import { addWebEmail } from "@/lib/leads-store";
+import { detectTrafficChannel, trackConversion } from "@/lib/conversion-tracking";
 import { toast } from "sonner";
-import tomballImg from "@/assets/service-ac-tomball.png";
-import cypressImg from "@/assets/service-ac-cypress.png";
+import tomballImg from "@/assets/service-ac-tomball.webp";
+import cypressImg from "@/assets/service-ac-cypress.webp";
 
 export function ContactPageDetail() {
   const { t } = useLanguage();
@@ -33,14 +34,25 @@ export function ContactPageDetail() {
     phone: "",
     message: ""
   });
+  const [honeypot, setHoneypot] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (honeypot.trim().length > 0) {
+      setSubmitted(true);
+      return;
+    }
     if (!formData.name.trim() || !formData.email.trim()) return;
+    const digits = formData.phone.replace(/\D/g, "");
+    if (digits.length < 10) {
+      toast.error("Please enter a valid 10-digit phone number.");
+      return;
+    }
 
     setSubmitting(true);
+    const { channel } = detectTrafficChannel();
     try {
       await addWebEmail({
         name: formData.name.trim(),
@@ -48,9 +60,10 @@ export function ContactPageDetail() {
         phone: formData.phone.trim(),
         message: formData.message.trim(),
         service: "Contact Us Inquiry",
-        source: "Contact Page (/contact)"
+        source: `Contact Page (/contact) [Channel: ${channel}]`
       });
 
+      trackConversion("booking_submit", { label: "Contact Page Inquiry" });
       setSubmitted(true);
       toast.success("Thank you! Your message has been sent to our dispatch team.");
       setFormData({ name: "", email: "", phone: "", message: "" });
@@ -86,7 +99,7 @@ export function ContactPageDetail() {
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-amber-800 shadow-sm">
               <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-              <span>5/5 (50+ Verified Reviews)</span>
+              <span>5/5 (50+ Google Reviews)</span>
             </span>
 
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700 shadow-sm">
@@ -264,6 +277,16 @@ export function ContactPageDetail() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  <input
+                    type="text"
+                    name="companyWebsite"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    className="sr-only"
+                    aria-hidden="true"
+                  />
                   <div>
                     <label className="block text-xs font-black uppercase tracking-wider text-slate-700 mb-2">
                       Name *
@@ -351,7 +374,7 @@ export function ContactPageDetail() {
                 </span>
                 <h3 className="text-2xl font-black text-white">Local Family-Owned Business</h3>
                 <p className="text-xs text-slate-300 mt-2 font-medium leading-relaxed">
-                  Serving Tomball, Cypress, Katy, The Woodlands, Spring, Magnolia, Sugar Land & Greater Houston with 10+ years of dedicated HVAC excellence.
+                  Serving Tomball, Cypress, Katy, The Woodlands, Spring, Magnolia, Sugar Land & Greater Houston backed by 15+ years of HVAC industry experience.
                 </p>
 
                 <div className="space-y-4 pt-6 border-t border-slate-800/80">

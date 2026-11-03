@@ -48,7 +48,7 @@ function Page() {
           "name": "Tomball",
           "sameAs": "https://en.wikipedia.org/wiki/Tomball,_Texas"
         },
-        "description": "Dependable, repair-first AC service in Tomball, TX. Fast diagnostic response, 1-year repair warranty, transparent flat-rate pricing. Serving Old Town, Northpointe, and FM 2920."
+        "description": "Dependable, repair-first AC service in Tomball, TX. Fast diagnostic response, transparent flat-rate pricing and clear repair warranty terms. Serving Old Town, Northpointe, and FM 2920."
       }
     ]
   };
@@ -64,18 +64,15 @@ function Page() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/services/ac-repair-tomball")({
-  head: () => ({
-    meta: [
-      { title: "Trusted AC Repair Tomball, TX | Upfront AC & Heating" },
-      { name: "description", content: "Dependable AC repair Tomball homeowners trust. Fast communication, honest diagnostics, and 1-year repair warranty across Old Town Tomball, Northpointe & FM 2920." },
-      { property: "og:title", content: "Emergency AC Repair Services in Tomball, TX – Upfront AC" },
-      { property: "og:description", content: "Family-owned hometown HVAC team backed by 15+ years of industry experience. TACLA133609C licensed, EPA-certified, flat-rate pricing. Call (713) 819-7908." },
-      { property: "og:url", content: "https://www.upfrontac.com/services/ac-repair-tomball" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/services/ac-repair-tomball" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "Trusted AC Repair in Tomball, TX (77375 & 77377) | Upfront AC & Heating",
+      description:
+        "Dependable AC repair Tomball homeowners trust. Dispatched from Northpointe (77377) with honest diagnostics and published flat-rate pricing across Old Town Tomball, Northpointe, Rosehill & Creekside Park.",
+      path: "/services/ac-repair-tomball",
+    }),
   component: Page,
 });

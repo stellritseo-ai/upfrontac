@@ -24,7 +24,7 @@ import {
   Compass
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
-import ownerFamilyImg from "@/assets/allen-swindell-family.png";
+import ownerFamilyImg from "@/assets/allen-swindell-family.webp";
 
 export function AboutOwner() {
   const { t } = useLanguage();

@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
-import aboutTeamImg from "@/assets/service-residential-hvac.png";
+import aboutTeamImg from "@/assets/service-residential-hvac.webp";
 
 export function About() {
   const { t } = useLanguage();

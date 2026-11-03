@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { addWebEmail } from "@/lib/leads-store";
+import { detectTrafficChannel, trackConversion } from "@/lib/conversion-tracking";
 import { toast } from "sonner";
 import {
   Phone,
@@ -37,61 +38,122 @@ export function GetInTouch() {
 
   const faqs = [
     {
-      q: t("How fast can an HVAC technician arrive in Houston, TX?", "¿Qué tan rápido puede llegar un técnico de HVAC en Houston, TX?"),
-      a: t("Upfront AC typically dispatches technicians the same day, and in emergency cases, arrival can be within a few hours, depending on your location in Houston, Tomball, or Cypress.", "Upfront AC generalmente despacha técnicos el mismo día, y en casos de emergencia, la llegada puede ser dentro de un par de horas, dependiendo de su ubicación en Houston, Tomball o Cypress.")
+      q: t(
+        "What areas around Houston does Upfront AC & Heating serve?",
+        "¿Qué áreas alrededor de Houston atiende Upfront AC & Heating?"
+      ),
+      a: t(
+        "We are headquartered in Northpointe, Tomball, TX 77377 and provide daily residential and commercial HVAC service across Tomball, Cypress, Northwest and Greater Houston, Katy, Spring, Magnolia, The Woodlands, and Sugar Land.",
+        "Estamos ubicados en Northpointe, Tomball, TX 77377 y brindamos servicio diario de HVAC residencial y comercial en Tomball, Cypress, Houston, Katy, Spring, Magnolia, The Woodlands y Sugar Land."
+      )
     },
     {
-      q: t("Why is my AC not cooling during the Houston heat?", "¿Por qué mi aire acondicionado no enfría durante el calor de Houston?"),
-      a: t("The most common reasons include low refrigerant, dirty condenser coils, thermostat malfunction, or system overload due to extreme Houston temperatures.", "Las razones más comunes incluyen refrigerante bajo, bobinas de condensador sucias, mal funcionamiento del termostato o sobrecarga del sistema debido a temperaturas extremas en Houston.")
+      q: t(
+        "How fast can an HVAC technician arrive, and do you offer 24/7 emergency service?",
+        "¿Qué tan rápido puede llegar un técnico y ofrecen servicio de emergencia 24/7?"
+      ),
+      a: t(
+        "In addition to our regular weekday hours (Monday – Friday, 7:00 AM – 5:00 PM), we offer 24/7 emergency HVAC dispatch on nights, weekends, and holidays across Tomball, Cypress, and Greater Houston, with same-day arrival on most urgent calls.",
+        "Además de nuestro horario habitual de lunes a viernes (7:00 AM – 5:00 PM), ofrecemos despacho de emergencia 24/7 en noches, fines de semana y días festivos en Tomball, Cypress y Greater Houston."
+      )
     },
     {
-      q: t("How much does AC repair cost in Houston, TX?", "¿Cuánto cuesta la reparación de aire acondicionado en Houston, TX?"),
-      a: t("AC repair typically costs between $150 and $1500, depending on the issue. Minor electrical or filter repairs are lower, while compressor or refrigerant repairs are higher.", "La reparación de AC generalmente cuesta entre $150 y $1500, dependiendo del problema. Las reparaciones eléctricas menores o de filtros son más bajas, mientras que las de compresor o refrigerante son más altas.")
+      q: t(
+        "How much does AC repair cost in Houston, TX, and how does upfront pricing work?",
+        "¿Cuánto cuesta la reparación de AC en Houston, TX y cómo funcionan los precios transparentes?"
+      ),
+      a: t(
+        "Our standard residential diagnostic call is $99 ($149 after-hours), which is waived when you proceed with a qualifying repair. Most AC repairs range from $150 to $1,500 depending on the component, and our technician shows you the exact flat-rate price from our published Upfront Pricing menu before any work begins.",
+        "Nuestra llamada de diagnóstico residencial estándar es de $99 ($149 fuera de horario), que se descuenta al realizar la reparación. Nuestro técnico le muestra el precio fijo exacto antes de comenzar cualquier trabajo."
+      )
     },
     {
-      q: t("Should I repair or replace my HVAC system?", "¿Debo reparar o reemplazar mi sistema HVAC?"),
-      a: t("If your system is over 10–12 years old and requires frequent repairs, replacement is usually more cost-effective due to improved energy efficiency and lower long-term costs.", "Si su sistema tiene más de 10-12 años y requiere reparaciones frecuentes, el reemplazo suele ser más rentable debido a una mejor eficiencia energética y menores costos a largo plazo.")
+      q: t(
+        "Is Upfront AC & Heating licensed and insured in Texas, and what is your experience?",
+        "¿Está Upfront AC & Heating licenciado y asegurado en Texas, y cuál es su experiencia?"
+      ),
+      a: t(
+        "Yes. Upfront AC & Heating holds Texas TDLR Contractor License TACLA133609C and EPA Section 608 certification. We are in our 2nd year as an independent, BBB-accredited (A+) family business in Tomball, founded and led by Allen Swindell, who brings over 15 years of hands-on HVAC and mechanical trade experience.",
+        "Sí. Contamos con la licencia de contratista de Texas TACLA133609C y certificación EPA 608. Somos una empresa familiar acreditada por el BBB (A+) liderada por Allen Swindell, con más de 15 años de experiencia en la industria HVAC."
+      )
     },
     {
-      q: t("How quickly can Upfront Ac respond to emergency HVAC calls in Houston, TX?", "¿Qué tan rápido puede responder Upfront AC a llamadas de emergencia HVAC en Houston, TX?"),
-      a: t("Yes, Upfront Ac provides same-day AC repair across Houston with fast emergency dispatch for urgent cooling issues.", "Sí, Upfront AC ofrece reparación de AC el mismo día en todo Houston con despacho rápido de emergencia para problemas urgentes de enfriamiento.")
+      q: t(
+        "Why is my AC running but not cooling during the Houston heat?",
+        "¿Por qué mi aire acondicionado funciona pero no enfría durante el calor de Houston?"
+      ),
+      a: t(
+        "The most common causes in Greater Houston are a failed dual run capacitor, a dirty outdoor condenser coil, a clogged air filter or frozen evaporator coil, low refrigerant from a leak, or an attic float switch tripped by a clogged condensate drain line.",
+        "Las causas más comunes en Houston son un capacitor dañado, bobinas del condensador sucias, filtro obstruido, bajo nivel de refrigerante o un interruptor de flotador activado en el drenaje."
+      )
     },
     {
-      q: t("What are the signs my HVAC system needs repair?", "¿Cuáles son las señales de que mi sistema HVAC necesita reparación?"),
-      a: t("Weak airflow, warm air from vents, unusual noises, high energy bills, and frequent on/off cycling are common warning signs.", "El flujo de aire débil, el aire caliente por las rejillas, los ruidos inusuales, las facturas de energía altas y el encendido/apagado frecuente son señales comunes.")
+      q: t(
+        "What are the signs my HVAC system needs repair vs. full replacement?",
+        "¿Cuáles son las señales de que mi sistema HVAC necesita reparación o reemplazo?"
+      ),
+      a: t(
+        "Warm air from vents, weak airflow, electrical buzzing, short-cycling, and water around the indoor unit indicate a repair is needed. If your system is over 10–12 years old and requires frequent major repairs, upgrading to a modern SEER2 system is often more cost-effective.",
+        "El aire caliente, flujo débil, ruidos inusuales y ciclos cortos indican necesidad de reparación. Si su sistema tiene más de 10–12 años y requiere reparaciones frecuentes, el reemplazo por un sistema SEER2 suele ser más rentable."
+      )
     },
     {
-      q: t("Do you provide emergency HVAC repair 24/7 in Houston?", "¿Ofrecen reparación de HVAC de emergencia las 24 horas en Houston?"),
-      a: t("Yes, Upfront Ac offers 24/7 emergency HVAC repair across Houston, including nights, weekends, and holidays.", "Sí, Upfront AC ofrece reparación de HVAC de emergencia las 24 horas, los 7 días de la semana en todo Houston, incluidos noches, fines de semana y feriados.")
+      q: t(
+        "Do you offer free estimates and financing on new AC installations?",
+        "¿Ofrecen presupuestos gratuitos y financiamiento en instalaciones nuevas?"
+      ),
+      a: t(
+        "Yes. We provide free in-home estimates for full HVAC replacements and new installations—including Manual J load calculations and ductwork evaluation—and offer flexible monthly payment plans on approved credit through Synchrony, Microf, JBFin, and Acorn.",
+        "Sí. Ofrecemos presupuestos gratuitos a domicilio para reemplazos e instalaciones nuevas, además de planes de financiamiento mensual flexible con crédito aprobado."
+      )
     },
     {
-      q: t("How often should HVAC systems be serviced?", "¿Con qué frecuencia se debe dar mantenimiento a los sistemas HVAC?"),
-      a: t("HVAC systems should be serviced twice per year—before summer and winter—to maintain efficiency and prevent breakdowns.", "Los sistemas HVAC deben recibir mantenimiento dos veces al año (antes del verano y del invierno) para mantener la eficiencia y evitar averías.")
+      q: t(
+        "How often should HVAC systems be serviced in Texas?",
+        "¿Con qué frecuencia se debe dar mantenimiento a los sistemas HVAC en Texas?"
+      ),
+      a: t(
+        "In Texas, HVAC systems should be serviced twice per year—in spring before peak cooling season and in fall before winter heating—to clean coils, flush condensate drains, test capacitors, and prevent mid-season breakdowns.",
+        "En Texas, los sistemas HVAC deben recibir mantenimiento dos veces al año—en primavera y otoño—para limpiar bobinas, purgar drenajes y evitar averías."
+      )
     }
   ];
 
   const handleGitSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitting(true);
-
     const form = e.currentTarget;
+    const honeypot = (form.querySelector("input[name='companyWebsite']") as HTMLInputElement)?.value || "";
+    if (honeypot.trim().length > 0) {
+      setSubmitted(true);
+      return;
+    }
+
     const name = (form.querySelector("input[name='name']") as HTMLInputElement)?.value || "";
     const phone = (form.querySelector("input[name='phone']") as HTMLInputElement)?.value || "";
     const email = (form.querySelector("input[name='email']") as HTMLInputElement)?.value || "";
     const service = (form.querySelector("select[name='service']") as HTMLSelectElement)?.value || "";
     const msg = (form.querySelector("textarea[name='message']") as HTMLTextAreaElement)?.value || "";
 
+    const digits = phone.replace(/\D/g, "");
+    if (digits.length < 10) {
+      toast.error(t("Please enter a valid 10-digit phone number.", "Por favor ingrese un número de teléfono válido de 10 dígitos."));
+      return;
+    }
+
+    setSubmitting(true);
+    const { channel } = detectTrafficChannel();
+
     try {
-      // Immediate dual-sync to MongoDB Atlas & local cache
       await addWebEmail({
         name,
         phone,
         email,
         service: service || "General HVAC Inquiry",
         message: msg,
-        source: "Landing Get-In-Touch Form"
+        source: `Landing Get-In-Touch Form [Channel: ${channel}]`
       });
 
+      trackConversion("booking_submit", { label: service || "General HVAC Inquiry" });
       setSubmitted(true);
       toast.success(t("Estimate Request Received!", "¡Solicitud Recibida!"), {
         description: t("Our dispatch team has been notified.", "Nuestro equipo de despacho ha sido notificado.")
@@ -199,6 +261,7 @@ export function GetInTouch() {
 
               <a
                 href={`tel:${phoneTel}`}
+                aria-label="Call Upfront AC & Heating at (713) 819-7908"
                 className="w-8 h-8 rounded-lg bg-[#005CE6] hover:bg-cyan-500 text-white flex items-center justify-center shrink-0 transition-colors shadow-md"
               >
                 <Phone className="w-3.5 h-3.5" />
@@ -276,6 +339,14 @@ export function GetInTouch() {
                   onSubmit={handleGitSubmit}
                   className="space-y-6 text-left"
                 >
+                  <input
+                    type="text"
+                    name="companyWebsite"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    className="sr-only"
+                    aria-hidden="true"
+                  />
                   <div className="grid sm:grid-cols-2 gap-5">
                     <Field
                       label={t("Full Name", "Nombre Completo")}
@@ -300,9 +371,11 @@ export function GetInTouch() {
                     />
 
                     <div className="sm:col-span-2">
-                      <Label>{t("Service Needed", "Servicio Requerido")}</Label>
+                      <Label htmlFor="git-service-select">{t("Service Needed", "Servicio Requerido")}</Label>
                       <select
+                        id="git-service-select"
                         name="service"
+                        aria-label={t("Service Needed", "Servicio Requerido")}
                         required
                         className="mt-2.5 w-full rounded-xl border border-slate-200/80 bg-slate-50/50 px-4 py-3.5 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-4 focus:ring-[#005CE6]/10 focus:border-[#005CE6] focus:bg-white transition-all duration-300 cursor-pointer"
                       >

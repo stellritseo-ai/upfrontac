@@ -49,18 +49,15 @@ function Page() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/upfront-pricing")({
-  head: () => ({
-    meta: [
-      { title: "100% Upfront Pricing Guide | AC & Heating Repair | Upfront AC" },
-      { name: "description", content: "Transparent flat-rate pricing menu for AC repair, capacitors, Freon recharges, fan motors, thermostats, and HVAC maintenance across Tomball, Cypress, & Houston." },
-      { property: "og:title", content: "Upfront Pricing Guide | Upfront AC" },
-      { property: "og:description", content: "No hidden fees, no sales gimmicks. Published flat-rate pricing for all heating & cooling repairs. Call (713) 819-7908." },
-      { property: "og:url", content: "https://www.upfrontac.com/upfront-pricing" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/upfront-pricing" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "100% Upfront Pricing Guide | Flat-Rate AC & Heating Repair | Upfront AC",
+      description:
+        "Transparent flat-rate pricing menu for AC repair, capacitors, refrigerant service, blower motors, thermostats, and HVAC maintenance across Tomball, Cypress & Houston, TX.",
+      path: "/upfront-pricing",
+    }),
   component: Page,
 });

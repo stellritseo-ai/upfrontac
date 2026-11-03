@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Menu, Phone, X, Mail, MapPin, Facebook, Instagram, Clock,
-  ChevronDown, Home, Building2, Factory, Zap, BatteryCharging,
-  ShieldAlert, Cable, Shield, AlertTriangle, Video, Wrench,
-  Snowflake, Flame, Wind, Sparkles, Activity, CheckCircle2, User, Info,
+  ChevronDown, Home, Building2, Wrench,
+  Snowflake, Flame, Sparkles, Activity, CheckCircle2, User, Info, BookOpen, Star, AlertTriangle, Shield,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/logo.webp";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
@@ -18,30 +17,33 @@ export function Header() {
   const navItems = [
     { to: "/", label: t("Home", "Inicio") },
     { to: "/about", label: t("About Us", "Sobre Nosotros") },
-    { to: "#services", label: t("Services", "Servicios") },
+    { to: "/services", label: t("Services", "Servicios") },
     { to: "/projects", label: t("Projects", "Proyectos") },
     { to: "/service-areas", label: t("Service Areas", "Áreas de Servicio") },
     { to: "/upfront-pricing", label: t("Upfront Pricing", "Precios Transparentes") },
     { to: "/finance", label: t("Finance", "Financiamiento") },
+    { to: "/knowledge-center", label: t("HVAC Guides", "Guías HVAC") },
     { to: "/contact", label: t("Contact Us", "Contáctenos") },
   ];
 
   const serviceLinks = [
-    { to: "/services/hvac-install", l: t("HVAC Install Service in Houston, TX", "Servicio de Instalación HVAC en Houston, TX"), desc: t("Professional heating & cooling system installation", "Instalación profesional de calefacción y aire acondicionado"), icon: Wrench },
-    { to: "/services/air-conditioning", l: t("Air Conditioning", "Aire Acondicionado"), desc: t("Complete AC solutions, cooling design & installation", "Soluciones completas de AC, diseño y instalación"), icon: Snowflake },
-    { to: "/services/hvac-repairs", l: t("HVAC Repairs", "Reparaciones HVAC"), desc: t("Fast & reliable emergency HVAC repair services", "Servicios de reparación rápida de HVAC"), icon: Activity },
-    { to: "/services/ac-repair-cypress", l: t("AC Repair Services Cypress", "Reparación de AC Cypress"), desc: t("Local AC repair & maintenance in Cypress, TX", "Reparación local de AC en Cypress, TX"), icon: MapPin },
-    { to: "/services/ac-repair-tomball", l: t("AC Repair Tomball", "Reparación de AC Tomball"), desc: t("Trusted AC repair technicians in Tomball, TX", "Técnicos de reparación de AC en Tomball, TX"), icon: MapPin },
-    { to: "/services/heating", l: t("Heating", "Calefacción"), desc: t("Furnace & heating system repairs & installation", "Reparación e instalación de sistemas de calefacción"), icon: Flame },
-    { to: "/services/hvac-maintenance", l: t("HVAC Maintenance", "Mantenimiento HVAC"), desc: t("Preventative tune-ups & system maintenance", "Puesta a punto y mantenimiento preventivo"), icon: CheckCircle2 },
-    { to: "/services/indoor-air-quality", l: t("Indoor Air Quality", "Calidad del Aire Interior"), desc: t("Air filtration, purifiers & humidity control", "Filtración de aire, purificadores y control de humedad"), icon: Sparkles },
-    { to: "/services/commercial-hvac", l: t("Commercial HVAC Services", "Servicios HVAC Comerciales"), desc: t("Commercial heating, cooling & rooftop units", "Calefacción, refrigeración y unidades comerciales"), icon: Building2 },
-    { to: "/services/residential-hvac", l: t("Residential HVAC Services", "Servicios HVAC Residenciales"), desc: t("Home heating & cooling solutions", "Soluciones de calefacción y refrigeración para el hogar"), icon: Home },
+    { to: "/services/hvac-install", l: t("HVAC Installation", "Instalación HVAC"), desc: t("Professional heating & cooling system installation", "Instalación profesional de calefacción y aire acondicionado"), icon: Wrench },
+    { to: "/services/air-conditioning", l: t("Air Conditioning", "Aire Acondicionado"), desc: t("Complete AC solutions, cooling design & installation", "Soluciones completas de AC, diseño e instalación"), icon: Snowflake },
+    { to: "/services/hvac-repairs", l: t("HVAC Repairs", "Reparaciones HVAC"), desc: t("24/7 emergency & same-day HVAC repair services", "Servicios de reparación rápida de HVAC 24/7"), icon: Activity },
+    { to: "/services/ac-repair-tomball", l: t("AC Repair Tomball", "Reparación de AC Tomball"), desc: t("Local AC repair technicians in Tomball, TX 77377", "Técnicos de reparación de AC en Tomball, TX"), icon: MapPin },
+    { to: "/services/ac-repair-cypress", l: t("AC Repair Cypress", "Reparación de AC Cypress"), desc: t("Local AC repair & maintenance in Cypress, TX", "Reparación local de AC en Cypress, TX"), icon: MapPin },
+    { to: "/services/heating", l: t("Heating Services", "Servicios de Calefacción"), desc: t("Gas furnace & heat pump repairs & installation", "Reparación e instalación de sistemas de calefacción"), icon: Flame },
+    { to: "/services/hvac-maintenance", l: t("HVAC Maintenance", "Mantenimiento HVAC"), desc: t("Seasonal tune-ups & preventative maintenance", "Puesta a punto y mantenimiento preventivo"), icon: CheckCircle2 },
+    { to: "/services/indoor-air-quality", l: t("Indoor Air Quality", "Calidad del Aire Interior"), desc: t("Media filtration, UV purifiers & humidity control", "Filtración de aire, purificadores y control de humedad"), icon: Sparkles },
+    { to: "/services/commercial-hvac", l: t("Commercial HVAC", "HVAC Comercial"), desc: t("Light commercial rooftop units & split systems", "Calefacción, refrigeración y unidades comerciales"), icon: Building2 },
+    { to: "/services/residential-hvac", l: t("Residential HVAC", "HVAC Residencial"), desc: t("Whole-home comfort, ductwork & zoning solutions", "Soluciones de calefacción y refrigeración para el hogar"), icon: Home },
   ];
 
   const aboutLinks = [
-    { to: "/about", l: t("About Us", "Sobre Nosotros"), desc: t("History, advantages, values & services", "Historia, ventajas, valores y servicios"), icon: Info },
-    { to: "/about-owner", l: t("About The Owner", "Sobre El Propietario"), desc: t("Meet the leadership & expert behind Upfront AC", "Conozca al líder y experto detrás de Upfront AC"), icon: User },
+    { to: "/about", l: t("About Us", "Sobre Nosotros"), desc: t("Company background, values & licensing", "Historia, ventajas, valores y licencias"), icon: Info },
+    { to: "/about-owner", l: t("About The Owner", "Sobre El Propietario"), desc: t("Meet founder Allen Swindell (TACLA133609C)", "Conozca al fundador Allen Swindell"), icon: User },
+    { to: "/reviews", l: t("Customer Reviews", "Reseñas de Clientes"), desc: t("50+ verified 5-star Google customer reviews", "Más de 50 reseñas verificadas de 5 estrellas"), icon: Star },
+    { to: "/knowledge-center", l: t("HVAC Knowledge Center", "Centro de Conocimiento HVAC"), desc: t("12 technical troubleshooting & cost guides", "12 guías técnicas de diagnóstico y costos"), icon: BookOpen },
   ];
 
   const [scrolled, setScrolled] = useState(false);
@@ -122,7 +124,7 @@ export function Header() {
                 onClick={() => setLanguage("en")}
                 className={cn(
                   "flex items-center gap-1 transition font-bold cursor-pointer select-none",
-                  language === "en" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
+                  language === "en" ? "text-[#1E293B]" : "text-slate-600 hover:text-[#005CE6]"
                 )}
               >
                 <span className="text-sm leading-none">🇺🇸</span>
@@ -132,7 +134,7 @@ export function Header() {
                 onClick={() => setLanguage("es")}
                 className={cn(
                   "flex items-center gap-1 transition font-bold cursor-pointer select-none",
-                  language === "es" ? "text-[#1E293B]" : "text-gray-400 hover:text-[#005CE6]"
+                  language === "es" ? "text-[#1E293B]" : "text-slate-600 hover:text-[#005CE6]"
                 )}
               >
                 <span className="text-sm leading-none">🇪🇸</span>
@@ -153,7 +155,7 @@ export function Header() {
         <div className="mx-auto max-w-7xl flex justify-between items-center w-full gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0">
-            <img src={logoImg} alt="Upfront AC & Heating Logo" className="h-12 lg:h-14 w-auto object-contain" />
+            <img src={logoImg} alt="Upfront AC & Heating Logo" width={168} height={56} className="h-12 lg:h-14 w-auto object-contain" />
           </Link>
 
           {/* Contact cards */}
@@ -164,7 +166,7 @@ export function Header() {
                 <Shield className="h-4 w-4" />
               </div>
               <div className="flex flex-col text-left leading-tight">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("Certified", "Certificados")}</span>
+                <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">{t("Certified", "Certificados")}</span>
                 <span className="text-[13px] font-bold text-[#1E293B] leading-tight">
                   {t("We Are Certified Technicians!", "¡Somos Técnicos Certificados!")}
                 </span>
@@ -177,7 +179,7 @@ export function Header() {
                 <Clock className="h-4 w-4" />
               </div>
               <div className="flex flex-col text-left leading-tight">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t("Emergency", "Emergencia")}</span>
+                <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">{t("Emergency", "Emergencia")}</span>
                 <span className="text-[13px] font-bold text-[#1E293B] leading-tight">
                   {t("24/7 Emergency HVAC Service", "Servicio HVAC de Emergencia 24/7")}
                 </span>
@@ -209,7 +211,7 @@ export function Header() {
               href="https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Better Business Bureau Profile"
+              aria-label="BBB Accredited Business Profile"
               title="BBB Accredited A+"
               className="h-8 px-2.5 rounded-full border border-gray-300 flex items-center justify-center text-gray-600 hover:text-[#005CE6] hover:border-[#005CE6] transition text-[11px] font-black tracking-tight"
             >
@@ -233,7 +235,7 @@ export function Header() {
           {/* ── MOBILE: Full-Width Clean Header (Logo + Call + Menu) ──────── */}
           <div className="flex items-center justify-between w-full md:hidden bg-white px-3.5 sm:px-4 py-2.5 border-none shadow-none select-none">
             <Link to="/" className="flex items-center shrink-0">
-              <img src={logoImg} alt="Upfront AC Logo" className="h-12 sm:h-14 w-auto object-contain scale-115 origin-left my-[-2px]" />
+              <img src={logoImg} alt="Upfront AC & Heating Logo" width={144} height={48} className="h-12 sm:h-14 w-auto object-contain scale-115 origin-left my-[-2px]" />
             </Link>
 
             {/* Right: Free Estimate + Phone Call Pill + Hamburger */}
@@ -321,7 +323,7 @@ export function Header() {
                       <div className="absolute left-0 top-full z-50 pt-2 opacity-0 invisible pointer-events-none group-hover/nav:opacity-100 group-hover/nav:visible group-hover/nav:pointer-events-auto transition-all duration-200">
                         <div className="w-[580px] max-w-[90vw] bg-white border border-gray-100 rounded-3xl shadow-[0_20px_50px_-12px_rgba(15,23,42,0.14)] p-5 flex flex-col gap-3">
                           <div className="flex justify-between items-center border-b border-gray-100 pb-2">
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("Our HVAC Services", "Nuestros Servicios de HVAC")}</span>
+                            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">{t("Our HVAC Services", "Nuestros Servicios de HVAC")}</span>
                             <Link to="/services" className="text-[10px] font-black uppercase text-[#005CE6] tracking-wider hover:underline">{t("View All →", "Ver Todos →")}</Link>
                           </div>
                           <div className="grid grid-cols-2 gap-1.5">
@@ -366,13 +368,13 @@ export function Header() {
                 }
 
                 return (
-                  <a
+                  <Link
                     key={item.label}
-                    href={item.to}
-                    className="rounded-full px-2.5 lg:px-3.5 py-2 text-[10px] lg:text-xs xl:text-[13px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap text-[#1E293B] hover:text-[#005CE6]"
+                    to={item.to}
+                    className="rounded-full px-2 lg:px-3 py-2 text-[10px] lg:text-xs font-bold uppercase tracking-wider transition-colors whitespace-nowrap text-[#1E293B] hover:text-[#005CE6]"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 );
               })}
             </nav>
@@ -576,7 +578,7 @@ export function Header() {
                 href="https://www.bbb.org/us/tx/tomball/profile/heating-and-air-conditioning/upfront-ac-0915-90074209"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Better Business Bureau Profile"
+                aria-label="BBB A+ Accredited Business Profile"
                 className="px-3 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#005CE6] transition-colors font-black text-xs tracking-tight"
               >
                 BBB A+

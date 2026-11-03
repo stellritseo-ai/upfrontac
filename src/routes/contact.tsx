@@ -44,7 +44,7 @@ function Page() {
               "@type": "OpeningHoursSpecification",
               "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
               "opens": "07:00",
-              "closes": "19:00"
+              "closes": "17:00"
             },
             {
               "@type": "OpeningHoursSpecification",
@@ -70,18 +70,15 @@ function Page() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact Us Today | Upfront AC | Tomball & Houston, TX" },
-      { name: "description", content: "Contact Upfront AC for free quotes on new heating & AC equipment installation and same-day emergency HVAC repairs across Tomball, Cypress, Katy, & Houston, TX. Call +1 (713) 819-7908." },
-      { property: "og:title", content: "Contact Us Today | Upfront AC" },
-      { property: "og:description", content: "Fast 24-hour response guarantee. Professional residential & commercial HVAC services in Tomball, TX." },
-      { property: "og:url", content: "https://www.upfrontac.com/contact" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/contact" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "Contact Upfront AC & Heating | Tomball, Cypress & Houston, TX",
+      description:
+        "Contact Upfront AC & Heating at (713) 819-7908 for 24/7 emergency AC repair, heating service, and free replacement estimates across Tomball, Cypress & Greater Houston, TX.",
+      path: "/contact",
+    }),
   component: Page,
 });

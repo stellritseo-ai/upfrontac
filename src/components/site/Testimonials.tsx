@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { Star, CheckCircle2, ExternalLink } from "lucide-react";
+import { ExternalLink, ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/hooks/useLanguage";
 import { cn } from "@/lib/utils";
 
@@ -12,65 +13,98 @@ interface Review {
   avatarColor: string;
 }
 
+function ReviewSvgSprite() {
+  return (
+    <svg width="0" height="0" className="sr-only" aria-hidden="true">
+      <defs>
+        <symbol id="upfront-google-g" viewBox="0 0 24 24">
+          <path
+            fill="#4285F4"
+            d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"
+          />
+          <path
+            fill="#34A853"
+            d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.15C3.26 21.3 7.31 24 12 24z"
+          />
+          <path
+            fill="#FBBC05"
+            d="M5.28 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.61H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.39l3.99-3.15z"
+          />
+          <path
+            fill="#EA4335"
+            d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.61l3.99 3.15c.95-2.85 3.6-4.96 6.72-4.96z"
+          />
+        </symbol>
+        <symbol id="upfront-star" viewBox="0 0 24 24">
+          <path
+            fill="#FBBF24"
+            stroke="#FBBF24"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
+          />
+        </symbol>
+        <symbol id="upfront-verified-check" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
+          <path d="m9 12 2 2 4-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </symbol>
+      </defs>
+    </svg>
+  );
+}
+
 function GoogleIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24">
-      <path
-        fill="#4285F4"
-        d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"
-      />
-      <path
-        fill="#34A853"
-        d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.15C3.26 21.3 7.31 24 12 24z"
-      />
-      <path
-        fill="#FBBC05"
-        d="M5.28 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.61H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.39l3.99-3.15z"
-      />
-      <path
-        fill="#EA4335"
-        d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.61l3.99 3.15c.95-2.85 3.6-4.96 6.72-4.96z"
-      />
+    <svg className={className} aria-hidden="true">
+      <use href="#upfront-google-g" />
     </svg>
   );
 }
 
 function StarRating({ count }: { count: number }) {
   return (
-    <div className="flex gap-0.5">
+    <div className="flex gap-0.5" role="img" aria-label={`${count} out of 5 stars`}>
       {Array.from({ length: count }).map((_, i) => (
-        <Star
-          key={i}
-          className="w-4 h-4 fill-[#FBBF24] text-[#FBBF24]"
-        />
+        <svg key={i} className="w-4 h-4" aria-hidden="true">
+          <use href="#upfront-star" />
+        </svg>
       ))}
     </div>
   );
 }
 
-function TestimonialCard({ review, isGrid = false }: { review: Review; isGrid?: boolean }) {
+function TestimonialCard({
+  review,
+  isGrid = false,
+  ariaHidden = false,
+}: {
+  review: Review;
+  isGrid?: boolean;
+  ariaHidden?: boolean;
+}) {
   return (
-    <div className={cn(
-      "relative bg-white border border-slate-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.05)] rounded-2xl p-6 flex flex-col justify-between gap-4 group hover:shadow-[0_10px_35px_rgba(0,0,0,0.10)] hover:border-[#005CE6]/30 transition-all duration-300 text-left select-none",
-      isGrid ? "w-full" : "flex-shrink-0 w-[340px] sm:w-[380px] mx-3"
-    )}>
+    <div
+      aria-hidden={ariaHidden ? true : undefined}
+      className={cn(
+        "relative bg-white border border-slate-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.05)] rounded-2xl p-6 flex flex-col justify-between gap-4 group hover:shadow-[0_10px_35px_rgba(0,0,0,0.10)] hover:border-[#005CE6]/30 transition-all duration-300 text-left select-none",
+        isGrid ? "w-full" : "flex-shrink-0 w-[340px] sm:w-[380px] mx-3"
+      )}
+    >
       <div className="space-y-3">
-        {/* Top Header: Rating & Verified Google Badge */}
         <div className="flex items-center justify-between gap-2">
           <StarRating count={review.rating} />
           <div className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-600 border border-slate-200">
             <GoogleIcon className="w-3 h-3" />
-            <span>Google Verified</span>
+            <span>Google Review</span>
           </div>
         </div>
 
-        {/* Review Content */}
         <p className="text-slate-700 text-sm leading-relaxed font-medium pt-1">
           "{review.text}"
         </p>
       </div>
 
-      {/* Author Details */}
       <div className="flex items-center gap-3 pt-3 border-t border-slate-100 mt-2">
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-black shrink-0 shadow-sm"
@@ -83,9 +117,11 @@ function TestimonialCard({ review, isGrid = false }: { review: Review; isGrid?: 
             <p className="text-slate-900 font-extrabold text-sm leading-tight truncate">
               {review.name}
             </p>
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#005CE6] shrink-0" />
+            <svg className="w-3.5 h-3.5 text-[#005CE6] shrink-0" aria-hidden="true">
+              <use href="#upfront-verified-check" />
+            </svg>
           </div>
-          <p className="text-slate-400 text-xs mt-0.5 font-medium truncate">{review.role}</p>
+          <p className="text-slate-500 text-xs mt-0.5 font-medium truncate">{review.role}</p>
         </div>
       </div>
     </div>
@@ -100,7 +136,7 @@ function MarqueeRow({
   direction?: "left" | "right";
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const duplicated = [...items, ...items, ...items];
+  const duplicated = [...items, ...items];
 
   const animClass =
     direction === "left" ? "marquee-track-left" : "marquee-track-right";
@@ -119,13 +155,16 @@ function MarqueeRow({
         }
       }}
     >
-      {/* Fade edges */}
       <div className="pointer-events-none absolute inset-y-0 left-0 w-24 z-10 bg-gradient-to-r from-[#F8FAFC] to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-24 z-10 bg-gradient-to-l from-[#F8FAFC] to-transparent" />
 
       <div ref={trackRef} className={`flex ${animClass}`}>
         {duplicated.map((review, i) => (
-          <TestimonialCard key={i} review={review} />
+          <TestimonialCard
+            key={i}
+            review={review}
+            ariaHidden={i >= items.length}
+          />
         ))}
       </div>
     </div>
@@ -546,8 +585,11 @@ export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
     },
   ];
 
-  const row1 = googleReviews.slice(0, Math.ceil(googleReviews.length / 2));
-  const row2 = googleReviews.slice(Math.ceil(googleReviews.length / 2));
+  // For the homepage marquee, showcase 14 detailed reviews (7 per row) to keep initial DOM lightweight.
+  // The full 51-review list renders on the dedicated /reviews page (isGrid = true).
+  const featuredReviews = googleReviews.slice(0, 14);
+  const row1 = featuredReviews.slice(0, 7);
+  const row2 = featuredReviews.slice(7, 14);
 
   return (
     <section
@@ -555,50 +597,55 @@ export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
       className="relative py-16 lg:py-20 bg-[#F8FAFC] overflow-hidden select-none"
       style={{ contentVisibility: "auto", containIntrinsicSize: "1px 600px" }}
     >
-      {/* Background glow accents */}
+      <ReviewSvgSprite />
+
       <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-blue-200/40 blur-[120px]" />
       <div className="pointer-events-none absolute bottom-0 left-1/4 w-[400px] h-[300px] rounded-full bg-cyan-200/30 blur-[100px]" />
 
-      {/* Section Header */}
       <div className="mx-auto w-[90%] max-w-7xl text-center mb-12 relative z-10">
-        
-        {/* Top Google Verified Badge */}
         <div className="inline-flex items-center gap-2 bg-white border border-slate-200/90 rounded-full px-4 py-1.5 text-xs font-bold text-slate-700 uppercase tracking-widest mb-4 shadow-sm">
           <GoogleIcon className="w-4 h-4" />
-          <span>{t("All Reviews Verified on Google", "Todas las Reseñas Verificadas en Google")}</span>
+          <span>{t("5.0 ★ Rating · 50+ Google Reviews", "Calificación 5.0 ★ · 50+ Reseñas en Google")}</span>
         </div>
 
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
-          {t("Trusted by ", "Con la confianza de ")}
+          {t("What Homeowners in ", "Lo que dicen los propietarios en ")}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#005CE6] via-blue-600 to-cyan-500">
-            {t("Hundreds of Homeowners", "Cientos de Clientes")}
+            {t("Tomball, Cypress & Houston", "Tomball, Cypress y Houston")}
           </span>{" "}
-          {t("in Houston, TX", "en Houston, TX")}
+          {t("Say About Upfront AC", "sobre Upfront AC")}
         </h2>
 
         <p className="mx-auto max-w-2xl text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
           {t(
-            "100% verified 5-star Google reviews. Real experiences from real homeowners across Houston and surrounding suburbs. See why homeowners trust Upfront AC every time.",
-            "Reseñas de Google de 5 estrellas 100% verificadas. Experiencias reales de propietarios en Houston y suburbios cercanos."
+            "Read genuine 5-star Google reviews from homeowners across Tomball, Cypress, Katy, and Greater Houston who chose Upfront AC for honest diagnostics and flat-rate pricing.",
+            "Lea reseñas reales de 5 estrellas en Google de propietarios en Tomball, Cypress, Katy y Greater Houston."
           )}
         </p>
 
-        {/* Leave a Review / View Google Reviews Link */}
-        <div className="mt-6 flex justify-center">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          {!isGrid && (
+            <Link
+              to="/reviews"
+              className="inline-flex items-center gap-2 rounded-full bg-[#005CE6] hover:bg-[#0047B3] px-6 py-3 text-xs font-extrabold text-white uppercase tracking-widest shadow-sm hover:shadow-md transition-all duration-300"
+            >
+              <span>{t("Read All 50+ Customer Reviews", "Ver las 50+ Reseñas de Clientes")}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          )}
           <a
-            href="https://www.google.com/search?q=Upfront+AC+Houston+TX+reviews"
+            href="https://www.google.com/search?q=Upfront+AC+Tomball+TX+reviews"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 rounded-full bg-white border border-slate-300 hover:border-[#005CE6] px-6 py-3 text-xs font-extrabold text-slate-800 uppercase tracking-widest shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+            className="inline-flex items-center gap-2.5 rounded-full bg-white border border-slate-300 hover:border-[#005CE6] px-6 py-3 text-xs font-extrabold text-slate-800 uppercase tracking-widest shadow-sm hover:shadow-md transition-all duration-300"
           >
             <GoogleIcon className="w-4 h-4" />
-            <span>{t("Leave a Review on Google", "Dejar una Reseña en Google")}</span>
+            <span>{t("View or Leave a Review on Google", "Ver o Dejar una Reseña en Google")}</span>
             <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
           </a>
         </div>
       </div>
 
-      {/* Grid or Marquee View */}
       {isGrid ? (
         <div className="mx-auto w-[90%] max-w-7xl relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           {googleReviews.map((review, idx) => (
@@ -612,24 +659,23 @@ export function Testimonials({ isGrid = false }: { isGrid?: boolean }) {
         </div>
       )}
 
-      {/* CSS Animations */}
       <style>{`
         @keyframes marquee-left {
           0%   { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(-33.3333%, 0, 0); }
+          100% { transform: translate3d(-50%, 0, 0); }
         }
         @keyframes marquee-right {
-          0%   { transform: translate3d(-33.3333%, 0, 0); }
+          0%   { transform: translate3d(-50%, 0, 0); }
           100% { transform: translate3d(0, 0, 0); }
         }
         .marquee-track-left {
-          animation: marquee-left 130s linear infinite;
+          animation: marquee-left 75s linear infinite;
           width: max-content;
           will-change: transform;
           transform: translateZ(0);
         }
         .marquee-track-right {
-          animation: marquee-right 130s linear infinite;
+          animation: marquee-right 75s linear infinite;
           width: max-content;
           will-change: transform;
           transform: translateZ(0);

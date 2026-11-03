@@ -43,7 +43,7 @@ function Page() {
             "identifier": "TACLA133609C"
           }
         },
-        "areaServed": ["Cypress", "Tomball", "Houston", "Katy", "Spring", "The Woodlands"],
+        "areaServed": ["Tomball", "Cypress", "Houston", "Katy", "Spring", "Magnolia", "The Woodlands", "Sugar Land"],
         "description": "Complete new HVAC system installation and AC replacement: Manual J load calculation, SEER2 compliant systems, ductwork design, and full warranty commissioning."
       }
     ]
@@ -60,18 +60,15 @@ function Page() {
   );
 }
 
+import { pageHead } from "@/lib/seo";
+
 export const Route = createFileRoute("/services/hvac-install")({
-  head: () => ({
-    meta: [
-      { title: "HVAC Installation & AC Replacement Houston & Cypress | Upfront AC" },
-      { name: "description", content: "From Manual J load calculations to final commissioning, Upfront AC installs energy-efficient SEER2 systems engineered for Texas heat in Cypress, Tomball, Katy, & Houston." },
-      { property: "og:title", content: "HVAC Installation & AC Replacement · Cypress & Houston, TX | Upfront AC" },
-      { property: "og:description", content: "Built for Texas heat — efficient, affordable & built to last. Free itemized estimates & flexible financing available." },
-      { property: "og:url", content: "https://www.upfrontac.com/services/hvac-install" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.upfrontac.com/services/hvac-install" }
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "HVAC Installation & AC Replacement in Houston, Tomball & Cypress | Upfront AC",
+      description:
+        "From Manual J load calculations to final commissioning, Upfront AC installs energy-efficient SEER2 systems engineered for Texas heat across Tomball, Cypress, Katy & Houston, TX.",
+      path: "/services/hvac-install",
+    }),
   component: Page,
 });

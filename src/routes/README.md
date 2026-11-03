@@ -15,6 +15,193 @@ TanStack Start uses **file-based routing**. Every `.tsx` file in this directory 
 
 ---
 
+## SEO Keyword Metrics & Summary
+
+| Metric | Count | Details / Description |
+|---|---|---|
+| **Total Tracked Keyword Placements** | **135** | Gross total of all primary, secondary, geotargeted, and meta keywords across the repository |
+| **Total Distinct / Unique Target Keywords** | **116+** | Unique search queries actively targeted across page routes and cluster definitions |
+| **Indexable Public Pages / Routes** | **22** | All public-facing lead generation and commercial landing pages |
+| **Primary Route Target Keywords** | **22** | 1 dedicated high-intent head keyword per indexable public route |
+| **Secondary & Long-Tail Route Keywords** | **78** | Specific service, localized, and feature-related variations |
+| **Geotargeted Core Market Pack Queries** | **15** | High-priority local pack terms across Tomball, Cypress, and Houston |
+| **Expansion Market Geo Keywords** | **8** | Secondary local coverage queries (Katy, Spring, Magnolia, Woodlands, Sugar Land) |
+| **HTML Document Meta Tag Keywords** | **12** | Core keywords embedded in `<head>` meta tags (`__root.tsx` and `index.tsx`) |
+| **Non-Indexed Utility / Admin Routes** | **3** | Under construction and internal admin dashboard routes (`noindex, nofollow`) |
+
+---
+
+### Keyword Distribution by Category
+
+| Category | Unique Keywords | Key Search Phrases Target Examples |
+|---|---|---|
+| **1. AC Repair & Emergency Cooling** | **21** | `AC repair Tomball TX`, `AC repair Cypress TX`, `Emergency AC repair Houston`, `fast AC repair FM 2920` |
+| **2. HVAC Installation & Replacement** | **13** | `HVAC installation Houston`, `AC replacement Houston`, `SEER2 air conditioner installation`, `Manual J load calculation` |
+| **3. Heating, Furnace & Heat Pumps** | **9** | `Furnace repair Tomball TX`, `Heating repair Houston`, `gas furnace tune up`, `heat pump repair` |
+| **4. Maintenance, Inspections & Tune-Ups** | **9** | `HVAC maintenance Cypress TX`, `AC tune-up Tomball`, `21-point AC inspection`, `coil cleaning` |
+| **5. Indoor Air Quality (IAQ) & Purification** | **5** | `Indoor air quality Houston`, `Whole home dehumidifier Houston`, `UV germicidal air purifier`, `MERV filtration` |
+| **6. Commercial & Light Commercial HVAC** | **7** | `Commercial HVAC Houston`, `Rooftop AC repair Houston (RTU)`, `commercial HVAC maintenance contract` |
+| **7. Residential & Home Comfort** | **6** | `Residential HVAC services Tomball TX`, `Home heating and cooling Houston`, `multi-zone HVAC` |
+| **8. Transparent Pricing & Financing** | **10** | `Upfront HVAC pricing`, `Flat rate AC repair costs`, `HVAC diagnostic fee Houston`, `AC replacement financing 0% APR` |
+| **9. Brand, Trust, E-E-A-T & Leadership** | **19** | `HVAC company Tomball TX`, `Christian HVAC contractor`, `Allen Swindell HVAC Houston`, `Upfront AC reviews` |
+| **10. Hiring & Technical Careers** | **4** | `HVAC technician jobs Houston`, `HVAC installer hiring Tomball`, `EPA certified tech jobs` |
+| **11. Direct Contact & Fast Dispatch** | **4** | `Contact HVAC technician Houston`, `schedule AC repair Tomball`, `emergency dispatch` |
+| **12. Proof of Work & Project Gallery** | **3** | `HVAC installations Houston gallery`, `AC installation photos Tomball`, `before and after HVAC work` |
+| **13. Regional Expansion Markets** | **6** | `HVAC service areas Houston`, `AC repair Katy TX`, `AC repair Spring TX`, `HVAC repair Magnolia TX` |
+
+---
+
+### Master Keyword Catalog
+
+<details open>
+<summary><strong>Click to expand / collapse the full list of all 116+ unique target keywords</strong></summary>
+
+#### 1. Air Conditioning & Emergency Cooling (21 Keywords)
+- `AC repair Tomball TX`
+- `AC repair Cypress TX`
+- `Air conditioning services Houston`
+- `Emergency HVAC repair Houston`
+- `Emergency AC repair Tomball`
+- `Emergency AC repair Cypress`
+- `Emergency AC repair Houston`
+- `Emergency AC repair Bridgeland`
+- `AC repair Houston`
+- `air conditioning repair 77375 77377`
+- `fast AC repair FM 2920`
+- `AC repair Bridgeland`
+- `Towne Lake HVAC repair`
+- `Fairfield AC repair`
+- `central air repair`
+- `central air conditioning repair`
+- `Same day HVAC repair`
+- `24/7 AC repair Tomball`
+- `AC compressor repair`
+- `capacitor replacement`
+- `emergency ac repair`
+
+#### 2. HVAC Installation, Replacement & Sizing (13 Keywords)
+- `HVAC installation Houston`
+- `AC replacement Houston`
+- `AC installation Tomball`
+- `Air conditioning installation Cypress TX`
+- `Air conditioning installation Houston TX`
+- `new HVAC system Cypress`
+- `SEER2 air conditioner installation`
+- `SEER2 AC replacement Houston`
+- `Manual J load calculation`
+- `Free HVAC estimate Houston`
+- `Free AC replacement estimate Tomball`
+- `new AC quote Cypress`
+- `in-home HVAC consultation`
+
+#### 3. Heating, Furnace & Heat Pumps (9 Keywords)
+- `Furnace repair Tomball TX`
+- `Furnace repair Tomball`
+- `Heating repair Houston`
+- `Emergency heating repair Tomball`
+- `emergency heating Cypress`
+- `heat pump repair`
+- `heat pump service`
+- `gas furnace tune up`
+- `Heating and air conditioning services`
+
+#### 4. Preventative Maintenance & Tune-Ups (9 Keywords)
+- `HVAC maintenance Cypress TX`
+- `HVAC maintenance Towne Lake Cypress`
+- `AC tune-up Tomball`
+- `AC tune-up Cypress`
+- `Air conditioning tune-up Tomball TX`
+- `seasonal HVAC maintenance Houston`
+- `21-point AC inspection`
+- `coil cleaning`
+- `HVAC tune-up Cinco Ranch`
+
+#### 5. Indoor Air Quality (IAQ) & Air Purification (5 Keywords)
+- `Indoor air quality Houston`
+- `Whole home dehumidifier Houston`
+- `UV germicidal air purifier`
+- `HVAC duct cleaning Tomball`
+- `MERV filtration`
+
+#### 6. Commercial & Light Commercial HVAC (7 Keywords)
+- `Commercial HVAC Houston`
+- `Commercial HVAC repair Houston TX`
+- `commercial HVAC contractors`
+- `Rooftop AC repair Houston (RTU)`
+- `commercial heating repair Tomball`
+- `commercial HVAC maintenance contract`
+- `commercial RTU replacements`
+
+#### 7. Residential & Home Comfort (6 Keywords)
+- `Residential HVAC services Tomball TX`
+- `residential HVAC`
+- `Home heating and cooling Houston`
+- `residential AC replacement Cypress`
+- `multi-zone HVAC`
+- `Residential AC repair Sugar Land TX`
+
+#### 8. Transparent Pricing & Flexible Financing (10 Keywords)
+- `Upfront HVAC pricing`
+- `Flat rate AC repair costs`
+- `HVAC diagnostic fee Houston`
+- `transparent AC repair prices`
+- `upfront pricing ac`
+- `upfront pricing HVAC`
+- `HVAC financing Houston`
+- `AC replacement financing 0% APR`
+- `monthly payment AC install Tomball`
+- `Synchrony Microf HVAC financing`
+
+#### 9. Brand, Trust, E-E-A-T & Leadership (19 Keywords)
+- `HVAC company Tomball TX`
+- `HVAC company in Tomball TX`
+- `HVAC contractor tomball`
+- `HVAC contractor Cypress Texas`
+- `hvac service houston`
+- `Christian HVAC contractor`
+- `Christian HVAC company Houston`
+- `family owned HVAC Tomball`
+- `15+ years industry experience`
+- `Allen Swindell HVAC Houston`
+- `Upfront AC founder`
+- `licensed HVAC technician Tomball TX`
+- `Christian business owner`
+- `Upfront AC reviews`
+- `HVAC reviews Tomball TX`
+- `5 star AC repair Cypress`
+- `customer testimonials Upfront AC`
+- `upfront ac`
+- `About Upfront AC & Heating`
+
+#### 10. Hiring & Technical Careers (4 Keywords)
+- `HVAC technician jobs Houston`
+- `HVAC installer hiring Tomball`
+- `HVAC apprentice jobs Cypress TX`
+- `EPA certified tech jobs`
+
+#### 11. Direct Contact & Fast Dispatch (4 Keywords)
+- `Contact HVAC technician Houston`
+- `Phone number Upfront AC (713) 819-7908`
+- `schedule AC repair Tomball`
+- `emergency dispatch`
+
+#### 12. Proof of Work & Project Gallery (3 Keywords)
+- `HVAC installations Houston gallery`
+- `AC installation photos Tomball`
+- `before and after HVAC work`
+
+#### 13. Regional Geo & Expansion Markets (6 Keywords)
+- `HVAC service areas Houston`
+- `AC repair Katy TX`
+- `AC repair Spring TX`
+- `Champion Forest HVAC`
+- `HVAC repair Magnolia TX`
+- `AC replacement The Woodlands TX`
+
+</details>
+
+---
+
 ## Complete SEO Keyword & Route Inventory
 
 All public pages are configured with **unique meta titles, descriptions, OpenGraph tags, absolute canonical URLs**, and **JSON-LD schema markup**.
@@ -35,7 +222,7 @@ All public pages are configured with **unique meta titles, descriptions, OpenGra
 | `services/indoor-air-quality.tsx` | `https://www.upfrontac.com/services/indoor-air-quality` | Indoor air quality Houston | Whole home dehumidifier Houston, UV germicidal air purifier, HVAC duct cleaning Tomball, MERV filtration | Health / Solution | Whole-Home Indoor Air Quality & Purification in Houston & Tomball | `Service` + `BreadcrumbList` |
 | `services/commercial-hvac.tsx` | `https://www.upfrontac.com/services/commercial-hvac` | Commercial HVAC Houston | Rooftop AC repair Houston (RTU), commercial heating repair Tomball, commercial HVAC maintenance contract | B2B Commercial | Commercial HVAC Repair, Installation & Preventative Maintenance | `Service` + `BreadcrumbList` |
 | `services/residential-hvac.tsx` | `https://www.upfrontac.com/services/residential-hvac` | Residential HVAC services Tomball TX | Home heating and cooling Houston, residential AC replacement Cypress, multi-zone HVAC | Residential | Reliable Residential HVAC Services in Tomball, Cypress & Houston | `Service` + `BreadcrumbList` |
-| `service-areas.tsx` | `https://www.upfrontac.com/service-areas` | HVAC service areas Houston | AC repair Tomball, Cypress, Katy, Spring, Magnolia, The Woodlands, Sugar Land TX | Geo Hub | Communities We Proudly Serve Across Greater Houston | `HVACBusiness` (Coverage) |
+| `service-areas.tsx` | `https://www.upfrontac.com/service-areas` | HVAC service areas Houston | AC repair Tomball, AC repair Cypress, AC repair Katy, AC repair Spring, AC repair Magnolia, AC repair The Woodlands, AC repair Sugar Land TX | Geo Hub | Communities We Proudly Serve Across Greater Houston | `HVACBusiness` (Coverage) |
 | `upfront-pricing.tsx` | `https://www.upfrontac.com/upfront-pricing` | Upfront HVAC pricing | Flat rate AC repair costs, HVAC diagnostic fee Houston, transparent AC repair prices | Price Transparency | 100% Upfront, Flat-Rate Pricing — No Hidden Fees, No Surprises | `WebPage` |
 | `finance.tsx` | `https://www.upfrontac.com/finance` | HVAC financing Houston | AC replacement financing 0% APR, monthly payment AC install Tomball, Synchrony Microf HVAC financing | Buyer Enablement | Flexible HVAC Financing Solutions for Every Budget | `WebPage` |
 | `projects.tsx` | `https://www.upfrontac.com/projects` | HVAC installations Houston gallery | AC installation photos Tomball, commercial RTU replacements, before and after HVAC work | Social Proof / Proof of Work | Real Workmanship. Real Houston Homes & Businesses. | `CollectionPage` |

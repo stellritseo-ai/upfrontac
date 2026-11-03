@@ -436,9 +436,9 @@ export function GetInTouch() {
   );
 }
 
-function Label({ children }: { children: React.ReactNode }) {
+function Label({ children, htmlFor }: { children: React.ReactNode; htmlFor?: string }) {
   return (
-    <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+    <label htmlFor={htmlFor} className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
       {children}
     </label>
   );

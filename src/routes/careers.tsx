@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Careers } from "@/components/site/Careers";
@@ -46,6 +46,9 @@ function CareersPage() {
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/careers")({
+  beforeLoad: () => {
+    throw redirect({ to: "/" });
+  },
   head: () =>
     pageHead({
       title: "HVAC Careers & Technician Jobs in Tomball & Houston, TX | Upfront AC",

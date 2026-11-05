@@ -54,7 +54,6 @@ export function Footer() {
     { label: t("Customer Reviews", "Reseñas de Clientes"), href: "/reviews" },
     { label: t("HVAC Knowledge Center", "Centro de Conocimiento HVAC"), href: "/knowledge-center" },
     { label: t("Get Free Estimate", "Obtener Presupuesto Gratis"), href: "/request-free-estimate" },
-    { label: t("Careers", "Carreras"), href: "/careers" },
     { label: t("Contact Us", "Contáctenos"), href: "/contact" },
   ];
 
@@ -79,7 +78,7 @@ export function Footer() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-slate-800">
-          
+
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-6">
             <Link to="/" className="flex items-center gap-3 group">
@@ -235,7 +234,7 @@ export function Footer() {
         {/* ── REDESIGNED FULL-WIDTH ROW: OFFICE & SERVICE HOURS ── */}
         <div className="my-8 bg-slate-900/50 border border-slate-800/90 rounded-3xl p-5 sm:p-6 shadow-xl backdrop-blur-sm">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            
+
             {/* Left Header */}
             <div className="flex items-center gap-3.5 shrink-0">
               <div className="w-11 h-11 rounded-2xl bg-[#005CE6]/15 border border-[#005CE6]/30 flex items-center justify-center text-[#005CE6] shrink-0 shadow-inner">
@@ -340,10 +339,10 @@ export function Footer() {
         <div className="mt-10 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 text-center sm:text-left">
           <p className="text-xs text-slate-400 font-semibold">
             © 2026 Upfront AC & Heating. {t("All rights reserved. Design by", "Todos los derechos reservados. Diseño por")}{" "}
-            <a 
-              href="https://stellrit.com" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://stellrit.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-slate-300 hover:text-[#005CE6] transition-colors whitespace-nowrap"
             >
               StellR IT LLC

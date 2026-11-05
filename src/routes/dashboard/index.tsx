@@ -700,17 +700,24 @@ function DashboardPage() {
       toast.error("New passwords do not match. Please verify.");
       return;
     }
+    if (updatePassword && updatePassword.trim().length < 6) {
+      toast.error("New password must be at least 6 characters long.");
+      return;
+    }
     try {
       const res = await updateUserCredentials(
         currentUser.id,
         updateUsername.trim() || undefined,
-        updatePassword.trim() || undefined
+        updatePassword.trim() || undefined,
+        undefined,
+        currentUser.username
       );
       if (res.success) {
-        toast.success("Security credentials updated successfully!");
-        setCurrentUser((prev) => prev ? { ...prev, username: res.username } : null);
+        toast.success("Security credentials updated successfully in database!");
+        setCurrentUser((prev) => prev ? { ...prev, username: res.username, id: res.user?.id || prev.id } : null);
         setUpdatePassword("");
         setUpdatePasswordConfirm("");
+        getPortalUsers().then(setPortalUsers);
       }
     } catch (err: any) {
       toast.error(err.message || "Failed to update profile");
@@ -832,18 +839,23 @@ function DashboardPage() {
   const handleEditUserSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingUser) return;
+    if (editUserPassword && editUserPassword.trim().length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
+    }
     setIsSavingUserEdit(true);
     try {
       const res = await updateUserCredentials(
         editingUser.id,
         editUserUsername.trim() || undefined,
         editUserPassword.trim() || undefined,
-        editUserRole
+        editUserRole,
+        editingUser.username
       );
       if (res.success) {
-        toast.success(`Account '${res.username || editingUser.username}' updated successfully!`);
-        if (currentUser && currentUser.id === editingUser.id) {
-          setCurrentUser(prev => prev ? { ...prev, username: res.username, role: editUserRole } : null);
+        toast.success(`Account '${res.username || editingUser.username}' updated successfully in database!`);
+        if (currentUser && (currentUser.id === editingUser.id || currentUser.username === editingUser.username)) {
+          setCurrentUser(prev => prev ? { ...prev, username: res.username, role: editUserRole, id: res.user?.id || prev.id } : null);
         }
         setEditingUser(null);
         getPortalUsers().then(setPortalUsers);

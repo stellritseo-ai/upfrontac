@@ -1773,16 +1773,30 @@ export const deletePortalUser = async (userId: string): Promise<{ success: boole
   return await apiCall<{ success: boolean }>("/api/users", "POST", { action: "delete", userId });
 };
 
-export const updateUserCredentials = async (userId: string, username?: string, password?: string, role?: string): Promise<{ success: boolean; username: string }> => {
-  const res = await apiCall<{ success: boolean; username: string }>("/api/users", "POST", { action: "update", userId, username, password, role });
+export const updateUserCredentials = async (
+  userId: string,
+  username?: string,
+  password?: string,
+  role?: string,
+  currentUsername?: string
+): Promise<{ success: boolean; username: string; user?: any }> => {
+  const res = await apiCall<{ success: boolean; username: string; user?: any }>("/api/users", "POST", {
+    action: "update",
+    userId,
+    username,
+    password,
+    role,
+    currentUsername,
+  });
   if (res && res.success && typeof window !== "undefined") {
     const storedUser = localStorage.getItem("electrical-session-user");
     if (storedUser) {
       try {
         const u = JSON.parse(storedUser);
-        if (u.id === userId) {
-          u.username = res.username;
+        if (u.id === userId || (currentUsername && u.username === currentUsername)) {
+          u.username = res.username || username || u.username;
           if (role) u.role = role;
+          if (res.user?.id) u.id = res.user.id;
           localStorage.setItem("electrical-session-user", JSON.stringify(u));
         }
       } catch {}

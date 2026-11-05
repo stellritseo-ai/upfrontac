@@ -1120,16 +1120,41 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
         if (body.action === "update") {
           try {
             const updates: any = {};
-            if (body.username) updates.username = body.username;
+            if (body.username) {
+              const trimmedUsername = body.username.trim();
+              const currentAccounts = await dbGetPortalUsers(DEFAULT_ADMIN);
+              const exists = currentAccounts.some(
+                a => a.username.toLowerCase() === trimmedUsername.toLowerCase() &&
+                     a.id !== body.userId &&
+                     a.username.toLowerCase() !== (body.currentUsername || "").toLowerCase()
+              );
+              if (exists) {
+                return jsonResponse({ error: "That username is already in use by another team member." }, 400);
+              }
+              updates.username = trimmedUsername;
+            }
             if (body.role) updates.role = body.role;
             if (body.password) {
-              updates.password = await hashPassword(body.password);
+              const trimmedPassword = body.password.trim();
+              if (trimmedPassword.length < 6) {
+                return jsonResponse({ error: "Password must be at least 6 characters long." }, 400);
+              }
+              updates.password = await hashPassword(trimmedPassword);
             }
-            const users = await dbUpdatePortalUser(body.userId, updates);
-            const updatedUser = users.find(u => u.id === body.userId);
-            return jsonResponse({ success: true, username: updatedUser ? updatedUser.username : (body.username || "") });
-          } catch (dbErr) {
-            return jsonResponse({ error: "Failed to update user" }, 500);
+            const users = await dbUpdatePortalUser(body.userId, updates, body.currentUsername);
+            const updatedUser = users.find(
+              u => u.id === body.userId ||
+                   (updates.username && u.username.toLowerCase() === updates.username.toLowerCase()) ||
+                   (body.currentUsername && u.username.toLowerCase() === body.currentUsername.toLowerCase())
+            );
+            return jsonResponse({
+              success: true,
+              user: updatedUser ? { id: updatedUser.id, username: updatedUser.username, role: updatedUser.role } : undefined,
+              username: updatedUser ? updatedUser.username : (body.username || "")
+            });
+          } catch (dbErr: any) {
+            console.error("MongoDB user update error:", dbErr);
+            return jsonResponse({ error: dbErr?.message || "Failed to update user credentials in database." }, 500);
           }
         }
       }

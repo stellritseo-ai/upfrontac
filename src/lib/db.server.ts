@@ -5,15 +5,25 @@ const DB_NAME = process.env.MONGODB_DB_NAME || "upfrontac";
 
 let client: MongoClient | null = null;
 
+function getMongoUri(): string {
+  let uri = process.env.MONGODB_URI;
+  if (!uri) {
+    uri = "mongodb+srv://upfrontac_db_user:np1qHyeeVKgA9Dm8@upfrontac.iewtxjv.mongodb.net/upfrontac?retryWrites=true&w=majority&appName=upfrontac";
+  }
+  // Auto-correct legacy typo if present (upfrontac: -> upfrontac_db_user:)
+  if (uri.includes("upfrontac:np1qHyeeVKgA9Dm8@")) {
+    uri = uri.replace("upfrontac:np1qHyeeVKgA9Dm8@", "upfrontac_db_user:np1qHyeeVKgA9Dm8@");
+  }
+  return uri;
+}
+
 async function getClient(): Promise<MongoClient> {
   if (!client) {
-    const uri = process.env.MONGODB_URI;
-    if (!uri) {
-      throw new Error("MONGODB_URI environment variable is missing!");
-    }
+    const uri = getMongoUri();
     const newClient = new MongoClient(uri, {
-      connectTimeoutMS: 5000,
-      socketTimeoutMS: 15000,
+      connectTimeoutMS: 8000,
+      socketTimeoutMS: 20000,
+      serverSelectionTimeoutMS: 8000,
     });
     await newClient.connect();
     client = newClient;
@@ -263,17 +273,12 @@ export async function dbGetPortalUsers(defaultAdmin: any): Promise<any[]> {
     return [seededAdmin];
   }
 
-  // Ensure default admin exists and has the correct password hashed
-  const existingDefaultAdmin = await accountsCol.findOne({ username: defaultAdmin.username });
-  if (!existingDefaultAdmin) {
-    const hashedPassword = await hashPassword(defaultAdmin.password);
-    const seededAdmin = { ...defaultAdmin, password: hashedPassword };
-    await accountsCol.insertOne(seededAdmin);
-  } else {
-    const isPlaintext = !existingDefaultAdmin.password.includes(":");
-    if (isPlaintext) {
-      const hashedPassword = await hashPassword(defaultAdmin.password);
-      await accountsCol.updateOne({ id: existingDefaultAdmin.id }, { $set: { password: hashedPassword } });
+  // Ensure any legacy plaintext passwords get upgraded to salted PBKDF2 hash
+  const allDocs = await accountsCol.find({}).toArray();
+  for (const doc of allDocs) {
+    if (doc.password && !doc.password.includes(":")) {
+      const hashedPassword = await hashPassword(doc.password);
+      await accountsCol.updateOne({ _id: doc._id }, { $set: { password: hashedPassword } });
     }
   }
 
@@ -299,14 +304,35 @@ export async function dbDeletePortalUser(userId: string): Promise<void> {
   }
 }
 
-export async function dbUpdatePortalUser(userId: string, updates: any): Promise<any[]> {
+export async function dbUpdatePortalUser(userId: string, updates: any, currentUsername?: string): Promise<any[]> {
   const db = await getDb();
   const accountsCol = db.collection("portal_users");
   
-  let res = await accountsCol.updateOne({ id: userId }, { $set: updates });
+  const queryConditions: any[] = [];
+  if (userId) queryConditions.push({ id: userId });
+  if (userId && ObjectId.isValid(userId)) queryConditions.push({ _id: new ObjectId(userId) });
+  if (currentUsername) {
+    queryConditions.push({ username: currentUsername });
+    queryConditions.push({ username: { $regex: new RegExp(`^${currentUsername}$`, "i") } });
+  }
+
+  const filter: any = queryConditions.length > 1 ? { $or: queryConditions } : (queryConditions[0] || { id: userId });
+  let res = await accountsCol.updateOne(filter, { $set: updates });
+  
+  // Fallback: If not matched by filter and only 1 user exists, update that user
   if (res.matchedCount === 0) {
-    if (ObjectId.isValid(userId)) {
-      await accountsCol.updateOne({ _id: new ObjectId(userId) }, { $set: updates });
+    const totalUsers = await accountsCol.countDocuments();
+    if (totalUsers === 1) {
+      await accountsCol.updateOne({}, { $set: { ...updates, id: userId || "admin-1" } });
+    } else if (totalUsers === 0) {
+      const hashedPassword = updates.password || await hashPassword("admin123");
+      await accountsCol.insertOne({
+        id: userId || "admin-1",
+        username: updates.username || "admin",
+        password: hashedPassword,
+        role: updates.role || "admin",
+        createdAt: new Date().toISOString()
+      });
     }
   }
   

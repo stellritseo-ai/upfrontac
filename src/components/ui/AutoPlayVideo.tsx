@@ -30,152 +30,269 @@ export function AutoPlayVideo({
   className,
   style,
   poster,
+  onPlaying,
+  onTimeUpdate,
   ...props
 }: AutoPlayVideoProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const posterImgRef = useRef<HTMLImageElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [inView, setInView] = useState(false);
-  const [shouldAttachSource, setShouldAttachSource] = useState(false);
+  const isInViewRef = useRef(priority);
+
+  const [canAutoPlay, setCanAutoPlay] = useState(false);
+  const [hasEnteredView, setHasEnteredView] = useState(false);
+  const [posterReady, setPosterReady] = useState(!priority);
+  const [hasStarted, setHasStarted] = useState(false);
 
   const resolvedPoster = poster ?? getCloudinaryPoster(src);
   const optimizedSrc = getOptimizedVideoSrc(src);
 
+  // Respect prefers-reduced-motion (including live OS preference changes) and Data Saver
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Respect reduced motion, Data Saver, and slow mobile cellular connections (< 2.5 Mbps)
-    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-    const conn = (navigator as any)?.connection;
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } })?.connection;
     const saveData = conn?.saveData === true;
-    const effectiveType = conn?.effectiveType as string | undefined;
-    const downlink = typeof conn?.downlink === "number" ? conn.downlink : 10;
-    const isSlowConnection =
-      effectiveType === "slow-2g" ||
-      effectiveType === "2g" ||
-      effectiveType === "3g" ||
-      downlink < 2.5;
+    const reducedMotionQuery = window.matchMedia?.("(prefers-reduced-motion: reduce)");
 
-    if (prefersReducedMotion || saveData || isSlowConnection) return;
-
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const enableVideo = () => {
-      timer = setTimeout(() => {
-        setShouldAttachSource(true);
-      }, priority ? 2500 : 3500);
+    const updatePreference = (prefersReduced: boolean) => {
+      const allowed = !prefersReduced && !saveData;
+      setCanAutoPlay(allowed);
+      if (!allowed) {
+        setHasStarted(false);
+        const video = videoRef.current;
+        if (video && !video.paused) {
+          video.pause();
+        }
+      }
     };
 
-    if (document.readyState === "complete") {
-      enableVideo();
-    } else {
-      window.addEventListener("load", enableVideo, { once: true });
+    updatePreference(Boolean(reducedMotionQuery?.matches));
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      updatePreference(event.matches);
+    };
+
+    reducedMotionQuery?.addEventListener?.("change", handleChange);
+    return () => {
+      reducedMotionQuery?.removeEventListener?.("change", handleChange);
+    };
+  }, []);
+
+  // Reset playback state cleanly when video source changes
+  useEffect(() => {
+    setHasStarted(false);
+  }, [optimizedSrc]);
+
+  // For above-the-fold priority videos, let the high-priority WebP poster complete first
+  // so it never competes for bandwidth with the LCP frame, with a short failsafe timeout.
+  useEffect(() => {
+    if (!priority || !resolvedPoster) {
+      setPosterReady(true);
+      return;
     }
 
-    return () => {
-      window.removeEventListener("load", enableVideo);
-      if (timer) clearTimeout(timer);
-    };
-  }, [priority]);
+    const img = posterImgRef.current;
+    if (img?.complete) {
+      setPosterReady(true);
+      return;
+    }
 
+    setPosterReady(false);
+    let settled = false;
+    const markReady = () => {
+      if (settled) return;
+      settled = true;
+      setPosterReady(true);
+    };
+
+    img?.addEventListener("load", markReady, { once: true });
+    img?.addEventListener("error", markReady, { once: true });
+    const failsafeTimer = setTimeout(markReady, 600);
+
+    return () => {
+      img?.removeEventListener("load", markReady);
+      img?.removeEventListener("error", markReady);
+      clearTimeout(failsafeTimer);
+    };
+  }, [priority, resolvedPoster]);
+
+  // Observe viewport intersection using the visible wrapper box (never an off-screen video)
+  useEffect(() => {
+    const target = containerRef.current ?? videoRef.current;
+    if (!target || typeof IntersectionObserver === "undefined") {
+      isInViewRef.current = true;
+      setHasEnteredView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          isInViewRef.current = entry.isIntersecting;
+          if (entry.isIntersecting) {
+            setHasEnteredView(true);
+            const video = videoRef.current;
+            if (
+              video &&
+              (video.currentSrc || video.src) &&
+              canAutoPlay &&
+              document.visibilityState !== "hidden" &&
+              video.paused
+            ) {
+              video.muted = true;
+              video.defaultMuted = true;
+              video.volume = 0;
+              video.play().catch(() => {});
+            }
+          } else {
+            const video = videoRef.current;
+            if (video && !video.paused) {
+              video.pause();
+            }
+          }
+        }
+      },
+      { rootMargin: "250px 0px 250px 0px", threshold: 0.01 }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [canAutoPlay]);
+
+  const shouldLoadMedia = canAutoPlay && posterReady && (priority || hasEnteredView);
+
+  // Synchronize native muted/inline properties, attach playback listeners, and recover on tab focus
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !shouldAttachSource) return;
+    if (!video || !shouldLoadMedia) return;
 
     video.muted = true;
     video.defaultMuted = true;
     video.volume = 0;
+    video.playsInline = true;
     video.setAttribute("muted", "");
     video.setAttribute("playsinline", "");
     video.setAttribute("webkit-playsinline", "true");
 
-    let isIntersecting = false;
+    let removeUnlockListeners: (() => void) | undefined;
 
-    const playVideo = async () => {
-      if (!video || !isIntersecting || document.visibilityState === "hidden") return;
+    const attemptPlay = async () => {
+      if (!video || !canAutoPlay || !isInViewRef.current || document.visibilityState === "hidden") {
+        return;
+      }
       try {
         video.muted = true;
         video.defaultMuted = true;
         video.volume = 0;
         await video.play();
-      } catch {
-        const onFirstInteraction = () => {
-          if (isIntersecting && document.visibilityState !== "hidden") {
-            video.play().catch(() => {});
-          }
-        };
-        window.addEventListener("touchstart", onFirstInteraction, { once: true, passive: true });
-        window.addEventListener("click", onFirstInteraction, { once: true, passive: true });
+      } catch (err) {
+        if ((err as DOMException)?.name === "NotAllowedError" && !removeUnlockListeners) {
+          const onFirstInteraction = () => {
+            removeUnlockListeners?.();
+            removeUnlockListeners = undefined;
+            if (canAutoPlay && isInViewRef.current && document.visibilityState !== "hidden") {
+              video.muted = true;
+              video.play().catch(() => {});
+            }
+          };
+          window.addEventListener("pointerdown", onFirstInteraction, { once: true, passive: true });
+          window.addEventListener("touchstart", onFirstInteraction, { once: true, passive: true });
+          window.addEventListener("click", onFirstInteraction, { once: true, passive: true });
+          removeUnlockListeners = () => {
+            window.removeEventListener("pointerdown", onFirstInteraction);
+            window.removeEventListener("touchstart", onFirstInteraction);
+            window.removeEventListener("click", onFirstInteraction);
+          };
+        }
       }
     };
 
-    const pauseVideo = () => {
-      if (video && !video.paused) {
-        video.pause();
-      }
+    const handleCanPlay = () => {
+      attemptPlay();
     };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            isIntersecting = true;
-            setInView(true);
-            playVideo();
-          } else {
-            isIntersecting = false;
-            pauseVideo();
-          }
-        });
-      },
-      { rootMargin: "150px 0px 150px 0px", threshold: 0.01 }
-    );
-
-    observer.observe(video);
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden") {
-        pauseVideo();
-      } else if (isIntersecting) {
-        playVideo();
+        if (!video.paused) video.pause();
+      } else if (isInViewRef.current) {
+        attemptPlay();
       }
     };
 
+    video.addEventListener("loadeddata", handleCanPlay);
+    video.addEventListener("canplay", handleCanPlay);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
+    // Ensure the browser starts fetching immediately when src is attached
+    if (video.networkState === HTMLMediaElement.NETWORK_EMPTY) {
+      video.load();
+    }
+    attemptPlay();
+
     return () => {
-      observer.disconnect();
+      video.removeEventListener("loadeddata", handleCanPlay);
+      video.removeEventListener("canplay", handleCanPlay);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      pauseVideo();
+      removeUnlockListeners?.();
     };
-  }, [optimizedSrc, shouldAttachSource]);
+  }, [shouldLoadMedia, canAutoPlay, optimizedSrc]);
+
+  const baseMediaClass = className || "h-full w-full object-cover";
+  const lazyVideoAttr = !priority ? ({ loading: "lazy" } as Record<string, string>) : undefined;
 
   return (
-    <>
+    <div ref={containerRef} className="relative h-full w-full isolate">
       {resolvedPoster && (
         <img
+          ref={posterImgRef}
           src={resolvedPoster}
           alt=""
           aria-hidden="true"
           width={960}
           height={540}
-          fetchPriority={priority ? "high" : "auto"}
-          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : undefined}
+          loading={priority ? undefined : "lazy"}
           decoding="async"
-          className={className}
-          style={style}
+          className={`${baseMediaClass} absolute inset-0`}
+          style={{
+            ...style,
+            ...(hasStarted
+              ? {
+                  opacity: 0,
+                  transition: "opacity 350ms ease-out",
+                  pointerEvents: "none",
+                }
+              : undefined),
+          }}
         />
       )}
       <video
         ref={videoRef}
+        src={shouldLoadMedia ? optimizedSrc : undefined}
+        autoPlay={shouldLoadMedia}
         loop
         muted
         playsInline
-        // @ts-ignore
         webkit-playsinline="true"
-        preload="none"
-        poster={resolvedPoster}
+        width={960}
+        height={540}
+        preload={shouldLoadMedia ? "auto" : "none"}
         disablePictureInPicture
         disableRemotePlayback
         aria-hidden="true"
-        className={className}
+        {...lazyVideoAttr}
+        onPlaying={(e) => {
+          setHasStarted(true);
+          onPlaying?.(e);
+        }}
+        onTimeUpdate={(e) => {
+          if (!hasStarted && e.currentTarget.currentTime > 0) {
+            setHasStarted(true);
+          }
+          onTimeUpdate?.(e);
+        }}
+        className={`${baseMediaClass} relative`}
         style={{
           transform: "translateZ(0)",
           backfaceVisibility: "hidden",
@@ -183,11 +300,7 @@ export function AutoPlayVideo({
           ...style,
         }}
         {...props}
-      >
-        {shouldAttachSource && inView && (
-          <source src={optimizedSrc} type="video/mp4" />
-        )}
-      </video>
-    </>
+      />
+    </div>
   );
 }
